@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Cypher
 {
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue
     @Column(name = "id")
     private int id;
@@ -21,6 +22,10 @@ public class Cypher
     @Column(name = "longitude")
     private long longitude;
 
+    public Cypher(int id)
+    {
+        this.id = id;
+    }
     public Cypher()
     {
     }

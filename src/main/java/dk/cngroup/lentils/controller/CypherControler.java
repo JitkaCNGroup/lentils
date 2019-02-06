@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/cypher")
 public class CypherControler
 {
-    private static final Logger logger = LoggerFactory.getLogger(dk.cngroup.lentils.controller.CypherControler.class);
+  //  private static final Logger logger = LoggerFactory.getLogger(dk.cngroup.lentils.controller.CypherControler.class);
 
     @Autowired
     private CypherService cypherService;
