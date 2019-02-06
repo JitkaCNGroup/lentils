@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/cypher")
 public class CypherControler
@@ -17,7 +20,22 @@ public class CypherControler
     private CypherService cypherService;
 
     @RequestMapping(value = "/one/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public Cypher getOne(@PathVariable Integer id){
-        return null;
+    public Optional<Cypher> getOne(@PathVariable Integer id){
+        return cypherService.findById(id);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST})
+    public List<Cypher> getAll(){
+        return cypherService.findAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public void save(@RequestBody Cypher cypher) {
+        cypherService.save(cypher);
+    }
+
+
+
 }
