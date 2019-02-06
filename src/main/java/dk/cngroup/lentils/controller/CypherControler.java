@@ -20,7 +20,7 @@ public class CypherControler
     private CypherService cypherService;
 
     @RequestMapping(value = "/one/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public Cypher getOne(@PathVariable Integer id) {
-        return null;
+    public Optional<Cypher> getOne(@PathVariable Integer id){
+        return cypherService.findById(id);
     }
 }
