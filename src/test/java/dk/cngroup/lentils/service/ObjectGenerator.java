@@ -15,7 +15,7 @@ public class ObjectGenerator
 	public List<Cypher> generateCypherList(int number) {
 		List<Cypher> cyphers = new LinkedList<>();
 		for (int i = 0; i < number; i++) {
-			cyphers.add(new Cypher(i % number, 2019));
+			cyphers.add(new Cypher(i % number));
 		}
 		return cyphers;
 	}

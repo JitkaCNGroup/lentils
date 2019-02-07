@@ -5,28 +5,51 @@ import dk.cngroup.lentils.repository.CypherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CypherService
 {
-    public CypherService()
+    @Autowired
+    CypherRepository cypherRepository;
+
+    @Autowired
+    public CypherService(CypherRepository cypherRepository)
     {
+        this.cypherRepository = cypherRepository;
     }
 
-    public Optional<Cypher> findById(Integer id)
+    public Integer addNewCypher(Cypher cypher){
+        Cypher newCypher = cypherRepository.save(cypher);
+        return newCypher.getId();
+    };
+
+    public Cypher saveNewCypher(Cypher cypher){
+        return cypherRepository.save(cypher);
+    };
+
+    public String getHintForStage(Integer stage)
     {
-        return cypherRepository.findById(id);
+        Cypher cypher = cypherRepository.findByStage(stage);
+        return cypher.getHint();
     }
 
-    public List<Cypher> findAll()
+    public Cypher getNextCypher (Integer stage)
     {
-        return cypherRepository.findAll();
+        Cypher cypher = cypherRepository.findByStage(stage);
+        return cypherRepository.findByStage(cypher.getStage() + 1 );
     }
 
-    public void save(Cypher cypher)
+    public boolean checkCodeword(String codeword, Integer stage)
     {
-        cypherRepository.save(cypher);
+        Cypher cypher = cypherRepository.findByStage(stage);
+
+        return codeword.equals(cypher.getCodeword());
+    }
+
+    public void deleteAllCyphers()
+    {
+        cypherRepository.deleteAll();
+
     }
 }
