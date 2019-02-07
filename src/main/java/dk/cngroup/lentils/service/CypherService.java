@@ -20,18 +20,12 @@ public class CypherService
         this.cypherRepository = cypherRepository;
     }
 
-    public Optional<Cypher> findById(Integer id)
-    {
-        return cypherRepository.findById(id);
-    }
+    public void addNewCypher(Cypher cypher){};
 
-    public List<Cypher> findAll()
-    {
-        return cypherRepository.findAll();
-    }
+    public String getHintForStage(Integer stage)
+    {return null;}
 
-    public void save(Cypher cypher)
-    {
-        cypherRepository.save(cypher);
-    }
+    public Cypher getNextCypher (Integer stage)
+    {return  null;}
+
 }

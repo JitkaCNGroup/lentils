@@ -18,7 +18,7 @@ public class CypherControler
 
     @Autowired
     private CypherService cypherService;
-
+/*
     @RequestMapping(value = "/one/{id}", method = {RequestMethod.GET, RequestMethod.POST})
     public Optional<Cypher> getOne(@PathVariable Integer id){
         return cypherService.findById(id);
@@ -36,6 +36,6 @@ public class CypherControler
         cypherService.save(cypher);
     }
 
-
+*/
 
 }
