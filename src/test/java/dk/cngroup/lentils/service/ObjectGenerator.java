@@ -12,16 +12,16 @@ import java.util.Set;
 public class ObjectGenerator
 {
 
-	public List<Cypher> generateDeviceList(int number, String prefix) {
-		List<Cypher> devices = new LinkedList<>();
+	public List<Cypher> generateCypherList(int number) {
+		List<Cypher> cyphers = new LinkedList<>();
 		for (int i = 0; i < number; i++) {
-			devices.add(new Cypher());
+			cyphers.add(new Cypher(i % number, 2019));
 		}
-		return devices;
+		return cyphers;
 	}
 
-	public Set<Cypher> generateCypherSet(int number, String prefix) {
-		return new HashSet<>(generateDeviceList(number, prefix));
+	public Set<Cypher> generateCypherSet(int number) {
+		return new HashSet<>(generateCypherList(number));
 	}
 
 

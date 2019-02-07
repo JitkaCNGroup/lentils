@@ -18,9 +18,24 @@ public class CypherControler
 
     @Autowired
     private CypherService cypherService;
-
+/*
     @RequestMapping(value = "/one/{id}", method = {RequestMethod.GET, RequestMethod.POST})
     public Optional<Cypher> getOne(@PathVariable Integer id){
         return cypherService.findById(id);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST})
+    public List<Cypher> getAll(){
+        return cypherService.findAll();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public void save(@RequestBody Cypher cypher) {
+        cypherService.save(cypher);
+    }
+
+
+
 }

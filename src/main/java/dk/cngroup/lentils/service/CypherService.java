@@ -14,4 +14,19 @@ public class CypherService
     public CypherService()
     {
     }
+
+    public Optional<Cypher> findById(Integer id)
+    {
+        return cypherRepository.findById(id);
+    }
+
+    public List<Cypher> findAll()
+    {
+        return cypherRepository.findAll();
+    }
+
+    public void save(Cypher cypher)
+    {
+        cypherRepository.save(cypher);
+    }
 }

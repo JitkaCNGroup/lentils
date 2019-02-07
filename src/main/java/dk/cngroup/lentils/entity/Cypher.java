@@ -15,11 +15,17 @@ public class Cypher
     @Column(name = "name")
     private String name;
 
+    @Column(name = "stage")
+    private int stage;
+
+    @Column(name = "year")
+    private int year;
+
     @Column(name = "latitude")
-    private long latitude;
+    private double latitude;
 
     @Column(name = "longitude")
-    private long longitude;
+    private double longitude;
 
     public Cypher() {
     }
@@ -27,6 +33,8 @@ public class Cypher
     public Cypher(int id, String name, long latitude, long longitude) {
         this.id = id;
         this.name = name;
+        this.stage = stage;
+        this.year = year;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -47,20 +55,44 @@ public class Cypher
         this.name = name;
     }
 
-    public long getLatitude() {
+    public double getLatitude()
+    {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude)
+    {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude()
+    {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude)
+    {
         this.longitude = longitude;
+    }
+
+    public int getStage()
+    {
+        return stage;
+    }
+
+    public void setStage(int stage)
+    {
+        this.stage = stage;
+    }
+
+    public int getYear()
+    {
+        return year;
+    }
+
+    public void setYear(int year)
+    {
+        this.year = year;
     }
 
     @Override
@@ -68,6 +100,8 @@ public class Cypher
         return "Cypher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", stage=" + stage +
+                ", year=" + year +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
@@ -78,14 +112,14 @@ public class Cypher
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cypher cypher = (Cypher) o;
-        return getId() == cypher.getId() &&
-                getLatitude() == cypher.getLatitude() &&
-                getLongitude() == cypher.getLongitude() &&
-                getName().equals(cypher.getName());
+        return id == cypher.id &&
+                stage == cypher.stage &&
+                year == cypher.year;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getId(), getName(), getLatitude(), getLongitude());
     }
 }
