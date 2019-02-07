@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class CypherRepositoryTest
 {
-    private static final Integer TESTED_STAGE = 4;
+    private static final Integer TESTED_STAGE = 3;
     private static final Integer NUM_OF_ALL_CYPHERS = 5;
 
     @Autowired
