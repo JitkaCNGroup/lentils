@@ -12,6 +12,5 @@ public class LentilsApplication {
 		SpringApplication.run(LentilsApplication.class, args);
 		System.out.print("Runs");
 	}
-
 }
 

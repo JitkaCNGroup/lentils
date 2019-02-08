@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cypher")
 public class CypherControler
 {
-    private static final Logger logger = LoggerFactory.getLogger(dk.cngroup.lentils.controller.CypherControler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(dk.cngroup.lentils.controller.CypherControler.class);
 
     @Autowired
     private CypherService cypherService;
 
     @RequestMapping(value = "/one/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public Cypher getOne(@PathVariable Integer id){
+    public Cypher getOne(@PathVariable Integer id) {
         return null;
     }
 }
