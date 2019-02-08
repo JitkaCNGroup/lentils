@@ -5,8 +5,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "cypher")
-public class Cypher
-{
+public class Cypher{
+
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -15,10 +15,10 @@ public class Cypher
     @Column(name = "name")
     private String name;
 
-    @Column(name = "stage")
+    @Column(name = "stage", nullable = false)
     private int stage;
 
-   @Column(name = "latitude")
+    @Column(name = "latitude")
     private double latitude;
 
     @Column(name = "longitude")
@@ -30,12 +30,14 @@ public class Cypher
     @Column(name = "hint")
     private String hint;
 
-    public Cypher()
-    {
+    public Cypher() {
     }
 
-    public Cypher(int id, String name, long latitude, long longitude) {
-        this.id = id;
+    public Cypher(int stage) {
+        this.stage = stage;
+    }
+
+    public Cypher(String name, int stage, double latitude, double longitude, String codeword, String hint) {
         this.name = name;
         this.stage = stage;
         this.latitude = latitude;
@@ -60,53 +62,43 @@ public class Cypher
         this.name = name;
     }
 
-    public double getLatitude()
-    {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude)
-    {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude()
-    {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude)
-    {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public int getStage()
-    {
+    public int getStage() {
         return stage;
     }
 
-    public void setStage(int stage)
-    {
+    public void setStage(int stage) {
         this.stage = stage;
     }
 
-    public String getCodeword()
-    {
+    public String getCodeword() {
         return codeword;
     }
 
-    public void setCodeword(String codeword)
-    {
+    public void setCodeword(String codeword) {
         this.codeword = codeword;
     }
 
-    public String getHint()
-    {
+    public String getHint() {
         return hint;
     }
 
-    public void setHint(String hint)
-    {
+    public void setHint(String hint) {
         this.hint = hint;
     }
 
@@ -129,12 +121,16 @@ public class Cypher
         if (o == null || getClass() != o.getClass()) return false;
         Cypher cypher = (Cypher) o;
         return id == cypher.id &&
-                stage == cypher.stage ;
+                stage == cypher.stage &&
+                Double.compare(cypher.latitude, latitude) == 0 &&
+                Double.compare(cypher.longitude, longitude) == 0 &&
+                name.equals(cypher.name) &&
+                codeword.equals(cypher.codeword) &&
+                hint.equals(cypher.hint);
     }
 
     @Override
-    public int hashCode()
-    {
-        return Objects.hash(id, stage, year);
+    public int hashCode() {
+        return Objects.hash(id, name, stage, latitude, longitude, codeword, hint);
     }
 }

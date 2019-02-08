@@ -9,58 +9,41 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles("test")
 @SpringBootTest(classes = {LentilsApplication.class})
-public class CypherServiceTest
-{
+public class CypherServiceTest {
+
     private static final Integer TESTED_STAGE = 3;
     private static final Integer NUM_OF_ALL_CYPHERS = 5;
     private static final String CODEWORD = "Codeword";
     private static final String CODEWORD_FALSE = "CodewordFalse";
 
     @InjectMocks
-    //@Autowired
     CypherService service;
 
     @Mock
     CypherRepository repository;
 
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-    //public void setUp() {        service.deleteAllCyphers();    }
 
-    private Cypher getCypherForStage(Integer stage)
-    {
-        Cypher cypher = new Cypher("Easy", stage, 49.0988161, 17.7519189, CODEWORD, "hledej dole");
-        when(repository.save(cypher)).thenReturn(cypher);
-        return cypher;
-        //return service.saveNewCypher(new Cypher("Easy", stage, 49.0988161, 17.7519189, CODEWORD, "hledej dole"));
+    @Test
+    public void addNewCypher() {
+        Cypher cypher  = service.add(getCypherForStage(TESTED_STAGE));
+
+        assertNotNull(cypher);
     }
 
     @Test
-    public void addNewCypher()
-    {
-        Integer id  = service.addNewCypher(getCypherForStage(TESTED_STAGE));
-
-        assertNotNull(id);
-    }
-
-    @Test
-    public void getHintForStage()
-    {
+    public void getHintForStage() {
         Cypher cypher = getCypherForStage(TESTED_STAGE);
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
@@ -70,8 +53,7 @@ public class CypherServiceTest
     }
 
     @Test
-    public void getNextCypher()
-    {
+    public void getNextCypher() {
         Cypher cypher1 = getCypherForStage(TESTED_STAGE);
         Cypher cypher2 = getCypherForStage(TESTED_STAGE + 1);
 
@@ -83,13 +65,20 @@ public class CypherServiceTest
     }
 
     @Test
-    public void checkCodeword()
-    {
+    public void checkCodeword() {
         Cypher cypher = getCypherForStage(TESTED_STAGE);
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
 
         assertTrue(service.checkCodeword(CODEWORD, TESTED_STAGE));
         assertFalse(service.checkCodeword(CODEWORD_FALSE, TESTED_STAGE));
+    }
+
+    private Cypher getCypherForStage(Integer stage) {
+        Cypher cypher = new Cypher("Easy", stage, 49.0988161, 17.7519189, CODEWORD, "hledej dole");
+
+        when(repository.save(cypher)).thenReturn(cypher);
+
+        return cypher;
     }
 }

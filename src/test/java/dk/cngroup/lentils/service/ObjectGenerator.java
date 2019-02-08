@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ObjectGenerator
-{
+public class ObjectGenerator {
 
 	public List<Cypher> generateCypherList(int number) {
 		List<Cypher> cyphers = new LinkedList<>();
@@ -23,6 +22,4 @@ public class ObjectGenerator
 	public Set<Cypher> generateCypherSet(int number) {
 		return new HashSet<>(generateCypherList(number));
 	}
-
-
 }

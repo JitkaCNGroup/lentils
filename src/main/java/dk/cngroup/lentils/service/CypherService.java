@@ -8,47 +8,35 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CypherService
-{
+public class CypherService {
+
     CypherRepository cypherRepository;
 
     @Autowired
-    public CypherService(CypherRepository cypherRepository)
-    {
+    public CypherService(CypherRepository cypherRepository) {
         this.cypherRepository = cypherRepository;
     }
 
-    public Integer addNewCypher(Cypher cypher){
-        Cypher newCypher = cypherRepository.save(cypher);
-        return newCypher.getId();
-    };
-
-    public Cypher saveNewCypher(Cypher cypher){
+    public Cypher add(Cypher cypher) {
         return cypherRepository.save(cypher);
-    };
+    }
 
-    public String getHintForStage(Integer stage)
-    {
+    public String getHintForStage(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
         return cypher.getHint();
     }
 
-    public Cypher getNextCypher (Integer stage)
-    {
+    public Cypher getNextCypher(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
         return cypherRepository.findByStage(cypher.getStage() + 1 );
     }
 
-    public boolean checkCodeword(String codeword, Integer stage)
-    {
+    public boolean checkCodeword(String codeword, Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
-
         return codeword.equals(cypher.getCodeword());
     }
 
-    public void deleteAllCyphers()
-    {
+    public void deleteAllCyphers() {
         cypherRepository.deleteAll();
-
     }
 }

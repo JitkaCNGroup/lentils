@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface  CypherRepository extends JpaRepository<Cypher, Integer>
-{
+public interface CypherRepository extends JpaRepository<Cypher, Integer> {
     public Cypher findByStage(Integer stage);
 }
