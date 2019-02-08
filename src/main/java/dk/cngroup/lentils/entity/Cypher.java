@@ -21,72 +21,60 @@ public class Cypher
     @Column(name = "longitude")
     private long longitude;
 
-    public Cypher()
-    {
+    public Cypher() {
     }
 
-    public Cypher(int id, String name, long latitude, long longitude)
-    {
+    public Cypher(int id, String name, long latitude, long longitude) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public long getLatitude()
-    {
+    public long getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude)
-    {
+    public void setLatitude(long latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude()
-    {
+    public long getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude)
-    {
+    public void setLongitude(long longitude) {
         this.longitude = longitude;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Cypher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", latitude=" + latitude +
-                ", longitude=" + longitude+
+                ", longitude=" + longitude +
                 '}';
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cypher cypher = (Cypher) o;
@@ -97,8 +85,7 @@ public class Cypher
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(getId(), getName(), getLatitude(), getLongitude());
     }
 }

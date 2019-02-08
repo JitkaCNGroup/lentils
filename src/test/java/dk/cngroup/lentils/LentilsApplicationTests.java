@@ -12,6 +12,5 @@ public class LentilsApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }
 
