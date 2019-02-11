@@ -22,9 +22,10 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
-public class CypherRepositoryTest{
+public class CypherRepositoryTest {
 
     private static final Integer TESTED_STAGE = 3;
+
     private static final Integer NUM_OF_ALL_CYPHERS = 5;
 
     @Autowired
@@ -57,24 +58,27 @@ public class CypherRepositoryTest{
 
     @Test
     public void countAllCyphers() {
-        createAndSaveAllCyphers();
+        List<Cypher> cyphers = createList();
+        cypherRepository.saveAll(cyphers);
 
-        assertEquals((long)NUM_OF_ALL_CYPHERS, cypherRepository.count());
+        assertEquals((long) NUM_OF_ALL_CYPHERS, cypherRepository.count());
     }
 
     @Test
     public void deleteAllCyphers() {
-        createAndSaveAllCyphers();
+        List<Cypher> cyphers = createList();
+        cypherRepository.saveAll(cyphers);
+
         cypherRepository.deleteAll();
 
         assertEquals(0, cypherRepository.count());
     }
 
-    private void createAndSaveAllCyphers() {
+    private List<Cypher> createList() {
         List<Cypher> cyphers = new LinkedList<>();
         for (int i = 0; i < NUM_OF_ALL_CYPHERS; i++) {
             cyphers.add(new Cypher(i));
         }
-        cypherRepository.saveAll(cyphers);
+        return cyphers;
     }
 }

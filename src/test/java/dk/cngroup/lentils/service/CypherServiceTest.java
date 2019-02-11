@@ -20,8 +20,11 @@ import static org.mockito.Mockito.when;
 public class CypherServiceTest {
 
     private static final Integer TESTED_STAGE = 3;
+
     private static final Integer NUM_OF_ALL_CYPHERS = 5;
+
     private static final String CODEWORD = "Codeword";
+
     private static final String CODEWORD_FALSE = "CodewordFalse";
 
     @InjectMocks
@@ -37,7 +40,7 @@ public class CypherServiceTest {
 
     @Test
     public void addNewCypher() {
-        Cypher cypher  = service.add(getCypherForStage(TESTED_STAGE));
+        Cypher cypher = service.add(getCypherForStage(TESTED_STAGE));
 
         assertNotNull(cypher);
     }
@@ -49,7 +52,7 @@ public class CypherServiceTest {
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
         String hint = service.getHintForStage(TESTED_STAGE);
 
-        assertEquals (cypher.getHint(), hint);
+        assertEquals(cypher.getHint(), hint);
     }
 
     @Test
@@ -59,7 +62,7 @@ public class CypherServiceTest {
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher1);
         when(repository.findByStage(TESTED_STAGE + 1)).thenReturn(cypher2);
-        Cypher cypher = service.getNextCypher(TESTED_STAGE);
+        Cypher cypher = service.getNext(TESTED_STAGE);
 
         assertEquals(cypher2, cypher);
     }

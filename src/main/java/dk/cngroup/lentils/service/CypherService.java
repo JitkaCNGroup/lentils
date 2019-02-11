@@ -26,7 +26,7 @@ public class CypherService {
         return cypher.getHint();
     }
 
-    public Cypher getNextCypher(Integer stage) {
+    public Cypher getNext(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
         return cypherRepository.findByStage(cypher.getStage() + 1 );
     }
@@ -36,7 +36,7 @@ public class CypherService {
         return codeword.equals(cypher.getCodeword());
     }
 
-    public void deleteAllCyphers() {
+    public void deleteAll() {
         cypherRepository.deleteAll();
     }
 }
