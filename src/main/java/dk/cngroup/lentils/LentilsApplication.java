@@ -13,4 +13,3 @@ public class LentilsApplication {
 		System.out.print("Runs");
 	}
 }
-
