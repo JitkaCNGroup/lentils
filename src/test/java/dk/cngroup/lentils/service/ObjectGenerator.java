@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.FinalPlace;
 import org.springframework.data.geo.Point;
 import dk.cngroup.lentils.entity.Team;
