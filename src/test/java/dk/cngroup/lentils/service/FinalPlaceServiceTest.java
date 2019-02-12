@@ -59,9 +59,18 @@ public class FinalPlaceServiceTest {
         assertNotNull(finalPlace);
     }
 
+    @Test
+    public void deleteTest() {
+        FinalPlace finalPlaceOrig = getAnySaved();
+
+        service.deleteAll();
+
+        when(repository.count()).thenReturn(new Long(0));
+        assertEquals(0, repository.count());
+    }
+
     private FinalPlace getAnySaved() {
         FinalPlace finalPlaceOrig = generator.generateFinalPlace();
-        ;
 
         when(repository.save(finalPlaceOrig)).thenReturn(finalPlaceOrig);
         return service.add(finalPlaceOrig);
