@@ -1,29 +1,25 @@
 package dk.cngroup.lentils.entity;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "team")
 public class Team {
+
     @Id
     @GeneratedValue
     @Column(name = "id")
-    long id;
+    private long id;
 
     @Column(name = "name", nullable = false, length = 50)
-    String name;
+    private String name;
 
     @Column(name = "numOfMembers", length = 1)
-    int numOfMembers;
+    private int numOfMembers;
 
     @Column(name = "pin", nullable = false, length = 4, unique = true)
-    String pin;
+    private String pin;
 
     public Team() {
     }
