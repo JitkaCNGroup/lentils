@@ -44,6 +44,4 @@ public class ObjectGenerator {
  public FinalPlace generateFinalPlace() {
         return new FinalPlace("konecna stanice - krematorium", new Point(2.123, 3.456),
                 LocalDateTime.now());
-
     }
-}
