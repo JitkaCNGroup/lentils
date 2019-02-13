@@ -5,8 +5,6 @@ import dk.cngroup.lentils.repository.CypherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class CypherService {
 
@@ -28,7 +26,7 @@ public class CypherService {
 
     public Cypher getNext(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
-        return cypherRepository.findByStage(cypher.getStage() + 1 );
+        return cypherRepository.findByStage(cypher.getStage() + 1);
     }
 
     public boolean checkCodeword(String codeword, Integer stage) {
