@@ -33,15 +33,17 @@ public class ObjectGenerator {
 	public Team generateTeam() {
 		return new Team("Kocka", 5, "1234");
 	}
+
 	public List<Team> generateTeamList() {
 		List<Team> teams = new LinkedList<>();
 		for (int i = 0; i < NUMBER_OF_TEAMS; i++) {
-			teams.add(new Team("kocky"+i, i, "123"+i));
+			teams.add(new Team("kocky" + i, i, "123" + i));
 		}
 		return teams;
 	}
 
- public FinalPlace generateFinalPlace() {
-        return new FinalPlace("konecna stanice - krematorium", new Point(2.123, 3.456),
-                LocalDateTime.now());
-    }
+	public FinalPlace generateFinalPlace() {
+		return new FinalPlace("konecna stanice - krematorium", new Point(2.123, 3.456),
+				LocalDateTime.now());
+	}
+}
