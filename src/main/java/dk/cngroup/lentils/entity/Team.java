@@ -15,7 +15,7 @@ public class Team {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "numOfMembers", length = 1)
+    @Column(name = "num_of_members", length = 1)
     private int numOfMembers;
 
     @Column(name = "pin", nullable = false, length = 4, unique = true)

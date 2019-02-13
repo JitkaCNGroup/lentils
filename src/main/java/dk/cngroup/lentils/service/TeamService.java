@@ -50,18 +50,11 @@ public class TeamService {
 
     private boolean PINisUnique(String pin) {
         List<Team> teamList = repository.findAll();
-// kde mam chybu ??
-      /*  teamList.forEach(team -> {
-            if (team.getPin().equals(pin)) {
-                return false;
-            }
-        });*/
 
         for (Team team : teamList) {
             if (team.getPin().equals(pin)) {
                 return false;
             }
-
         }
         return true;
     }
