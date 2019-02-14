@@ -41,7 +41,7 @@ public class CypherRepositoryTest {
     @Test
     public void addNewCypher() {
         long originalCount = cypherRepository.count();
-        Cypher cypher = new Cypher("Easy", generator.TESTED_STAGE, new Point(49.0988161, 17.7519189), "abc123", "dole");
+        Cypher cypher = new Cypher("Easy", ObjectGenerator.TESTED_STAGE, new Point(49.0988161, 17.7519189), "abc123", "dole");
         cypherRepository.save(cypher);
 
         assertEquals(1, cypherRepository.count());
@@ -49,10 +49,10 @@ public class CypherRepositoryTest {
 
     @Test
     public void getCypherForStage() {
-        Cypher originalCypher = new Cypher(generator.TESTED_STAGE);
+        Cypher originalCypher = new Cypher(ObjectGenerator.TESTED_STAGE);
         cypherRepository.save(originalCypher);
 
-        Cypher cypher = cypherRepository.findByStage(generator.TESTED_STAGE);
+        Cypher cypher = cypherRepository.findByStage(ObjectGenerator.TESTED_STAGE);
 
         assertNotNull(cypher);
         assertEquals(originalCypher, cypher);
