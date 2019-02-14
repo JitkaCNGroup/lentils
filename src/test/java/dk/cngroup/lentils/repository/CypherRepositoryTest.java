@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +25,13 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class CypherRepositoryTest {
 
-    private static final Integer TESTED_STAGE = 3;
-
     private static final Integer NUM_OF_ALL_CYPHERS = 5;
 
     @Autowired
     CypherRepository cypherRepository;
+
+    @Autowired
+    ObjectGenerator generator;
 
     @Test
     public void countEmptyDatabaseTest() {
@@ -39,7 +41,7 @@ public class CypherRepositoryTest {
     @Test
     public void addNewCypher() {
         long originalCount = cypherRepository.count();
-        Cypher cypher = new Cypher("Easy", TESTED_STAGE, 49.0988161, 17.7519189, "abc123", "dole");
+        Cypher cypher = new Cypher("Easy", ObjectGenerator.TESTED_STAGE, new Point(49.0988161, 17.7519189), "abc123", "dole");
         cypherRepository.save(cypher);
 
         assertEquals(1, cypherRepository.count());
@@ -47,10 +49,10 @@ public class CypherRepositoryTest {
 
     @Test
     public void getCypherForStage() {
-        Cypher originalCypher = new Cypher(TESTED_STAGE);
+        Cypher originalCypher = new Cypher(ObjectGenerator.TESTED_STAGE);
         cypherRepository.save(originalCypher);
 
-        Cypher cypher = cypherRepository.findByStage(TESTED_STAGE);
+        Cypher cypher = cypherRepository.findByStage(ObjectGenerator.TESTED_STAGE);
 
         assertNotNull(cypher);
         assertEquals(originalCypher, cypher);
