@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Progress;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.ProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,17 @@ public class ProgressService {
         progressRepository.save(progress);
     }
 
-    public List<Progress> getAll() {
+    public void markCypherSkipped(Progress progress) {
+        progress.setCypherStatus(CypherStatus.SOLVED);
+        progressRepository.save(progress);
+    }
+
+    public List<Progress> viewTeamsProgress() {
         return progressRepository.findAll();
     }
-    public int getScore(Team team){}
+
+    public int getScore(Team team) {
+        return 0;
+    }
+
 }

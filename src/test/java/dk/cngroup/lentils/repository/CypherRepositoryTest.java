@@ -25,8 +25,6 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class CypherRepositoryTest {
 
-    private static final Integer NUM_OF_ALL_CYPHERS = 5;
-
     @Autowired
     CypherRepository cypherRepository;
 
@@ -40,8 +38,8 @@ public class CypherRepositoryTest {
 
     @Test
     public void addNewCypher() {
-        long originalCount = cypherRepository.count();
-        Cypher cypher = new Cypher("Easy", ObjectGenerator.TESTED_STAGE, new Point(49.0988161, 17.7519189), "abc123", "dole");
+        Cypher cypher = generator.generateCypher();
+
         cypherRepository.save(cypher);
 
         assertEquals(1, cypherRepository.count());
@@ -60,27 +58,19 @@ public class CypherRepositoryTest {
 
     @Test
     public void countAllCyphers() {
-        List<Cypher> cyphers = createList();
+        List<Cypher> cyphers = generator.generateCypherList();
         cypherRepository.saveAll(cyphers);
 
-        assertEquals((long) NUM_OF_ALL_CYPHERS, cypherRepository.count());
+        assertEquals(ObjectGenerator.NUMBER_OF_CYPHERS, cypherRepository.count());
     }
 
     @Test
     public void deleteAllCyphers() {
-        List<Cypher> cyphers = createList();
+        List<Cypher> cyphers = generator.generateCypherList();
         cypherRepository.saveAll(cyphers);
 
         cypherRepository.deleteAll();
 
         assertEquals(0, cypherRepository.count());
-    }
-
-    private List<Cypher> createList() {
-        List<Cypher> cyphers = new LinkedList<>();
-        for (int i = 0; i < NUM_OF_ALL_CYPHERS; i++) {
-            cyphers.add(new Cypher(i));
-        }
-        return cyphers;
     }
 }

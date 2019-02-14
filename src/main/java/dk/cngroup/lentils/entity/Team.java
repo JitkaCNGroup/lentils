@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "team")
@@ -32,6 +33,9 @@ public class Team {
 
     @Column(name = "pin", nullable = false, length = 4, unique = true)
     private String pin;
+
+    @OneToMany(mappedBy = "team")
+    Set<Progress> progressSet;
 
     public Team() {
     }

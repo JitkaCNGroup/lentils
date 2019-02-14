@@ -10,25 +10,31 @@ import java.util.Objects;
 @Table(name = "progress")
 public class Progress{
 
+    // see    https://www.baeldung.com/jpa-many-to-many
+
     @EmbeddedId
-    id id
-            
-    @Id
-    @Column(name = "team_id")
-    long teamId;
+    ProgressKey id;
 
-    @Id
-    @Column(name = "cypher_id")
-    long cypherId;
+    @ManyToOne
+    @MapsId("team_id")
+    @JoinColumn(name = "team_id")
+    Team team;
 
-    @ManyToMany(mappedBy = "projects")
-    @JoinTable(name = "cypher", joinColumns = "id", foreignKey = "cypher_id")
-    private List<Cypher> cyphers;
+    @ManyToOne
+    @MapsId("cypher_id")
+    @JoinColumn(name = "cypher_id")
+    Cypher cypher;
 
-    @Column(name = "cypher_status")
-    CypherStatus cypherStatus;
+    private CypherStatus cypherStatus;
 
     public Progress() {
+    }
+
+    public Progress(ProgressKey id, Team team, Cypher cypher) {
+        this.id = id;
+        this.team = team;
+        this.cypher = cypher;
+        this.cypherStatus = CypherStatus.PENDING;
     }
 
     public CypherStatus getCypherStatus() {
@@ -37,5 +43,45 @@ public class Progress{
 
     public void setCypherStatus(CypherStatus cypherStatus) {
         this.cypherStatus = cypherStatus;
+    }
+
+    public ProgressKey getId() {
+        return id;
+    }
+
+    public void setId(ProgressKey id) {
+        this.id = id;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Cypher getCypher() {
+        return cypher;
+    }
+
+    public void setCypher(Cypher cypher) {
+        this.cypher = cypher;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Progress progress = (Progress) o;
+        return id.equals(progress.id) &&
+                team.equals(progress.team) &&
+                cypher.equals(progress.cypher) &&
+                cypherStatus == progress.cypherStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, team, cypher, cypherStatus);
     }
 }
