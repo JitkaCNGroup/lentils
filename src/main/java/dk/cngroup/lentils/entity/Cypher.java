@@ -1,11 +1,13 @@
 package dk.cngroup.lentils.entity;
 
+import org.springframework.data.geo.Point;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "cypher")
-public class Cypher{
+public class Cypher {
 
     @Id
     @GeneratedValue
@@ -18,11 +20,8 @@ public class Cypher{
     @Column(name = "stage", nullable = false)
     private int stage;
 
-    @Column(name = "latitude")
-    private double latitude;
-
-    @Column(name = "longitude")
-    private double longitude;
+    @Column(name = "location")
+    private Point location;
 
     @Column(name = "codeword")
     private String codeword;
@@ -37,13 +36,20 @@ public class Cypher{
         this.stage = stage;
     }
 
-    public Cypher(String name, int stage, double latitude, double longitude, String codeword, String hint) {
+    public Cypher(String name, int stage, Point location, String codeword, String hint) {
         this.name = name;
         this.stage = stage;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.location = location;
         this.codeword = codeword;
         this.hint = hint;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
     public int getId() {
@@ -60,22 +66,6 @@ public class Cypher{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public int getStage() {
@@ -108,8 +98,7 @@ public class Cypher{
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", stage=" + stage +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", location=" + location +
                 ", codeword='" + codeword + '\'' +
                 ", hint='" + hint + '\'' +
                 '}';
@@ -122,15 +111,14 @@ public class Cypher{
         Cypher cypher = (Cypher) o;
         return id == cypher.id &&
                 stage == cypher.stage &&
-                Double.compare(cypher.latitude, latitude) == 0 &&
-                Double.compare(cypher.longitude, longitude) == 0 &&
-                name.equals(cypher.name) &&
-                codeword.equals(cypher.codeword) &&
-                hint.equals(cypher.hint);
+                Objects.equals(name, cypher.name) &&
+                Objects.equals(location, cypher.location) &&
+                Objects.equals(codeword, cypher.codeword) &&
+                Objects.equals(hint, cypher.hint);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, stage, latitude, longitude, codeword, hint);
+        return Objects.hash(id, name, stage, location, codeword, hint);
     }
 }

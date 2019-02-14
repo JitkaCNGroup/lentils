@@ -9,21 +9,21 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {LentilsApplication.class})
+@SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
 public class CypherServiceTest {
 
     private static final Integer TESTED_STAGE = 3;
 
     private static final Integer NUM_OF_ALL_CYPHERS = 5;
-
-    private static final String CODEWORD = "Codeword";
 
     private static final String CODEWORD_FALSE = "CodewordFalse";
 
@@ -32,6 +32,9 @@ public class CypherServiceTest {
 
     @Mock
     CypherRepository repository;
+
+    @Autowired
+    private ObjectGenerator generator;
 
     @Before
     public void setUp() {
@@ -73,12 +76,12 @@ public class CypherServiceTest {
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
 
-        assertTrue(service.checkCodeword(CODEWORD, TESTED_STAGE));
+        assertTrue(service.checkCodeword(generator.CODEWORD, TESTED_STAGE));
         assertFalse(service.checkCodeword(CODEWORD_FALSE, TESTED_STAGE));
     }
 
     private Cypher getCypherForStage(Integer stage) {
-        Cypher cypher = new Cypher("Easy", stage, 49.0988161, 17.7519189, CODEWORD, "hledej dole");
+        Cypher cypher = generator.generateCypher();
 
         when(repository.save(cypher)).thenReturn(cypher);
 
