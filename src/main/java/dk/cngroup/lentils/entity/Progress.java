@@ -3,15 +3,11 @@ package dk.cngroup.lentils.entity;
 import dk.cngroup.lentils.service.CypherStatus;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "progress")
-public class Progress{
-
-    // see    https://www.baeldung.com/jpa-many-to-many
-
+public class Progress {
     @EmbeddedId
     ProgressKey id;
 
@@ -34,7 +30,14 @@ public class Progress{
         this.id = id;
         this.team = team;
         this.cypher = cypher;
-        this.cypherStatus = CypherStatus.PENDING;
+        this.cypherStatus = CypherStatus.SOLVED;
+    }
+
+    public Progress(ProgressKey id, Team team, Cypher cypher, CypherStatus cypherStatus) {
+        this.id = id;
+        this.team = team;
+        this.cypher = cypher;
+        this.cypherStatus = cypherStatus;
     }
 
     public CypherStatus getCypherStatus() {

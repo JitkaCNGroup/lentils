@@ -50,44 +50,81 @@ public class ProgressServiceTest {
 
     @Test
     public void markCypherSolvedTest() {
+        List<Progress> progressList = fillProgressTable();
+
+        Progress progress1 = null;
+        for (Progress progress : progressList) {
+            if (progress.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)
+                    && progress.getCypher().getStage() == TESTED_STAGE) {
+                progress1 = progress;
+            }
+        }
+
+        when(progressRepository.save(progress1)).thenReturn(progress1);
+        service.markCypherSolved(progress1);
+
+        assertEquals(CypherStatus.SOLVED, progress1.getCypherStatus());
     }
 
     @Test
     public void markCypherSkippedTest() {
+        List<Progress> progressList = fillProgressTable();
+
+        Progress progress1 = null;
+        for (Progress progress : progressList) {
+            if (progress.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)
+                    && progress.getCypher().getStage() == TESTED_STAGE) {
+                progress1 = progress;
+            }
+        }
+
+        when(progressRepository.save(progress1)).thenReturn(progress1);
+        service.markCypherSkipped(progress1);
+
+        assertEquals(CypherStatus.SKIPPED, progress1.getCypherStatus());
     }
 
     @Test
     public void getProgressOfAllTeamsTest() {
 
+        List<Progress> progressList = fillProgressTable();
+        when(progressRepository.findAll()).thenReturn(progressList);
+
+        assertEquals(NUMBER_OF_CYPHERS * NUMBER_OF_TEAMS, service.viewTeamsProgress().size());
+    }
+
+    @Test
+    public void getScoreTest() {
+        List<Progress> progressList = fillProgressTable();
+        Team team = generator.generateTeam();
+
+        List<Progress> progressTeamList = new LinkedList<>();
+        for (Progress progress : progressList) {
+            if (progress.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)) {
+                progressTeamList.add(progress);
+            }
+        }
+        when(progressRepository.findByTeam(team)).thenReturn(progressTeamList);
+        assertEquals(50, service.getScore(team));
+
+    }
+
+    private List<Progress> fillProgressTable() {
         List<Team> teams = generator.generateTeamList();
         when(teamRepository.saveAll(teams)).thenReturn(teams);
 
         List<Cypher> cyphers = generator.generateCypherList(NUMBER_OF_CYPHERS);
         when(cypherRepository.saveAll(cyphers)).thenReturn(cyphers);
 
-        List<Progress> progressList  = new LinkedList<>() ;
-        for (Team team: teams) {
+        List<Progress> progressList = new LinkedList<>();
+        for (Team team : teams) {
             for (Cypher cypher : cyphers) {
-                ProgressKey progressKey = new ProgressKey( cypher.getId(), team.getId());
-                progressList.add(new Progress(progressKey, team, cypher));
+                ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
+                progressList.add(new Progress(progressKey, team, cypher, CypherStatus.SOLVED));
             }
         }
 
         when(progressRepository.saveAll(progressList)).thenReturn(progressList);
-
-        when(progressRepository.findAll()).thenReturn(progressList);
-
-        assertEquals(NUMBER_OF_CYPHERS * NUMBER_OF_TEAMS, service.viewTeamsProgress().size());
+        return progressList;
     }
-    /*      List<Team> teams = generator.generateTeamList();
-        when(repository.saveAll(teams)).thenReturn(teams);
-
-        when(repository.findAll()).thenReturn(teams);
-        List<Team> teamsFound = service.getAll();*/
-/*
-    @Test
-    public void getScoreForTeamTest() {
-        generator.generateTeam();
-        service.getScore();
-    }*/
 }

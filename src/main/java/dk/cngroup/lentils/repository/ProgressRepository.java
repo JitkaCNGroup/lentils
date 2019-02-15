@@ -9,8 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProgressRepository extends JpaRepository<Progress, ProgressKey> {
-
     public Progress findByTeamAndCypher(Team team, Cypher cypher);
 
-
+    public List<Progress> findByTeam(Team team);
 }

@@ -8,7 +8,8 @@ public enum CypherStatus {
 
     private int statusValue;
 
-    CypherStatus(int s) {
+    CypherStatus(int statusValue) {
+        this.statusValue = statusValue;
     }
 
     public int getStatusValue() {

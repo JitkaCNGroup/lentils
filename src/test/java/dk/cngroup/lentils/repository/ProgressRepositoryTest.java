@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
+import static dk.cngroup.lentils.service.CypherStatus.SOLVED;
 import static dk.cngroup.lentils.service.ObjectGenerator.*;
 import static org.junit.Assert.*;
 
@@ -40,14 +41,13 @@ public class ProgressRepositoryTest {
 
     @Test
     public void findAllZeroTest() {
-
         List<Progress> progressList = repository.findAll();
+
         assertEquals(0, progressList.size());
     }
 
     @Test
     public void addTest() {
-
         Team team = generator.generateTeam();
         teamRepository.save(team);
 
@@ -66,8 +66,7 @@ public class ProgressRepositoryTest {
      *  progress of one team on all stages
      * */
     @Test
-    public void getTeamProgressTest() {
-
+    public void getTeamsProgressTest() {
         Team team = generator.generateTeam();
         teamRepository.save(team);
 
@@ -104,7 +103,6 @@ public class ProgressRepositoryTest {
 
     @Test
     public void findAllTest() {
-
         fillTable();
 
         List<Progress> progressList = repository.findAll();
@@ -121,10 +119,10 @@ public class ProgressRepositoryTest {
 
         Progress progress = repository.findByTeamAndCypher(team, cypher);
 
-        progress.setCypherStatus(CypherStatus.SOLVED);
+        progress.setCypherStatus(SOLVED);
         Progress progress1 = repository.save(progress);
 
-        assertEquals(CypherStatus.SOLVED, progress1.getCypherStatus());
+        assertEquals(SOLVED, progress1.getCypherStatus());
     }
 
     private void fillTable() {
@@ -138,7 +136,7 @@ public class ProgressRepositoryTest {
         for (Team team : teams) {
             for (Cypher cypher : cyphers) {
                 ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
-                progressList.add(new Progress(progressKey, team, cypher));
+                progressList.add(new Progress(progressKey, team, cypher, CypherStatus.SOLVED));
             }
         }
         repository.saveAll(progressList);

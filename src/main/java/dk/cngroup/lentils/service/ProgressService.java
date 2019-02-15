@@ -28,7 +28,7 @@ public class ProgressService {
     }
 
     public void markCypherSkipped(Progress progress) {
-        progress.setCypherStatus(CypherStatus.SOLVED);
+        progress.setCypherStatus(CypherStatus.SKIPPED);
         progressRepository.save(progress);
     }
 
@@ -37,7 +37,11 @@ public class ProgressService {
     }
 
     public int getScore(Team team) {
-        return 0;
+        int score = 0;
+        List<Progress> progressList = progressRepository.findByTeam(team);
+        for (Progress progress : progressList) {
+            score += progress.getCypherStatus().getStatusValue();
+        }
+        return score;
     }
-
 }
