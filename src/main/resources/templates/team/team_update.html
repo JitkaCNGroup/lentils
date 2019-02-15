@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Update Form</title>
+</head>
+<body>
+<h2>Team Update Form:</h2>
+<form action="#" th:action="@{/team/update/{id}(id=${team.id})}" th:object="${team}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{pin}"/>
+    <table width="25%" style="font-size: 18px">
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{name}"/></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: orangered">Name Error</td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td><input type="text" th:field="*{numOfMembers}"/></td>
+            <td th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}" style="color: orangered">Number of Members Error
+            </td>
+        </tr>
+        <tr>
+            <td>Action:</td>
+            <td><input type="submit" value="Submit"/><input type="reset" value="Reset"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

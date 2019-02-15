@@ -3,69 +3,91 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Optionals;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class TeamService {
+@Service
+public class TeamService
+{
 
-    TeamRepository repository;
+	private final TeamRepository teamRepository;
 
-    @Autowired
-    public TeamService(TeamRepository repository) {
-        this.repository = repository;
-    }
+	@Autowired
+	public TeamService(TeamRepository teamRepository)
+	{
+		this.teamRepository = teamRepository;
+	}
 
-    public Team add(Team team) {
-        team.setPin(getUniquePin());
-        return repository.save(team);
-    }
+	public Team add(Team team)
+	{
+		team.setPin(getUniquePin());
+		return teamRepository.save(team);
+	}
 
-    public Optional<Team> get(long id) {
-        return repository.findById(id);
-    }
-    public void delete(Team team) {
-        repository.delete(team);
-    }
+	public Optional<Team> get(long id)
+	{
+		return teamRepository.findById(id);
+	}
 
-    public void deleteAll() {
-        repository.deleteAll();
-    }
+	public void delete(Team team)
+	{
+		teamRepository.delete(team);
+	}
 
-    public List<Team> getAll() {
-        return repository.findAll();
-    }
+	public void deleteAll()
+	{
+		teamRepository.deleteAll();
+	}
 
-    private String getUniquePin() {
-        int pinLen = 4;
-        String pin = getPIN(pinLen);
+	public List<Team> getAll()
+	{
+		return teamRepository.findAll();
+	}
 
-        while (!PINisUnique(pin)) {
-            pin = getPIN(pinLen);
-        }
-        return pin;
-    }
+	private String getUniquePin()
+	{
+		int pinLen = 4;
+		String pin = getPIN(pinLen);
 
-    private boolean PINisUnique(String pin) {
-        List<Team> teamList = repository.findAll();
+		while (!PINisUnique(pin))
+		{
+			pin = getPIN(pinLen);
+		}
+		return pin;
+	}
 
-        for (Team team : teamList) {
-            if (team.getPin().equals(pin)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	private boolean PINisUnique(String pin)
+	{
+		List<Team> teamList = teamRepository.findAll();
 
-    private String getPIN(int len) {
-        String numbers = "0123456789";
-        Random rnd = new Random();
-        char[] pin = new char[len];
-        for (int i = 0; i < len; i++) {
-            pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
-        }
-        return String.copyValueOf(pin);
-    }
+		for (Team team : teamList)
+		{
+			if (team.getPin().equals(pin))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private String getPIN(int len)
+	{
+		String numbers = "0123456789";
+		Random rnd = new Random();
+		char[] pin = new char[len];
+		for (int i = 0; i < len; i++)
+		{
+			pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
+		}
+		return String.copyValueOf(pin);
+	}
+
+	public void update(Long id, Team team)
+	{
+		team.setId(id);
+		teamRepository.save(team);
+	}
 }
