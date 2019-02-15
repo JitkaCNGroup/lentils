@@ -32,6 +32,7 @@ public class TeamController
 		List<Team> teams = teamService.getAll();
 		ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list", "teams", teams);
 		modelAndView.addObject("team", new Team());
+		modelAndView.addObject("action", "/team/add");
 		return modelAndView;
 	}
 
@@ -43,6 +44,7 @@ public class TeamController
 		{
 			ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list");
 			modelAndView.addObject("teams", teamService.getAll());
+			modelAndView.addObject("action", "/team/add");
 			return modelAndView;
 		} else
 		{
@@ -55,9 +57,11 @@ public class TeamController
 	@GetMapping("/update/{id}")
 	public ModelAndView update(@PathVariable("id") Long id)
 	{
-		ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_update");
+		ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list");
 		Optional<Team> team = teamService.get(id);
+		modelAndView.addObject("teams", teamService.getAll());
 		modelAndView.addObject("team", team.get());
+		modelAndView.addObject("action", "/team/update/" + id);
 		return modelAndView;
 	}
 
@@ -67,7 +71,11 @@ public class TeamController
 	{
 		if (bindingResult.hasErrors())
 		{
-			ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_update");
+			ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list");
+			modelAndView.addObject("teams", teamService.getAll());
+			team.setId(null);
+			modelAndView.addObject("team", team);
+			modelAndView.addObject("action", "/team/add");
 			return modelAndView;
 		} else
 		{
