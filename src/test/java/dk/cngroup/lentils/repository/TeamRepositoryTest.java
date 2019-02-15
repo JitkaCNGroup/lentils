@@ -56,7 +56,7 @@ public class TeamRepositoryTest {
 
         List<Team> teamsFound = repository.findAll();
 
-        assertEquals((int)generator.NUMBER_OF_TEAMS, teamsFound.size());
+        assertEquals(generator.NUMBER_OF_TEAMS, teamsFound.size());
     }
 
     @Test

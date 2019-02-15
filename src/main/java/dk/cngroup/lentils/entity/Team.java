@@ -31,7 +31,7 @@ public class Team {
     @Max(value = 9, message = "You must enter a number less or equal to 9")
     private Integer numOfMembers;
 
-    @Column(name = "pin", nullable = false, length = 4, unique = true)
+    @Column(name = "pin", nullable = false, unique = true)
     private String pin;
 
     @OneToMany(mappedBy = "team")

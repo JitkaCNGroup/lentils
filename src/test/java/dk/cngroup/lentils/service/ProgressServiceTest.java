@@ -50,44 +50,34 @@ public class ProgressServiceTest {
 
     @Test
     public void markCypherSolvedTest() {
-        List<Progress> progressList = fillProgressTable();
+        List<Progress> progressList = fillTeamCypherAndProgressTables();
+        Progress progress = getTestedProgressFromList(TEAM_NAME + TESTED_TEAM, TESTED_STAGE, progressList);
 
-        Progress progress1 = null;
-        for (Progress progress : progressList) {
-            if (progress.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)
-                    && progress.getCypher().getStage() == TESTED_STAGE) {
-                progress1 = progress;
-            }
-        }
+        when(progressRepository.findByTeamIdAndCypherId(progress.getTeam().getId(), progress.getCypher().getId()))
+                .thenReturn(progress);
+        when(progressRepository.save(progress)).thenReturn(progress);
+        service.markCypherSolvedForTeam(progress.getTeam().getId(), progress.getCypher().getId());
 
-        when(progressRepository.save(progress1)).thenReturn(progress1);
-        service.markCypherSolved(progress1);
-
-        assertEquals(CypherStatus.SOLVED, progress1.getCypherStatus());
+        assertEquals(CypherStatus.SOLVED, progress.getCypherStatus());
     }
 
     @Test
     public void markCypherSkippedTest() {
-        List<Progress> progressList = fillProgressTable();
+        List<Progress> progressList = fillTeamCypherAndProgressTables();
+        Progress progress = getTestedProgressFromList(TEAM_NAME + TESTED_TEAM, TESTED_STAGE, progressList);
 
-        Progress progress1 = null;
-        for (Progress progress : progressList) {
-            if (progress.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)
-                    && progress.getCypher().getStage() == TESTED_STAGE) {
-                progress1 = progress;
-            }
-        }
+        when(progressRepository.findByTeamIdAndCypherId(progress.getTeam().getId(), progress.getCypher().getId()))
+                .thenReturn(progress);
+        when(progressRepository.save(progress)).thenReturn(progress);
+        service.markCypherSkippedForTeam(progress.getTeam().getId(), progress.getCypher().getId());
 
-        when(progressRepository.save(progress1)).thenReturn(progress1);
-        service.markCypherSkipped(progress1);
-
-        assertEquals(CypherStatus.SKIPPED, progress1.getCypherStatus());
+        assertEquals(CypherStatus.SKIPPED, progress.getCypherStatus());
     }
 
     @Test
     public void getProgressOfAllTeamsTest() {
 
-        List<Progress> progressList = fillProgressTable();
+        List<Progress> progressList = fillTeamCypherAndProgressTables();
         when(progressRepository.findAll()).thenReturn(progressList);
 
         assertEquals(NUMBER_OF_CYPHERS * NUMBER_OF_TEAMS, service.viewTeamsProgress().size());
@@ -95,7 +85,7 @@ public class ProgressServiceTest {
 
     @Test
     public void getScoreTest() {
-        List<Progress> progressList = fillProgressTable();
+        List<Progress> progressList = fillTeamCypherAndProgressTables();
         Team team = generator.generateTeam();
 
         List<Progress> progressTeamList = new LinkedList<>();
@@ -104,12 +94,13 @@ public class ProgressServiceTest {
                 progressTeamList.add(progress);
             }
         }
+
         when(progressRepository.findByTeam(team)).thenReturn(progressTeamList);
         assertEquals(50, service.getScore(team));
 
     }
 
-    private List<Progress> fillProgressTable() {
+    private List<Progress> fillTeamCypherAndProgressTables() {
         List<Team> teams = generator.generateTeamList();
         when(teamRepository.saveAll(teams)).thenReturn(teams);
 
@@ -126,5 +117,15 @@ public class ProgressServiceTest {
 
         when(progressRepository.saveAll(progressList)).thenReturn(progressList);
         return progressList;
+    }
+
+    private Progress getTestedProgressFromList(String nameOfTestedTeam, int testedStage, List<Progress> progressList) {
+        for (Progress progress : progressList) {
+            if (progress.getCypher().getStage() == testedStage
+                    && progress.getTeam().getName().equals(nameOfTestedTeam)) {
+                return progress;
+            }
+        }
+        return null;
     }
 }

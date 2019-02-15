@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ProgressRepository extends JpaRepository<Progress, ProgressKey> {
     public Progress findByTeamAndCypher(Team team, Cypher cypher);
+    public Progress findByTeamIdAndCypherId (Long teamId, Long cypherId);
 
     public List<Progress> findByTeam(Team team);
 }

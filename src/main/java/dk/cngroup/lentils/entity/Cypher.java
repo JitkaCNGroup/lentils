@@ -13,7 +13,7 @@ public class Cypher {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -56,7 +56,7 @@ public class Cypher {
         this.location = location;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
