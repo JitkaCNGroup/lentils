@@ -1,6 +1,14 @@
 package dk.cngroup.lentils.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -10,13 +18,17 @@ public class Team {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 50)
+    @NotEmpty
     private String name;
 
     @Column(name = "num_of_members", length = 1)
-    private int numOfMembers;
+    @NotNull(message = "must not be empty")
+    @Min(value = 1, message = "You must enter a number greater or equal to 1")
+    @Max(value = 9, message = "You must enter a number less or equal to 9")
+    private Integer numOfMembers;
 
     @Column(name = "pin", nullable = false, length = 4, unique = true)
     private String pin;
@@ -30,11 +42,11 @@ public class Team {
         this.pin = pin;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,14 +55,14 @@ public class Team {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
-    public int getNumOfMembers() {
+    public Integer getNumOfMembers() {
         return numOfMembers;
     }
 
-    public void setNumOfMembers(int numOfMembers) {
+    public void setNumOfMembers(Integer numOfMembers) {
         this.numOfMembers = numOfMembers;
     }
 

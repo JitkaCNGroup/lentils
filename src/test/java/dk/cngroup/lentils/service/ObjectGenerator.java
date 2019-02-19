@@ -45,7 +45,7 @@ public class ObjectGenerator {
     public List<Team> generateTeamList() {
         List<Team> teams = new LinkedList<>();
         for (int i = 0; i < NUMBER_OF_TEAMS; i++) {
-            teams.add(new Team("kocky" + i, i, "123" + i));
+            teams.add(new Team("kocky" + i, i+1, "123" + i));
         }
         return teams;
     }

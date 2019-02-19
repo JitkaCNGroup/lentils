@@ -3,39 +3,41 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Optionals;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+@Service
 public class TeamService {
 
-    TeamRepository repository;
+    private final TeamRepository teamRepository;
 
     @Autowired
-    public TeamService(TeamRepository repository) {
-        this.repository = repository;
+    public TeamService(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
     }
 
     public Team add(Team team) {
         team.setPin(getUniquePin());
-        return repository.save(team);
+        return teamRepository.save(team);
     }
 
     public Optional<Team> get(long id) {
-        return repository.findById(id);
+        return teamRepository.findById(id);
     }
-    public void delete(Team team) {
-        repository.delete(team);
+
+    public void delete(Long id) {
+        teamRepository.deleteById(id);
     }
 
     public void deleteAll() {
-        repository.deleteAll();
+        teamRepository.deleteAll();
     }
 
     public List<Team> getAll() {
-        return repository.findAll();
+        return teamRepository.findAll();
     }
 
     private String getUniquePin() {
@@ -49,7 +51,7 @@ public class TeamService {
     }
 
     private boolean PINisUnique(String pin) {
-        List<Team> teamList = repository.findAll();
+        List<Team> teamList = teamRepository.findAll();
 
         for (Team team : teamList) {
             if (team.getPin().equals(pin)) {
@@ -67,5 +69,9 @@ public class TeamService {
             pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
         }
         return String.copyValueOf(pin);
+    }
+
+    public void save(Team team) {
+        teamRepository.save(team);
     }
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Team List</title>
+</head>
+<body>
+<h2>Teams List:</h2>
+<table border="1" width="30%" style="font-size: 18px; border: thin solid; border-collapse: collapse">
+    <thead style="font-weight: bold; font-size: 20px">
+    <td>Id</td>
+    <td>Name</td>
+    <td>N# of members</td>
+    <td>PIN</td>
+    <td align="center">Actions</td>
+    </thead>
+    <th:block th:each="team : ${teams}">
+        <tr>
+            <td th:text="${team.id}">12</td>
+            <td th:text="${team.name}">Bamboo</td>
+            <td th:text="${team.numOfMembers}" align="center">8</td>
+            <td th:text="${team.pin}">abcd</td>
+            <td align="center">
+                <a href="#" th:href="@{'/team/update/'+${team.id}}">Update</a> |
+                <a href="#" th:href="@{'/team/delete/'+${team.id}}">Remove</a>
+            </td>
+        </tr>
+    </th:block>
+</table>
+<p></p>
+<hr>
+<h2>Team Form:</h2>
+<form action="#" th:action="${action}" th:object="${team}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{pin}"/>
+    <table width="25%" style="font-size: 18px">
+        <tr>
+            <td>Name:(*)</td>
+            <td><input type="text" th:field="*{name}"/></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                style="color: orangered; font-size: 14px">Name Error
+            </td>
+        </tr>
+        <tr>
+            <td>N# of members:(*)</td>
+            <td><input type="number" th:field="*{numOfMembers}"/></td>
+            <td th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}"
+                style="color: orangered; font-size: 14px">N# of members Error
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" th:value="${action=='/team/add'?'Create':'Update'}"/><input type="reset" value="Reset"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
