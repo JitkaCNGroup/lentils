@@ -74,6 +74,7 @@ public class TeamRepositoryTest {
         repository.deleteById(team.getId());
 
         assertEquals(0, repository.count());
+        assertFalse( repository.findById(team.getId()).isPresent());
     }
 
     private Team getAnySaved() {
