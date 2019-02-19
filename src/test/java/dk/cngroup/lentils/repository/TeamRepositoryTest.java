@@ -51,7 +51,7 @@ public class TeamRepositoryTest {
 
     @Test
     public void findAllTest() {
-        getSaved();
+        getAllSavedTeams();
 
         List<Team> teamsFound = repository.findAll();
 
@@ -60,9 +60,18 @@ public class TeamRepositoryTest {
 
     @Test
     public void deleteAllTest() {
-        getSaved();
+        getAllSavedTeams();
 
         repository.deleteAll();
+
+        assertEquals(0, repository.count());
+    }
+
+    @Test
+    public void deleteOneTest() {
+        Team team = repository.save(generator.generateTeam());
+
+        repository.deleteById(team.getId());
 
         assertEquals(0, repository.count());
     }
@@ -71,7 +80,7 @@ public class TeamRepositoryTest {
         return repository.save(generator.generateTeam());
     }
 
-    private List<Team> getSaved() {
+    private List<Team> getAllSavedTeams() {
         return repository.saveAll(generator.generateTeamList());
     }
 

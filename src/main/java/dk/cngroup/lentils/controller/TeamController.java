@@ -3,6 +3,7 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.TeamService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,84 +12,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 @Controller
-@RequestMapping("/team")
-public class TeamController
-{
-	private final TeamService teamService;
-	private final String VIEW_PATH = "team/";
+@RequestMapping("/team")//http://localhost:8080/team/add
+public class TeamController {
+    private final TeamService teamService;
 
-	public TeamController(TeamService teamService)
-	{
-		this.teamService = teamService;
-	}
+    private final String VIEW_PATH = "team/";
 
-	@GetMapping("/add")
-	public ModelAndView addTeam()
-	{
-		List<Team> teams = teamService.getAll();
-		ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list", "teams", teams);
-		modelAndView.addObject("team", new Team());
-		modelAndView.addObject("action", "/team/add");
-		return modelAndView;
-	}
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
-	@PostMapping("/add")
-	public ModelAndView addTeam(@Valid Team team,
-								BindingResult bindingResult)
-	{
-		if (bindingResult.hasErrors())
-		{
-			ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list");
-			modelAndView.addObject("teams", teamService.getAll());
-			modelAndView.addObject("action", "/team/add");
-			return modelAndView;
-		} else
-		{
-			// add new
-			teamService.add(team);
-			return new ModelAndView("redirect:/team/add");
-		}
-	}
+    @RequestMapping(value = "/add", method = GET)
+    public String addTeam(Model model) {
+        model.addAttribute("teams", teamService.getAll());
+        model.addAttribute("team", new Team());
+        model.addAttribute("action", "/team/add");
+        return VIEW_PATH + "list";
+    }
 
-	@GetMapping("/update/{id}")
-	public ModelAndView update(@PathVariable("id") Long id)
-	{
-		ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list");
-		Optional<Team> team = teamService.get(id);
-		modelAndView.addObject("teams", teamService.getAll());
-		modelAndView.addObject("team", team.get());
-		modelAndView.addObject("action", "/team/update/" + id);
-		return modelAndView;
-	}
+    @RequestMapping(value = "/add", method = POST)
+    public String addTeam(@Valid Team team, Model model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("teams", teamService.getAll());
+            model.addAttribute("team", new Team());
+            model.addAttribute("action", "/team/add");
+            return VIEW_PATH + "list";
+        } else {
+            teamService.add(team);
+            return "redirect:/team/add";
+        }
+    }
 
-	@PostMapping("/update/{id}")
-	public ModelAndView update(@PathVariable("id") Long id, @Valid Team team,
-							   BindingResult bindingResult)
-	{
-		if (bindingResult.hasErrors())
-		{
-			ModelAndView modelAndView = new ModelAndView(VIEW_PATH + "team_list");
-			modelAndView.addObject("teams", teamService.getAll());
-			team.setId(null);
-			modelAndView.addObject("team", team);
-			modelAndView.addObject("action", "/team/add");
-			return modelAndView;
-		} else
-		{
-			teamService.update(id, team);
-			return new ModelAndView("redirect:/team/add");
-		}
-	}
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("teams", teamService.getAll());
+        model.addAttribute("team", teamService.get(id).get());
+        model.addAttribute("action", "/team/update/" + id);
 
-	@GetMapping("/delete/{id}")
-	public ModelAndView delete(@PathVariable("id") Long id)
-	{
-		Team team = teamService.get(id).get();
-		teamService.delete(team);
-		return new ModelAndView("redirect:/team/add");
-	}
+        return VIEW_PATH + "list";
+    }
+
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, @Valid Team team, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("teams", teamService.getAll());
+            model.addAttribute("team", teamService.get(id).get());
+            model.addAttribute("action", "/team/add");
+            return VIEW_PATH + "list";
+        } else {
+            teamService.save(team);
+            return "redirect:/team/add";
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        teamService.delete(id);
+        return "redirect:/team/add";
+    }
 }

@@ -10,84 +10,68 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class TeamService
-{
+public class TeamService {
 
-	private final TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
 
-	@Autowired
-	public TeamService(TeamRepository teamRepository)
-	{
-		this.teamRepository = teamRepository;
-	}
+    @Autowired
+    public TeamService(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
 
-	public Team add(Team team)
-	{
-		team.setPin(getUniquePin());
-		return teamRepository.save(team);
-	}
+    public Team add(Team team) {
+        team.setPin(getUniquePin());
+        return teamRepository.save(team);
+    }
 
-	public Optional<Team> get(long id)
-	{
-		return teamRepository.findById(id);
-	}
+    public Optional<Team> get(long id) {
+        return teamRepository.findById(id);
+    }
 
-	public void delete(Team team)
-	{
-		teamRepository.delete(team);
-	}
+    public void delete(Long id) {
+        teamRepository.deleteById(id);
+    }
 
-	public void deleteAll()
-	{
-		teamRepository.deleteAll();
-	}
+    public void deleteAll() {
+        teamRepository.deleteAll();
+    }
 
-	public List<Team> getAll()
-	{
-		return teamRepository.findAll();
-	}
+    public List<Team> getAll() {
+        return teamRepository.findAll();
+    }
 
-	private String getUniquePin()
-	{
-		int pinLen = 4;
-		String pin = getPIN(pinLen);
+    private String getUniquePin() {
+        int pinLen = 4;
+        String pin = getPIN(pinLen);
 
-		while (!PINisUnique(pin))
-		{
-			pin = getPIN(pinLen);
-		}
-		return pin;
-	}
+        while (!PINisUnique(pin)) {
+            pin = getPIN(pinLen);
+        }
+        return pin;
+    }
 
-	private boolean PINisUnique(String pin)
-	{
-		List<Team> teamList = teamRepository.findAll();
+    private boolean PINisUnique(String pin) {
+        List<Team> teamList = teamRepository.findAll();
 
-		for (Team team : teamList)
-		{
-			if (team.getPin().equals(pin))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
+        for (Team team : teamList) {
+            if (team.getPin().equals(pin)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	private String getPIN(int len)
-	{
-		String numbers = "0123456789";
-		Random rnd = new Random();
-		char[] pin = new char[len];
-		for (int i = 0; i < len; i++)
-		{
-			pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
-		}
-		return String.copyValueOf(pin);
-	}
+    private String getPIN(int len) {
+        String numbers = "0123456789";
+        Random rnd = new Random();
+        char[] pin = new char[len];
+        for (int i = 0; i < len; i++) {
+            pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
+        }
+        return String.copyValueOf(pin);
+    }
 
-	public void update(Long id, Team team)
-	{
-		team.setId(id);
-		teamRepository.save(team);
-	}
+    public void save(Team team) {
+        teamRepository.save(team);
+    }
 }
