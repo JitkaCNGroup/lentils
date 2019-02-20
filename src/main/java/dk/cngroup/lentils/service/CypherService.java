@@ -1,15 +1,19 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.repository.CypherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CypherService {
 
-
     CypherRepository cypherRepository;
+
+    HintService hintService;
 
     @Autowired
     public CypherService(CypherRepository cypherRepository) {
@@ -20,9 +24,10 @@ public class CypherService {
         return cypherRepository.save(cypher);
     }
 
-    public String getHintForStage(Integer stage) {
+    public List<Hint> getHintsForStage(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
-        return cypher.getHint();
+        return hintService.getHintsForCypher(cypher);
+
     }
 
     public Cypher getNext(Integer stage) {
@@ -37,5 +42,13 @@ public class CypherService {
 
     public void deleteAll() {
         cypherRepository.deleteAll();
+    }
+
+    public void saveAll(List<Cypher> cyphers) {
+        cypherRepository.saveAll(cyphers);
+    }
+
+    public List<Cypher> getAll() {
+        return cypherRepository.findAll();
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "progress")
+@Table(name = "status")
 public class Status {
     @EmbeddedId
     StatusKey id;

@@ -2,6 +2,7 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.FinalPlace;
+import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class ObjectGenerator {
     public static final int NUMBER_OF_TEAMS = 10;
 
     public static final int NUMBER_OF_CYPHERS = 5;
+
+    public static final int NUMBER_OF_HINTS_FOR_CYPHER = 3;
 
     public static final int TESTED_STAGE = 3;
 
@@ -45,7 +48,7 @@ public class ObjectGenerator {
     }
 
     public Cypher generateCypher() {
-        return new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD, "dole");
+        return new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
     }
 
     public Team generateTeam() {
@@ -58,6 +61,16 @@ public class ObjectGenerator {
             teams.add(new Team(TEAM_NAME + i, 5, "123" + i));
         });
         return teams;
+    }
+
+    public List<Hint> generateHintList(List<Cypher> cyphers) {
+
+        List<Hint> hints = new LinkedList<>();
+
+        for (Cypher cypher : cyphers) {
+            IntStream.range(0, NUMBER_OF_HINTS_FOR_CYPHER).forEach(i -> hints.add(new Hint("text", 5, cypher)));
+        }
+        return hints;
     }
 
     public FinalPlace generateFinalPlace() {

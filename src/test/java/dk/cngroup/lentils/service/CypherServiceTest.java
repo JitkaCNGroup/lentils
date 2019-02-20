@@ -45,7 +45,7 @@ public class CypherServiceTest {
 
         assertNotNull(cypher);
     }
-
+/*
     @Test
     public void getHintForStage() {
         Cypher cypher = getCypherForStage();
@@ -55,7 +55,7 @@ public class CypherServiceTest {
 
         assertEquals(cypher.getHint(), hint);
     }
-
+*/
     @Test
     public void getNextCypher() {
         Cypher cypher1 = getCypherForStage();
