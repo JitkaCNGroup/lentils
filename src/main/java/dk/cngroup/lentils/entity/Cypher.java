@@ -4,15 +4,19 @@ import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "cypher")
 public class Cypher {
 
+    @OneToMany(mappedBy = "cypher")
+    Set<Progress> progressSet;
+
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -52,7 +56,7 @@ public class Cypher {
         this.location = location;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -92,6 +96,14 @@ public class Cypher {
         this.hint = hint;
     }
 
+    public Set<Progress> getProgressSet() {
+        return progressSet;
+    }
+
+    public void setProgressSet(Set<Progress> progressSet) {
+        this.progressSet = progressSet;
+    }
+
     @Override
     public String toString() {
         return "Cypher{" +
@@ -101,6 +113,7 @@ public class Cypher {
                 ", location=" + location +
                 ", codeword='" + codeword + '\'' +
                 ", hint='" + hint + '\'' +
+                ", progressSet=" + progressSet +
                 '}';
     }
 

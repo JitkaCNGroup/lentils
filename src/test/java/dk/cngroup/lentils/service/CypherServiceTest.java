@@ -11,9 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static dk.cngroup.lentils.service.ObjectGenerator.TESTED_STAGE;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
@@ -21,9 +21,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
 public class CypherServiceTest {
 
-    private static final Integer TESTED_STAGE = 3;
-
-    private static final Integer NUM_OF_ALL_CYPHERS = 5;
+    private static final String CODEWORD = "Codeword";
 
     private static final String CODEWORD_FALSE = "CodewordFalse";
 
@@ -43,14 +41,14 @@ public class CypherServiceTest {
 
     @Test
     public void addNewCypher() {
-        Cypher cypher = service.add(getCypherForStage(TESTED_STAGE));
+        Cypher cypher = service.add(getCypherForStage());
 
         assertNotNull(cypher);
     }
 
     @Test
     public void getHintForStage() {
-        Cypher cypher = getCypherForStage(TESTED_STAGE);
+        Cypher cypher = getCypherForStage();
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
         String hint = service.getHintForStage(TESTED_STAGE);
@@ -60,7 +58,7 @@ public class CypherServiceTest {
 
     @Test
     public void getNextCypher() {
-        Cypher cypher1 = getCypherForStage(TESTED_STAGE);
+        Cypher cypher1 = getCypherForStage();
         Cypher cypher2 = getCypherForStage(TESTED_STAGE + 1);
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher1);
@@ -72,11 +70,11 @@ public class CypherServiceTest {
 
     @Test
     public void checkCodeword() {
-        Cypher cypher = getCypherForStage(TESTED_STAGE);
+        Cypher cypher = getCypherForStage();
 
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
 
-        assertTrue(service.checkCodeword(generator.CODEWORD, TESTED_STAGE));
+        assertTrue(service.checkCodeword(CODEWORD, TESTED_STAGE));
         assertFalse(service.checkCodeword(CODEWORD_FALSE, TESTED_STAGE));
     }
 
@@ -87,4 +85,9 @@ public class CypherServiceTest {
 
         return cypher;
     }
+
+    private Cypher getCypherForStage() {
+        return getCypherForStage(TESTED_STAGE);
+    }
+
 }

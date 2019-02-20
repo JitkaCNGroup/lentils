@@ -10,6 +10,6 @@ public class LentilsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LentilsApplication.class, args);
-        System.out.print("Runs");
+        System.out.print("Runs, see db at localhost:8080/h2-console");
     }
 }
