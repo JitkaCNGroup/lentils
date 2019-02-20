@@ -1,10 +1,6 @@
 package dk.cngroup.lentils.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +11,9 @@ import java.util.Set;
 @Entity
 @Table(name = "team")
 public class Team {
+
+    @OneToMany(mappedBy = "team")
+    Set<Progress> progressSet;
 
     @Id
     @GeneratedValue
@@ -27,20 +26,23 @@ public class Team {
 
     @Column(name = "num_of_members", length = 1)
     @NotNull(message = "must not be empty")
-    @Min(value = 1, message = "You must enter a number greater or equal to 1")
-    @Max(value = 9, message = "You must enter a number less or equal to 9")
+    @Min(value = 1, message = "numOfMembers - You must enter a number greater or equal to 1")
     private Integer numOfMembers;
 
     @Column(name = "pin", nullable = false, unique = true)
     private String pin;
 
-    @OneToMany(mappedBy = "team")
-    Set<Progress> progressSet;
-
     public Team() {
     }
 
     public Team(String name, int numOfMembers, String pin) {
+        this.name = name;
+        this.numOfMembers = numOfMembers;
+        this.pin = pin;
+    }
+
+    public Team(Long id, String name, int numOfMembers, String pin) {
+        this.id = id;
         this.name = name;
         this.numOfMembers = numOfMembers;
         this.pin = pin;

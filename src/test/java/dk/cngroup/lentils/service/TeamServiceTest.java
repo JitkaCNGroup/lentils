@@ -1,6 +1,8 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.junit.Before;
@@ -40,34 +42,16 @@ public class TeamServiceTest {
 
     @Test
     public void addTest() {
-        Team teamOrig = getAnySaved();
+        Team team = generator.generateTeam();
 
-        when(repository.save(teamOrig)).thenReturn(teamOrig);
-        Team team = service.add(teamOrig);
-
-        assertNotNull(team);
-        assertEquals(teamOrig, team);
-    }
-
-    @Test
-    public void getTest() {
-        Team teamOrig = getAnySaved();
-
-        when(repository.findById(anyLong())).thenReturn(java.util.Optional.of(teamOrig));
-        Optional<Team> team = service.get(teamOrig.getId());
+        when(repository.save(team)).thenReturn(team);
+        service.add(team);
 
         assertNotNull(team);
-    }
 
-    @Test
-    public void getAllTest() {
-        List<Team> teams = generator.generateTeamList();
-        when(repository.saveAll(teams)).thenReturn(teams);
+        when(repository.findByName(team.getName())).thenReturn(team);
 
-        when(repository.findAll()).thenReturn(teams);
-        List<Team> teamsFound = service.getAll();
-
-        assertEquals(generator.NUMBER_OF_TEAMS, teamsFound.size());
+        assertEquals(team, repository.findByName(team.getName()));
     }
 
     @Test
@@ -81,10 +65,4 @@ public class TeamServiceTest {
         assertEquals(0, repository.count());
     }
 
-    private Team getAnySaved() {
-        Team teamOrig = generator.generateTeam();
-
-        when(repository.save(teamOrig)).thenReturn(teamOrig);
-        return service.add(teamOrig);
-    }
 }

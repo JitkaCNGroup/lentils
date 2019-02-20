@@ -24,7 +24,7 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    public Optional<Team> get(long id) {
+    public Optional<Team> get(Long id) {
         return teamRepository.findById(id);
     }
 

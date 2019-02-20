@@ -10,6 +10,9 @@ import java.util.Set;
 @Table(name = "cypher")
 public class Cypher {
 
+    @OneToMany(mappedBy = "cypher")
+    Set<Progress> progressSet;
+
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -29,9 +32,6 @@ public class Cypher {
 
     @Column(name = "hint")
     private String hint;
-
-    @OneToMany(mappedBy = "cypher")
-    Set<Progress> progressSet;
 
     public Cypher() {
     }
