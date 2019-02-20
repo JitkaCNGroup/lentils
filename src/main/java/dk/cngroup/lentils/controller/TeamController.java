@@ -6,11 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -19,8 +17,8 @@ import java.util.List;
 public class TeamController {
     private final TeamService teamService;
 
-    private final String VIEW_PATH = "team/list";
-    private final String REDIRECT = "redirect:/team/add";
+    private final String VIEW_PATH = "team/main";
+    private final String REDIRECT_TO_ADD_VIEW = "redirect:/team/add";
     private final String ACTION_TEAM_ADD = "/team/add";
     private final String ACTION_TEAM_UPDATE = "/team/update/";
 
@@ -41,7 +39,7 @@ public class TeamController {
             return VIEW_PATH ;
         }
         teamService.add(team);
-        return REDIRECT;
+        return REDIRECT_TO_ADD_VIEW;
     }
 
     @ExceptionHandler(InputMismatchException.class)
@@ -64,13 +62,13 @@ public class TeamController {
             return VIEW_PATH ;
         }
         teamService.save(team);
-        return REDIRECT;
+        return REDIRECT_TO_ADD_VIEW;
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         teamService.delete(id);
-        return REDIRECT;
+        return REDIRECT_TO_ADD_VIEW;
     }
 
     private void fillModelAttributes(Model model, List<Team> teams, Team team, String action) {
