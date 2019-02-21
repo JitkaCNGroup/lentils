@@ -3,8 +3,8 @@ package dk.cngroup.lentils.repository;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.Progress;
-import dk.cngroup.lentils.entity.ProgressKey;
+import dk.cngroup.lentils.entity.Status;
+import dk.cngroup.lentils.entity.StatusKey;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.CypherStatus;
 import dk.cngroup.lentils.service.ObjectGenerator;
@@ -20,15 +20,15 @@ import java.util.List;
 
 import static dk.cngroup.lentils.service.CypherStatus.SOLVED;
 import static dk.cngroup.lentils.service.ObjectGenerator.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
-public class ProgressRepositoryTest {
+public class StatusRepositoryTest {
 
     @Autowired
-    ProgressRepository repository;
+    StatusRepository repository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -41,9 +41,9 @@ public class ProgressRepositoryTest {
 
     @Test
     public void findAllZeroTest() {
-        List<Progress> progressList = repository.findAll();
+        List<Status> statusList = repository.findAll();
 
-        assertEquals(0, progressList.size());
+        assertEquals(0, statusList.size());
     }
 
     @Test
@@ -54,19 +54,19 @@ public class ProgressRepositoryTest {
         Cypher cypher = generator.generateCypher();
         cypherRepository.save(cypher);
 
-        ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
-        Progress progress = new Progress(progressKey, team, cypher);
+        StatusKey statusKey = new StatusKey(cypher.getId(), team.getId());
+        Status status = new Status(statusKey, team, cypher);
 
-        Progress progress1 = repository.save(progress);
+        Status status1 = repository.save(status);
 
-        assertEquals(progress, progress1);
+        assertEquals(status, status1);
     }
 
     /*
      *  progress of one team on all stages
      * */
     @Test
-    public void getTeamsProgressTest() {
+    public void getTeamsStatusTest() {
         Team team = generator.generateTeam();
         teamRepository.save(team);
 
@@ -74,8 +74,8 @@ public class ProgressRepositoryTest {
         cypherRepository.saveAll(cyphers);
 
         for (Cypher cypher : cyphers) {
-            ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
-            repository.save(new Progress(progressKey, team, cypher));
+            StatusKey statusKey = new StatusKey(cypher.getId(), team.getId());
+            repository.save(new Status(statusKey, team, cypher));
         }
 
         assertEquals(ObjectGenerator.NUMBER_OF_CYPHERS, repository.count());
@@ -94,8 +94,8 @@ public class ProgressRepositoryTest {
         cypherRepository.save(cypher);
 
         for (Team team : teams) {
-            ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
-            repository.save(new Progress(progressKey, team, cypher));
+            StatusKey statusKey = new StatusKey(cypher.getId(), team.getId());
+            repository.save(new Status(statusKey, team, cypher));
         }
 
         assertEquals(ObjectGenerator.NUMBER_OF_TEAMS, repository.count());
@@ -105,9 +105,9 @@ public class ProgressRepositoryTest {
     public void findAllTest() {
         fillTable();
 
-        List<Progress> progressList = repository.findAll();
+        List<Status> statusList = repository.findAll();
 
-        assertEquals(ObjectGenerator.NUMBER_OF_TEAMS * ObjectGenerator.NUMBER_OF_CYPHERS, progressList.size());
+        assertEquals(ObjectGenerator.NUMBER_OF_TEAMS * ObjectGenerator.NUMBER_OF_CYPHERS, statusList.size());
     }
 
     @Test
@@ -117,12 +117,12 @@ public class ProgressRepositoryTest {
         Cypher cypher = cypherRepository.findByStage(TESTED_STAGE);
         Team team = teamRepository.findByName(TEAM_NAME + TESTED_TEAM);
 
-        Progress progress = repository.findByTeamAndCypher(team, cypher);
+        Status status = repository.findByTeamAndCypher(team, cypher);
 
-        progress.setCypherStatus(SOLVED);
-        Progress progress1 = repository.save(progress);
+        status.setCypherStatus(SOLVED);
+        Status status1 = repository.save(status);
 
-        assertEquals(SOLVED, progress1.getCypherStatus());
+        assertEquals(SOLVED, status1.getCypherStatus());
     }
 
     private void fillTable() {
@@ -132,13 +132,13 @@ public class ProgressRepositoryTest {
         List<Cypher> cyphers = generator.generateCypherList(ObjectGenerator.NUMBER_OF_CYPHERS);
         cypherRepository.saveAll(cyphers);
 
-        List<Progress> progressList = new LinkedList<>();
+        List<Status> statusList = new LinkedList<>();
         for (Team team : teams) {
             for (Cypher cypher : cyphers) {
-                ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
-                progressList.add(new Progress(progressKey, team, cypher, CypherStatus.SOLVED));
+                StatusKey statusKey = new StatusKey(cypher.getId(), team.getId());
+                statusList.add(new Status(statusKey, team, cypher, CypherStatus.SOLVED));
             }
         }
-        repository.saveAll(progressList);
+        repository.saveAll(statusList);
     }
 }

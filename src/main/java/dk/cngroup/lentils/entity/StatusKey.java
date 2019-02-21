@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ProgressKey implements Serializable {
+public class StatusKey implements Serializable {
 
     @Column(name = "cypher_id")
     long cypherId;
@@ -14,10 +14,10 @@ public class ProgressKey implements Serializable {
     @Column(name = "team_id")
     long teamId;
 
-    public ProgressKey() {
+    public StatusKey() {
     }
 
-    public ProgressKey(long cypherId, long teamId) {
+    public StatusKey(long cypherId, long teamId) {
         this.cypherId = cypherId;
         this.teamId = teamId;
     }
@@ -42,7 +42,7 @@ public class ProgressKey implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProgressKey that = (ProgressKey) o;
+        StatusKey that = (StatusKey) o;
         return cypherId == that.cypherId &&
                 teamId == that.teamId;
     }

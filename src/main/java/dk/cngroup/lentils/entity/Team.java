@@ -1,7 +1,6 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,12 +12,12 @@ import java.util.Set;
 public class Team {
 
     @OneToMany(mappedBy = "team")
-    Set<Progress> progressSet;
+    Set<Status> statusSet;
 
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "name", nullable = false, length = 50)
     @NotEmpty
@@ -41,18 +40,18 @@ public class Team {
         this.pin = pin;
     }
 
-    public Team(Long id, String name, int numOfMembers, String pin) {
+    public Team(long id, String name, int numOfMembers, String pin) {
         this.id = id;
         this.name = name;
         this.numOfMembers = numOfMembers;
         this.pin = pin;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
