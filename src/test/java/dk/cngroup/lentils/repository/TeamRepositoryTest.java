@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,38 +22,40 @@ import static org.junit.Assert.*;
 public class TeamRepositoryTest {
 
     @Autowired
-    private TeamRepository repository;
+    private TeamRepository teamRepository;
 
     @Autowired
     private ObjectGenerator generator;
 
     @Test
     public void countEmptyDatabaseTest() {
-        assertEquals(0, repository.count());
+        assertEquals(0, teamRepository.count());
     }
 
     @Test
     public void addTest() {
         getAnySaved();
 
-        assertEquals(1, repository.count());
+        assertEquals(1, teamRepository.count());
     }
 
     @Test
     public void findByIdTest() {
-        Team teamPlaceOrig = getAnySaved();
+        List<Team> teams = getAllSavedTeams();
+        String teamName = generator.TEAM_NAME + generator.TESTED_TEAM;
+        Team team = teamRepository.findByName(teamName);
 
-        Optional<Team> teamPlace = repository.findById(teamPlaceOrig.getId());
+        Optional<Team> teamById = teamRepository.findById(team.getId());
 
-        assertNotNull(teamPlace);
-        assertEquals(teamPlace.get(), teamPlaceOrig);
+        assertNotNull(teamById.isPresent());
+        assertEquals(team, teamById.get());
     }
 
     @Test
     public void findAllTest() {
         getAllSavedTeams();
 
-        List<Team> teamsFound = repository.findAll();
+        List<Team> teamsFound = teamRepository.findAll();
 
         assertEquals(generator.NUMBER_OF_TEAMS, teamsFound.size());
     }
@@ -63,27 +64,27 @@ public class TeamRepositoryTest {
     public void deleteAllTest() {
         getAllSavedTeams();
 
-        repository.deleteAll();
+        teamRepository.deleteAll();
 
-        assertEquals(0, repository.count());
+        assertEquals(0, teamRepository.count());
     }
 
     @Test
     public void deleteOneTest() {
-        Team team = repository.save(generator.generateTeam());
+        Team team = teamRepository.save(generator.generateTeam());
 
-        repository.deleteById(team.getId());
+        teamRepository.deleteById(team.getId());
 
-        assertEquals(0, repository.count());
-        assertFalse( repository.findById(team.getId()).isPresent());
+        assertEquals(0, teamRepository.count());
+        assertFalse(teamRepository.findById(team.getId()).isPresent());
     }
 
     private Team getAnySaved() {
-        return repository.save(generator.generateTeam());
+        return teamRepository.save(generator.generateTeam());
     }
 
     private List<Team> getAllSavedTeams() {
-        return repository.saveAll(generator.generateTeamList());
+        return teamRepository.saveAll(generator.generateTeamList());
     }
 
 }

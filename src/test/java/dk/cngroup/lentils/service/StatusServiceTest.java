@@ -2,11 +2,11 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.Progress;
-import dk.cngroup.lentils.entity.ProgressKey;
+import dk.cngroup.lentils.entity.Status;
+import dk.cngroup.lentils.entity.StatusKey;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.CypherRepository;
-import dk.cngroup.lentils.repository.ProgressRepository;
+import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import static dk.cngroup.lentils.service.ObjectGenerator.*;
 import static org.junit.Assert.assertEquals;
@@ -26,10 +27,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
-public class ProgressServiceTest {
+public class StatusServiceTest {
 
     @InjectMocks
-    ProgressService service;
+    StatusService service;
 
     @Mock
     CypherRepository cypherRepository;
@@ -38,7 +39,7 @@ public class ProgressServiceTest {
     TeamRepository teamRepository;
 
     @Mock
-    ProgressRepository progressRepository;
+    StatusRepository statusRepository;
 
     @Autowired
     private ObjectGenerator generator;
@@ -50,80 +51,80 @@ public class ProgressServiceTest {
 
     @Test
     public void markCypherSolvedTest() {
-        List<Progress> progressList = fillTeamCypherAndProgressTables();
-        Progress progress = getTestedProgressFromList(TEAM_NAME + TESTED_TEAM, TESTED_STAGE, progressList);
+        List<Status> statusList = fillTeamCypherAndStatusTables();
+        Status status = getTestedProgressFromList(TEAM_NAME + TESTED_TEAM, TESTED_STAGE, statusList);
 
-        when(progressRepository.findByTeamIdAndCypherId(progress.getTeam().getId(), progress.getCypher().getId()))
-                .thenReturn(progress);
-        when(progressRepository.save(progress)).thenReturn(progress);
-        service.markCypherSolvedForTeam(progress.getTeam().getId(), progress.getCypher().getId());
+        when(statusRepository.findByTeamIdAndCypherId(status.getTeam().getId(), status.getCypher().getId()))
+                .thenReturn(status);
+        when(statusRepository.save(status)).thenReturn(status);
+        service.markCypherSolvedForTeam(status.getTeam().getId(), status.getCypher().getId());
 
-        assertEquals(CypherStatus.SOLVED, progress.getCypherStatus());
+        assertEquals(CypherStatus.SOLVED, status.getCypherStatus());
     }
 
     @Test
     public void markCypherSkippedTest() {
-        List<Progress> progressList = fillTeamCypherAndProgressTables();
-        Progress progress = getTestedProgressFromList(TEAM_NAME + TESTED_TEAM, TESTED_STAGE, progressList);
+        List<Status> statusList = fillTeamCypherAndStatusTables();
+        Status status = getTestedProgressFromList(TEAM_NAME + TESTED_TEAM, TESTED_STAGE, statusList);
 
-        when(progressRepository.findByTeamIdAndCypherId(progress.getTeam().getId(), progress.getCypher().getId()))
-                .thenReturn(progress);
-        when(progressRepository.save(progress)).thenReturn(progress);
-        service.markCypherSkippedForTeam(progress.getTeam().getId(), progress.getCypher().getId());
+        when(statusRepository.findByTeamIdAndCypherId(status.getTeam().getId(), status.getCypher().getId()))
+                .thenReturn(status);
+        when(statusRepository.save(status)).thenReturn(status);
+        service.markCypherSkippedForTeam(status.getTeam().getId(), status.getCypher().getId());
 
-        assertEquals(CypherStatus.SKIPPED, progress.getCypherStatus());
+        assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
     }
 
     @Test
-    public void getProgressOfAllTeamsTest() {
+    public void getStatusOfAllTeamsTest() {
 
-        List<Progress> progressList = fillTeamCypherAndProgressTables();
-        when(progressRepository.findAll()).thenReturn(progressList);
+        List<Status> statusList = fillTeamCypherAndStatusTables();
+        when(statusRepository.findAll()).thenReturn(statusList);
 
         assertEquals(NUMBER_OF_CYPHERS * NUMBER_OF_TEAMS, service.viewTeamsProgress().size());
     }
 
     @Test
     public void getScoreTest() {
-        List<Progress> progressList = fillTeamCypherAndProgressTables();
+        List<Status> statusList = fillTeamCypherAndStatusTables();
         Team team = generator.generateTeam();
 
-        List<Progress> progressTeamList = new LinkedList<>();
-        for (Progress progress : progressList) {
-            if (progress.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)) {
-                progressTeamList.add(progress);
+        List<Status> statusTeamList = new LinkedList<>();
+        for (Status status : statusList) {
+            if (status.getTeam().getName().equals(TEAM_NAME + TESTED_TEAM)) {
+                statusTeamList.add(status);
             }
         }
 
-        when(progressRepository.findByTeam(team)).thenReturn(progressTeamList);
+        when(statusRepository.findByTeam(team)).thenReturn(statusTeamList);
         assertEquals(50, service.getScore(team));
 
     }
 
-    private List<Progress> fillTeamCypherAndProgressTables() {
+    private List<Status> fillTeamCypherAndStatusTables() {
         List<Team> teams = generator.generateTeamList();
         when(teamRepository.saveAll(teams)).thenReturn(teams);
 
         List<Cypher> cyphers = generator.generateCypherList(NUMBER_OF_CYPHERS);
         when(cypherRepository.saveAll(cyphers)).thenReturn(cyphers);
 
-        List<Progress> progressList = new LinkedList<>();
+        List<Status> statusList = new LinkedList<>();
         for (Team team : teams) {
             for (Cypher cypher : cyphers) {
-                ProgressKey progressKey = new ProgressKey(cypher.getId(), team.getId());
-                progressList.add(new Progress(progressKey, team, cypher, CypherStatus.SOLVED));
+                StatusKey statusKey = new StatusKey(cypher.getId(), team.getId());
+                statusList.add(new Status(statusKey, team, cypher, CypherStatus.SOLVED));
             }
         }
 
-        when(progressRepository.saveAll(progressList)).thenReturn(progressList);
-        return progressList;
+        when(statusRepository.saveAll(statusList)).thenReturn(statusList);
+        return statusList;
     }
 
-    private Progress getTestedProgressFromList(String nameOfTestedTeam, int testedStage, List<Progress> progressList) {
-        for (Progress progress : progressList) {
-            if (progress.getCypher().getStage() == testedStage
-                    && progress.getTeam().getName().equals(nameOfTestedTeam)) {
-                return progress;
+    private Status getTestedProgressFromList(String nameOfTestedTeam, int testedStage, List<Status> statusList) {
+        for (Status status : statusList) {
+            if (status.getCypher().getStage() == testedStage
+                    && status.getTeam().getName().equals(nameOfTestedTeam)) {
+                return status;
             }
         }
         return null;

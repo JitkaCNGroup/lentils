@@ -7,9 +7,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "progress")
-public class Progress {
+public class Status {
     @EmbeddedId
-    ProgressKey id;
+    StatusKey id;
 
     @ManyToOne
     @MapsId("team_id")
@@ -23,17 +23,17 @@ public class Progress {
 
     private CypherStatus cypherStatus;
 
-    public Progress() {
+    public Status() {
     }
 
-    public Progress(ProgressKey id, Team team, Cypher cypher) {
+    public Status(StatusKey id, Team team, Cypher cypher) {
         this.id = id;
         this.team = team;
         this.cypher = cypher;
         this.cypherStatus = CypherStatus.SOLVED;
     }
 
-    public Progress(ProgressKey id, Team team, Cypher cypher, CypherStatus cypherStatus) {
+    public Status(StatusKey id, Team team, Cypher cypher, CypherStatus cypherStatus) {
         this.id = id;
         this.team = team;
         this.cypher = cypher;
@@ -48,11 +48,11 @@ public class Progress {
         this.cypherStatus = cypherStatus;
     }
 
-    public ProgressKey getId() {
+    public StatusKey getId() {
         return id;
     }
 
-    public void setId(ProgressKey id) {
+    public void setId(StatusKey id) {
         this.id = id;
     }
 
@@ -76,11 +76,11 @@ public class Progress {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Progress progress = (Progress) o;
-        return id.equals(progress.id) &&
-                team.equals(progress.team) &&
-                cypher.equals(progress.cypher) &&
-                cypherStatus == progress.cypherStatus;
+        Status status = (Status) o;
+        return id.equals(status.id) &&
+                team.equals(status.team) &&
+                cypher.equals(status.cypher) &&
+                cypherStatus == status.cypherStatus;
     }
 
     @Override

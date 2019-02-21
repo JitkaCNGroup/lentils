@@ -2,51 +2,46 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.repository.ProgressRepository;
+import dk.cngroup.lentils.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProgressService {
+public class StatusService {
 
-    private ProgressRepository progressRepository;
+    private StatusRepository statusRepository;
 
     @Autowired
-    public ProgressService(ProgressRepository progressRepository) {
-        this.progressRepository = progressRepository;
+    public StatusService(StatusRepository statusRepository) {
+        this.statusRepository = statusRepository;
     }
 
     public void markCypherSolvedForTeam(Long cypherId, Long teamId) {
-        Status status = progressRepository.findByTeamIdAndCypherId(teamId, cypherId);
-                saveNewStatus(status, CypherStatus.SOLVED);
-     }
+        Status status = statusRepository.findByTeamIdAndCypherId(teamId, cypherId);
+        saveNewStatus(status, CypherStatus.SOLVED);
+    }
 
     public void markCypherSkippedForTeam(Long cypherId, Long teamId) {
-        Status status = progressRepository.findByTeamIdAndCypherId(teamId, cypherId);
+        Status status = statusRepository.findByTeamIdAndCypherId(teamId, cypherId);
 
         saveNewStatus(status, CypherStatus.SKIPPED);
     }
 
-
     public List<Status> viewTeamsProgress() {
-        return progressRepository.findAll();
+        return statusRepository.findAll();
     }
 
     public int getScore(Team team) {
 
-        List<Status> statusList = progressRepository.findByTeam(team);
-        /**
-         * Pochopila, muZu pouzit - https://blog.frantovo.cz/c/339/Java%208%3A%20Stream%20API
-         * jo, smazu
-         */
-        return statusList.stream().mapToInt(progress -> progress.getCypherStatus().getStatusValue()).sum();
+        List<Status> statusList = statusRepository.findByTeam(team);
 
+        return statusList.stream().mapToInt(progress -> progress.getCypherStatus().getStatusValue()).sum();
     }
 
     private void saveNewStatus(Status status, CypherStatus newStatus) {
         status.setCypherStatus(newStatus);
-        progressRepository.save(status);
+        statusRepository.save(status);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 public class Cypher {
 
     @OneToMany(mappedBy = "cypher")
-    Set<Progress> progressSet;
+    Set<Status> statusSet;
 
     @Id
     @GeneratedValue
@@ -96,12 +96,12 @@ public class Cypher {
         this.hint = hint;
     }
 
-    public Set<Progress> getProgressSet() {
-        return progressSet;
+    public Set<Status> getStatusSet() {
+        return statusSet;
     }
 
-    public void setProgressSet(Set<Progress> progressSet) {
-        this.progressSet = progressSet;
+    public void setStatusSet(Set<Status> statusSet) {
+        this.statusSet = statusSet;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Cypher {
                 ", location=" + location +
                 ", codeword='" + codeword + '\'' +
                 ", hint='" + hint + '\'' +
-                ", progressSet=" + progressSet +
+                ", statusSet=" + statusSet +
                 '}';
     }
 

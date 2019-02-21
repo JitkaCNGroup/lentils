@@ -1,10 +1,9 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.FinalPlace;
-import org.springframework.data.geo.Point;
 import dk.cngroup.lentils.entity.Team;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +11,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 @Service
 public class ObjectGenerator {
@@ -54,9 +54,9 @@ public class ObjectGenerator {
 
     public List<Team> generateTeamList() {
         List<Team> teams = new LinkedList<>();
-        for (int i = 0; i < NUMBER_OF_TEAMS; i++) {
-            teams.add(new Team((long) (10 * i), "TEAM_NAME" + i, i + 1, "123" + i));
-        }
+        IntStream.range(0, NUMBER_OF_TEAMS).forEach(i -> {
+            teams.add(new Team(TEAM_NAME + i, 5, "123" + i));
+        });
         return teams;
     }
 
