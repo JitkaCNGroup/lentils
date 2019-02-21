@@ -1,14 +1,12 @@
 package dk.cngroup.lentils.service;
 
-import dk.cngroup.lentils.entity.Progress;
-import dk.cngroup.lentils.entity.ProgressKey;
+import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.ProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProgressService {
@@ -21,34 +19,34 @@ public class ProgressService {
     }
 
     public void markCypherSolvedForTeam(Long cypherId, Long teamId) {
-        Progress progress = progressRepository.findByTeamIdAndCypherId(teamId, cypherId);
-                saveNewStatus(progress, CypherStatus.SOLVED);
+        Status status = progressRepository.findByTeamIdAndCypherId(teamId, cypherId);
+                saveNewStatus(status, CypherStatus.SOLVED);
      }
 
     public void markCypherSkippedForTeam(Long cypherId, Long teamId) {
-        Progress progress = progressRepository.findByTeamIdAndCypherId(teamId, cypherId);
+        Status status = progressRepository.findByTeamIdAndCypherId(teamId, cypherId);
 
-        saveNewStatus(progress, CypherStatus.SKIPPED);
+        saveNewStatus(status, CypherStatus.SKIPPED);
     }
 
 
-    public List<Progress> viewTeamsProgress() {
+    public List<Status> viewTeamsProgress() {
         return progressRepository.findAll();
     }
 
     public int getScore(Team team) {
 
-        List<Progress> progressList = progressRepository.findByTeam(team);
+        List<Status> statusList = progressRepository.findByTeam(team);
         /**
          * Pochopila, muZu pouzit - https://blog.frantovo.cz/c/339/Java%208%3A%20Stream%20API
          * jo, smazu
          */
-        return progressList.stream().mapToInt(progress -> progress.getCypherStatus().getStatusValue()).sum();
+        return statusList.stream().mapToInt(progress -> progress.getCypherStatus().getStatusValue()).sum();
 
     }
 
-    private void saveNewStatus(Progress progress, CypherStatus newStatus) {
-        progress.setCypherStatus(newStatus);
-        progressRepository.save(progress);
+    private void saveNewStatus(Status status, CypherStatus newStatus) {
+        status.setCypherStatus(newStatus);
+        progressRepository.save(status);
     }
 }
