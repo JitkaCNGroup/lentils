@@ -65,10 +65,6 @@ public class HintServiceTest {
         assertEquals(hint, hintService.add(hint));
     }
 
-    @Test
-    public void deleteHintsForCypher() {
-    }
-
     private Cypher getTestedCypher() {
         for (Cypher cypher : cyphers) {
             if (cypher.getStage() == ObjectGenerator.TESTED_STAGE) {

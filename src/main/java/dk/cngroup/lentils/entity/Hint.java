@@ -2,6 +2,7 @@ package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "hint")
@@ -20,6 +21,9 @@ public class Hint {
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
     private Cypher cypher;
+
+    @OneToMany(mappedBy = "hint")
+    private Set<HintTaken> hintTakens;
 
     public Hint(String text, int value, Cypher cypher) {
         this.text = text;

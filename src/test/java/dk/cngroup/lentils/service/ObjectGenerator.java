@@ -73,6 +73,14 @@ public class ObjectGenerator {
         return hints;
     }
 
+    public List<Hint> generateHintList(Cypher cypher) {
+
+        List<Cypher> cyphers = new LinkedList<>();
+        cyphers.add(cypher);
+
+        return generateHintList(cyphers);
+    }
+
     public FinalPlace generateFinalPlace() {
         return new FinalPlace("konecna stanice - krematorium", new Point(2.123, 3.456),
                 LocalDateTime.now());

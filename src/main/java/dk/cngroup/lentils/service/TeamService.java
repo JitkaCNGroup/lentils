@@ -71,7 +71,7 @@ public class TeamService {
         return String.copyValueOf(pin);
     }
 
-    public void save(Team team) {
-        teamRepository.save(team);
+    public Team save(Team team) {
+        return teamRepository.save(team);
     }
 }
