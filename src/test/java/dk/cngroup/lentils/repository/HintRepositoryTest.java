@@ -20,6 +20,7 @@ import java.util.List;
 
 import static dk.cngroup.lentils.service.ObjectGenerator.CODEWORD;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -55,9 +56,11 @@ public class HintRepositoryTest {
     @Test
     public void addTest() {
         Cypher cypher = new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
-        Hint hint = new Hint("text", 5, cypher);
-        hintRepository.save(hint);
+        Cypher cypher1 = cypherService.save(cypher);
+        Hint hint = new Hint("text", 5, cypher1 );
+        Hint hint1 = hintRepository.save(hint);
 
+        assertNotNull(hint1);
         assertEquals(1, hintRepository.count());
     }
 
@@ -81,7 +84,7 @@ public class HintRepositoryTest {
     @Test
     public void getAllForCypherTest() {
         Cypher cypher = cypherService.getByStage(TESTED_STAGE);
-        cypher.setHintsSet(new HashSet<Hint>(generator.generateHintsForCypher(cyphers)));
+        cypher.setHints(generator.generateHintsForCypher(cyphers));
         cypherService.save(cypher);
         List<Hint> hints = hintRepository.findByCypher(cypher);
 

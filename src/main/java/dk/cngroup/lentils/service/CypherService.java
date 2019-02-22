@@ -17,16 +17,19 @@ public class CypherService {
     private TeamService teamService;
     private StatusService statusService;
     private HintTakenService hintTakenService;
+    private HintService hintService;
 
     @Autowired
     public CypherService(CypherRepository cypherRepository
             , TeamService teamService
             , StatusService statusService
-            , HintTakenService hintTakenService) {
+            , HintTakenService hintTakenService
+    , HintService hintService) {
         this.cypherRepository = cypherRepository;
         this.teamService = teamService;
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
+        this.hintService = hintService;
     }
 
     public Cypher save(Cypher cypher) {
@@ -35,7 +38,7 @@ public class CypherService {
 
     public List<Hint> getHintsForStage(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
-        return new ArrayList<>(cypher.getHintsSet());
+        return cypher.getHints();
     }
 
     public Cypher getNext(Integer stage) {
@@ -77,5 +80,13 @@ public class CypherService {
 
     public Cypher findById(Long cypherId) {
         return cypherRepository.findById(cypherId).get();
+    }
+
+    public void deleteById(Long id) {
+        cypherRepository.deleteById(id);
+    }
+    public void deleteAlHintsByCypher(Long id) {
+        Optional<Cypher> cypher = cypherRepository.findById(id);
+        hintService.deleteAlHintsByCypher(cypher.get());
     }
 }

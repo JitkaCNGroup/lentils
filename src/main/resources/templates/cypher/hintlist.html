@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="cz"
+      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <title>HintList</title>
+</head>
+<body>
+<h2>Šifra ..</h2>
+<table border="1" width="50%">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Jméno</th>
+        <th>Poradi</th>
+        <th>Souradnice</th>
+        <th>Odpověď</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${cypher}">
+    <tr>
+        <td th:text="${cypher.cypherId}">cypherId</td>
+        <td th:text="${cypher.name}">name</td>
+        <td th:text="${cypher.stage}">stage</td>
+        <td th:text="${cypher.location}">X, Y</td>
+        <td th:text="${cypher.codeword}">codeword</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<h2>.. a její hinty</h2>
+<table border="1" width="50%">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Text</th>
+        <th>Hodnota</th>
+        <td align="center">Akce</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hint : ${cypher.hintsSet}">
+        <td th:text="${hint.hintId}">hintId</td>
+        <td th:text="${hint.text}">text</td>
+        <td th:text="${hint.value}">value</td>
+        <td align="center">
+            <a href="#" th:href="@{'/cypher/hint/del/'+${hint.hintId}}">Smazat</a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" align="center">
+            <a href="#" th:href="@{'/cypher/hint/add/'+${cypher.cypherId}}">Přidat</a> |
+            <a href="#" th:href="@{'/cypher/hint/delall/'+${cypher.cypherId}}">Smazat vše</a>
+        </td>
+
+    </tr>
+</table>
+</body>
+</html>
+

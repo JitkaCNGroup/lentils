@@ -17,14 +17,10 @@ import java.util.Optional;
 public class StatusService {
 
     private StatusRepository statusRepository;
-    private CypherService cypherService;
-    private TeamService teamService;
 
     @Autowired
-    public StatusService(StatusRepository statusRepository, CypherService cypherService, TeamService teamService) {
+    public StatusService(StatusRepository statusRepository) {
         this.statusRepository = statusRepository;
-        this.cypherService = cypherService;
-        this.teamService = teamService;
     }
 
     public void markCypherSolvedForTeam(Cypher cypher, Team team) {
@@ -32,21 +28,9 @@ public class StatusService {
         saveNewStatus(status, CypherStatus.SOLVED);
     }
 
-    public void markCypherSolvedForTeam(Long cypherId, Long teamId) {
-        Cypher cypher = cypherService.findById(cypherId);
-        Team team = teamService.findById(teamId);
-        markCypherSolvedForTeam(cypher, team);
-    }
-
     public void markCypherSkippedForTeam(Cypher cypher, Team team) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
         saveNewStatus(status, CypherStatus.SKIPPED);
-    }
-
-    public void markCypherSkippedForTeam(Long cypherId, Long teamId) {
-        Cypher cypher = cypherService.findById(cypherId);
-        Team team = teamService.findById(teamId);
-        markCypherSkippedForTeam(cypher, team);
     }
 
     public List<Status> getAll() {

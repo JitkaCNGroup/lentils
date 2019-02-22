@@ -47,7 +47,7 @@ public class CypherRepositoryTest {
     public void addNewCypherTest() {
         Cypher cypher = new Cypher(TESTED_STAGE);
         List<Hint> hints = generator.generateHintsForCypher(cypher);
-        cypher.setHintsSet(new HashSet<>(hints));
+        cypher.setHints(hints);
 
         Cypher cypherNew = cypherRepository.save(cypher);
 

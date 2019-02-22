@@ -1,115 +1,50 @@
 <!DOCTYPE html>
 <html lang="cz"
-      xmlns:th="http://www.springframework.org/schema/data/jaxb">>
+      xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
     <title>Cyphers</title>
 </head>
+
 <body>
 <h2>Šifry</h2>
-<div th:unless="${#lists.isEmpty(cyphers)}">
-    <dl th:each="cypher : ${cyphers}">
-        <dt class="bookHeadline">
-            <table>
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Jméno</th>
-                    <th>Místo</th>
-                    <th>Souřadnice</th>
-                    <th>Nápověda</th>
-                    <th>Odpověď</th>
-                </thead>
-                <tbody>
-<tr>
-
-                <th th:text="${cypher.id}">Id</th>
-                <th th:text="${cypher.name}">Jméno</th>
-                <th th:text="${cypher.stage}">Místo</th>
-                )
-                <th th:text="${cypher.location}">Souřadnice</th>
-                <th th:text="${cypher.hint}">Nápověda</th>
-                <th th:text="${cypher.codeword}">Odpověď</th>
-                </tr>
-
-                <tr th:each="cypher : ${cyphers}"></tr>
-
-        </dt>
-        <dd class="bookDescription">
-            <span th:if="${book.description}" th:text="${book.description}">Description</span>
-            <span th:if="${book.description eq null}">No Description available</span>
-        </dd>
-    </dl>
-    </table>
-</div>
-<h3>Šifra - detail</h3>
-<form method="POST">
+<table border="1" width="50%">
+    <thead>
     <tr>
-        <td>
-            <label for="name">Jméno:</label>
-            <input type="text" name="name" size="50"/></br>
-        </td>
-        <td>
-            <label for="stage">Stage:</label>
-            <input type="text" name="author" size="50"/></br>
-        </td>
-        <td>
-            <label for="isbn">ISBN:</label>
-            <input type="text" name="isbn" size="15"/></br>
-        </td>
-        <td>
-            <label for="description">Description:</label>
-            <textarea name="description" cols="80" rows="5"></textarea></br>
-        </td>
-        <td>
-            <input type="submit"/>
+        <th>Id</th>
+        <th>Jméno</th>
+        <th>Poradi</th>
+        <th>Souradnice</th>
+        <th>Odpověď</th>
+        <td align="center">Akce</td>
+    </tr>
+    <tr th:if="${cyphers.empty}">
+        <td colspan="6"><h3> V systému nejsou šifry</h3></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cypher : ${cyphers}">
+        <td th:text="${cypher.cypherId}">cypherId</td>
+        <td th:text="${cypher.name}">Jmeno</td>
+        <td th:text="${cypher.stage}">Cislo</td>
+        <td th:text="${cypher.location}">X, Y</td>
+        <td th:text="${cypher.codeword}">codove slovo</td>
+        <td align="center">
+            <a href="#" th:href="@{'/cypher/hint/list/'+${cypher.cypherId}}">Hinty</a> |
+            <a href="#" th:href="@{'/cypher/update/'+${cypher.cypherId}}">Upravit</a> |
+            <a href="#" th:href="@{'/cypher/del/'+${cypher.cypherId}}">Smazat</a>
         </td>
     </tr>
-</form>
+
+    <tr>
+        <td colspan="6" align="center">
+            <a href="#" th:href="@{'/cypher/new/'}">Přidat</a> |
+            <a href="#" th:href="@{'/cypher/del/'}">Smazat vše</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
 
-
-<html
-        lang="en"
-        xmlns:th="http://www.springframework.org/schema/data/jaxb">
-<link>
-<meta charset="UTF-8">
-<title>Reading List</title>
-<link rel="stylesheet" th:href="@{/style.css}"></link>
-</head>
-
-<body>
-<h2>Your Reading List</h2>
-<div th:unless="${#lists.isEmpty(books)}">
-    <dl th:each="book : ${books}">
-        <dt class="bookHeadline">
-            <span th:text="${book.title}">Title</span> by
-            <span th:text="${book.author}">Author</span>
-            (ISBN: <span th:text="${book.isbn}">ISBN</span>)
-        </dt>
-        <dd class="bookDescription">
-            <span th:if="${book.description}" th:text="${book.description}">Description</span>
-            <span th:if="${book.description eq null}">No Description available</span>
-        </dd>
-    </dl>
-</div>
-<div th:if="${#lists.isEmpty(books)}">
-    <p>You have no books in your book list</p>
-</div>
-<hr/>
-
-<h3>Add a book</h3>
-<form method="POST">
-    <label for="title">Title:</label>
-    <input type="text" name="title" size="50"/></br>
-    <label for="author">Author:</label>
-    <input type="text" name="author" size="50"/></br>
-    <label for="isbn">ISBN:</label>
-    <input type="text" name="isbn" size="15"/></br>
-    <label for="description">Description:</label>
-    <textarea name="description" cols="80" rows="5"></textarea></br>
-    <input type="submit"/>
-</form>
-</body>
-</html>

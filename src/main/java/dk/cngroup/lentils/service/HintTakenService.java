@@ -28,7 +28,7 @@ public class HintTakenService {
     public int getHintScore(Team team, Cypher cypher) {
 
         int hintScore = 0;
-        List<Hint> hints = new ArrayList<>(cypher.getHintsSet());
+        List<Hint> hints = cypher.getHints();
         for (Hint hint: hints) {
             HintTaken hintTaken = hintTakenRepository.findByTeamAndHint(team, hint);
             if (hintTaken != null ){

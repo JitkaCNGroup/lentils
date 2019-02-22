@@ -55,10 +55,10 @@ public class TeamController {
         return VIEW_PATH;
     }
 
-    @PostMapping("/update/{id}")
-    public String update(@PathVariable("id") Long id, @Valid Team team, BindingResult bindingResult, Model model) {
+    @PostMapping("/update/")
+    public String update(@Valid Team team, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), teamService.get(id).get(), ACTION_TEAM_SAVE);
+            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH ;
         }
         teamService.save(team);

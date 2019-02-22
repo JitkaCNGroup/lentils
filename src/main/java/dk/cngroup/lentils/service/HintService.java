@@ -33,4 +33,12 @@ public class HintService {
     public List<Hint> getAll() {
         return hintRepository.findAll();
     }
+
+    public void deleteById(Long id) {
+        hintRepository.deleteById(id);
+    }
+
+    public void deleteAlHintsByCypher(Cypher cypher) {
+        hintRepository.deleteByCypher(cypher);
+    }
 }
