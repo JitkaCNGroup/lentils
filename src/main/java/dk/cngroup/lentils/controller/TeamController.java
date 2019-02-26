@@ -18,8 +18,8 @@ public class TeamController {
     private final TeamService teamService;
 
     private final String VIEW_PATH = "team/main";
-    private final String REDIRECT_TO_ADD_VIEW = "redirect:/team/add";
-    private final String ACTION_TEAM_ADD = "/team/add";
+    private final String REDIRECT_TO_ADD_VIEW = "redirect:/team/save";
+    private final String ACTION_TEAM_ADD = "/team/save";
     private final String ACTION_TEAM_UPDATE = "/team/update/";
 
     public TeamController(TeamService teamService) {
@@ -38,7 +38,7 @@ public class TeamController {
             fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_ADD);
             return VIEW_PATH ;
         }
-        teamService.add(team);
+        teamService.save(team);
         return REDIRECT_TO_ADD_VIEW;
     }
 

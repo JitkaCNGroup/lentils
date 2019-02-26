@@ -1,17 +1,12 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "hint")
-public class Hint {
-    @Column(name = "text")
-    private String text;
-
-    @Column(name = "value")
-    private int value;
+public class Hint implements Serializable {
 
     @Id
     @GeneratedValue
@@ -19,15 +14,28 @@ public class Hint {
     private Long hintId;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private Cypher cypher;
+    @JoinColumn(name = "cypher_id")
+    Cypher cypher;
 
-    @OneToMany(mappedBy = "hint")
-    private Set<HintTaken> hintTakens;
+    @Column(name = "text")
+    private String text;
+
+    @Column(name = "value")
+    private int value;
+
+    public Hint() {
+    }
 
     public Hint(String text, int value, Cypher cypher) {
         this.text = text;
         this.value = value;
+    }
+
+    public Cypher getCypher() {
+        return cypher;
+    }
+
+    public void setCypher(Cypher cypher) {
         this.cypher = cypher;
     }
 
@@ -37,14 +45,6 @@ public class Hint {
 
     public void setHintId(Long hintId) {
         this.hintId = hintId;
-    }
-
-    public Cypher getCypher() {
-        return cypher;
-    }
-
-    public void setCypher(Cypher cypher) {
-        this.cypher = cypher;
     }
 
     public String getText() {
@@ -63,8 +63,14 @@ public class Hint {
         this.value = value;
     }
 
-    public void setId(long id) {
-        this.hintId = id;
+    @Override
+    public String toString() {
+        return "Hint{" +
+                "hintId=" + hintId +
+                ", cypher=" + cypher +
+                ", text='" + text + '\'' +
+                ", value=" + value +
+                '}';
     }
 
     @Override
@@ -73,24 +79,13 @@ public class Hint {
         if (o == null || getClass() != o.getClass()) return false;
         Hint hint = (Hint) o;
         return value == hint.value &&
-                Objects.equals(text, hint.text) &&
                 Objects.equals(hintId, hint.hintId) &&
-                Objects.equals(cypher, hint.cypher);
+                Objects.equals(cypher, hint.cypher) &&
+                Objects.equals(text, hint.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, value, hintId, cypher);
+        return Objects.hash(hintId, cypher, text, value);
     }
-
-    @Override
-    public String toString() {
-        return "Hint{" +
-                "text='" + text + '\'' +
-                ", value=" + value +
-                ", hintId=" + hintId +
-                ", cypher=" + cypher +
-                '}';
-    }
-
 }

@@ -13,8 +13,8 @@ public class FinalPlace {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "final_place_id")
+    private Long finalPlaceId;
 
     @Size(min = 5, max = 50)
     @Column(name = "title")
@@ -35,8 +35,12 @@ public class FinalPlace {
         this.openingTime = openingTime;
     }
 
-    public Long getId() {
-        return id;
+    public Long getFinalPlaceId() {
+        return finalPlaceId;
+    }
+
+    public void setFinalPlaceId(Long finalPlaceId) {
+        this.finalPlaceId = finalPlaceId;
     }
 
     public String getTitle() {
@@ -66,7 +70,7 @@ public class FinalPlace {
     @Override
     public String toString() {
         return "FinalPlace{" +
-                "id=" + id +
+                "finalPlaceId=" + finalPlaceId +
                 ", title='" + title + '\'' +
                 ", location=" + location +
                 ", openingTime=" + openingTime +
@@ -78,7 +82,7 @@ public class FinalPlace {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FinalPlace that = (FinalPlace) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(finalPlaceId, that.finalPlaceId) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(location, that.location) &&
                 Objects.equals(openingTime, that.openingTime);
@@ -86,6 +90,6 @@ public class FinalPlace {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, location, openingTime);
+        return Objects.hash(finalPlaceId, title, location, openingTime);
     }
 }

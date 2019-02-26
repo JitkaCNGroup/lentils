@@ -18,7 +18,7 @@ public class FinalPlaceService {
         this.finalPlacerepository = finalPlacerepository;
     }
 
-    public FinalPlace add(FinalPlace finalPlace) {
+    public FinalPlace save(FinalPlace finalPlace) {
         return finalPlacerepository.save(finalPlace);
     }
 

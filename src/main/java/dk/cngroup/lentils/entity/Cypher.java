@@ -3,23 +3,22 @@ package dk.cngroup.lentils.entity;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "cypher")
-public class Cypher {
-
-    @OneToMany(mappedBy = "cypher")
-    private Set<Status> statusSet;
-
-    @OneToMany(mappedBy = "cypher")
-    private Set<Hint> hintSet;
+public class Cypher implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
-    private long id;
+    @Column(name = "cypher_id")
+    private Long cypherId;
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "cypher_id")
+    private Set<Hint> hintsSet;
 
     @Column(name = "name")
     private String name;
@@ -47,9 +46,8 @@ public class Cypher {
         this.codeword = codeword;
     }
 
-    public Cypher(Set<Status> statusSet, Set<Hint> hintSet, String name, int stage, Point location, String codeword) {
-        this.statusSet = statusSet;
-        this.hintSet = hintSet;
+    public Cypher(Set<Hint> hintsSet, String name, int stage, Point location, String codeword) {
+        this.hintsSet = hintsSet;
         this.name = name;
         this.stage = stage;
         this.location = location;
@@ -62,18 +60,6 @@ public class Cypher {
 
     public void setLocation(Point location) {
         this.location = location;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -100,28 +86,27 @@ public class Cypher {
         this.codeword = codeword;
     }
 
-    public Set<Status> getStatusSet() {
-        return statusSet;
+    public Long getCypherId() {
+        return cypherId;
     }
 
-    public void setStatusSet(Set<Status> statusSet) {
-        this.statusSet = statusSet;
+    public void setCypherId(Long cypherId) {
+        this.cypherId = cypherId;
     }
 
-    public Set<Hint> getHintSet() {
-        return hintSet;
+    public Set<Hint> getHintsSet() {
+        return hintsSet;
     }
 
-    public void setHintSet(Set<Hint> hintSet) {
-        this.hintSet = hintSet;
+    public void setHintsSet(Set<Hint> hintsSet) {
+        this.hintsSet = hintsSet;
     }
 
     @Override
     public String toString() {
         return "Cypher{" +
-                "statusSet=" + statusSet +
-                ", hintSet=" + hintSet +
-                ", id=" + id +
+                "cypherId=" + cypherId +
+                ", hintsSet=" + hintsSet +
                 ", name='" + name + '\'' +
                 ", stage=" + stage +
                 ", location=" + location +
@@ -134,10 +119,9 @@ public class Cypher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cypher cypher = (Cypher) o;
-        return id == cypher.id &&
-                stage == cypher.stage &&
-                Objects.equals(statusSet, cypher.statusSet) &&
-                Objects.equals(hintSet, cypher.hintSet) &&
+        return stage == cypher.stage &&
+                Objects.equals(cypherId, cypher.cypherId) &&
+                Objects.equals(hintsSet, cypher.hintsSet) &&
                 Objects.equals(name, cypher.name) &&
                 Objects.equals(location, cypher.location) &&
                 Objects.equals(codeword, cypher.codeword);
@@ -145,7 +129,6 @@ public class Cypher {
 
     @Override
     public int hashCode() {
-        return Objects.hash(statusSet, hintSet, id, name, stage, location, codeword);
+        return Objects.hash(cypherId, hintsSet, name, stage, location, codeword);
     }
-
 }

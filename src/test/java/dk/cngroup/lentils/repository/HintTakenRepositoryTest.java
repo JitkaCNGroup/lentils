@@ -14,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,42 +23,39 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class HintTakenRepositoryTest {
+    private static final int TESTED_TEAM = 5;
+    private static final int TESTED_STAGE = 3;
 
     @Autowired
-    HintTakenRepository hintTakenRepository;
+    private HintTakenRepository hintTakenRepository;
 
     @Autowired
-    HintRepository hintRepository;
+    private TeamService teamService;
 
     @Autowired
-    TeamService teamService;
+    private CypherService cypherService;
 
     @Autowired
-    CypherService cypherService;
+    private HintService hintService;
 
     @Autowired
-    HintService hintService;
-
-    @Autowired
-    ObjectGenerator generator;
-
-    private List<Hint> hints;
-
-    private List<Team> teams;
+    private ObjectGenerator generator;
 
     @Test
-    public void addAllHintTakensForOneCypherOneTeam() {
-        // one team
-        Team team = teamService.save(generator.generateTeam());
-        // one cypher
-        Cypher cypher = cypherService.add(generator.generateCypher());
-        // all hints for one cypher
-        List<Hint> hints = hintService.addAll(generator.generateHintList(cypher));
+    public void saveAllHintsTakenForOneCypherOneTeam() {
+        Team team = teamService.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234"));
+        Cypher cypher = cypherService.save(new Cypher(TESTED_STAGE));
+        List<Hint> hints = hintService.saveAll(generator.generateHintsForCypher(cypher));
+        List<HintTaken> hintsTaken = hints.stream()
+                .map(hint -> createHintTaken(team, hint))
+                .collect(Collectors.toList());
 
-        hints.stream().forEach(hint -> {
-            hintTakenRepository.save(new HintTaken(new HintTakenKey(team.getId(), hint.getHintId())));
-        });
+        hintTakenRepository.saveAll(hintsTaken);
 
         assertEquals(ObjectGenerator.NUMBER_OF_HINTS_FOR_CYPHER, hintTakenRepository.count());
+    }
+
+    private HintTaken createHintTaken(Team team, Hint hint) {
+        return new HintTaken(team, hint);
     }
 }

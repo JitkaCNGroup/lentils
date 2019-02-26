@@ -19,7 +19,7 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
-    public Team add(Team team) {
+    public Team save(Team team) {
         team.setPin(getUniquePin());
         return teamRepository.save(team);
     }
@@ -69,9 +69,5 @@ public class TeamService {
             pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
         }
         return String.copyValueOf(pin);
-    }
-
-    public Team save(Team team) {
-        return teamRepository.save(team);
     }
 }

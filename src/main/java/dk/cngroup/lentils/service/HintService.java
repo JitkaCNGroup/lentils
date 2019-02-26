@@ -18,19 +18,19 @@ public class HintService {
         this.hintRepository = hintRepository;
     }
 
-    public List<Hint> getHintsForCypher(Cypher cypher) {
+    public List<Hint> getAllByCypher(Cypher cypher) {
         return hintRepository.findByCypher(cypher);
     }
 
-    public Hint add(Hint hint) {
+    public Hint save(Hint hint) {
         return hintRepository.save(hint);
     }
 
-    public List<Hint> addAll(List<Hint> hints) {
+    public List<Hint> saveAll(List<Hint> hints) {
         return hintRepository.saveAll(hints);
     }
 
-    public List<Hint> getHints(Cypher cypher) {
+    public List<Hint> getAll() {
         return hintRepository.findAll();
     }
 }

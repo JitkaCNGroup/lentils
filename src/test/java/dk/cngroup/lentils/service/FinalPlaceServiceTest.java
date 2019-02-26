@@ -43,7 +43,7 @@ public class FinalPlaceServiceTest {
         FinalPlace finalPlaceOrig = getAnySaved();
 
         when(repository.save(finalPlaceOrig)).thenReturn(finalPlaceOrig);
-        FinalPlace finalPlace = service.add(finalPlaceOrig);
+        FinalPlace finalPlace = service.save(finalPlaceOrig);
 
         assertNotNull(finalPlace);
         assertEquals(finalPlaceOrig, finalPlace);
@@ -54,7 +54,7 @@ public class FinalPlaceServiceTest {
         FinalPlace finalPlaceOrig = getAnySaved();
 
         when(repository.findById(anyLong())).thenReturn(java.util.Optional.of(finalPlaceOrig));
-        Optional<FinalPlace> finalPlace = service.get(finalPlaceOrig.getId());
+        Optional<FinalPlace> finalPlace = service.get(finalPlaceOrig.getFinalPlaceId());
 
         assertNotNull(finalPlace);
     }
@@ -73,6 +73,6 @@ public class FinalPlaceServiceTest {
         FinalPlace finalPlaceOrig = generator.generateFinalPlace();
 
         when(repository.save(finalPlaceOrig)).thenReturn(finalPlaceOrig);
-        return service.add(finalPlaceOrig);
+        return service.save(finalPlaceOrig);
     }
 }

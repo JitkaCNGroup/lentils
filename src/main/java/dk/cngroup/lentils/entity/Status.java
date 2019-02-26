@@ -6,35 +6,27 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@IdClass(StatusKey.class)
 @Table(name = "status")
 public class Status {
-    @EmbeddedId
-    StatusKey id;
 
+    @Id
     @ManyToOne
-    @MapsId("team_id")
-    @JoinColumn(name = "team_id")
-    Team team;
+    @PrimaryKeyJoinColumn
+    private Team team;
 
+    @Id
     @ManyToOne
-    @MapsId("cypher_id")
-    @JoinColumn(name = "cypher_id")
-    Cypher cypher;
+    @PrimaryKeyJoinColumn
+    private Cypher cypher;
 
+    @Enumerated(EnumType.ORDINAL)
     private CypherStatus cypherStatus;
 
     public Status() {
     }
 
-    public Status(StatusKey id, Team team, Cypher cypher) {
-        this.id = id;
-        this.team = team;
-        this.cypher = cypher;
-        this.cypherStatus = CypherStatus.SOLVED;
-    }
-
-    public Status(StatusKey id, Team team, Cypher cypher, CypherStatus cypherStatus) {
-        this.id = id;
+    public Status(Team team, Cypher cypher, CypherStatus cypherStatus) {
         this.team = team;
         this.cypher = cypher;
         this.cypherStatus = cypherStatus;
@@ -46,14 +38,6 @@ public class Status {
 
     public void setCypherStatus(CypherStatus cypherStatus) {
         this.cypherStatus = cypherStatus;
-    }
-
-    public StatusKey getId() {
-        return id;
-    }
-
-    public void setId(StatusKey id) {
-        this.id = id;
     }
 
     public Team getTeam() {
@@ -73,18 +57,26 @@ public class Status {
     }
 
     @Override
+    public String toString() {
+        return "Status{" +
+                "team=" + team +
+                ", cypher=" + cypher +
+                ", cypherStatus=" + cypherStatus +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Status status = (Status) o;
-        return id.equals(status.id) &&
-                team.equals(status.team) &&
-                cypher.equals(status.cypher) &&
+        return Objects.equals(team, status.team) &&
+                Objects.equals(cypher, status.cypher) &&
                 cypherStatus == status.cypherStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, team, cypher, cypherStatus);
+        return Objects.hash(team, cypher, cypherStatus);
     }
 }
