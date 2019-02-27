@@ -14,8 +14,4 @@ import java.util.List;
 public interface StatusRepository extends JpaRepository<Status, StatusKey> {
     public Status findByTeamAndCypher(Team team, Cypher cypher);
     public List<Status> findByTeam(Team team);
-
-    @Query(value = "SELECT SUM(s.status) FROM Status s WHERE s.team = ?1", nativeQuery = true)
-    int getStatusByTeam(Team team);
-
 }

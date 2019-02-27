@@ -1,7 +1,6 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.CypherRepository;
@@ -11,7 +10,6 @@ import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,16 +17,14 @@ import java.util.Optional;
 public class StatusService {
 
     private StatusRepository statusRepository;
-    private CypherRepository cypherRepository;
-    private TeamRepository teamRepository;
-    private HintTakenRepository hintTakenRepository;
+    private CypherService cypherService;
+    private TeamService teamService;
 
     @Autowired
-    public StatusService(StatusRepository statusRepository, CypherRepository cypherRepository, TeamRepository teamRepository, HintTakenRepository hintTakenRepository) {
+    public StatusService(StatusRepository statusRepository, CypherService cypherService, TeamService teamService) {
         this.statusRepository = statusRepository;
-        this.cypherRepository = cypherRepository;
-        this.teamRepository = teamRepository;
-        this.hintTakenRepository = hintTakenRepository;
+        this.cypherService = cypherService;
+        this.teamService = teamService;
     }
 
     public void markCypherSolvedForTeam(Cypher cypher, Team team) {
@@ -37,9 +33,9 @@ public class StatusService {
     }
 
     public void markCypherSolvedForTeam(Long cypherId, Long teamId) {
-        Optional<Cypher> cypher = cypherRepository.findById(cypherId);
-        Optional<Team> team = teamRepository.findById(teamId);
-        markCypherSolvedForTeam( cypher.get(), team.get());
+        Cypher cypher = cypherService.findById(cypherId);
+        Team team = teamService.findById(teamId);
+        markCypherSolvedForTeam(cypher, team);
     }
 
     public void markCypherSkippedForTeam(Cypher cypher, Team team) {
@@ -48,9 +44,9 @@ public class StatusService {
     }
 
     public void markCypherSkippedForTeam(Long cypherId, Long teamId) {
-        Optional<Cypher> cypher = cypherRepository.findById(cypherId);
-        Optional<Team> team = teamRepository.findById(teamId);
-        markCypherSkippedForTeam(cypher.get(), team.get());
+        Cypher cypher = cypherService.findById(cypherId);
+        Team team = teamService.findById(teamId);
+        markCypherSkippedForTeam(cypher, team);
     }
 
     public List<Status> getAll() {

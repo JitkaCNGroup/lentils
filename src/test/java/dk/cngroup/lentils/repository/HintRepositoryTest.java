@@ -83,7 +83,6 @@ public class HintRepositoryTest {
         Cypher cypher = cypherService.getByStage(TESTED_STAGE);
         cypher.setHintsSet(new HashSet<Hint>(generator.generateHintsForCypher(cyphers)));
         cypherService.save(cypher);
-
         List<Hint> hints = hintRepository.findByCypher(cypher);
 
         assertEquals(ObjectGenerator.NUMBER_OF_HINTS_FOR_CYPHER, hints.size());

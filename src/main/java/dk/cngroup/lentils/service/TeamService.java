@@ -70,4 +70,8 @@ public class TeamService {
         }
         return String.copyValueOf(pin);
     }
+
+    public Team findById(Long teamId) {
+        return teamRepository.findById(teamId).get();
+    }
 }

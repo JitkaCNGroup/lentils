@@ -74,4 +74,8 @@ public class CypherService {
         Optional<Cypher> cypher = cypherRepository.findById(cypherId);
         return getScore(cypher.get(), team.get());
     }
+
+    public Cypher findById(Long cypherId) {
+        return cypherRepository.findById(cypherId).get();
+    }
 }
