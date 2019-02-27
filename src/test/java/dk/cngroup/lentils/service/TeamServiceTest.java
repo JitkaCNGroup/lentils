@@ -1,8 +1,6 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
-import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.junit.Before;
@@ -16,15 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Optional;
 
+import static dk.cngroup.lentils.service.ObjectGenerator.TEAM_NAME;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
 public class TeamServiceTest {
+    private static final int TESTED_TEAM = 5;
 
     @InjectMocks
     TeamService service;
@@ -41,17 +39,12 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void addTest() {
-        Team team = generator.generateTeam();
-
+    public void pinIsgeneratedTest() {
+        Team team = new Team(TEAM_NAME + TESTED_TEAM, 5);
         when(repository.save(team)).thenReturn(team);
-        service.add(team);
+        Team teamNew = service.save(team);
 
-        assertNotNull(team);
-
-        when(repository.findByName(team.getName())).thenReturn(team);
-
-        assertEquals(team, repository.findByName(team.getName()));
+        assertNotNull(team.getPin());
     }
 
     @Test

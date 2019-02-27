@@ -37,7 +37,7 @@ public class FinalPlaceRepositoryTest {
     @Test
     public void findByIdTest() {
         FinalPlace finalPlaceOrig = getAnySaved();
-        Optional<FinalPlace> finalPlace = repository.findById(finalPlaceOrig.getId());
+        Optional<FinalPlace> finalPlace = repository.findById(finalPlaceOrig.getFinalPlaceId());
 
         assertNotNull(finalPlace);
         assertEquals(finalPlace.get(), finalPlaceOrig);

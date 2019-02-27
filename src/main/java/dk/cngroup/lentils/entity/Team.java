@@ -11,13 +11,10 @@ import java.util.Set;
 @Table(name = "team")
 public class Team {
 
-    @OneToMany(mappedBy = "team")
-    Set<Status> statusSet;
-
     @Id
     @GeneratedValue
-    @Column(name = "id")
-    private long id;
+    @Column(name = "team_id")
+    private Long teamId;
 
     @Column(name = "name", nullable = false, length = 50)
     @NotEmpty
@@ -40,19 +37,25 @@ public class Team {
         this.pin = pin;
     }
 
-    public Team(long id, String name, int numOfMembers, String pin) {
-        this.id = id;
+    public Team(@NotEmpty String name, @NotNull(message = "must not be empty") @Min(value = 1, message =
+            "numOfMembers - You must enter a number greater or equal to 1") Integer numOfMembers) {
+        this.name = name;
+        this.numOfMembers = numOfMembers;
+    }
+
+    public Team(Long teamId, String name, int numOfMembers, String pin) {
+        this.teamId = teamId;
         this.name = name;
         this.numOfMembers = numOfMembers;
         this.pin = pin;
     }
 
-    public long getId() {
-        return id;
+    public Long getTeamId() {
+        return teamId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
     public String getName() {
@@ -82,7 +85,7 @@ public class Team {
     @Override
     public String toString() {
         return "Team{" +
-                "id=" + id +
+                "teamId=" + teamId +
                 ", name='" + name + '\'' +
                 ", numOfMembers=" + numOfMembers +
                 ", pin='" + pin + '\'' +
@@ -94,14 +97,14 @@ public class Team {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return id == team.id &&
-                numOfMembers == team.numOfMembers &&
-                name.equals(team.name) &&
-                pin.equals(team.pin);
+        return Objects.equals(teamId, team.teamId) &&
+                Objects.equals(name, team.name) &&
+                Objects.equals(numOfMembers, team.numOfMembers) &&
+                Objects.equals(pin, team.pin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, numOfMembers, pin);
+        return Objects.hash(teamId, name, numOfMembers, pin);
     }
 }

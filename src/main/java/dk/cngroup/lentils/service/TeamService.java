@@ -19,7 +19,7 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
-    public Team add(Team team) {
+    public Team save(Team team) {
         team.setPin(getUniquePin());
         return teamRepository.save(team);
     }
@@ -71,7 +71,7 @@ public class TeamService {
         return String.copyValueOf(pin);
     }
 
-    public void save(Team team) {
-        teamRepository.save(team);
+    public Team findById(Long teamId) {
+        return teamRepository.findById(teamId).get();
     }
 }

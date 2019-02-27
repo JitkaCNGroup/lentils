@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class TeamRepositoryTest {
+    private static final int TESTED_TEAM = 5;
 
     @Autowired
     private TeamRepository teamRepository;
@@ -34,7 +35,8 @@ public class TeamRepositoryTest {
 
     @Test
     public void addTest() {
-        getAnySaved();
+        Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234");
+        teamRepository.save(team);
 
         assertEquals(1, teamRepository.count());
     }
@@ -42,10 +44,9 @@ public class TeamRepositoryTest {
     @Test
     public void findByIdTest() {
         List<Team> teams = getAllSavedTeams();
-        String teamName = generator.TEAM_NAME + generator.TESTED_TEAM;
+        String teamName = generator.TEAM_NAME + TESTED_TEAM;
         Team team = teamRepository.findByName(teamName);
-
-        Optional<Team> teamById = teamRepository.findById(team.getId());
+        Optional<Team> teamById = teamRepository.findById(team.getTeamId());
 
         assertNotNull(teamById.isPresent());
         assertEquals(team, teamById.get());
@@ -54,7 +55,6 @@ public class TeamRepositoryTest {
     @Test
     public void findAllTest() {
         getAllSavedTeams();
-
         List<Team> teamsFound = teamRepository.findAll();
 
         assertEquals(generator.NUMBER_OF_TEAMS, teamsFound.size());
@@ -63,7 +63,6 @@ public class TeamRepositoryTest {
     @Test
     public void deleteAllTest() {
         getAllSavedTeams();
-
         teamRepository.deleteAll();
 
         assertEquals(0, teamRepository.count());
@@ -71,16 +70,16 @@ public class TeamRepositoryTest {
 
     @Test
     public void deleteOneTest() {
-        Team team = teamRepository.save(generator.generateTeam());
-
-        teamRepository.deleteById(team.getId());
+        Team team = teamRepository.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234"));
+        teamRepository.deleteById(team.getTeamId());
 
         assertEquals(0, teamRepository.count());
-        assertFalse(teamRepository.findById(team.getId()).isPresent());
+        assertFalse(teamRepository.findById(team.getTeamId()).isPresent());
     }
 
     private Team getAnySaved() {
-        return teamRepository.save(generator.generateTeam());
+        String teamName = generator.TEAM_NAME + TESTED_TEAM;
+        return teamRepository.findByName(teamName);
     }
 
     private List<Team> getAllSavedTeams() {

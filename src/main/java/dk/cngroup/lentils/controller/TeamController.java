@@ -18,8 +18,8 @@ public class TeamController {
     private final TeamService teamService;
 
     private final String VIEW_PATH = "team/main";
-    private final String REDIRECT_TO_ADD_VIEW = "redirect:/team/add";
-    private final String ACTION_TEAM_ADD = "/team/add";
+    private final String REDIRECT_TO_SAVE_VIEW = "redirect:/team/save";
+    private final String ACTION_TEAM_SAVE = "/team/save";
     private final String ACTION_TEAM_UPDATE = "/team/update/";
 
     public TeamController(TeamService teamService) {
@@ -28,18 +28,18 @@ public class TeamController {
 
     @GetMapping(value = "/add")
     public String addTeam(Model model) {
-        fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_ADD);
+        fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
         return VIEW_PATH ;
     }
 
     @PostMapping(value = "/add")
     public String addTeam(@Valid Team team, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_ADD);
+            fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
             return VIEW_PATH ;
         }
-        teamService.add(team);
-        return REDIRECT_TO_ADD_VIEW;
+        teamService.save(team);
+        return REDIRECT_TO_SAVE_VIEW;
     }
 
     @ExceptionHandler(InputMismatchException.class)
@@ -58,17 +58,17 @@ public class TeamController {
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") Long id, @Valid Team team, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), teamService.get(id).get(), ACTION_TEAM_ADD);
+            fillModelAttributes(model, teamService.getAll(), teamService.get(id).get(), ACTION_TEAM_SAVE);
             return VIEW_PATH ;
         }
         teamService.save(team);
-        return REDIRECT_TO_ADD_VIEW;
+        return REDIRECT_TO_SAVE_VIEW;
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         teamService.delete(id);
-        return REDIRECT_TO_ADD_VIEW;
+        return REDIRECT_TO_SAVE_VIEW;
     }
 
     private void fillModelAttributes(Model model, List<Team> teams, Team team, String action) {

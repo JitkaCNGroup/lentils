@@ -2,7 +2,7 @@ package dk.cngroup.lentils.entity;
 
 import java.io.Serializable;
 
-public class StatusKey implements Serializable {
-    Long cypher;
+public class HintTakenKey implements Serializable {
     Long team;
+    Long hint;
 }
