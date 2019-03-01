@@ -42,7 +42,7 @@ public class HintTakenRepositoryTest {
     private ObjectGenerator generator;
 
     @Test
-    public void saveAllHintsTakenForOneCypherOneTeam() {
+    public void saveAllHintsTakenForOneCypherOneTeamTest() {
         Team team = teamService.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234"));
         Cypher cypher = cypherService.save(new Cypher(TESTED_STAGE));
         List<Hint> hints = hintService.saveAll(generator.generateHintsForCypher(cypher));

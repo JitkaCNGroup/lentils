@@ -39,14 +39,14 @@ public class CypherServiceTest {
     }
 
     @Test
-    public void addNewCypher() {
+    public void addNewCypherTest() {
         Cypher cypher = service.save(getCypherForStage());
 
         assertNotNull(cypher);
     }
 
     @Test
-    public void getNextCypher() {
+    public void getNextCypherTest() {
         Cypher cypher1 = getCypherForStage();
         Cypher cypher2 = getCypherForStage(TESTED_STAGE + 1);
 
@@ -58,7 +58,7 @@ public class CypherServiceTest {
     }
 
     @Test
-    public void checkCodeword() {
+    public void checkCodewordTest() {
         Cypher cypher = getCypherForStage();
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
 
