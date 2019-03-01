@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.exception.TeamNotFoundException;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,16 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    public Optional<Team> get(Long id) {
-        return teamRepository.findById(id);
+    private Team getTeam(Long id) throws TeamNotFoundException {
+        Optional<Team> team = teamRepository.findById(id);
+        if (team.isPresent()){
+            return team.get();
+        }
+        throw new TeamNotFoundException(id);
+    }
+
+    public Team get(Long id) throws TeamNotFoundException {
+        return getTeam(id);
     }
 
     public void delete(Long id) {
