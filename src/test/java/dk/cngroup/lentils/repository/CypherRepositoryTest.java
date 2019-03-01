@@ -44,7 +44,7 @@ public class CypherRepositoryTest {
     }
 
     @Test
-    public void addNewCypher() {
+    public void addNewCypherTest() {
         Cypher cypher = new Cypher(TESTED_STAGE);
         List<Hint> hints = generator.generateHintsForCypher(cypher);
         cypher.setHintsSet(new HashSet<>(hints));
@@ -56,7 +56,7 @@ public class CypherRepositoryTest {
     }
 
     @Test
-    public void countAllCyphers() {
+    public void countAllCyphersTest() {
         List<Cypher> cyphers = generator.generateCypherList();
         cypherRepository.saveAll(cyphers);
 
@@ -64,7 +64,7 @@ public class CypherRepositoryTest {
     }
 
     @Test
-    public void deleteAllCyphers() {
+    public void deleteAllCyphersTest() {
         List<Cypher> cyphers = generator.generateCypherList();
         cypherRepository.saveAll(cyphers);
         cypherRepository.deleteAll();

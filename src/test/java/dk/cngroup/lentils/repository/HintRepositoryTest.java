@@ -45,7 +45,7 @@ public class HintRepositoryTest {
     }
 
     @Test
-    public void saveAll() {
+    public void saveAllTest() {
         hintRepository.saveAll(generator.generateHintsForCypher(cyphers));
 
         int expected = ObjectGenerator.NUMBER_OF_CYPHERS * ObjectGenerator.NUMBER_OF_HINTS_FOR_CYPHER;
@@ -53,7 +53,7 @@ public class HintRepositoryTest {
     }
 
     @Test
-    public void add() {
+    public void addTest() {
         Cypher cypher = new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
         Hint hint = new Hint("text", 5, cypher);
         hintRepository.save(hint);
@@ -62,7 +62,7 @@ public class HintRepositoryTest {
     }
 
     @Test
-    public void deleteAll() {
+    public void deleteAllTest() {
         hintRepository.saveAll(generator.generateHintsForCypher(cyphers));
         hintRepository.deleteAll();
 
@@ -70,7 +70,7 @@ public class HintRepositoryTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAllTest() {
         hintRepository.saveAll(generator.generateHintsForCypher(cyphers));
         List<Hint> hints = hintRepository.findAll();
 
@@ -79,7 +79,7 @@ public class HintRepositoryTest {
     }
 
     @Test
-    public void getAllForCypher() {
+    public void getAllForCypherTest() {
         Cypher cypher = cypherService.getByStage(TESTED_STAGE);
         cypher.setHintsSet(new HashSet<Hint>(generator.generateHintsForCypher(cyphers)));
         cypherService.save(cypher);
