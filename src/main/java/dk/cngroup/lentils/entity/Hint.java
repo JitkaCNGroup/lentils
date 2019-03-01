@@ -13,7 +13,7 @@ public class Hint implements Serializable {
     @Column(name = "hint_id")
     private Long hintId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "cypher_id")
     private Cypher cypher;
 

@@ -41,18 +41,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="hint : ${cypher.hintsSet}">
+    <tr th:each="hint : ${cypher.hints}">
         <td th:text="${hint.hintId}">hintId</td>
         <td th:text="${hint.text}">text</td>
         <td th:text="${hint.value}">value</td>
         <td align="center">
-            <a href="#" th:href="@{'/cypher/hint/del/'+${hint.hintId}}">Smazat</a>
+            <a href="#" th:href="@{'/hint/delete/'+${hint.hintId}+'/'+${cypher.cypherId}}">Smazat</a>
         </td>
     </tr>
     <tr>
         <td colspan="4" align="center">
-            <a href="#" th:href="@{'/cypher/hint/add/'+${cypher.cypherId}}">Přidat</a> |
-            <a href="#" th:href="@{'/cypher/hint/delall/'+${cypher.cypherId}}">Smazat vše</a>
+            <a href="#" th:href="@{'/hint/add/'+${cypher.cypherId}}">Přidat</a>
         </td>
 
     </tr>

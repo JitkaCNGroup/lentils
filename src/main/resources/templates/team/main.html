@@ -12,17 +12,17 @@
     <td>Name</td>
     <td>N# of members</td>
     <td>PIN</td>
-        <td align="center">Actions</td>
+    <td align="center">Actions</td>
     </thead>
     <th:block th:each="team : ${teams}">
         <tr>
-            <td th:text="${team.statusId}">12</td>
+            <td th:text="${team.teamId}">12</td>
             <td th:text="${team.name}">Bamboo</td>
             <td th:text="${team.numOfMembers}" align="center">8</td>
             <td th:text="${team.pin}">abcd</td>
             <td align="center">
-                <a href="#" th:href="@{'/team/update/'+${team.statusId}}">Update</a> |
-                <a href="#" th:href="@{'/team/delete/'+${team.statusId}}">Remove</a>
+                <a href="#" th:href="@{'/team/update/'+${team.teamId}}">Update</a> |
+                <a href="#" th:href="@{'/team/delete/'+${team.teamId}}">Remove</a>
             </td>
         </tr>
     </th:block>
@@ -31,7 +31,7 @@
 <hr>
 <h2>Team Form:</h2>
 <form action="#" th:action="${action}" th:object="${team}" method="post">
-    <input type="hidden" th:field="*{statusId}"/>
+    <input type="hidden" th:field="*{teamId}"/>
     <input type="hidden" th:field="*{pin}"/>
     <table width="25%" style="font-size: 18px">
         <tr>
