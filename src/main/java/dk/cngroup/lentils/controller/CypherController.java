@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.exception.CypherNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import org.slf4j.Logger;
@@ -24,12 +25,10 @@ public class CypherController {
     private final String REDIRECT_CYPHER_LIST = "redirect:/cypher/";
 
     private CypherService cypherService;
-    private HintService hintService;
 
     @Autowired
-    public CypherController(CypherService cypherService, HintService hintService) {
+    public CypherController(CypherService cypherService) {
         this.cypherService = cypherService;
-        this.hintService = hintService;
     }
 
     @GetMapping(value = "/")
@@ -47,8 +46,8 @@ public class CypherController {
     }
 
     @GetMapping(value = "/update/{id}")
-    public String addForm(@PathVariable Long id,  Model model) {
-        Cypher cypher = cypherService.findById(id);
+    public String addForm(@PathVariable Long id,  Model model) throws CypherNotFoundException {
+        Cypher cypher = cypherService.getCypher(id);
         model.addAttribute(cypher);
         return VIEW_CYPHER_DETAIL;
     }

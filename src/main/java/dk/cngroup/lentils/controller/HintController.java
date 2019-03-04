@@ -2,12 +2,12 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.exception.CypherNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +36,8 @@ public class HintController {
     }
 
     @GetMapping(value = "/list/{cypherId}")
-    public String list(@PathVariable Long cypherId,  Model model) {
-        Cypher cypher = cypherService.findById(cypherId);
+    public String list(@PathVariable Long cypherId,  Model model) throws CypherNotFoundException {
+        Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
         return VIEW_HINT_LIST;
     }
@@ -49,20 +49,15 @@ public class HintController {
     }
 
     @GetMapping(value = "/add/{cypherId}")
-    public String add(@PathVariable Long cypherId, Model model) {
-        Cypher cypher = cypherService.findById(cypherId);
-        Hint hint = new Hint();
-        hint.setCypher(cypher);
+    public String add(@PathVariable Long cypherId, Model model) throws CypherNotFoundException {
+        Hint hint = cypherService.addHint(cypherId);
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
 
     @PostMapping(value = "/save")
-    public String save(@Valid Hint hint, Model model) {
-        Long cypherId = hint.getCypher().getCypherId();
-        /*TODO:
-        implement this method
-         */
+    public String save(@Valid Hint hint, Model model) throws CypherNotFoundException {
+        Long cypherId = cypherService.saveHint(hint);
         return REDIRECT_HINT_LIST + "/" + cypherId;
     }
 }

@@ -103,6 +103,11 @@ public class Cypher implements Serializable {
         this.hints = hints;
     }
 
+    public void addHint(Hint hint) {
+        hints.add(hint);
+    }
+
+
     @Override
     public String toString() {
         return "Cypher{" +
@@ -132,4 +137,6 @@ public class Cypher implements Serializable {
     public int hashCode() {
         return Objects.hash(cypherId, hints, name, stage, location, codeword);
     }
+
+
 }
