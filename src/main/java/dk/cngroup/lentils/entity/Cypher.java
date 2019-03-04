@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "cypher")
@@ -17,7 +16,7 @@ public class Cypher implements Serializable {
     @Column(name = "cypher_id")
     private Long cypherId;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "cypher_id")
     private List<Hint> hints;
 

@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <title>CypherDetail</title>
 </head>
-
 <body>
-<h2>Šifra - detail:</h2>
+<h2><span th:text="${nadpis}">Nadpis</span><h2>
 <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
         <table width="50%" style="font-size: 18px">
             <tr>
-                <td>ID</td>
-                <td><input th:field="*{cypherId}"/></td>
+                <td>Id</td>
+                <td><input th:field="*{cypherId}" readonly/></td>
             </tr>
             <tr>
                 <td>Jméno</td>

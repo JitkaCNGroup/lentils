@@ -32,6 +32,10 @@ public class Hint implements Serializable {
         this.cypher = cypher;
     }
 
+    public Long getCypherId() {
+        return cypher.getCypherId();
+    }
+
     public Cypher getCypher() {
         return cypher;
     }

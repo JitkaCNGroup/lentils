@@ -6,7 +6,7 @@
     <title>HintList</title>
 </head>
 <body>
-<h2>Šifra ..</h2>
+<h2>Šifra <span th:text="${cypher.name}">cypherName</span></h2>
 <table border="1" width="50%">
     <thead>
     <tr>
@@ -20,9 +20,9 @@
     <tbody>
     <tr th:object="${cypher}">
     <tr>
-        <td th:text="${cypher.cypherId}">cypherId</td>
+        <td th:text="${cypher.cypherId}" align="center">cypherId</td>
         <td th:text="${cypher.name}">name</td>
-        <td th:text="${cypher.stage}">stage</td>
+        <td th:text="${cypher.stage}" align="center">stage</td>
         <td th:text="${cypher.location}">X, Y</td>
         <td th:text="${cypher.codeword}">codeword</td>
     </tr>
@@ -42,20 +42,23 @@
     </thead>
     <tbody>
     <tr th:each="hint : ${cypher.hints}">
-        <td th:text="${hint.hintId}">hintId</td>
+        <td th:text="${hint.hintId}" align="center">hintId</td>
         <td th:text="${hint.text}">text</td>
         <td th:text="${hint.value}">value</td>
         <td align="center">
-            <a href="#" th:href="@{'/hint/delete/'+${hint.hintId}+'/'+${cypher.cypherId}}">Smazat</a>
+            <a href="#" th:href="@{'/hint/update/'+${hint.hintId}}">Upravit</a> |
+            <a href="#" th:href="@{'/hint/delete/'+${hint.hintId}}">Smazat</a>
         </td>
     </tr>
     <tr>
         <td colspan="4" align="center">
-            <a href="#" th:href="@{'/hint/add/'+${cypher.cypherId}}">Přidat</a>
+            <a href="#" th:href="@{'/hint/new?cypherId='+${cypher.cypherId}}">Přidat</a>
         </td>
 
     </tr>
 </table>
+<br>
+<a align="center" href="#" th:href="@{../cypher/}"><b>Zpět na seznam šifer</b></a>
 </body>
 </html>
 

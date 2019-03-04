@@ -2,7 +2,7 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.exception.CypherNotFoundException;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import org.slf4j.Logger;
@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -35,29 +32,48 @@ public class HintController {
         this.hintService = hintService;
     }
 
-    @GetMapping(value = "/list/{cypherId}")
-    public String list(@PathVariable Long cypherId,  Model model) throws CypherNotFoundException {
+    @GetMapping(value = "/list")
+    public String hints(@RequestParam("cypherId")Long cypherId, Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
         return VIEW_HINT_LIST;
     }
 
-    @GetMapping(value = "/delete/{hintId}/{cypherId}")
-    public String delete(@PathVariable Long hintId, @PathVariable Long cypherId) {
+    @GetMapping(value = "/delete/{hintId}")
+    public String deleteHint(@PathVariable Long hintId) {
+        Hint hint = hintService.getHint(hintId);
+        Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
-        return REDIRECT_HINT_LIST + "/" + cypherId;
+        return REDIRECT_HINT_LIST + "?cypherId=" + cypherId;
     }
 
-    @GetMapping(value = "/add/{cypherId}")
-    public String add(@PathVariable Long cypherId, Model model) throws CypherNotFoundException {
+    @GetMapping(value = "/update/{id}")
+    public String addForm(@PathVariable Long id, Model model) {
+        Hint hint = hintService.getHint(id);
+        model.addAttribute("nadpis","Upravit hint");
+        model.addAttribute("hint", hint);
+        return VIEW_HINT;
+    }
+
+    @GetMapping(value = "/new")
+    public String newHint(@RequestParam("cypherId")Long cypherId, Model model) {
         Hint hint = cypherService.addHint(cypherId);
+        model.addAttribute("nadpis","Nový hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
 
     @PostMapping(value = "/save")
-    public String save(@Valid Hint hint, Model model) throws CypherNotFoundException {
-        Long cypherId = cypherService.saveHint(hint);
-        return REDIRECT_HINT_LIST + "/" + cypherId;
+    public String save(@Valid Hint hint, Model model) {
+        Hint hint1 = hintService.save(hint);
+        return REDIRECT_HINT_LIST + "?cypherId=" + hint1.getCypherId();
+    }
+
+
+    @ExceptionHandler({ ResourceNotFoundException.class})
+    public void handleException() {
+        /*
+        TODO:
+         */
     }
 }

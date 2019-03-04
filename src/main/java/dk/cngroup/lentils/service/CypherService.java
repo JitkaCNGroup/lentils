@@ -3,18 +3,17 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.exception.CypherNotFoundException;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.CypherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CypherService {
+    private final String CYPHER_ID = "Cypher with ID ";
     private CypherRepository cypherRepository;
     private TeamService teamService;
     private StatusService statusService;
@@ -74,40 +73,27 @@ public class CypherService {
         return statusScore - hintScore;
     }
 
-    public int getScore(Long cypherId, Long teamId) throws CypherNotFoundException {
+    public int getScore(Long cypherId, Long teamId) {
         Optional<Team> team = teamService.get(teamId);
         Cypher cypher = getCypher(cypherId);
         return getScore(cypher, team.get());
-    }
-
-    public Cypher findById(Long cypherId)throws CypherNotFoundException  {
-        return getCypher(cypherId);
     }
 
     public void deleteById(Long id) {
         cypherRepository.deleteById(id);
     }
 
-    public void deleteAlHintsByCypher(Long cypherId) throws CypherNotFoundException {
-        Cypher cypher = getCypher(cypherId);
-        hintService.deleteAlHintsByCypher(cypher);
-    }
 
-    public Long saveHint(Hint hint) throws CypherNotFoundException {
-        Long cypherId = hint.getCypher().getCypherId();
-        Cypher cypher = getCypher(cypherId);
-        cypher.addHint(hint);
-        return save(cypher).getCypherId();
-    }
 
-    public Cypher getCypher(Long cypherId) throws CypherNotFoundException {
+    public Cypher getCypher(Long cypherId) {
         Optional<Cypher> cypher = cypherRepository.findById(cypherId);
         if (cypher.isPresent()){
             return cypher.get();
         }
-        throw new CypherNotFoundException(cypherId);
+        throw new ResourceNotFoundException(CYPHER_ID + cypherId);
     }
-    public Hint addHint(Long cypherId) throws CypherNotFoundException {
+
+    public Hint addHint(Long cypherId) {
         Cypher cypher = getCypher(cypherId);
         Hint hint = new Hint();
         hint.setCypher(cypher);

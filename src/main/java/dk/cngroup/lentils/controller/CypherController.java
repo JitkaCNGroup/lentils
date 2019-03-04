@@ -1,9 +1,8 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.exception.CypherNotFoundException;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
-import dk.cngroup.lentils.service.HintService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,22 +37,24 @@ public class CypherController {
     }
 
     @GetMapping(value = "/new")
-    public String addForm(Model model) {
+    public String newCypher(Model model) {
         Cypher cypher = new Cypher();
         cypher.setLocation(new Point(59.9090442,10.7423389));
-        model.addAttribute(cypher);
+        model.addAttribute("nadpis","Nová šifra");
+        model.addAttribute("cypher", cypher);
         return VIEW_CYPHER_DETAIL;
     }
 
     @GetMapping(value = "/update/{id}")
-    public String addForm(@PathVariable Long id,  Model model) throws CypherNotFoundException {
+    public String updateCypher(@PathVariable Long id, Model model) {
         Cypher cypher = cypherService.getCypher(id);
+        model.addAttribute("nadpis","Upravit šifru");
         model.addAttribute(cypher);
         return VIEW_CYPHER_DETAIL;
     }
 
     @PostMapping(value = "/save")
-    public String addCypher(@Valid Cypher cypher, Model model) {
+    public String saveCypher(@Valid Cypher cypher, Model model) {
         cypherService.save(cypher);
         return REDIRECT_CYPHER_LIST;
     }
@@ -62,5 +63,12 @@ public class CypherController {
     public String deleteCypher(@PathVariable Long id) {
         cypherService.deleteById(id);
         return REDIRECT_CYPHER_LIST;
+    }
+
+    @ExceptionHandler({ ResourceNotFoundException.class})
+    public void handleException() {
+        /*
+        TODO:
+         */
     }
 }

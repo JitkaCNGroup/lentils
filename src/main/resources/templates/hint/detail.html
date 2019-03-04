@@ -6,16 +6,16 @@
     <title>HintDetail</title>
 </head>
 <body>
-<h2>Hint - detail:</h2>
+<h2><span th:text="${nadpis}">Nadpis</span><h2>
 <form action="#" th:action="@{/hint/save}" th:object="${hint}" method="post">
     <table width="50%" style="font-size: 18px">
         <tr>
             <td>Cypher Id</td>
-            <td><input type="number" th:field="*{cypher.cypherId}"/></td>
+            <td><input type="number" th:field="*{cypher.cypherId}" readonly/></td>
         </tr>
         <tr>
             <td>Hint Id</td>
-            <td><input type="number" th:field="*{hintId}"/></td>
+            <td><input type="number" th:field="*{hintId}" readonly/></td>
         </tr>
         <tr>
             <td>Text</td>
