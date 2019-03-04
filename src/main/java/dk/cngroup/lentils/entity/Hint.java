@@ -68,7 +68,7 @@ public class Hint implements Serializable {
     public String toString() {
         return "Hint{" +
                 "hintId=" + hintId +
-                ", cypher=" + cypher +
+                ", cypherId=" + cypher.getCypherId() +
                 ", text='" + text + '\'' +
                 ", value=" + value +
                 '}';
