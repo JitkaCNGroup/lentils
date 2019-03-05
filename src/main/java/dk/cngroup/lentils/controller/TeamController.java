@@ -15,12 +15,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/team")
 public class TeamController {
-    private final TeamService teamService;
+    private static final String VIEW_PATH = "team/main";
+    private static final String REDIRECT_TO_SAVE_VIEW = "redirect:/team/save";
+    private static final String ACTION_TEAM_SAVE = "/team/save";
+    private static final String ACTION_TEAM_UPDATE = "/team/update/";
 
-    private final String VIEW_PATH = "team/main";
-    private final String REDIRECT_TO_SAVE_VIEW = "redirect:/team/save";
-    private final String ACTION_TEAM_SAVE = "/team/save";
-    private final String ACTION_TEAM_UPDATE = "/team/update/";
+    private final TeamService teamService;
 
     public TeamController(TeamService teamService) {
         this.teamService = teamService;

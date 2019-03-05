@@ -18,7 +18,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/finalplace")
 public class FinalPlaceController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FinalPlaceController.class);
     private static final String VIEW_FINALPLACE_FORM = "finalplace/form";
     private static final String REDIRECT_FINALPLACE_FORM = "redirect:/finalplace/";
 

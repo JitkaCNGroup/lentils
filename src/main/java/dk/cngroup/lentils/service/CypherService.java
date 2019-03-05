@@ -19,10 +19,10 @@ public class CypherService {
     private HintTakenService hintTakenService;
 
     @Autowired
-    public CypherService(CypherRepository cypherRepository
-            , TeamService teamService
-            , StatusService statusService
-            , HintTakenService hintTakenService) {
+    public CypherService(CypherRepository cypherRepository,
+                         TeamService teamService,
+                         StatusService statusService,
+                         HintTakenService hintTakenService) {
         this.cypherRepository = cypherRepository;
         this.teamService = teamService;
         this.statusService = statusService;

@@ -17,11 +17,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/hint")
 public class HintController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HintController.class);
-
-    private final String VIEW_HINT_LIST = "hint/list";
-    private final String VIEW_HINT = "hint/detail";
-    private final String REDIRECT_HINT_LIST = "redirect:/hint/list";
+    private static final String VIEW_HINT_LIST = "hint/list";
+    private static final String VIEW_HINT = "hint/detail";
+    private static final String REDIRECT_HINT_LIST = "redirect:/hint/list";
 
     private CypherService cypherService;
     private HintService hintService;

@@ -17,11 +17,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/cypher")
 public class CypherController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CypherController.class);
-
-    private final String VIEW_CYPHER_LIST = "cypher/list";
-    private final String VIEW_CYPHER_DETAIL = "cypher/form";
-    private final String REDIRECT_CYPHER_LIST = "redirect:/cypher/";
+    private static final String VIEW_CYPHER_LIST = "cypher/list";
+    private static final String VIEW_CYPHER_DETAIL = "cypher/form";
+    private static final String REDIRECT_CYPHER_LIST = "redirect:/cypher/";
 
     private CypherService cypherService;
 
