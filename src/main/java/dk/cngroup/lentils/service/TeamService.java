@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.exception.TeamNotFoundException;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Random;
 @Service
 public class TeamService {
 
+    private final String PIN_CHARACTERS = "0123456789";
     private final TeamRepository teamRepository;
 
     @Autowired
@@ -25,16 +27,12 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    private Team getTeam(Long id) throws TeamNotFoundException {
+    public Team getTeam(Long id) {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()){
             return team.get();
         }
-        throw new TeamNotFoundException(id);
-    }
-
-    public Team get(Long id) throws TeamNotFoundException {
-        return getTeam(id);
+        throw new ResourceNotFoundException(Team.class.getSimpleName(), id);
     }
 
     public void delete(Long id) {
@@ -71,16 +69,12 @@ public class TeamService {
     }
 
     private String getPIN(int len) {
-        String numbers = "0123456789";
+        String numbers = PIN_CHARACTERS;
         Random rnd = new Random();
         char[] pin = new char[len];
         for (int i = 0; i < len; i++) {
             pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
         }
         return String.copyValueOf(pin);
-    }
-
-    public Team findById(Long teamId) {
-        return teamRepository.findById(teamId).get();
     }
 }

@@ -70,9 +70,9 @@ public class CypherService {
     }
 
     public int getScore(Long cypherId, Long teamId) {
-        Optional<Team> team = teamService.get(teamId);
+        Team team = teamService.getTeam(teamId);
         Cypher cypher = getCypher(cypherId);
-        return getScore(cypher, team.get());
+        return getScore(cypher, team);
     }
 
     public void deleteById(Long id) {
