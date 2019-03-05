@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.entity;
 
 import org.springframework.data.geo.Point;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -24,6 +25,7 @@ public class FinalPlace {
     private Point location;
 
     @Column(name = "opening_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime openingTime;
 
     public FinalPlace() {

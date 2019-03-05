@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cz"
+      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <title>FinalPlace</title>
+</head>
+<body>
+<h2>"Poslední" místo<h2>
+<form action="#" th:action="@{/finalplace/save}" th:object="${finalplace}" method="post">
+        <table width="50%" style="font-size: 18px">
+            <tr>
+                <td>Id</td>
+                <td><input th:field="*{finalPlaceId}" /></td>
+            </tr>
+            <tr>
+                <td>Jméno</td>
+                <td><input th:field="*{title}"/></td>
+            </tr>
+
+            <tr>
+                <td>Souřadnice</td>
+                <td><input type="text" th:field="*{location}"/></td>
+            </tr>
+            <tr>
+                <td>Čas</td>
+                <td><input type="datetime-local" th:field="*{openingTime}"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Uložit"/>
+                </td>
+            </tr>
+        </table>
+</form>
+</body>
+</html>
+

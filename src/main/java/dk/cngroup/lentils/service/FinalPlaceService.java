@@ -6,6 +6,7 @@ import dk.cngroup.lentils.repository.FinalPlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,8 +23,16 @@ public class FinalPlaceService {
         return finalPlacerepository.save(finalPlace);
     }
 
-    public Optional<FinalPlace> get(Long id) {
-        return finalPlacerepository.findById(id);
+    public FinalPlace get() {
+        List<FinalPlace> finalPlaces = getAll();
+        if (finalPlaces.size() == 0 ){
+            return new FinalPlace();
+        }
+        return finalPlaces.get(0);
+    }
+
+    public List<FinalPlace> getAll() {
+        return finalPlacerepository.findAll();
     }
 
     /**
