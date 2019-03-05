@@ -2,7 +2,6 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
-import dk.cngroup.lentils.exception.TeamNotFoundException;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

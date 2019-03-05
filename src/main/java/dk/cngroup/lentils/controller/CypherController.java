@@ -62,11 +62,4 @@ public class CypherController {
         cypherService.deleteById(id);
         return REDIRECT_CYPHER_LIST;
     }
-
-    @ExceptionHandler({ ResourceNotFoundException.class})
-    public void handleException() {
-        /*
-        TODO:
-         */
-    }
 }
