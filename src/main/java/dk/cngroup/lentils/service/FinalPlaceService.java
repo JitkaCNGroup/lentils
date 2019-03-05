@@ -25,7 +25,7 @@ public class FinalPlaceService {
 
     public FinalPlace get() {
         List<FinalPlace> finalPlaces = getAll();
-        if (finalPlaces.size() == 0 ){
+        if (finalPlaces.size() == 0) {
             return new FinalPlace();
         }
         return finalPlaces.get(0);
