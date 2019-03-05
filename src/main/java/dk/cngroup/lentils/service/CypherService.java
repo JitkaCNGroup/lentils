@@ -13,24 +13,20 @@ import java.util.Optional;
 
 @Service
 public class CypherService {
-    private final String CYPHER_ID = "Cypher with ID ";
     private CypherRepository cypherRepository;
     private TeamService teamService;
     private StatusService statusService;
     private HintTakenService hintTakenService;
-    private HintService hintService;
 
     @Autowired
     public CypherService(CypherRepository cypherRepository
             , TeamService teamService
             , StatusService statusService
-            , HintTakenService hintTakenService
-    , HintService hintService) {
+            , HintTakenService hintTakenService) {
         this.cypherRepository = cypherRepository;
         this.teamService = teamService;
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
-        this.hintService = hintService;
     }
 
     public Cypher save(Cypher cypher) {
@@ -83,14 +79,12 @@ public class CypherService {
         cypherRepository.deleteById(id);
     }
 
-
-
     public Cypher getCypher(Long cypherId) {
         Optional<Cypher> cypher = cypherRepository.findById(cypherId);
         if (cypher.isPresent()){
             return cypher.get();
         }
-        throw new ResourceNotFoundException(CYPHER_ID + cypherId);
+        throw new ResourceNotFoundException(Hint.class.getSimpleName(), cypherId);
     }
 
     public Hint addHint(Long cypherId) {

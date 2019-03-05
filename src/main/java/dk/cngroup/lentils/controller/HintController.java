@@ -50,7 +50,7 @@ public class HintController {
     @GetMapping(value = "/update/{id}")
     public String addForm(@PathVariable Long id, Model model) {
         Hint hint = hintService.getHint(id);
-        model.addAttribute("nadpis","Upravit hint");
+        model.addAttribute("heading","Upravit hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
@@ -58,7 +58,7 @@ public class HintController {
     @GetMapping(value = "/new")
     public String newHint(@RequestParam("cypherId")Long cypherId, Model model) {
         Hint hint = cypherService.addHint(cypherId);
-        model.addAttribute("nadpis","Nový hint");
+        model.addAttribute("heading","Nový hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }

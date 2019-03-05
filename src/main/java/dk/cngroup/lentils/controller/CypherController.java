@@ -20,7 +20,7 @@ public class CypherController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CypherController.class);
 
     private final String VIEW_CYPHER_LIST = "cypher/list";
-    private final String VIEW_CYPHER_DETAIL = "cypher/detail";
+    private final String VIEW_CYPHER_DETAIL = "cypher/form";
     private final String REDIRECT_CYPHER_LIST = "redirect:/cypher/";
 
     private CypherService cypherService;
@@ -40,7 +40,7 @@ public class CypherController {
     public String newCypher(Model model) {
         Cypher cypher = new Cypher();
         cypher.setLocation(new Point(59.9090442,10.7423389));
-        model.addAttribute("nadpis","Nová šifra");
+        model.addAttribute("heading","Nová šifra");
         model.addAttribute("cypher", cypher);
         return VIEW_CYPHER_DETAIL;
     }
@@ -48,7 +48,7 @@ public class CypherController {
     @GetMapping(value = "/update/{id}")
     public String updateCypher(@PathVariable Long id, Model model) {
         Cypher cypher = cypherService.getCypher(id);
-        model.addAttribute("nadpis","Upravit šifru");
+        model.addAttribute("heading","Upravit šifru");
         model.addAttribute(cypher);
         return VIEW_CYPHER_DETAIL;
     }

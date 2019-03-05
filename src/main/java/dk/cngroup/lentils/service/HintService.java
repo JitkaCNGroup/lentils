@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class HintService {
-    private final String HINT_ID = "Hint with ID ";
     private HintRepository hintRepository;
 
     @Autowired
@@ -41,7 +40,7 @@ public class HintService {
         if (hint.isPresent()){
             return hint.get();
         }
-        throw new ResourceNotFoundException(HINT_ID + hintId);
+        throw new ResourceNotFoundException(Hint.class.getSimpleName(), hintId);
     }
 
     public void deleteById(Long id) {
