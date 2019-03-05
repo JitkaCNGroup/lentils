@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="cz" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stage {id}-TBD Progress</title>
+</head>
+<body>
+<h1>Stanoviště číslo {id}-TBD - Postup</h1>
+<h2>Týmy:</h2>
+<table border="1" width="50%" >
+    <thead>
+    <td align="center">Id</td>
+    <td align="center">Jméno týmu</td>
+    <td align="center">Počet členů</td>
+    <td align="center">PIN</td>
+    <td align="center">Akce</td>
+    <td align="center">Stav</td>
+    <tr th:if="${teams.empty}">
+        <td colspan="5"><h3> V systému nejsou týmy</h3></td>
+    </tr>
+    </thead>
+    <th:block th:each="team : ${teams}">
+        <tr>
+            <td th:text="${team.teamId}" align="center">8888</td>
+            <td th:text="${team.name}">Bamboo</td>
+            <td th:text="${team.numOfMembers}" align="center">8</td>
+            <td th:text="${team.pin}" align="center">9876</td>
+            <td align="center">
+                <a href="#" th:href="@{'/progress/skip/'}">Přeskočit</a> |
+                <a href="#" th:href="@{'/progress/pass/'}">Splnit</a>
+            </td>
+        </tr>
+    </th:block>
+</table>
+<p></p>
+</body>
+</html>
