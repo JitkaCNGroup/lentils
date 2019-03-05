@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -42,21 +43,14 @@ public class TeamController {
         return REDIRECT_TO_SAVE_VIEW;
     }
 
-    @ExceptionHandler(InputMismatchException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Error handleNotFoundException(InputMismatchException e)
-    {
-        return new Error(e.getMessage());
-    }
-
     @GetMapping("/update/{id}")
     public String update(@PathVariable("id") Long id, Model model) {
-        fillModelAttributes(model, teamService.getAll(), teamService.get(id).get(), ACTION_TEAM_UPDATE + id);
+        fillModelAttributes(model, teamService.getAll(), teamService.getTeam(id), ACTION_TEAM_UPDATE + id);
         return VIEW_PATH;
     }
 
-    @PostMapping("/update/")
-    public String update(@Valid Team team, BindingResult bindingResult, Model model) {
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, @Valid Team team, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH ;

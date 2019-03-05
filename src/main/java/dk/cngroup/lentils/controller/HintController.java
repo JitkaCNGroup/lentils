@@ -66,12 +66,4 @@ public class HintController {
         Hint hint1 = hintService.save(hint);
         return REDIRECT_HINT_LIST + "?cypherId=" + hint1.getCypherId();
     }
-
-
-    @ExceptionHandler({ ResourceNotFoundException.class})
-    public void handleException() {
-        /*
-        TODO:
-         */
-    }
 }

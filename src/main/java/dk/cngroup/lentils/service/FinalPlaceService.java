@@ -1,13 +1,12 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.FinalPlace;
-import dk.cngroup.lentils.repository.CypherRepository;
+import dk.cngroup.lentils.exception.MoreFinalPlacesException;
 import dk.cngroup.lentils.repository.FinalPlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FinalPlaceService {
@@ -23,12 +22,19 @@ public class FinalPlaceService {
         return finalPlacerepository.save(finalPlace);
     }
 
-    public FinalPlace get() {
+    /**
+     * assumption:
+     * there is only one line in the table
+     */
+    public FinalPlace getFinalPlace() {
         List<FinalPlace> finalPlaces = getAll();
         if (finalPlaces.size() == 0) {
             return new FinalPlace();
+        } else if (finalPlaces.size() == 1) {
+            return finalPlaces.get(0);
+        } else {
+            throw new MoreFinalPlacesException("More final places found.");
         }
-        return finalPlaces.get(0);
     }
 
     public List<FinalPlace> getAll() {

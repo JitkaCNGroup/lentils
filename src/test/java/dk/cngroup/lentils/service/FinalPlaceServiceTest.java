@@ -50,16 +50,6 @@ public class FinalPlaceServiceTest {
     }
 
     @Test
-    public void getTest() {
-        FinalPlace finalPlaceOrig = getAnySaved();
-
-        when(repository.findById(anyLong())).thenReturn(java.util.Optional.of(finalPlaceOrig));
-        Optional<FinalPlace> finalPlace = service.get(finalPlaceOrig.getFinalPlaceId());
-
-        assertNotNull(finalPlace);
-    }
-
-    @Test
     public void deleteTest() {
         FinalPlace finalPlaceOrig = getAnySaved();
 
