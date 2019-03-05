@@ -1,14 +1,8 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.FinalPlace;
-import dk.cngroup.lentils.exception.ResourceNotFoundException;
-import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.FinalPlaceService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +24,7 @@ public class FinalPlaceController {
 
     @GetMapping(value = "/")
     public String finalPlace(Model model) {
-        model.addAttribute("finalplace", finalPlaceService.get());
+        model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
         return VIEW_FINALPLACE_FORM;
     }
 
