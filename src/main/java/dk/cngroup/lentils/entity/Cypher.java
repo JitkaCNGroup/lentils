@@ -4,8 +4,8 @@ import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "cypher")
@@ -16,9 +16,9 @@ public class Cypher implements Serializable {
     @Column(name = "cypher_id")
     private Long cypherId;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "cypher_id")
-    private Set<Hint> hintsSet;
+    private List<Hint> hints;
 
     @Column(name = "name")
     private String name;
@@ -46,8 +46,8 @@ public class Cypher implements Serializable {
         this.codeword = codeword;
     }
 
-    public Cypher(Set<Hint> hintsSet, String name, int stage, Point location, String codeword) {
-        this.hintsSet = hintsSet;
+    public Cypher(List<Hint> hints, String name, int stage, Point location, String codeword) {
+        this.hints = hints;
         this.name = name;
         this.stage = stage;
         this.location = location;
@@ -94,19 +94,24 @@ public class Cypher implements Serializable {
         this.cypherId = cypherId;
     }
 
-    public Set<Hint> getHintsSet() {
-        return hintsSet;
+    public List<Hint> getHints() {
+        return hints;
     }
 
-    public void setHintsSet(Set<Hint> hintsSet) {
-        this.hintsSet = hintsSet;
+    public void setHints(List<Hint> hints) {
+        this.hints = hints;
     }
+
+    public void addHint(Hint hint) {
+        hints.add(hint);
+    }
+
 
     @Override
     public String toString() {
         return "Cypher{" +
                 "cypherId=" + cypherId +
-                ", hintsSet=" + hintsSet +
+                ", hints=" + hints +
                 ", name='" + name + '\'' +
                 ", stage=" + stage +
                 ", location=" + location +
@@ -121,7 +126,7 @@ public class Cypher implements Serializable {
         Cypher cypher = (Cypher) o;
         return stage == cypher.stage &&
                 Objects.equals(cypherId, cypher.cypherId) &&
-                Objects.equals(hintsSet, cypher.hintsSet) &&
+                Objects.equals(hints, cypher.hints) &&
                 Objects.equals(name, cypher.name) &&
                 Objects.equals(location, cypher.location) &&
                 Objects.equals(codeword, cypher.codeword);
@@ -129,6 +134,8 @@ public class Cypher implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(cypherId, hintsSet, name, stage, location, codeword);
+        return Objects.hash(cypherId, hints, name, stage, location, codeword);
     }
+
+
 }

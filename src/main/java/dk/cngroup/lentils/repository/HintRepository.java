@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface HintRepository extends JpaRepository<Hint, Long> {
     List<Hint> findByCypher(Cypher cypher);
+    void deleteByCypher(Cypher cypher);
 }

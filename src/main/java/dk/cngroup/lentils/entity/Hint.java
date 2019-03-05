@@ -13,9 +13,9 @@ public class Hint implements Serializable {
     @Column(name = "hint_id")
     private Long hintId;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "cypher_id")
-    Cypher cypher;
+    private Cypher cypher;
 
     @Column(name = "text")
     private String text;
@@ -29,6 +29,11 @@ public class Hint implements Serializable {
     public Hint(String text, int value, Cypher cypher) {
         this.text = text;
         this.value = value;
+        this.cypher = cypher;
+    }
+
+    public Long getCypherId() {
+        return cypher.getCypherId();
     }
 
     public Cypher getCypher() {
@@ -67,7 +72,7 @@ public class Hint implements Serializable {
     public String toString() {
         return "Hint{" +
                 "hintId=" + hintId +
-                ", cypher=" + cypher +
+                ", cypherId=" + cypher.getCypherId() +
                 ", text='" + text + '\'' +
                 ", value=" + value +
                 '}';

@@ -3,11 +3,11 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.CypherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ public class CypherService {
 
     public List<Hint> getHintsForStage(Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
-        return new ArrayList<>(cypher.getHintsSet());
+        return cypher.getHints();
     }
 
     public Cypher getNext(Integer stage) {
@@ -71,11 +71,26 @@ public class CypherService {
 
     public int getScore(Long cypherId, Long teamId) {
         Optional<Team> team = teamService.get(teamId);
-        Optional<Cypher> cypher = cypherRepository.findById(cypherId);
-        return getScore(cypher.get(), team.get());
+        Cypher cypher = getCypher(cypherId);
+        return getScore(cypher, team.get());
     }
 
-    public Cypher findById(Long cypherId) {
-        return cypherRepository.findById(cypherId).get();
+    public void deleteById(Long id) {
+        cypherRepository.deleteById(id);
+    }
+
+    public Cypher getCypher(Long cypherId) {
+        Optional<Cypher> cypher = cypherRepository.findById(cypherId);
+        if (cypher.isPresent()){
+            return cypher.get();
+        }
+        throw new ResourceNotFoundException(Hint.class.getSimpleName(), cypherId);
+    }
+
+    public Hint addHint(Long cypherId) {
+        Cypher cypher = getCypher(cypherId);
+        Hint hint = new Hint();
+        hint.setCypher(cypher);
+        return hint;
     }
 }
