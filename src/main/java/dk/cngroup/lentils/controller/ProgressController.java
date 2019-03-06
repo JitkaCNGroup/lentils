@@ -1,11 +1,14 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -17,32 +20,32 @@ public class ProgressController {
     private static final String PROGRESS_SKIP = "progress/skip";
 
     private final TeamService teamService;
+    private final CypherService cypherService;
 
-    public ProgressController(TeamService teamService) {
+    public ProgressController(TeamService teamService, CypherService cypherService) {
         this.teamService = teamService;
+        this.cypherService = cypherService;
     }
 
-    // v budoucnu to bude progress/stage/{id}
-    @GetMapping("/stage")
-    public String stageProgress (Model model){
-        fillModelAttributes(model, teamService.getAll());
+    @GetMapping
+    public String stageProgress (@RequestParam("cypherId")Long cypherId, Model model){
+        Cypher cypher = cypherService.getCypher(cypherId);
+        fillModelAttributes(model, teamService.getAll(), cypher);
         return PROGRESS_STAGE;
     }
 
-    // pro skip a pass by mohla byt v budoucnu vytvorena nova class: progress/stage/ID/pass||skip
     @GetMapping("/skip")
-    public String stageSkip (Model model){
-        fillModelAttributes(model, teamService.getAll());
+    public String stageSkip (){
         return PROGRESS_SKIP;
     }
 
     @GetMapping("/pass")
-    public String stagePass (Model model){
-        fillModelAttributes(model, teamService.getAll());
+    public String stagePass (){
         return PROGRESS_PASS;
     }
 
-    private void fillModelAttributes(Model model, List<Team> teams) {
+    private void fillModelAttributes(Model model, List<Team> teams, Cypher cypher) {
         model.addAttribute("teams", teams);
+        model.addAttribute("cypher", cypher);
     }
 }
