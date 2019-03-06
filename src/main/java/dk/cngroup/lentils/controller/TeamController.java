@@ -24,7 +24,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(value = "")
+    @GetMapping
     public String addTeam(Model model) {
         fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
         return VIEW_PATH ;
