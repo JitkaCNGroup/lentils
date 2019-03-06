@@ -45,7 +45,7 @@
             </td>
         </tr>
         <tr>
-            <td>Počet členů:(*)</td>
+            <td>Počet členů: (*)</td>
             <td><input type="number" th:field="*{numOfMembers}"/></td>
             <td th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}"
                 style="color: orangered; font-size: 14px">Chyba - Počet členů
@@ -53,8 +53,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" th:value="${action=='/team/add'?'Nový':'Uložit'}"/>
-                <input type="reset" value="Vynulovat"/>
+            <td><input type="submit" th:value="${action == '/team/add' ? 'Nový' : 'Uložit'}"/>
             </td>
         </tr>
     </table>

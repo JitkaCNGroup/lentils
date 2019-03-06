@@ -1,24 +1,21 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.TeamService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.InputMismatchException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/team")
 public class TeamController {
     private static final String VIEW_PATH = "team/main";
-    private static final String REDIRECT_TO_SAVE_VIEW = "redirect:/team/save";
-    private static final String ACTION_TEAM_SAVE = "/team/save";
+    private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/team";
+    private static final String ACTION_TEAM_SAVE = "/team/add";
     private static final String ACTION_TEAM_UPDATE = "/team/update/";
 
     private final TeamService teamService;
@@ -27,20 +24,20 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(value = "/add")
+    @GetMapping
     public String addTeam(Model model) {
         fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
         return VIEW_PATH ;
     }
 
     @PostMapping(value = "/add")
-    public String addTeam(@Valid Team team, Model model, BindingResult bindingResult) {
+    public String addTeam(@Valid @ModelAttribute Team team, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
-            return VIEW_PATH ;
+            return REDIRECT_TO_MAIN_VIEW;
         }
         teamService.save(team);
-        return REDIRECT_TO_SAVE_VIEW;
+        return REDIRECT_TO_MAIN_VIEW;
     }
 
     @GetMapping("/update/{id}")
@@ -56,13 +53,13 @@ public class TeamController {
             return VIEW_PATH ;
         }
         teamService.save(team);
-        return REDIRECT_TO_SAVE_VIEW;
+        return REDIRECT_TO_MAIN_VIEW;
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         teamService.delete(id);
-        return REDIRECT_TO_SAVE_VIEW;
+        return REDIRECT_TO_MAIN_VIEW;
     }
 
     private void fillModelAttributes(Model model, List<Team> teams, Team team, String action) {
