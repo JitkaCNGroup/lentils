@@ -14,8 +14,8 @@ import java.util.List;
 @RequestMapping("/team")
 public class TeamController {
     private static final String VIEW_PATH = "team/main";
-    private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/team/main";
-    private static final String ACTION_TEAM_SAVE = "/team/main";
+    private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/team";
+    private static final String ACTION_TEAM_SAVE = "/team/add";
     private static final String ACTION_TEAM_UPDATE = "/team/update/";
 
     private final TeamService teamService;
@@ -24,14 +24,14 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(value = "/main")
+    @GetMapping(value = "")
     public String addTeam(Model model) {
         fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
         return VIEW_PATH ;
     }
 
-    @PostMapping(value = "/main")
-    public String addTeam(@Valid Team team, Model model, BindingResult bindingResult) {
+    @PostMapping(value = "/add")
+    public String addTeam(@Valid @ModelAttribute Team team, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
             return REDIRECT_TO_MAIN_VIEW;
