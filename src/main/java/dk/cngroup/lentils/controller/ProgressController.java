@@ -3,8 +3,9 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.CypherService;
-import dk.cngroup.lentils.service.StatusService;
+import dk.cngroup.lentils.service.ProgressService;
 import dk.cngroup.lentils.service.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,40 +16,56 @@ import java.util.List;
 @RequestMapping("/progress")
 public class ProgressController {
     private static final String PROGRESS_STAGE = "progress/stage";
-    private static final String PROGRESS_PASS = "progress/pass";
-    private static final String PROGRESS_SKIP = "progress/skip";
+    private static final String PROGRESS_LIST = "progress/list";
 
     private final TeamService teamService;
     private final CypherService cypherService;
-    private final StatusService statusService;
+    private final ProgressService progressService;
 
-    public ProgressController(TeamService teamService, CypherService cypherService, StatusService statusService) {
+    @Autowired
+    public ProgressController(TeamService teamService,
+                              CypherService cypherService,
+                              ProgressService progressService) {
         this.teamService = teamService;
         this.cypherService = cypherService;
-        this.statusService = statusService;
+        this.progressService = progressService;
     }
 
     @GetMapping
+    public String listProgress(Model model) {
+        model.addAttribute("cyphers", cypherService.getAll());
+        return PROGRESS_LIST;
+    }
+
+    @GetMapping(value = "/stage")
     public String stageProgress(@RequestParam("cypherId") Long cypherId, Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         fillModelAttributes(model, teamService.getAll(), cypher);
         return PROGRESS_STAGE;
     }
 
-    @GetMapping("/skip/{cypherId}")
-    public @ResponseBody
-    String stageSkip (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
-        Cypher cypher = cypherService.getCypher(cypherId);
-        Team team = teamService.getTeam(teamId);
-        statusService.markCypherSolvedForTeam(cypher, team);
-        model.addAttribute("status", statusService.getStatusForTeam(cypher, team));
-        fillModelAttributes(model, teamService.getAll(), cypher);
+    @GetMapping(value = "/skip/{cypherId}")
+    public String stageSkip (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
+        model.addAttribute("status", progressService.setSkipProgressStatus(cypherService.getCypher(cypherId),
+                teamService.getTeam(teamId)));
+        fillModelAttributes(model, teamService.getAll(), cypherService.getCypher(cypherId));
         return PROGRESS_STAGE;
     }
 
-    @GetMapping("/pass")
-    public String stagePass() {
-        return PROGRESS_PASS;
+    @GetMapping(value = "/pass/{cypherId}")
+    public String stagePass (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
+        model.addAttribute("status", progressService.setPassProgressStatus(cypherService.getCypher(cypherId),
+                teamService.getTeam(teamId)));
+        fillModelAttributes(model, teamService.getAll(), cypherService.getCypher(cypherId));
+        return PROGRESS_STAGE;
+    }
+
+    @GetMapping(value = "/pending/{cypherId}")
+    public String stagePending (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
+        model.addAttribute("status", progressService.setPendingProgressStatus(cypherService.getCypher(cypherId),
+                teamService.getTeam(teamId)));
+        fillModelAttributes(model, teamService.getAll(), cypherService.getCypher(cypherId));
+        return PROGRESS_STAGE;
     }
 
     private void fillModelAttributes(Model model, List<Team> teams, Cypher cypher) {
