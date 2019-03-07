@@ -37,24 +37,24 @@ public class HintController {
         return VIEW_HINT_LIST;
     }
 
-    @GetMapping(value = "/delete/{hintId}")
-    public String deleteHint(@PathVariable Long hintId) {
+    @GetMapping(value = "/delete/")
+    public String deleteHint(@RequestParam("hintId") Long hintId) {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
         return REDIRECT_HINT_LIST + "?cypherId=" + cypherId;
     }
 
-    @GetMapping(value = "/update/{id}")
-    public String addForm(@PathVariable Long id, Model model) {
-        Hint hint = hintService.getHint(id);
+    @GetMapping(value = "/update/")
+    public String addForm(@RequestParam("hintId") Long hintId, Model model) {
+        Hint hint = hintService.getHint(hintId);
         model.addAttribute("heading","Upravit hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
 
     @GetMapping(value = "/new")
-    public String newHint(@RequestParam("cypherId")Long cypherId, Model model) {
+    public String newHint(@RequestParam("cypherId") Long cypherId, Model model) {
         Hint hint = cypherService.addHint(cypherId);
         model.addAttribute("heading","Nový hint");
         model.addAttribute("hint", hint);
