@@ -55,8 +55,8 @@ public class CypherController {
     }
 
     @GetMapping(value = "/delete")
-    public String deleteCypher(@RequestParam("cypherId") Long id) {
-        cypherService.deleteById(id);
+    public String deleteCypher(@RequestParam("cypherId") Long cypherId) {
+        cypherService.deleteById(cypherId);
         return REDIRECT_CYPHER_LIST;
     }
 }
