@@ -29,7 +29,7 @@ public class ProgressController {
     }
 
     @GetMapping
-    public String stageProgress (@RequestParam("cypherId")Long cypherId, Model model){
+    public String stageProgress(@RequestParam("cypherId") Long cypherId, Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         fillModelAttributes(model, teamService.getAll(), cypher);
         return PROGRESS_STAGE;
@@ -47,7 +47,7 @@ public class ProgressController {
     }
 
     @GetMapping("/pass")
-    public String stagePass (){
+    public String stagePass() {
         return PROGRESS_PASS;
     }
 

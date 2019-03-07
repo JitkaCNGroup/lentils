@@ -27,7 +27,7 @@
         <td th:text="${cypher.location}">X, Y</td>
         <td th:text="${cypher.codeword}">codeword</td>
         <td align="center">
-            <a href="#" th:href="@{'/progress?cypherId='+${cypher.cypherId}}">Stav</a>
+            <a href="#" th:href="@{/progress/(cypherId=${cypher.cypherId})}">Stav</a>
         </td>
     </tr>
     </tbody>
