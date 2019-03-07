@@ -2,11 +2,8 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +34,7 @@ public class HintController {
         return VIEW_HINT_LIST;
     }
 
-    @GetMapping(value = "/delete/")
+    @GetMapping(value = "/delete")
     public String deleteHint(@RequestParam("hintId") Long hintId) {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
@@ -45,7 +42,7 @@ public class HintController {
         return REDIRECT_HINT_LIST + "?cypherId=" + cypherId;
     }
 
-    @GetMapping(value = "/update/")
+    @GetMapping(value = "/update")
     public String addForm(@RequestParam("hintId") Long hintId, Model model) {
         Hint hint = hintService.getHint(hintId);
         model.addAttribute("heading","Upravit hint");

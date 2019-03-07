@@ -46,8 +46,8 @@
         <td th:text="${hint.text}">text</td>
         <td th:text="${hint.value}">value</td>
         <td align="center">
-            <a href="#" th:href="@{/hint/update/(hintId=${hint.hintId})}">Upravit</a> |
-            <a href="#" th:href="@{/hint/delete/(hintId=${hint.hintId})}">Smazat</a>
+            <a href="#" th:href="@{/hint/update(hintId=${hint.hintId})}">Upravit</a> |
+            <a href="#" th:href="@{/hint/delete(hintId=${hint.hintId})}">Smazat</a>
         </td>
     </tr>
     <tr>
@@ -58,7 +58,7 @@
     </tr>
 </table>
 <br>
-<a align="center" href="#" th:href="@{../cypher/}"><b>Zpět na seznam šifer</b></a>
+<a align="center" href="#" th:href="@{../cypher}"><b>Zpět na seznam šifer</b></a>
 </body>
 </html>
 
