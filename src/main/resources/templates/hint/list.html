@@ -15,6 +15,7 @@
         <th>Poradi</th>
         <th>Souradnice</th>
         <th>Odpověď</th>
+        <th>Stav</th>
     </tr>
     </thead>
     <tbody>
@@ -25,6 +26,9 @@
         <td th:text="${cypher.stage}" align="center">stage</td>
         <td th:text="${cypher.location}">X, Y</td>
         <td th:text="${cypher.codeword}">codeword</td>
+        <td align="center">
+            <a href="#" th:href="@{/progress/(cypherId=${cypher.cypherId})}">Stav</a>
+        </td>
     </tr>
     </tbody>
 </table>
