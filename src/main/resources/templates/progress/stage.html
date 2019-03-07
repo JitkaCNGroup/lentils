@@ -27,7 +27,8 @@
             <td th:text="${team.pin}" align="center">9876</td>
             <td align="center">
                 <a href="#" th:href="@{'/progress/skip/'+${cypher.cypherId}+'?teamId='+${team.teamId}}">Přeskočit</a> |
-                <a href="#" th:href="@{'/progress/skip/'+${cypher.cypherId}+'?teamId='+${team.teamId}}">Splnit</a>
+                <a href="#" th:href="@{'/progress/pass/'+${cypher.cypherId}+'?teamId='+${team.teamId}}">Splnit</a> |
+                <a href="#" th:href="@{'/progress/pending/'+${cypher.cypherId}+'?teamId='+${team.teamId}}">Pending</a>
             </td>
             <td th:text="${status}" align="center">PASSED></td>
         </tr>
