@@ -46,4 +46,8 @@ public class StatusService {
         status.setCypherStatus(newStatus);
         statusRepository.save(status);
     }
+
+    public Status getStatusForTeam(Cypher cypher, Team team) {
+        return statusRepository.findByTeamAndCypher(team, cypher);
+    }
 }
