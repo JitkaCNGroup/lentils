@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
+
+    private final static String CLIENT_VIEW_CYPHER_LIST = "clientSide/clientSideList";
+    private final static String CLIENT_VIEW_CYPHER_DESCRIPTION = "clientSide/clientSideCypher";
 
     private CypherService cypherService;
     private TeamService teamService;
@@ -28,14 +32,20 @@ public class ClientController {
         this.hintService = hintService;
     }
 
-
-    //temporary team(will be team logged in), cypherstatus
     @GetMapping(value = "/list")
-    public String listAllCyphers(Model model){
+    public String listAllCyphers(Model model) {
         model.addAttribute("cyphers", cypherService.getAll());
         model.addAttribute("team", new Team("Developeri",4));
         model.addAttribute("hints", hintService.getAll());
         model.addAttribute("status", CypherStatus.SKIPPED);
-        return "clientSide/clientSideList";
+        return CLIENT_VIEW_CYPHER_LIST;
+    }
+
+    @GetMapping(value = "/cypherDetail/{id}")
+    public String cypherDetail(@PathVariable("id")Long id, Model model) {
+        Cypher cypher = cypherService.getCypher(id);
+        model.addAttribute("team",new Team("devel",5));
+        model.addAttribute("cypher",cypher);
+        return CLIENT_VIEW_CYPHER_DESCRIPTION;
     }
 }
