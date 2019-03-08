@@ -85,8 +85,19 @@
 .hintColumn{
     text-align: right;
 }
-/*does not work, need to get different width somehow*/
+
 .statusColumn{
-    width: 40px;
     text-align: right;
+}
+
+.fa-check-circle{
+    color: lawngreen;
+}
+
+.fa-times-circle{
+    color: red;
+}
+
+.fa-spinner{
+    color:deepskyblue;
 }
