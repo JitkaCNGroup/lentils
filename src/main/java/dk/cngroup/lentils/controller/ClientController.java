@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/")
 public class ClientController {
-
+    
     private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
     private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
