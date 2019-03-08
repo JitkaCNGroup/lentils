@@ -5,7 +5,7 @@
 
 **Postconditions:**
 
- - Team status for every cypher is reset (first is in status pending)
+ - Team status for every cypher is reset (first cypher is in status pending)
  - Every team has no taken hint
  - Teams have 0 points
 
