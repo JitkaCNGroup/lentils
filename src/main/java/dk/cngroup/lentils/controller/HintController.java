@@ -2,11 +2,8 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,23 +35,23 @@ public class HintController {
     }
 
     @GetMapping(value = "/delete/{hintId}")
-    public String deleteHint(@PathVariable Long hintId) {
+    public String deleteHint(@PathVariable("hintId") Long hintId) {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
         return REDIRECT_HINT_LIST + "?cypherId=" + cypherId;
     }
 
-    @GetMapping(value = "/update/{id}")
-    public String addForm(@PathVariable Long id, Model model) {
-        Hint hint = hintService.getHint(id);
+    @GetMapping(value = "/update/{hintId}")
+    public String addForm(@PathVariable("hintId") Long hintId, Model model) {
+        Hint hint = hintService.getHint(hintId);
         model.addAttribute("heading","Upravit hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
 
     @GetMapping(value = "/new")
-    public String newHint(@RequestParam("cypherId")Long cypherId, Model model) {
+    public String newHint(@RequestParam("cypherId") Long cypherId, Model model) {
         Hint hint = cypherService.addHint(cypherId);
         model.addAttribute("heading","Nový hint");
         model.addAttribute("hint", hint);

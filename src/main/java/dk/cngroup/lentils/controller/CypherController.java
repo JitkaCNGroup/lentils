@@ -1,10 +1,7 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.CypherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Controller;
@@ -28,7 +25,7 @@ public class CypherController {
         this.cypherService = cypherService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping
     public String cyphers(Model model) {
         model.addAttribute("cyphers", cypherService.getAll());
         return VIEW_CYPHER_LIST;
@@ -43,9 +40,9 @@ public class CypherController {
         return VIEW_CYPHER_DETAIL;
     }
 
-    @GetMapping(value = "/update/{id}")
-    public String updateCypher(@PathVariable Long id, Model model) {
-        Cypher cypher = cypherService.getCypher(id);
+    @GetMapping(value = "/update/{cypherId}")
+    public String updateCypher(@PathVariable("cypherId") Long cypherId, Model model) {
+        Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("heading","Upravit šifru");
         model.addAttribute(cypher);
         return VIEW_CYPHER_DETAIL;
@@ -57,9 +54,9 @@ public class CypherController {
         return REDIRECT_CYPHER_LIST;
     }
 
-    @GetMapping(value = "/delete/{id}")
-    public String deleteCypher(@PathVariable Long id) {
-        cypherService.deleteById(id);
+    @GetMapping(value = "/delete/{cypherId}")
+    public String deleteCypher(@PathVariable("cypherId") Long cypherId) {
+        cypherService.deleteById(cypherId);
         return REDIRECT_CYPHER_LIST;
     }
 }

@@ -33,6 +33,11 @@ public class StatusService {
         saveNewStatus(status, CypherStatus.SKIPPED);
     }
 
+    public void markCypherPendingForTeam(Cypher cypher, Team team) {
+        Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        saveNewStatus(status, CypherStatus.PENDING);
+    }
+
     public List<Status> getAll() {
         return statusRepository.findAll();
     }
@@ -44,6 +49,19 @@ public class StatusService {
 
     private void saveNewStatus(Status status, CypherStatus newStatus) {
         status.setCypherStatus(newStatus);
+        statusRepository.save(status);
+    }
+
+    public CypherStatus getCypherStatusForTeam(Cypher cypher, Team team) {
+        Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        return status.getCypherStatus();
+    }
+
+    public void initializeStatusForTeamAndCypher(Cypher cypher, Team team) {
+        Status status = new Status();
+        status.setCypher(cypher);
+        status.setTeam(team);
+        status.setCypherStatus(null);
         statusRepository.save(status);
     }
 }
