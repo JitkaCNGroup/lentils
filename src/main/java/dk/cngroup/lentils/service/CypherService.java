@@ -84,7 +84,7 @@ public class CypherService {
         if (cypher.isPresent()){
             return cypher.get();
         }
-        throw new ResourceNotFoundException(Hint.class.getSimpleName(), cypherId);
+        throw new ResourceNotFoundException(Cypher.class.getSimpleName(), cypherId);
     }
 
     public Hint addHint(Long cypherId) {
