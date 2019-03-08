@@ -34,16 +34,16 @@ public class HintController {
         return VIEW_HINT_LIST;
     }
 
-    @GetMapping(value = "/delete")
-    public String deleteHint(@RequestParam("hintId") Long hintId) {
+    @GetMapping(value = "/delete/{hintId}")
+    public String deleteHint(@PathVariable("hintId") Long hintId) {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
         return REDIRECT_HINT_LIST + "?cypherId=" + cypherId;
     }
 
-    @GetMapping(value = "/update")
-    public String addForm(@RequestParam("hintId") Long hintId, Model model) {
+    @GetMapping(value = "/update/{hintId}")
+    public String addForm(@PathVariable("hintId") Long hintId, Model model) {
         Hint hint = hintService.getHint(hintId);
         model.addAttribute("heading","Upravit hint");
         model.addAttribute("hint", hint);
