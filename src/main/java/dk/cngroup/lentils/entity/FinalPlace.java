@@ -31,7 +31,7 @@ public class FinalPlace {
     public FinalPlace() {
     }
 
-    public FinalPlace(String title, Point location, LocalDateTime openingTime) {
+    public FinalPlace(final String title, final Point location, final LocalDateTime openingTime) {
         this.title = title;
         this.location = location;
         this.openingTime = openingTime;
@@ -41,7 +41,7 @@ public class FinalPlace {
         return finalPlaceId;
     }
 
-    public void setFinalPlaceId(Long finalPlaceId) {
+    public void setFinalPlaceId(final Long finalPlaceId) {
         this.finalPlaceId = finalPlaceId;
     }
 
@@ -49,7 +49,7 @@ public class FinalPlace {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -57,7 +57,7 @@ public class FinalPlace {
         return openingTime;
     }
 
-    public void setOpeningTime(LocalDateTime openingTime) {
+    public void setOpeningTime(final LocalDateTime openingTime) {
         this.openingTime = openingTime;
     }
 
@@ -65,7 +65,7 @@ public class FinalPlace {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(final Point location) {
         this.location = location;
     }
 
@@ -80,9 +80,13 @@ public class FinalPlace {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         FinalPlace that = (FinalPlace) o;
         return Objects.equals(finalPlaceId, that.finalPlaceId) &&
                 Objects.equals(title, that.title) &&
