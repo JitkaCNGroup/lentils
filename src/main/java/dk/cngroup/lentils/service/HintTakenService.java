@@ -8,7 +8,6 @@ import dk.cngroup.lentils.repository.HintTakenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,22 +16,21 @@ public class HintTakenService {
     private HintTakenRepository hintTakenRepository;
 
     @Autowired
-    public HintTakenService(HintTakenRepository hintTakenRepository) {
+    public HintTakenService(final HintTakenRepository hintTakenRepository) {
         this.hintTakenRepository = hintTakenRepository;
     }
 
-    public void takeHint(Team team, Hint hint) {
+    public void takeHint(final Team team, final Hint hint) {
         hintTakenRepository.save(new HintTaken(team, hint));
     }
 
-    public int getHintScore(Team team, Cypher cypher) {
-
+    public int getHintScore(final Team team, final Cypher cypher) {
         int hintScore = 0;
-        List<Hint> hints = cypher.getHints();
+        final List<Hint> hints = cypher.getHints();
         for (Hint hint: hints) {
             HintTaken hintTaken = hintTakenRepository.findByTeamAndHint(team, hint);
-            if (hintTaken != null ){
-                hintScore =+ hint.getValue();
+            if (hintTaken != null) {
+                hintScore += hint.getValue();
             }
         }
         return hintScore;
