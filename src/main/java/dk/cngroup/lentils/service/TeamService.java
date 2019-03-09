@@ -13,28 +13,30 @@ import java.util.Random;
 @Service
 public class TeamService {
 
-    private final String PIN_CHARACTERS = "0123456789";
+    private static final int PIN_LENGTH = 4;
+    private static final String PIN_CHARACTERS = "0123456789";
+
     private final TeamRepository teamRepository;
 
     @Autowired
-    public TeamService(TeamRepository teamRepository) {
+    public TeamService(final TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 
-    public Team save(Team team) {
+    public Team save(final Team team) {
         team.setPin(getUniquePin());
         return teamRepository.save(team);
     }
 
-    public Team getTeam(Long id) {
+    public Team getTeam(final Long id) {
         Optional<Team> team = teamRepository.findById(id);
-        if (team.isPresent()){
+        if (team.isPresent()) {
             return team.get();
         }
         throw new ResourceNotFoundException(Team.class.getSimpleName(), id);
     }
 
-    public void delete(Long id) {
+    public void delete(final Long id) {
         teamRepository.deleteById(id);
     }
 
@@ -47,16 +49,15 @@ public class TeamService {
     }
 
     private String getUniquePin() {
-        int pinLen = 4;
-        String pin = getPIN(pinLen);
+        String pin = getPIN(PIN_LENGTH);
 
-        while (!PINisUnique(pin)) {
-            pin = getPIN(pinLen);
+        while (!isPINUnique(pin)) {
+            pin = getPIN(PIN_LENGTH);
         }
         return pin;
     }
 
-    private boolean PINisUnique(String pin) {
+    private boolean isPINUnique(final String pin) {
         List<Team> teamList = teamRepository.findAll();
 
         for (Team team : teamList) {
@@ -67,7 +68,7 @@ public class TeamService {
         return true;
     }
 
-    private String getPIN(int len) {
+    private String getPIN(final int len) {
         String numbers = PIN_CHARACTERS;
         Random rnd = new Random();
         char[] pin = new char[len];
