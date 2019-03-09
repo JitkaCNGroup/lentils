@@ -26,7 +26,11 @@ public class Status {
     public Status() {
     }
 
-    public Status(Team team, Cypher cypher, CypherStatus cypherStatus) {
+    public Status(
+            final Team team,
+            final Cypher cypher,
+            final CypherStatus cypherStatus
+    ) {
         this.team = team;
         this.cypher = cypher;
         this.cypherStatus = cypherStatus;
@@ -36,7 +40,7 @@ public class Status {
         return cypherStatus;
     }
 
-    public void setCypherStatus(CypherStatus cypherStatus) {
+    public void setCypherStatus(final CypherStatus cypherStatus) {
         this.cypherStatus = cypherStatus;
     }
 
@@ -44,7 +48,7 @@ public class Status {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(final Team team) {
         this.team = team;
     }
 
@@ -52,7 +56,7 @@ public class Status {
         return cypher;
     }
 
-    public void setCypher(Cypher cypher) {
+    public void setCypher(final Cypher cypher) {
         this.cypher = cypher;
     }
 
@@ -66,9 +70,13 @@ public class Status {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Status status = (Status) o;
         return Objects.equals(team, status.team) &&
                 Objects.equals(cypher, status.cypher) &&
