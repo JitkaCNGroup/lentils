@@ -5,7 +5,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "team")
@@ -31,19 +30,24 @@ public class Team {
     public Team() {
     }
 
-    public Team(String name, int numOfMembers, String pin) {
+    public Team(final String name, final int numOfMembers, final String pin) {
         this.name = name;
         this.numOfMembers = numOfMembers;
         this.pin = pin;
     }
 
-    public Team(@NotEmpty String name, @NotNull(message = "must not be empty") @Min(value = 1, message =
-            "numOfMembers - You must enter a number greater or equal to 1") Integer numOfMembers) {
+    public Team(
+            @NotEmpty
+            final String name,
+            @NotNull(message = "must not be empty")
+            @Min(value = 1, message = "numOfMembers - You must enter a number greater or equal to 1")
+            final Integer numOfMembers
+    ) {
         this.name = name;
         this.numOfMembers = numOfMembers;
     }
 
-    public Team(Long teamId, String name, int numOfMembers, String pin) {
+    public Team(final Long teamId, final String name, final int numOfMembers, final String pin) {
         this.teamId = teamId;
         this.name = name;
         this.numOfMembers = numOfMembers;
@@ -54,7 +58,7 @@ public class Team {
         return teamId;
     }
 
-    public void setTeamId(Long teamId) {
+    public void setTeamId(final Long teamId) {
         this.teamId = teamId;
     }
 
@@ -62,7 +66,7 @@ public class Team {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name.trim();
     }
 
@@ -70,7 +74,7 @@ public class Team {
         return numOfMembers;
     }
 
-    public void setNumOfMembers(Integer numOfMembers) {
+    public void setNumOfMembers(final Integer numOfMembers) {
         this.numOfMembers = numOfMembers;
     }
 
@@ -78,7 +82,7 @@ public class Team {
         return pin;
     }
 
-    public void setPin(String pin) {
+    public void setPin(final String pin) {
         this.pin = pin;
     }
 
@@ -93,9 +97,13 @@ public class Team {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Team team = (Team) o;
         return Objects.equals(teamId, team.teamId) &&
                 Objects.equals(name, team.name) &&
