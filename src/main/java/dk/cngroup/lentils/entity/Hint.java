@@ -26,7 +26,7 @@ public class Hint implements Serializable {
     public Hint() {
     }
 
-    public Hint(String text, int value, Cypher cypher) {
+    public Hint(final String text, final int value, final Cypher cypher) {
         this.text = text;
         this.value = value;
         this.cypher = cypher;
@@ -40,7 +40,7 @@ public class Hint implements Serializable {
         return cypher;
     }
 
-    public void setCypher(Cypher cypher) {
+    public void setCypher(final Cypher cypher) {
         this.cypher = cypher;
     }
 
@@ -48,7 +48,7 @@ public class Hint implements Serializable {
         return hintId;
     }
 
-    public void setHintId(Long hintId) {
+    public void setHintId(final Long hintId) {
         this.hintId = hintId;
     }
 
@@ -56,7 +56,7 @@ public class Hint implements Serializable {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
     }
 
@@ -64,7 +64,7 @@ public class Hint implements Serializable {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(final int value) {
         this.value = value;
     }
 
@@ -79,9 +79,13 @@ public class Hint implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Hint hint = (Hint) o;
         return value == hint.value &&
                 Objects.equals(hintId, hint.hintId) &&
