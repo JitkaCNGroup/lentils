@@ -13,41 +13,41 @@ import java.util.Optional;
 
 @Service
 public class CypherService {
-    private CypherRepository cypherRepository;
-    private TeamService teamService;
-    private StatusService statusService;
-    private HintTakenService hintTakenService;
+    private final CypherRepository cypherRepository;
+    private final TeamService teamService;
+    private final StatusService statusService;
+    private final HintTakenService hintTakenService;
 
     @Autowired
-    public CypherService(CypherRepository cypherRepository,
-                         TeamService teamService,
-                         StatusService statusService,
-                         HintTakenService hintTakenService) {
+    public CypherService(final CypherRepository cypherRepository,
+                         final TeamService teamService,
+                         final StatusService statusService,
+                         final HintTakenService hintTakenService) {
         this.cypherRepository = cypherRepository;
         this.teamService = teamService;
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
     }
 
-    public Cypher save(Cypher cypher) {
+    public Cypher save(final Cypher cypher) {
         return cypherRepository.save(cypher);
     }
 
-    public List<Hint> getHintsForStage(Integer stage) {
+    public List<Hint> getHintsForStage(final Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
         return cypher.getHints();
     }
 
-    public Cypher getNext(Integer stage) {
+    public Cypher getNext(final Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
         return cypherRepository.findByStage(cypher.getStage() + 1);
     }
 
-    public boolean checkCodeword(String codeword, Integer stage) {
+    public boolean checkCodeword(final String codeword, final Integer stage) {
         Cypher cypher = cypherRepository.findByStage(stage);
         return codeword.equals(cypher.getCodeword());
     }
-    public Cypher getByStage(int stage){
+    public Cypher getByStage(final int stage) {
         return cypherRepository.findByStage(stage);
     }
 
@@ -55,7 +55,7 @@ public class CypherService {
         cypherRepository.deleteAll();
     }
 
-    public void saveAll(List<Cypher> cyphers) {
+    public void saveAll(final List<Cypher> cyphers) {
         cypherRepository.saveAll(cyphers);
     }
 
@@ -63,31 +63,31 @@ public class CypherService {
         return cypherRepository.findAll();
     }
 
-    public int getScore(Cypher cypher, Team team) {
-        int statusScore = statusService.getStatusScore(team, cypher );
+    public int getScore(final Cypher cypher, final Team team) {
+        int statusScore = statusService.getStatusScore(team, cypher);
         int hintScore = hintTakenService.getHintScore(team, cypher);
         return statusScore - hintScore;
     }
 
-    public int getScore(Long cypherId, Long teamId) {
+    public int getScore(final Long cypherId, final Long teamId) {
         Team team = teamService.getTeam(teamId);
         Cypher cypher = getCypher(cypherId);
         return getScore(cypher, team);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         cypherRepository.deleteById(id);
     }
 
-    public Cypher getCypher(Long cypherId) {
+    public Cypher getCypher(final Long cypherId) {
         Optional<Cypher> cypher = cypherRepository.findById(cypherId);
-        if (cypher.isPresent()){
+        if (cypher.isPresent()) {
             return cypher.get();
         }
         throw new ResourceNotFoundException(Cypher.class.getSimpleName(), cypherId);
     }
 
-    public Hint addHint(Long cypherId) {
+    public Hint addHint(final Long cypherId) {
         Cypher cypher = getCypher(cypherId);
         Hint hint = new Hint();
         hint.setCypher(cypher);
