@@ -35,18 +35,24 @@ public class Cypher implements Serializable {
     public Cypher() {
     }
 
-    public Cypher(int stage) {
+    public Cypher(final int stage) {
         this.stage = stage;
     }
 
-    public Cypher(String name, int stage, Point location, String codeword) {
+    public Cypher(final String name, final int stage, final Point location, final String codeword) {
         this.name = name;
         this.stage = stage;
         this.location = location;
         this.codeword = codeword;
     }
 
-    public Cypher(List<Hint> hints, String name, int stage, Point location, String codeword) {
+    public Cypher(
+            final List<Hint> hints,
+            final String name,
+            final int stage,
+            final Point location,
+            final String codeword
+    ) {
         this.hints = hints;
         this.name = name;
         this.stage = stage;
@@ -58,7 +64,7 @@ public class Cypher implements Serializable {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(final Point location) {
         this.location = location;
     }
 
@@ -66,7 +72,7 @@ public class Cypher implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -74,7 +80,7 @@ public class Cypher implements Serializable {
         return stage;
     }
 
-    public void setStage(int stage) {
+    public void setStage(final int stage) {
         this.stage = stage;
     }
 
@@ -82,7 +88,7 @@ public class Cypher implements Serializable {
         return codeword;
     }
 
-    public void setCodeword(String codeword) {
+    public void setCodeword(final String codeword) {
         this.codeword = codeword;
     }
 
@@ -90,7 +96,7 @@ public class Cypher implements Serializable {
         return cypherId;
     }
 
-    public void setCypherId(Long cypherId) {
+    public void setCypherId(final Long cypherId) {
         this.cypherId = cypherId;
     }
 
@@ -98,11 +104,11 @@ public class Cypher implements Serializable {
         return hints;
     }
 
-    public void setHints(List<Hint> hints) {
+    public void setHints(final List<Hint> hints) {
         this.hints = hints;
     }
 
-    public void addHint(Hint hint) {
+    public void addHint(final Hint hint) {
         hints.add(hint);
     }
 
@@ -120,9 +126,13 @@ public class Cypher implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Cypher cypher = (Cypher) o;
         return stage == cypher.stage &&
                 Objects.equals(cypherId, cypher.cypherId) &&
