@@ -41,30 +41,34 @@ public class ProgressController {
     public String stageProgress(@RequestParam("cypherId") Long cypherId, Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         fillModelAttributes(model, teamService.getAll(), cypher);
+        model.addAttribute("map", progressService.getProgressStatusMap(cypher));
         return PROGRESS_STAGE;
     }
 
     @GetMapping(value = "/skip/{cypherId}")
     public String stageSkip (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
-        model.addAttribute("status", progressService.setSkipProgressStatus(cypherService.getCypher(cypherId),
-                teamService.getTeam(teamId)));
+        Cypher cypher = cypherService.getCypher(cypherId);
+        progressService.setSkipProgressStatus(cypherService.getCypher(cypherId), teamService.getTeam(teamId));
         fillModelAttributes(model, teamService.getAll(), cypherService.getCypher(cypherId));
+        model.addAttribute("map", progressService.getProgressStatusMap(cypher));
         return PROGRESS_STAGE;
     }
 
     @GetMapping(value = "/pass/{cypherId}")
     public String stagePass (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
-        model.addAttribute("status", progressService.setPassProgressStatus(cypherService.getCypher(cypherId),
-                teamService.getTeam(teamId)));
+        Cypher cypher = cypherService.getCypher(cypherId);
+        progressService.setPassProgressStatus(cypherService.getCypher(cypherId), teamService.getTeam(teamId));
         fillModelAttributes(model, teamService.getAll(), cypherService.getCypher(cypherId));
+        model.addAttribute("map", progressService.getProgressStatusMap(cypher));
         return PROGRESS_STAGE;
     }
 
     @GetMapping(value = "/pending/{cypherId}")
     public String stagePending (@PathVariable("cypherId") Long cypherId, @RequestParam("teamId") Long teamId, Model model){
-        model.addAttribute("status", progressService.setPendingProgressStatus(cypherService.getCypher(cypherId),
-                teamService.getTeam(teamId)));
+        Cypher cypher = cypherService.getCypher(cypherId);
+        progressService.setPendingProgressStatus(cypherService.getCypher(cypherId), teamService.getTeam(teamId));
         fillModelAttributes(model, teamService.getAll(), cypherService.getCypher(cypherId));
+        model.addAttribute("map", progressService.getProgressStatusMap(cypher));
         return PROGRESS_STAGE;
     }
 

@@ -3,15 +3,11 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.repository.CypherRepository;
-import dk.cngroup.lentils.repository.HintTakenRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
-import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StatusService {
@@ -40,6 +36,10 @@ public class StatusService {
 
     public List<Status> getAll() {
         return statusRepository.findAll();
+    }
+
+    public List<Status> getAllByCypher(Cypher cypher) {
+        return statusRepository.findAllByCypher(cypher);
     }
 
     public int getStatusScore(Team team, Cypher cypher) {

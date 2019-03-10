@@ -30,10 +30,11 @@
                 <a href="#" th:href="@{/progress/pass/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">Splnit</a> |
                 <a href="#" th:href="@{/progress/pending/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">Pending</a>
             </td>
-            <td th:text="${status}" align="center">PASSED></td>
+            <td th:text="${map.get(team.teamId)}" align="center"></td>
         </tr>
     </th:block>
 </table>
-<p></p>
+<br>
+<a align="center" href="#" th:href="@{/progress}"><b>Zpět na seznam šifer</b></a>
 </body>
 </html>
