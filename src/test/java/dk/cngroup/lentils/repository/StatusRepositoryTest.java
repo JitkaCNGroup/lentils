@@ -4,9 +4,8 @@ import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Status;
-import dk.cngroup.lentils.entity.StatusKey;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.service.CypherStatus;
+import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
-import static dk.cngroup.lentils.service.CypherStatus.PENDING;
-import static dk.cngroup.lentils.service.CypherStatus.SOLVED;
+import static dk.cngroup.lentils.entity.CypherStatus.PENDING;
+import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
 import static dk.cngroup.lentils.service.ObjectGenerator.*;
 import static org.junit.Assert.assertEquals;
 
