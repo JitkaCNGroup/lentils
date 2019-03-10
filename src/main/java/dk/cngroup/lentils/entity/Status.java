@@ -1,8 +1,6 @@
 package dk.cngroup.lentils.entity;
 
 import dk.cngroup.lentils.service.CypherStatus;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,7 +18,6 @@ public class Status {
     @Id
     @ManyToOne
     @PrimaryKeyJoinColumn
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Cypher cypher;
 
     @Enumerated(EnumType.ORDINAL)
