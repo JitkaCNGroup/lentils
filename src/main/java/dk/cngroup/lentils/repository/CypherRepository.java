@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CypherRepository extends JpaRepository<Cypher, Long> {
-    public Cypher findByStage(Integer stage);
+    Cypher findByStage(Integer stage);
 }

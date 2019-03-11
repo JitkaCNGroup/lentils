@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface HintTakenRepository extends JpaRepository<HintTaken, HintTakenKey> {
-    public List<HintTaken> findByTeam(Team team) ;
-    public HintTaken findByTeamAndHint(Team team, Hint hint);
+    List<HintTaken> findByTeam(Team team) ;
+    HintTaken findByTeamAndHint(Team team, Hint hint);
 }

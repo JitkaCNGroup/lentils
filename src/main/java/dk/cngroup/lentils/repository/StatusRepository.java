@@ -12,6 +12,6 @@ import java.util.List;
 
 @Repository
 public interface StatusRepository extends JpaRepository<Status, StatusKey> {
-    public Status findByTeamAndCypher(Team team, Cypher cypher);
-    public List<Status> findByTeam(Team team);
+    Status findByTeamAndCypher(Team team, Cypher cypher);
+    List<Status> findByTeam(Team team);
 }
