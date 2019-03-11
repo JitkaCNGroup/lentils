@@ -21,7 +21,7 @@ public class HintTaken {
     public HintTaken() {
     }
 
-    public HintTaken(Team team, Hint hint) {
+    public HintTaken(final Team team, final Hint hint) {
         this.team = team;
         this.hint = hint;
     }
@@ -30,7 +30,7 @@ public class HintTaken {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(final Team team) {
         this.team = team;
     }
 
@@ -38,7 +38,7 @@ public class HintTaken {
         return hint;
     }
 
-    public void setHint(Hint hint) {
+    public void setHint(final Hint hint) {
         this.hint = hint;
     }
 
@@ -51,9 +51,13 @@ public class HintTaken {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         HintTaken hintTaken = (HintTaken) o;
         return Objects.equals(team, hintTaken.team) &&
                 Objects.equals(hint, hintTaken.hint);
