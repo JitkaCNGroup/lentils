@@ -15,19 +15,19 @@ public class HintService {
     private HintRepository hintRepository;
 
     @Autowired
-    public HintService(HintRepository hintRepository) {
+    public HintService(final HintRepository hintRepository) {
         this.hintRepository = hintRepository;
     }
 
-    public List<Hint> getAllByCypher(Cypher cypher) {
+    public List<Hint> getAllByCypher(final Cypher cypher) {
         return hintRepository.findByCypher(cypher);
     }
 
-    public Hint save(Hint hint) {
+    public Hint save(final Hint hint) {
         return hintRepository.save(hint);
     }
 
-    public List<Hint> saveAll(List<Hint> hints) {
+    public List<Hint> saveAll(final List<Hint> hints) {
         return hintRepository.saveAll(hints);
     }
 
@@ -35,19 +35,19 @@ public class HintService {
         return hintRepository.findAll();
     }
 
-    public Hint getHint(Long hintId) {
+    public Hint getHint(final Long hintId) {
         Optional<Hint> hint = hintRepository.findById(hintId);
-        if (hint.isPresent()){
+        if (hint.isPresent()) {
             return hint.get();
         }
         throw new ResourceNotFoundException(Hint.class.getSimpleName(), hintId);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         hintRepository.deleteById(id);
     }
 
-    public void deleteAlHintsByCypher(Cypher cypher) {
+    public void deleteAlHintsByCypher(final Cypher cypher) {
         hintRepository.deleteByCypher(cypher);
     }
 }
