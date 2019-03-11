@@ -22,20 +22,20 @@ public class HintController {
     private HintService hintService;
 
     @Autowired
-    public HintController(CypherService cypherService, HintService hintService) {
+    public HintController(final CypherService cypherService, final HintService hintService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
     }
 
     @GetMapping(value = "/list")
-    public String hints(@RequestParam("cypherId")Long cypherId, Model model) {
+    public String hints(@RequestParam("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
         return VIEW_HINT_LIST;
     }
 
     @GetMapping(value = "/delete/{hintId}")
-    public String deleteHint(@PathVariable("hintId") Long hintId) {
+    public String deleteHint(@PathVariable("hintId") final Long hintId) {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
@@ -43,23 +43,23 @@ public class HintController {
     }
 
     @GetMapping(value = "/update/{hintId}")
-    public String addForm(@PathVariable("hintId") Long hintId, Model model) {
+    public String addForm(@PathVariable("hintId") final Long hintId, final Model model) {
         Hint hint = hintService.getHint(hintId);
-        model.addAttribute("heading","Upravit hint");
+        model.addAttribute("heading", "Upravit hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
 
     @GetMapping(value = "/new")
-    public String newHint(@RequestParam("cypherId") Long cypherId, Model model) {
+    public String newHint(@RequestParam("cypherId") final Long cypherId, final Model model) {
         Hint hint = cypherService.addHint(cypherId);
-        model.addAttribute("heading","Nový hint");
+        model.addAttribute("heading", "Nový hint");
         model.addAttribute("hint", hint);
         return VIEW_HINT;
     }
 
     @PostMapping(value = "/save")
-    public String save(@Valid Hint hint, Model model) {
+    public String save(@Valid final Hint hint) {
         Hint hint1 = hintService.save(hint);
         return REDIRECT_HINT_LIST + "?cypherId=" + hint1.getCypherId();
     }
