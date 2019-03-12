@@ -1,7 +1,5 @@
 package dk.cngroup.lentils.entity;
 
-import dk.cngroup.lentils.service.CypherStatus;
-
 import javax.persistence.*;
 import java.util.Objects;
 

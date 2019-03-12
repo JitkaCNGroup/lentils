@@ -1,4 +1,6 @@
-package dk.cngroup.lentils.service;
+package dk.cngroup.lentils.entity;
+
+import dk.cngroup.lentils.service.ProgressService;
 
 public enum CypherStatus {
     SOLVED(10),

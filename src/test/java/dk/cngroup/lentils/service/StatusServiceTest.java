@@ -1,10 +1,7 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
-import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.Status;
-import dk.cngroup.lentils.entity.StatusKey;
-import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.*;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;

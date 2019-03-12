@@ -1,17 +1,14 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.repository.CypherRepository;
-import dk.cngroup.lentils.repository.HintTakenRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
-import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StatusService {
@@ -23,20 +20,11 @@ public class StatusService {
         this.statusRepository = statusRepository;
     }
 
-    public void markCypherSolvedForTeam(Cypher cypher, Team team) {
+    public void markCypher(Cypher cypher, Team team, CypherStatus cypherStatus) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        saveNewStatus(status, CypherStatus.SOLVED);
+        saveNewStatus(status, cypherStatus);
     }
 
-    public void markCypherSkippedForTeam(Cypher cypher, Team team) {
-        Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        saveNewStatus(status, CypherStatus.SKIPPED);
-    }
-
-    public void markCypherPendingForTeam(Cypher cypher, Team team) {
-        Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        saveNewStatus(status, CypherStatus.PENDING);
-    }
 
     public List<Status> getAll() {
         return statusRepository.findAll();
@@ -63,5 +51,9 @@ public class StatusService {
         status.setTeam(team);
         status.setCypherStatus(null);
         statusRepository.save(status);
+    }
+
+    public List<Status> getAllByCypher(Cypher cypher) {
+        return statusRepository.findAllByCypher(cypher);
     }
 }

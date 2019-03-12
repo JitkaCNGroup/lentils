@@ -26,14 +26,27 @@
             <td th:text="${team.numOfMembers}" align="center">8</td>
             <td th:text="${team.pin}" align="center">9876</td>
             <td align="center">
-                <a href="#" th:href="@{/progress/skip/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">Přeskočit</a> |
-                <a href="#" th:href="@{/progress/pass/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">Splnit</a> |
-                <a href="#" th:href="@{/progress/pending/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">Pending</a>
+                <a href="#"
+                   th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
+                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
+                    Přeskočit
+                </a>
+                <a href="#"
+                   th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
+                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solveasdfasdf')}">
+                    Splnit
+                </a>
+                <a href="#"
+                   th:if="${teamsStatuses.get(team.teamId) == null or (teamsStatuses.get(team.teamId)).name() != 'PENDING'}"
+                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
+                    Pending
+                </a>
             </td>
-            <td th:text="${status}" align="center">PASSED></td>
+            <td th:text="${teamsStatuses.get(team.teamId)}" align="center"></td>
         </tr>
     </th:block>
 </table>
-<p></p>
+<br>
+<a align="center" href="#" th:href="@{/progress}"><b>Zpět na seznam šifer</b></a>
 </body>
 </html>
