@@ -37,8 +37,7 @@ public class ProgressService {
     }
 
     private void setStatusOfTeamsToMap(final List<Status> statuses,
-                                       final Map<Long,
-                                       CypherStatus> teamsStatuses,
+                                       final Map<Long, CypherStatus> teamsStatuses,
                                        final Team team) {
         statuses.forEach(status -> {
             if ((status.getTeam() == team)) {
