@@ -11,18 +11,20 @@ import java.util.List;
 @Service
 public class FinalPlaceService {
 
-    FinalPlaceRepository finalPlacerepository;
+    private FinalPlaceRepository finalPlacerepository;
 
     @Autowired
-    public FinalPlaceService(FinalPlaceRepository finalPlacerepository) {
+    public FinalPlaceService(final FinalPlaceRepository finalPlacerepository) {
         this.finalPlacerepository = finalPlacerepository;
     }
 
-    public FinalPlace save(FinalPlace finalPlace) {
+    public FinalPlace save(final FinalPlace finalPlace) {
         return finalPlacerepository.save(finalPlace);
     }
 
     /**
+     * Get final state entity.
+     *
      * assumption:
      * there is only one line in the table
      */
@@ -42,6 +44,8 @@ public class FinalPlaceService {
     }
 
     /**
+     * Delete all final places.
+     *
      * assumption:
      * there is only one line in the table
      */
