@@ -16,36 +16,35 @@ public class StatusService {
     private StatusRepository statusRepository;
 
     @Autowired
-    public StatusService(StatusRepository statusRepository) {
+    public StatusService(final StatusRepository statusRepository) {
         this.statusRepository = statusRepository;
     }
 
-    public void markCypher(Cypher cypher, Team team, CypherStatus cypherStatus) {
+    public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
         saveNewStatus(status, cypherStatus);
     }
-
 
     public List<Status> getAll() {
         return statusRepository.findAll();
     }
 
-    public int getStatusScore(Team team, Cypher cypher) {
+    public int getStatusScore(final Team team, final Cypher cypher) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
         return status.getCypherStatus().getStatusValue();
     }
 
-    private void saveNewStatus(Status status, CypherStatus newStatus) {
+    private void saveNewStatus(final Status status, final CypherStatus newStatus) {
         status.setCypherStatus(newStatus);
         statusRepository.save(status);
     }
 
-    public CypherStatus getCypherStatusForTeam(Cypher cypher, Team team) {
+    public CypherStatus getCypherStatusForTeam(final Cypher cypher, final Team team) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
         return status.getCypherStatus();
     }
 
-    public void initializeStatusForTeamAndCypher(Cypher cypher, Team team) {
+    public void initializeStatusForTeamAndCypher(final Cypher cypher, final Team team) {
         Status status = new Status();
         status.setCypher(cypher);
         status.setTeam(team);
@@ -53,7 +52,7 @@ public class StatusService {
         statusRepository.save(status);
     }
 
-    public List<Status> getAllByCypher(Cypher cypher) {
+    public List<Status> getAllByCypher(final Cypher cypher) {
         return statusRepository.findAllByCypher(cypher);
     }
 }
