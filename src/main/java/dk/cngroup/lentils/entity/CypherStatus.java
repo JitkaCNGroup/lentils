@@ -1,7 +1,5 @@
 package dk.cngroup.lentils.entity;
 
-import dk.cngroup.lentils.service.ProgressService;
-
 public enum CypherStatus {
     SOLVED(10),
     SKIPPED(0),
@@ -9,7 +7,7 @@ public enum CypherStatus {
 
     private int statusValue;
 
-    CypherStatus(int statusValue) {
+    CypherStatus(final int statusValue) {
         this.statusValue = statusValue;
     }
 
