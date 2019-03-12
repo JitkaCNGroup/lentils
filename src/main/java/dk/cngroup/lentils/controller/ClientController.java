@@ -30,10 +30,10 @@ public class ClientController {
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
 
     private CypherService cypherService;
-    private TeamService teamService;
-    private StatusService statusService;
     private HintService hintService;
     private HintTakenService hintTakenService;
+    private StatusService statusService;
+    private TeamService teamService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
@@ -42,10 +42,10 @@ public class ClientController {
                             final HintService hintService,
                             final HintTakenService hintTakenService) {
         this.cypherService = cypherService;
-        this.teamService = teamService;
-        this.statusService = statusService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
+        this.statusService = statusService;
+        this.teamService = teamService;
     }
 
     @GetMapping(value = "cypher/{id}")
