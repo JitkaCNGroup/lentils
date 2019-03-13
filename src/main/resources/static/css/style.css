@@ -58,11 +58,9 @@ a:hover {
     margin-left:10px;
 }
 
-    .bodyContent{
-        padding: 10px;
-        margin: 10px;
-        color:grey;
-    }
+.bodyContent{
+    padding: 20px;
+}
 
     .bodyContent h1{
         color: rgb(237, 24, 72)
@@ -223,10 +221,6 @@ a:hover {
     display: none;
 }
 
-#bonusButton{
-
-}
-
 #hintContent{
     visibility: hidden;
     text-align: center;
@@ -236,5 +230,18 @@ a:hover {
     visibility: hidden;
 }
 
-#navbarButton{
+a{
+    color: black;
+}
+
+a:hover{
+    background-color: #e9ecef;
+    color: black;
+    text-decoration: none;
+}
+
+.hoverColor:hover{
+    background-color: #e9ecef;
+    color: black;
+    text-decoration: none;
 }
