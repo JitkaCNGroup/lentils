@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
+      <x>150</x>
       <y>10</y>
       <w>700</w>
       <h>730</h>
@@ -15,7 +15,7 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>270</x>
+      <x>0</x>
       <y>140</y>
       <w>100</w>
       <h>110</h>
@@ -26,7 +26,7 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>290</x>
+      <x>20</x>
       <y>420</y>
       <w>60</w>
       <h>110</h>
@@ -37,43 +37,46 @@
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>600</x>
+      <x>330</x>
       <y>150</y>
       <w>120</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-01&gt;&gt;
-Enter solution</panel_attributes>
+Enter solution
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>860</x>
+      <x>590</x>
       <y>150</y>
       <w>120</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-03&gt;&gt;
-Skip cipher</panel_attributes>
+Skip cypher
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>730</x>
+      <x>460</x>
       <y>150</y>
       <w>120</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-02&gt;&gt;
-Get hint</panel_attributes>
+Get hint
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>470</x>
+      <x>200</x>
       <y>440</y>
       <w>160</w>
       <h>60</h>
@@ -87,7 +90,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>920</x>
+      <x>650</x>
       <y>420</y>
       <w>160</w>
       <h>60</h>
@@ -96,13 +99,13 @@ bg=yellow</panel_attributes>
 Mark stage as solved
 for a team
 
-bg=yellow</panel_attributes>
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>920</x>
+      <x>650</x>
       <y>490</y>
       <w>160</w>
       <h>60</h>
@@ -111,13 +114,13 @@ bg=yellow</panel_attributes>
 Mark stage as skipped
 for a team
 
-bg=yellow</panel_attributes>
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>920</x>
+      <x>650</x>
       <y>560</y>
       <w>160</w>
       <h>60</h>
@@ -131,37 +134,40 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>730</x>
+      <x>460</x>
       <y>210</y>
       <w>130</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-05&gt;&gt;
-View cipher detail</panel_attributes>
+View cypher detail
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>580</x>
+      <x>310</x>
       <y>210</y>
       <w>140</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-04&gt;&gt;
-View list of ciphers</panel_attributes>
+View list of cyphers
+
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>480</x>
+      <x>210</x>
       <y>590</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-11&gt;&gt;
-Manage ciphers
+Manage cyphers
 
 bg=green</panel_attributes>
     <additional_attributes/>
@@ -169,7 +175,7 @@ bg=green</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>700</x>
+      <x>430</x>
       <y>530</y>
       <w>160</w>
       <h>60</h>
@@ -183,7 +189,7 @@ Manage prerequisites?
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
+      <x>180</x>
       <y>60</y>
       <w>650</w>
       <h>320</h>
@@ -194,7 +200,7 @@ Manage prerequisites?
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
+      <x>180</x>
       <y>410</y>
       <w>650</w>
       <h>320</h>
@@ -205,7 +211,7 @@ Manage prerequisites?
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
+      <x>70</x>
       <y>170</y>
       <w>130</w>
       <h>30</h>
@@ -216,7 +222,7 @@ Manage prerequisites?
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
+      <x>60</x>
       <y>450</y>
       <w>140</w>
       <h>30</h>
@@ -227,19 +233,20 @@ Manage prerequisites?
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>580</x>
+      <x>310</x>
       <y>300</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-06&gt;&gt;
-View the final destination</panel_attributes>
+View the final place
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>460</x>
+      <x>190</x>
       <y>520</y>
       <w>180</w>
       <h>60</h>
@@ -253,7 +260,7 @@ bg=green</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>690</x>
+      <x>420</x>
       <y>450</y>
       <w>160</w>
       <h>60</h>
@@ -265,7 +272,7 @@ Manage team</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>870</x>
+      <x>600</x>
       <y>260</y>
       <w>130</w>
       <h>60</h>
@@ -277,7 +284,7 @@ View score</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>950</x>
+      <x>680</x>
       <y>200</y>
       <w>130</w>
       <h>60</h>
@@ -289,7 +296,7 @@ View prerequisites</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>920</x>
+      <x>650</x>
       <y>640</y>
       <w>160</w>
       <h>60</h>
@@ -303,7 +310,7 @@ bg=white</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>470</x>
+      <x>200</x>
       <y>660</y>
       <w>200</w>
       <h>60</h>
