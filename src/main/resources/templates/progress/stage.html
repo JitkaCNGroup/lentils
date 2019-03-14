@@ -15,6 +15,7 @@
     <td align="center">PIN</td>
     <td align="center">Akce</td>
     <td align="center">Stav</td>
+    <td align="center">Hinty</td>
     <tr th:if="${teams.empty}">
         <td colspan="5"><h3> V systému nejsou týmy</h3></td>
     </tr>
@@ -29,11 +30,11 @@
                 <a href="#"
                    th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                    th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
-                    Přeskočit
+                    Přeskočit |
                 </a>
                 <a href="#"
                    th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
-                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solveasdfasdf')}">
+                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
                     Splnit
                 </a>
                 <a href="#"
@@ -43,6 +44,17 @@
                 </a>
             </td>
             <td th:text="${teamsStatuses.get(team.teamId)}" align="center"></td>
+            <td align="center">
+                <span
+                   th:if="${cypher.getHints().isEmpty()}">
+                    Žádné hinty
+                </span>
+                <a href="#"
+                   th:if="${!cypher.getHints().isEmpty()}"
+                   th:href="@{/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
+                    Hinty
+                </a>
+            </td>
         </tr>
     </th:block>
 </table>

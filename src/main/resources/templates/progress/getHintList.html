@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="cz"
+      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <title>Luštěniny - Hinty</title>
+</head>
+<body>
+<h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
+<table border="1" width="50%">
+    <thead>
+    <tr>
+        <th>Hodnota</th>
+        <th>Akce</th>
+        <th>Text</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hint : ${cypher.hints}">
+        <td align="center" th:text="${hint.value}">value</td>
+        <td align="center">
+            <a href="#" th:href="@{/progress/viewTakenHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, hintId=${hint.hintId})}">Vzít Hint</a>
+        </td>
+        <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
+    </tr>
+</table>
+</body>
+</html>
+
