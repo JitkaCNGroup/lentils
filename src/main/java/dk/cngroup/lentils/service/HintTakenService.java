@@ -35,4 +35,8 @@ public class HintTakenService {
         }
         return hintScore;
     }
+
+    public List<HintTaken> getTakenHintsOfTeam(final Team team) {
+        return hintTakenRepository.findByTeam(team);
+    }
 }
