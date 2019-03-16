@@ -8,6 +8,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>CypherDetail</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!--<script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>-->
+    <!--<link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"-->
+          <!--integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="-->
+          <!--crossorigin=""/>-->
 </head>
 <body>
 <div class="container">
@@ -44,6 +52,64 @@
         </div>
     </form>
 </div>
+<div id='map' style='width: 400px; height: 300px;'></div>
+<pre id='info'></pre>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWphbm91c2VrOTIiLCJhIjoiY2p0N2drczFzMDdiYTQ0bGpnbXJsejh1eSJ9.Aj8F_s2-ur-dTagXZISw_w';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [17.66485, 49.22439], // starting position
+        zoom: 14 // starting zoom
+    });
+    //
+    // map.on('click', function (e) {
+    //     document.getElementById('latlng').value = e.lngLat.lat + ',' + e.lngLat.lng;
+    // });
+    //
+    // map.on('load', function () {
+    //     console.log('init');
+    //     var latlng = document.getElementById('latlng').value;
+    //     if (latlng) {
+    //         var toupleLatLng = latlng.split(",")
+    //         // var lat = toupleLatLng[0];
+    //         // var lng = toupleLatLng[1];
+    //         console.log('geojson: ' + createPoint(toupleLatLng));
+    //         map.addSource('point', {
+    //             "type": "geojson",
+    //             "data": createPoint(toupleLatLng)
+    //         });
+    //         map.add
+    //         // L.marker([lng, lat]).addTo(map);
+    //         console.log(toupleLatLng);
+    //     }
+    // });
+    //
+    // function createPoint(latlng) {
+    //     return {
+    //         "type": "Point",
+    //         "coordinates": latlng
+    //     };
+    // }
+    // L.mapbox.accessToken = 'pk.eyJ1IjoibWphbm91c2VrOTIiLCJhIjoiY2p0N2drczFzMDdiYTQ0bGpnbXJsejh1eSJ9.Aj8F_s2-ur-dTagXZISw_w';
+    //
+    // var map = L.mapbox.map('map')
+    //     .setView([17.66485, 49.22439], 14)
+    //     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+
+    // map.on('load', function () {
+    //     console.log('init');
+    //     var latlng = document.getElementById('latlng').value;
+    //     if (latlng) {
+    //         var toupleLatLng = latlng.split(",")
+    //         // var lat = toupleLatLng[0];
+    //         // var lng = toupleLatLng[1];
+    //         // console.log('geojson: ' + createPoint(toupleLatLng));
+    //         L.marker(toupleLatLng).addTo(map);
+    //     }
+    // });
+
+</script>
 </body>
 </html>
 
