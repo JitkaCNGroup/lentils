@@ -15,11 +15,11 @@ import javax.validation.Valid;
 
 
 @Controller
-@RequestMapping("/cypher")
+@RequestMapping("/admin/cypher")
 public class CypherController {
     private static final String VIEW_CYPHER_LIST = "cypher/list";
     private static final String VIEW_CYPHER_DETAIL = "cypher/form";
-    private static final String REDIRECT_CYPHER_LIST = "redirect:/cypher/";
+    private static final String REDIRECT_CYPHER_LIST = "redirect:/admin/cypher/";
     private static final Point DEFAULT_LOCATION = new Point(59.9090442, 10.7423389);
 
     private CypherService cypherService;

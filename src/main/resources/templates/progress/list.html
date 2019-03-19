@@ -32,12 +32,16 @@
                 <td th:text="${cypher.stage}" align="center">Cislo</td>
                 <td th:text="${cypher.location}">X, Y</td>
                 <td align="center">
-                    <a href="#" th:href="@{/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
+                    <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+    <form action="/logout" method="post">
+        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+        <button type="submit">Odhlásit</button>
+    </form>
 </div>
 </body>
 </html>

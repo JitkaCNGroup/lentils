@@ -19,7 +19,7 @@
             <h2><span th:text="${heading}">Nadpis</span></h2>
         </div>
         <div class="col-sm-6">
-            <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
+            <form action="#" th:action="@{/admin/cypher/save}" th:object="${cypher}" method="post">
                 <div class="form-group">
                     <label for="cypherId">Id</label>
                     <input id="cypherId" class="form-control" th:field="*{cypherId}" readonly/>

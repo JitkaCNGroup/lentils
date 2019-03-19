@@ -54,13 +54,13 @@
                 <td th:text="${hint.text}">text</td>
                 <td th:text="${hint.value}">value</td>
                 <td align="center">
-                    <a href="#" th:href="@{/hint/update/{hintId}(hintId=${hint.hintId})}">Upravit</a> |
-                    <a href="#" th:href="@{/hint/delete/{hintId}(hintId=${hint.hintId})}">Smazat</a>
+                    <a href="#" th:href="@{/admin/hint/update/{hintId}(hintId=${hint.hintId})}">Upravit</a> |
+                    <a href="#" th:href="@{/admin/hint/delete/{hintId}(hintId=${hint.hintId})}">Smazat</a>
                 </td>
             </tr>
             <tr>
                 <td colspan="4" align="center">
-                    <a href="#" th:href="@{/hint/new(cypherId=${cypher.cypherId})}">Přidat</a>
+                    <a href="#" th:href="@{/admin/hint/new(cypherId=${cypher.cypherId})}">Přidat</a>
                 </td>
 
             </tr>
