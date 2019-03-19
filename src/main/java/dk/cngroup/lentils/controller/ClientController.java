@@ -3,12 +3,12 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.StatusService;
 import dk.cngroup.lentils.service.TeamService;
-import dk.cngroup.lentils.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,18 +35,28 @@ public class ClientController {
     private HintTakenService hintTakenService;
     private StatusService statusService;
     private TeamService teamService;
+    private CypherGameInfoService cypherGameInfoService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
                             final TeamService teamService,
                             final StatusService statusService,
                             final HintService hintService,
-                            final HintTakenService hintTakenService) {
+                            final HintTakenService hintTakenService,
+                            final CypherGameInfoService cypherGameInfoService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
         this.teamService = teamService;
+        this.cypherGameInfoService = cypherGameInfoService;
+    }
+
+    @GetMapping(value = "cypher")
+    public String listAllCyphers(final Model model) {
+        model.addAttribute("cypherGameInfos", cypherGameInfoService.getAll());
+        model.addAttribute("team", teamService.getTeam(2L));
+        return CLIENT_VIEW_CYPHER_LIST;
     }
 
     @GetMapping(value = "cypher/{id}")

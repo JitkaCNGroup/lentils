@@ -6,6 +6,8 @@ import dk.cngroup.lentils.repository.HintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HintService {
     private HintRepository hintRepository;
@@ -26,6 +28,10 @@ public class HintService {
         return hintRepository
                 .findById(hintId)
                 .orElseThrow(() -> new ResourceNotFoundException(Hint.class.getSimpleName(), hintId));
+    }
+
+    public List<Hint> saveAll(final List<Hint> hints) {
+        return hintRepository.saveAll(hints);
     }
 
     public void deleteById(final Long id) {

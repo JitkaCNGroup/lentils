@@ -64,4 +64,8 @@ public class StatusService {
     public List<Status> getAllByCypher(final Cypher cypher) {
         return statusRepository.findAllByCypher(cypher);
     }
+
+    public List<Status> getAllByTeam(Team team) {
+        return statusRepository.findByTeam(team);
+    }
 }
