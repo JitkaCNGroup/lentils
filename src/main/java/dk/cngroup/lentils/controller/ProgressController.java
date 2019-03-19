@@ -11,12 +11,15 @@ import dk.cngroup.lentils.service.ProgressService;
 import dk.cngroup.lentils.service.TeamService;
 import dk.cngroup.lentils.service.HintTakenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
@@ -89,19 +92,18 @@ public class ProgressController {
         return HINT_LIST;
     }
 
-    @GetMapping(value = "/viewTakenHints/{cypherId}")
-    public String viewHintsForCypherByTeam(final @PathVariable("cypherId") Long cypherId,
-                                           final @RequestParam("teamId") Long teamId,
-                                           final @RequestParam("hintId") Long hintId,
-                                           final Model model) {
-        Cypher cypher = cypherService.getCypher(cypherId);
+    @PostMapping("/takeHintOfCypher")
+    public ResponseEntity viewHintsForCypherByTeam(final @RequestParam("teamId") Long teamId,
+                                                 final @RequestParam("hintId") Long hintId,
+                                                 final @RequestParam("pin") String pin) {
         Team team = teamService.getTeam(teamId);
-        Hint hint = hintService.getHint(hintId);
-        hintTakenService.takeHint(team, hint);
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("team", team);
-        model.addAttribute("takenHints", progressService.setTakenHintsToMap(cypher, team));
-        return HINT_LIST;
+        if (pin.equals(team.getPin())) {
+            Hint hint = hintService.getHint(hintId);
+            hintTakenService.takeHint(team, hint);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
