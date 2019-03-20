@@ -20,14 +20,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(getPasswordEncoder())
                 .withUser("admin")
                 .password(getPasswordEncoder().encode("admin"))
-                .roles("USER");
+                .roles("ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .anyRequest().hasRole("USER").and()
+                    .antMatchers("/**").hasRole("ADMIN")
+                    .anyRequest().hasRole("ADMIN").and()
                     .formLogin()
                         .loginPage("/login")
                         .defaultSuccessUrl("/progress")
