@@ -28,7 +28,9 @@
                 <td id="hintId" align="center" th:text="${hint.hintId}">value</td>
                 <td align="center" th:text="${hint.value}">value</td>
                 <td align="center">
-                    <button th:onclick="'javascript:openDialog(' + ${hint.hintId} + ')'">Vzít Hint</button>
+                    <button th:disabled="${takenHints.get(hint.hintId) != null}"
+                            th:onclick="'javascript:openDialog(' + ${hint.hintId} + ')'">Vzít Hint
+                    </button>
                 </td>
                 <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
             </tr>
