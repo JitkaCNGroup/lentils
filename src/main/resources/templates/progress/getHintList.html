@@ -11,11 +11,13 @@
 </head>
 <body>
 <div class="container">
+    <h1>Tým <span th:text="${team.name}"></span></h1>
     <h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
     <div class="table-responsive">
-        <table class="table" border="1">
+        <table border="1" class="table">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Hodnota</th>
                 <th>Akce</th>
                 <th>Text</th>
@@ -23,17 +25,79 @@
             </thead>
             <tbody>
             <tr th:each="hint : ${cypher.hints}">
+                <td id="hintId" align="center" th:text="${hint.hintId}">value</td>
                 <td align="center" th:text="${hint.value}">value</td>
                 <td align="center">
-                    <a href="#"
-                       th:href="@{/progress/viewTakenHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, hintId=${hint.hintId})}">Vzít
-                        Hint</a>
+                    <button th:onclick="'javascript:openDialog(' + ${hint.hintId} + ')'">Vzít Hint</button>
                 </td>
                 <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
             </tr>
         </table>
     </div>
 </div>
+
+<div class="container">
+    <!-- Trigger the modal with a button -->
+    <div class="modal fade" id="takeHintModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-sm" role="document">
+            <!--Content-->
+            <div class="modal-content">
+
+                <!--Header-->
+                <!--Body-->
+                <div class="modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2">Zadej PIN:</h5>
+
+                    <div class="md-form ml-0 mr-0">
+                        <input type="password" id="enteredPin" class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="enteredPin" class="ml-0">PIN</label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button id="verifyBtn" class="btn btn-cyan mt-1">Ověřit <i class="fas fa-sign-in ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var teamId = /*[[${team.teamId}]]*/ "teamId";
+
+    function openDialog(hintId) {
+        $('#takeHintModal').modal();
+        $("#verifyBtn").click(function () {
+            verifyPinPost(hintId);
+            $('#takeHintModal').modal('hide');
+        });
+    }
+
+    function verifyPinPost(hintId) {
+        var pin = document.getElementById("enteredPin").value;
+        var data = {"pin": pin, "teamId": teamId, "hintId": hintId};
+        $.ajax({
+            url: "/progress/takeHintOfCypher",
+            type: 'post',
+            data: data,
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert("špatný PIN");
+            }
+        });
+    }
+
+    /*]]>*/
+</script>
+
 </body>
 </html>
 
