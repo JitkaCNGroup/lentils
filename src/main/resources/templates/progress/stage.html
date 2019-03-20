@@ -11,63 +11,63 @@
 <body>
 
 <div class="container">
-<h1>Šifra <span th:text="${cypher.name}"></span> - Stav</h1>
-<h2>Týmy:</h2>
-<div class="table-responsive">
-<table class="table" border="1">
-    <thead>
-    <td align="center">Id</td>
-    <td align="center">Jméno týmu</td>
-    <td align="center">Počet členů</td>
-    <td align="center">PIN</td>
-    <td align="center">Akce</td>
-    <td align="center">Stav</td>
-    <td align="center">Hinty</td>
-    <tr th:if="${teams.empty}">
-        <td colspan="7"><p> V systému nejsou týmy</p></td>
-    </tr>
-    </thead>
-    <th:block th:each="team : ${teams}">
-        <tr>
-            <td th:text="${team.teamId}" align="center">8888</td>
-            <td th:text="${team.name}">Bamboo</td>
-            <td th:text="${team.numOfMembers}" align="center">8</td>
-            <td th:text="${team.pin}" align="center">9876</td>
-            <td align="center">
-                <a href="#"
-                   th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
-                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
-                    Přeskočit |
-                </a>
-                <a href="#"
-                   th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
-                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
-                    Splnit
-                </a>
-                <a href="#"
-                   th:if="${teamsStatuses.get(team.teamId) == null or (teamsStatuses.get(team.teamId)).name() != 'PENDING'}"
-                   th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
-                    Pending
-                </a>
-            </td>
-            <td th:text="${teamsStatuses.get(team.teamId)}" align="center"></td>
-            <td align="center">
+    <h1>Šifra <span th:text="${cypher.name}"></span> - Stav</h1>
+    <h2>Týmy:</h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <td align="center">Id</td>
+            <td align="center">Jméno týmu</td>
+            <td align="center">Počet členů</td>
+            <td align="center">PIN</td>
+            <td align="center">Akce</td>
+            <td align="center">Stav</td>
+            <td align="center">Hinty</td>
+            <tr th:if="${teams.empty}">
+                <td colspan="7"><p> V systému nejsou týmy</p></td>
+            </tr>
+            </thead>
+            <th:block th:each="team : ${teams}">
+                <tr>
+                    <td th:text="${team.teamId}" align="center">8888</td>
+                    <td th:text="${team.name}">Bamboo</td>
+                    <td th:text="${team.numOfMembers}" align="center">8</td>
+                    <td th:text="${team.pin}" align="center">9876</td>
+                    <td align="center">
+                        <a href="#"
+                           th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
+                           th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
+                            Přeskočit |
+                        </a>
+                        <a href="#"
+                           th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
+                           th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
+                            Splnit
+                        </a>
+                        <a href="#"
+                           th:if="${teamsStatuses.get(team.teamId) == null or (teamsStatuses.get(team.teamId)).name() != 'PENDING'}"
+                           th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
+                            Pending
+                        </a>
+                    </td>
+                    <td th:text="${teamsStatuses.get(team.teamId)}" align="center"></td>
+                    <td align="center">
                 <span
-                   th:if="${cypher.getHints().isEmpty()}">
+                        th:if="${cypher.getHints().isEmpty()}">
                     Žádné hinty
                 </span>
-                <a href="#"
-                   th:if="${!cypher.getHints().isEmpty()}"
-                   th:href="@{/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
-                    Hinty
-                </a>
-            </td>
-        </tr>
-    </th:block>
-</table>
-</div>
-<br>
-<a align="center" href="#" th:href="@{/progress}"><b>Zpět na seznam šifer</b></a>
+                        <a href="#"
+                           th:if="${!cypher.getHints().isEmpty()}"
+                           th:href="@{/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
+                            Hinty
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+    <br>
+    <a align="center" href="#" th:href="@{/progress}"><b>Zpět na seznam šifer</b></a>
 
 </div>
 </body>

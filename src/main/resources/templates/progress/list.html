@@ -12,31 +12,31 @@
 
 <body>
 <div class="container">
-<h2>Šifry</h2>
+    <h2>Šifry</h2>
     <div class="table-responsive">
-<table class="table" border="1">
-    <thead>
-    <tr>
-        <th>Jméno</th>
-        <th>Pořadí</th>
-        <th>Souřadnice</th>
-        <th>Akce</th>
-    </tr>
-    <tr th:if="${cyphers.empty}">
-        <td colspan="4"><p> V systému nejsou šifry</p></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="cypher : ${cyphers}">
-        <td th:text="${cypher.name}" align="center">Jmeno</td>
-        <td th:text="${cypher.stage}" align="center">Cislo</td>
-        <td th:text="${cypher.location}">X, Y</td>
-        <td align="center">
-            <a href="#" th:href="@{/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Jméno</th>
+                <th>Pořadí</th>
+                <th>Souřadnice</th>
+                <th>Akce</th>
+            </tr>
+            <tr th:if="${cyphers.empty}">
+                <td colspan="4"><p> V systému nejsou šifry</p></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cypher : ${cyphers}">
+                <td th:text="${cypher.name}" align="center">Jmeno</td>
+                <td th:text="${cypher.stage}" align="center">Cislo</td>
+                <td th:text="${cypher.location}">X, Y</td>
+                <td align="center">
+                    <a href="#" th:href="@{/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

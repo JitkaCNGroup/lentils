@@ -11,25 +11,27 @@
 </head>
 <body>
 <div class="container">
-<h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
+    <h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
     <div class="table-responsive">
-<table class="table" border="1">
-    <thead>
-    <tr>
-        <th>Hodnota</th>
-        <th>Akce</th>
-        <th>Text</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="hint : ${cypher.hints}">
-        <td align="center" th:text="${hint.value}">value</td>
-        <td align="center">
-            <a href="#" th:href="@{/progress/viewTakenHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, hintId=${hint.hintId})}">Vzít Hint</a>
-        </td>
-        <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
-    </tr>
-</table>
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Hodnota</th>
+                <th>Akce</th>
+                <th>Text</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hint : ${cypher.hints}">
+                <td align="center" th:text="${hint.value}">value</td>
+                <td align="center">
+                    <a href="#"
+                       th:href="@{/progress/viewTakenHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, hintId=${hint.hintId})}">Vzít
+                        Hint</a>
+                </td>
+                <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
+            </tr>
+        </table>
     </div>
 </div>
 </body>

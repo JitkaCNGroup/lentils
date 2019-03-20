@@ -11,63 +11,63 @@
 </head>
 <body>
 <div class="container">
-<h2>Šifra <span th:text="${cypher.name}">cypherName</span></h2>
-<div class="table-responsive">
-<table class="table" border="1">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Jméno</th>
-        <th>Poradi</th>
-        <th>Souradnice</th>
-        <th>Odpověď</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:object="${cypher}">
-    <tr>
-        <td th:text="${cypher.cypherId}" align="center">cypherId</td>
-        <td th:text="${cypher.name}">name</td>
-        <td th:text="${cypher.stage}" align="center">stage</td>
-        <td th:text="${cypher.location}">X, Y</td>
-        <td th:text="${cypher.codeword}">codeword</td>
-    </tr>
-    </tbody>
-</table>
-</div>
-<br>
-<br>
-<h2>.. a její hinty</h2>
-<div class="table-responsive">
-<table class="table" border="1">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Text</th>
-        <th>Hodnota</th>
-        <td align="center">Akce</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="hint : ${cypher.hints}">
-        <td th:text="${hint.hintId}" align="center">hintId</td>
-        <td th:text="${hint.text}">text</td>
-        <td th:text="${hint.value}">value</td>
-        <td align="center">
-            <a href="#" th:href="@{/hint/update/{hintId}(hintId=${hint.hintId})}">Upravit</a> |
-            <a href="#" th:href="@{/hint/delete/{hintId}(hintId=${hint.hintId})}">Smazat</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" align="center">
-            <a href="#" th:href="@{/hint/new(cypherId=${cypher.cypherId})}">Přidat</a>
-        </td>
+    <h2>Šifra <span th:text="${cypher.name}">cypherName</span></h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Jméno</th>
+                <th>Poradi</th>
+                <th>Souradnice</th>
+                <th>Odpověď</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:object="${cypher}">
+            <tr>
+                <td th:text="${cypher.cypherId}" align="center">cypherId</td>
+                <td th:text="${cypher.name}">name</td>
+                <td th:text="${cypher.stage}" align="center">stage</td>
+                <td th:text="${cypher.location}">X, Y</td>
+                <td th:text="${cypher.codeword}">codeword</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <h2>.. a její hinty</h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Text</th>
+                <th>Hodnota</th>
+                <td align="center">Akce</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hint : ${cypher.hints}">
+                <td th:text="${hint.hintId}" align="center">hintId</td>
+                <td th:text="${hint.text}">text</td>
+                <td th:text="${hint.value}">value</td>
+                <td align="center">
+                    <a href="#" th:href="@{/hint/update/{hintId}(hintId=${hint.hintId})}">Upravit</a> |
+                    <a href="#" th:href="@{/hint/delete/{hintId}(hintId=${hint.hintId})}">Smazat</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <a href="#" th:href="@{/hint/new(cypherId=${cypher.cypherId})}">Přidat</a>
+                </td>
 
-    </tr>
-</table>
-</div>
-<br>
-<a align="center" href="#" th:href="@{../cypher}"><b>Zpět na seznam šifer</b></a>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <a align="center" href="#" th:href="@{../cypher}"><b>Zpět na seznam šifer</b></a>
 </div>
 </body>
 </html>
