@@ -2,12 +2,19 @@
 <html lang="cz" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Šifra - Stav</title>
 </head>
 <body>
+
+<div class="container">
 <h1>Šifra <span th:text="${cypher.name}"></span> - Stav</h1>
 <h2>Týmy:</h2>
-<table border="1" width="50%" >
+<div class="table-responsive">
+<table class="table" border="1">
     <thead>
     <td align="center">Id</td>
     <td align="center">Jméno týmu</td>
@@ -17,7 +24,7 @@
     <td align="center">Stav</td>
     <td align="center">Hinty</td>
     <tr th:if="${teams.empty}">
-        <td colspan="5"><h3> V systému nejsou týmy</h3></td>
+        <td colspan="7"><p> V systému nejsou týmy</p></td>
     </tr>
     </thead>
     <th:block th:each="team : ${teams}">
@@ -58,7 +65,10 @@
         </tr>
     </th:block>
 </table>
+</div>
 <br>
 <a align="center" href="#" th:href="@{/progress}"><b>Zpět na seznam šifer</b></a>
+
+</div>
 </body>
 </html>

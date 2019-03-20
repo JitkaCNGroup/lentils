@@ -3,12 +3,18 @@
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>CypherDetail</title>
 </head>
 <body>
-<h2><span th:text="${heading}">Nadpis</span><h2>
+<div class="container">
+<h2><span th:text="${heading}">Nadpis</span></h2>
 <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
-        <table width="50%" style="font-size: 18px">
+    <div class="table-responsive">
+    <table class="table" style="font-size: 18px">
             <tr>
                 <td>Id</td>
                 <td><input th:field="*{cypherId}" readonly/></td>
@@ -35,7 +41,9 @@
                 </td>
             </tr>
         </table>
+    </div>
 </form>
+</div>
 </body>
 </html>
 

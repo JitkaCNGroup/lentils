@@ -2,11 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Team List</title>
 </head>
 <body>
+<div class="container">
 <h2>Týmy:</h2>
-<table border="1" width="50%" >
+<div class="table-responsive">
+<table class="table" border="1">
     <thead>
     <td align="center">Id</td>
     <td align="center">Jméno týmu</td>
@@ -14,7 +20,7 @@
     <td align="center">PIN</td>
     <td align="center">Akce</td>
     <tr th:if="${teams.empty}">
-        <td colspan="5"><h3> V systému nejsou týmy</h3></td>
+        <td colspan="5"><p> V systému nejsou týmy</p></td>
     </tr>
     </thead>
     <th:block th:each="team : ${teams}">
@@ -30,13 +36,15 @@
         </tr>
     </th:block>
 </table>
+</div>
 <p></p>
 <hr>
 <h2>Tým:</h2>
 <form action="#" th:action="${action}" th:object="${team}" method="post">
     <input type="hidden" th:field="*{teamId}"/>
     <input type="hidden" th:field="*{pin}"/>
-    <table width="50%" style="font-size: 18px">
+    <div class="table-responsive">
+    <table class="table" style="font-size: 18px">
         <tr>
             <td>Jméno: (*)</td>
             <td><input type="text" th:field="*{name}"/></td>
@@ -57,6 +65,8 @@
             </td>
         </tr>
     </table>
+    </div>
 </form>
+</div>
 </body>
 </html>

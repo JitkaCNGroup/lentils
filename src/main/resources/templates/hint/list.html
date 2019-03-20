@@ -3,11 +3,17 @@
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>HintList</title>
 </head>
 <body>
+<div class="container">
 <h2>Šifra <span th:text="${cypher.name}">cypherName</span></h2>
-<table border="1" width="50%">
+<div class="table-responsive">
+<table class="table" border="1">
     <thead>
     <tr>
         <th>Id</th>
@@ -28,10 +34,12 @@
     </tr>
     </tbody>
 </table>
+</div>
 <br>
 <br>
 <h2>.. a její hinty</h2>
-<table border="1" width="50%">
+<div class="table-responsive">
+<table class="table" border="1">
     <thead>
     <tr>
         <th>Id</th>
@@ -57,8 +65,10 @@
 
     </tr>
 </table>
+</div>
 <br>
 <a align="center" href="#" th:href="@{../cypher}"><b>Zpět na seznam šifer</b></a>
+</div>
 </body>
 </html>
 
