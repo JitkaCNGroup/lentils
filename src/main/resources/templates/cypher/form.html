@@ -53,62 +53,61 @@
     </form>
 </div>
 <div id='map' style='width: 400px; height: 300px;'></div>
-<pre id='info'></pre>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWphbm91c2VrOTIiLCJhIjoiY2p0N2drczFzMDdiYTQ0bGpnbXJsejh1eSJ9.Aj8F_s2-ur-dTagXZISw_w';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [17.66485, 49.22439], // starting position
-        zoom: 14 // starting zoom
-    });
-    //
-    // map.on('click', function (e) {
-    //     document.getElementById('latlng').value = e.lngLat.lat + ',' + e.lngLat.lng;
-    // });
-    //
-    // map.on('load', function () {
-    //     console.log('init');
-    //     var latlng = document.getElementById('latlng').value;
-    //     if (latlng) {
-    //         var toupleLatLng = latlng.split(",")
-    //         // var lat = toupleLatLng[0];
-    //         // var lng = toupleLatLng[1];
-    //         console.log('geojson: ' + createPoint(toupleLatLng));
-    //         map.addSource('point', {
-    //             "type": "geojson",
-    //             "data": createPoint(toupleLatLng)
-    //         });
-    //         map.add
-    //         // L.marker([lng, lat]).addTo(map);
-    //         console.log(toupleLatLng);
-    //     }
-    // });
-    //
-    // function createPoint(latlng) {
-    //     return {
-    //         "type": "Point",
-    //         "coordinates": latlng
-    //     };
-    // }
-    // L.mapbox.accessToken = 'pk.eyJ1IjoibWphbm91c2VrOTIiLCJhIjoiY2p0N2drczFzMDdiYTQ0bGpnbXJsejh1eSJ9.Aj8F_s2-ur-dTagXZISw_w';
-    //
-    // var map = L.mapbox.map('map')
-    //     .setView([17.66485, 49.22439], 14)
-    //     .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+    var map;
+    var activeMarker;
 
-    // map.on('load', function () {
-    //     console.log('init');
-    //     var latlng = document.getElementById('latlng').value;
-    //     if (latlng) {
-    //         var toupleLatLng = latlng.split(",")
-    //         // var lat = toupleLatLng[0];
-    //         // var lng = toupleLatLng[1];
-    //         // console.log('geojson: ' + createPoint(toupleLatLng));
-    //         L.marker(toupleLatLng).addTo(map);
-    //     }
-    // });
+    function initMap() {
+        var locationOfZlin = {lat: 49.22439, lng: 17.66485};
 
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: locationOfZlin
+        });
+
+        // This event listener will call addMarker() when the map is clicked.
+        map.addListener('click', function(event) {
+            deleteMarker();
+            addMarker(event.latLng);
+            fillLocationInForm(event);
+        });
+
+        // Adds a marker at the center of the map.
+        addMarkerFromForm();
+    }
+
+    // Adds a marker to the map and push to the array.
+    function addMarker(location) {
+        activeMarker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+
+    // fill location to the form
+    function fillLocationInForm(event) {
+        document.getElementById('latlng').value = event.latLng.lat() + ',' + event.latLng.lng();
+    }
+
+    // Deletes all markers in the array by removing references to them.
+    function deleteMarker() {
+        activeMarker.setMap(null);
+    }
+
+    function addMarkerFromForm() {
+        var latlng = document.getElementById('latlng').value;
+        if (latlng) {
+            var toupleLatLng = latlng.split(",")
+            var lat = parseFloat(toupleLatLng[0]);
+            var lng = parseFloat(toupleLatLng[1]);
+            var latLngObject = {lat: lat, lng: lng};
+            addMarker(latLngObject)
+        }
+    }
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDseyIGXP_QJWmaCbjVJxxVUQ5vxX44Anw&callback=initMap">
 </script>
 </body>
 </html>
