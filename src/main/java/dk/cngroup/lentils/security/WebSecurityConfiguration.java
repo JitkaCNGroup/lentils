@@ -27,14 +27,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/team").permitAll()
                     .anyRequest().hasRole("USER").and()
                     .formLogin()
                         .loginPage("/login")
+                        .defaultSuccessUrl("/progress")
                         .permitAll()
                         .and()
                     .logout()
-                        .logoutSuccessUrl("/login")
+                        .logoutUrl("/logout")
                         .permitAll();
     }
 }
