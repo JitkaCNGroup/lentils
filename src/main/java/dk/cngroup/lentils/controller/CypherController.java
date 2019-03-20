@@ -38,7 +38,6 @@ public class CypherController {
     @GetMapping(value = "/new")
     public String newCypher(final Model model) {
         Cypher cypher = new Cypher();
-        cypher.setLocation(DEFAULT_LOCATION);
         model.addAttribute("heading", "Nová šifra");
         model.addAttribute("cypher", cypher);
         return VIEW_CYPHER_DETAIL;
