@@ -15,29 +15,29 @@
 </head>
 <body>
 <div class="container">
-<h1>Tým <span th:text="${team.name}"></span></h1>
-<h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
-<div class="table-responsive">
-    <table border="1" class="table">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Hodnota</th>
-        <th>Akce</th>
-        <th>Text</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="hint : ${cypher.hints}">
-        <td id="hintId" align="center" th:text="${hint.hintId}">value</td>
-        <td align="center" th:text="${hint.value}">value</td>
-        <td align="center">
-            <button th:onclick="'javascript:openDialog(' + ${hint.hintId} + ')'">Vzít Hint</button>
-        </td>
-        <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
-    </tr>
-</table>
-</div>
+    <h1>Tým <span th:text="${team.name}"></span></h1>
+    <h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
+    <div class="table-responsive">
+        <table border="1" class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hodnota</th>
+                <th>Akce</th>
+                <th>Text</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hint : ${cypher.hints}">
+                <td id="hintId" align="center" th:text="${hint.hintId}">value</td>
+                <td align="center" th:text="${hint.value}">value</td>
+                <td align="center">
+                    <button th:onclick="'javascript:openDialog(' + ${hint.hintId} + ')'">Vzít Hint</button>
+                </td>
+                <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <div class="container">
@@ -60,7 +60,8 @@
                     </div>
 
                     <div class="text-center mt-4">
-                        <button id="verifyBtn" class="btn btn-cyan mt-1">Ověřit <i class="fas fa-sign-in ml-1"></i></button>
+                        <button id="verifyBtn" class="btn btn-cyan mt-1">Ověřit <i class="fas fa-sign-in ml-1"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -71,12 +72,12 @@
 </div>
 
 <script th:inline="javascript">
-/*<![CDATA[*/
+    /*<![CDATA[*/
     var teamId = /*[[${team.teamId}]]*/ "teamId";
 
     function openDialog(hintId) {
         $('#takeHintModal').modal();
-        $("#verifyBtn").click(function() {
+        $("#verifyBtn").click(function () {
             verifyPinPost(hintId);
             $('#takeHintModal').modal('hide');
         });
@@ -84,19 +85,20 @@
 
     function verifyPinPost(hintId) {
         var pin = document.getElementById("enteredPin").value;
-        var data = { "pin": pin, "teamId": teamId, "hintId": hintId };
+        var data = {"pin": pin, "teamId": teamId, "hintId": hintId};
         $.ajax({
             url: "/progress/takeHintOfCypher",
             type: 'post',
             data: data,
-            success: function(){
+            success: function () {
                 location.reload();
             },
-            error: function(){
+            error: function () {
                 alert("špatný PIN");
             }
         });
     }
+
     /*]]>*/
 </script>
 
