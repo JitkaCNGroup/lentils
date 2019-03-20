@@ -1,3 +1,12 @@
+a {
+    color: white;
+}
+
+a:hover {
+    color:rgb(225,225,225);
+    text-decoration: none;
+}
+
 .stageCol{
     width: 10px;
 }
@@ -48,20 +57,42 @@
     float: left;
     margin-left:10px;
 }
-.bodyContent{
-    padding: 10px;
-    margin: 10px;
-}
+
+    .bodyContent{
+        padding: 10px;
+        margin: 10px;
+        color:grey;
+    }
+
+    .bodyContent h1{
+        color: rgb(237, 24, 72)
+    }
+
+    .bodyContent h2{
+        color: rgb(237, 24, 72)
+    }
+
+    .bodyContent h3{
+        color: rgb(237, 24, 72)
+    }
+
+    .bodyContent h4{
+        color: rgb(237, 24, 72)
+    }
+
+    .bodyContent h5{
+        color: rgb(237, 24, 72)
+    }
 
 .btn{
     background-color: rgb(237, 24, 72);
-    border: none;
     color: white;
     padding: 7px 12px;
     font-size: 18px;
     cursor: pointer;
     margin: 10px;
-    border-radius: 0;
+    margin-top: 1rem;
+    transition: all 0.3s ease 0s;
 }
 
 .btn:hover{
@@ -72,6 +103,36 @@
 
 .btn:focus{
     box-shadow:none;
+}
+
+.btn-white {
+    background-color: white;
+    color: rgb(237, 24, 72);
+    width: 100%;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+.btn-white:hover {
+    -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+}
+
+.btn-red {
+    background-color: rgb(237, 24, 72);
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+.btn-red:hover {
+    -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
 }
 
 .bold{
@@ -100,4 +161,42 @@
 
 .fa-spinner{
     color:deepskyblue;
+}
+
+.solutionInput{
+    width: 100%;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+#correctAnswer{
+    background-color: lightgreen;
+    color: green;
+    text-align: center;
+}
+
+.correctButton{
+    color:white;
+    background-color: limegreen;
+    width: 100%;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+#bonusInfo{
+    visibility: hidden;
+}
+
+#bonusButton{
+
+}
+
+#hintButton{
+
+}
+
+#hintContent{
+    visibility: hidden;
 }

@@ -29,11 +29,11 @@
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item collapsedActive">
-                <a class=" nav-link" href="#">Sifry <span class="sr-only">(current)</span></a>
+                <a class=" nav-link" href="#">Šifry </a>
             </li>
             <div class="dropdown-divider-cst"></div>
             <li class="nav-item collapsedNotActive">
-                <a class=" nav-link" href="#">Karticka</a>
+                <a class=" nav-link" href="#">Kartička</a>
             </li>
             <div class="dropdown-divider-cst"></div>
             <li class="nav-item collapsedNotActive">
@@ -41,39 +41,84 @@
             </li>
             <div class="dropdown-divider-cst"></div>
             <li class="nav-item collapsedNotActive">
-                <a class=" nav-link" href="#">Odhlasit se</a>
+                <a class=" nav-link" href="#">Odhlásit se</a>
             </li>
             <div class="dropdown-divider-cst"></div>
         </ul>
     </div>
 </nav>
 
-<div class="bodyContent">
+<div class="bodyContent ">
     <h2 th:text="|${cypher.stage}. ${cypher.name}|" class="botMargin10">šifra</h2>
+    <th:block th:unless="${statusName == 'SOLVED'}">
+        <form action="/client/detail/{id}/verify" th:object="${codeWord}" method="post">
+            <div class="pb-2">
+                <div class="pb-2">
+                    <b>Řešení</b>
+                </div>
+                <input type="text" class="solutionInput">
+                <button class="btn-white" type ="submit"> Ověřit </button>
+            </div>
+        </form>
+    </th:block>
+    <th:block th:if="${statusName == 'SOLVED'}">
+        <div>
+            <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
+            <b>Kam dál?</b>
+            <a href="/client/detail/tadybudeiddalšíšifry">
+                <button class="correctButton"> Zobrazit další šifru </button>
+            </a>
+            <a id="bonusButton">
+                <button class="btn-white" onclick="showBonus()"> Zobrazit bonusové informace </button>
+            </a>
+            <p id="bonusInfo" th:text="${cypher.bonusContent}"></p>
+        </div>
+    </th:block>
+        <div class="pb-2">
+            <b>Adresa</b>
+            <br/>
+            <div th:text="${cypher.location}"></div>
+            <div>Cypher place description </div>
+            <div> map with pointer</div>
+        </div>
+    <form action="/client/detail/map">
+        <button class="btn-white" type="submit">Zobrazit na mapě</button>
+    </form>
+    <br/>
 
-    <form action="/client/cypherDetail/{id}" method="post">
+    <form action="/client/detail/takeHint">
+        <b>Nápověda</b>
+        <div th:each="hint : ${hints}">
+            <button id="hintButton" type="submit" class="btn-white" th:text="'Získat nápovědu za ' + ${hint.value} + ' bodů'"></button>
+            <!--<div th:each="hintTaken : ${hintsTaken}">-->
+                <!--<div th:if="${hintTaken.hint.hintId} == ${hint.hintId} and ${hintTaken.team.teamId} == ${team.teamId}">-->
+                    <!--<div th:text="${hint.text}"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <br/>
+    </form>
 
-        <h3>Řešení:</h3>
-        <br>
-        <input type="text">
+    <form action="/client/detail/giveUp">
         <br/>
-        <button class="btn"> Ověřit </button>
-        <br/>
-        <h3>Adresa</h3>
-        <br/>
-        <div th:text="${cypher.location}"></div>
-        <div>Cypher place description </div>
-        <div> map with pointer</div>
-        <button class="btn">Zobrazit na mapě</button>
-        <br>
-        <h3>Nápověda</h3>
-        <br/>
-        <button class="btn">Získat nápovědu</button>
-        <br/>
-        <button class="btn">Vzdát šifru</button>
+        <button class="btn-red" type="submit">Vzdát šifru</button>
     </form>
 
 
+    <script>
+        function showBonus() {
+            var x = document.getElementById("bonusInfo");
+            x.style.visibility = "visible";
+            var y = document.getElementById("bonusButton");
+            y.style.visibility = "hidden";
+        }
+        function showHint() {
+            var x = document.getElementById("hintContent");
+            x.style.visibility = "visible";
+            var y = document.getElementById("hintButton");
+            y.style.visibility = "hidden";
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

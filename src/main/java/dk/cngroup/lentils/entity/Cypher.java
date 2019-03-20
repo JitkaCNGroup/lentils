@@ -32,6 +32,9 @@ public class Cypher implements Serializable {
     @Column(name = "codeword")
     private String codeword;
 
+    @Column(name = "bonus_content")
+    private String bonusContent;
+
     public Cypher() {
     }
 
@@ -112,6 +115,13 @@ public class Cypher implements Serializable {
         hints.add(hint);
     }
 
+    public String getBonusContent() {
+        return bonusContent;
+    }
+
+    public void setBonusContent(String bonusContent) {
+        this.bonusContent = bonusContent;
+    }
 
     @Override
     public String toString() {

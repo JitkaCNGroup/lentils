@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HintTakenService {
@@ -43,5 +44,18 @@ public class HintTakenService {
 
     public List<HintTaken> getTakenHintsOfTeam(final Team team) {
         return hintTakenRepository.findByTeam(team);
+    }
+
+    public List<HintTaken> getAllByCypher(Cypher cypher){
+        List<HintTaken> allHintsTaken = hintTakenRepository.findAll();
+        List<HintTaken> hintTakenByCypher = allHintsTaken
+                .stream()
+                .filter(hintTaken -> cypher.getCypherId().equals(hintTaken.getHint().getCypher().getCypherId()))
+                .collect(Collectors.toList());
+        return hintTakenByCypher;
+    }
+
+    public List<HintTaken> getAll(){
+        return hintTakenRepository.findAll();
     }
 }
