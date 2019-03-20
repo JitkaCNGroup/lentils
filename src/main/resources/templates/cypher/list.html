@@ -3,47 +3,55 @@
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Cyphers</title>
 </head>
 
 <body>
-<h2>Šifry</h2>
-<table border="1" width="50%">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Jméno</th>
-        <th>Poradi</th>
-        <th>Souradnice</th>
-        <th>Odpověď</th>
-        <td align="center">Akce</td>
-    </tr>
-    <tr th:if="${cyphers.empty}">
-        <td colspan="6"><h3> V systému nejsou šifry</h3></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="cypher : ${cyphers}">
-        <td th:text="${cypher.cypherId}" align="center">cypherId</td>
-        <td th:text="${cypher.name}">Jmeno</td>
-        <td th:text="${cypher.stage}" align="center">Cislo</td>
-        <td th:text="${cypher.location}">X, Y</td>
-        <td th:text="${cypher.codeword}">codove slovo</td>
-        <td align="center">
-            <a href="#" th:href="@{/hint/list(cypherId=${cypher.cypherId})}">Detail</a> |
-            <a href="#" th:href="@{/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}">Upravit</a> |
-            <a href="#" th:href="@{/cypher/delete/{cypherId}(cypherId=${cypher.cypherId})}">Smazat</a>
-        </td>
-    </tr>
+<div class="container">
+    <h2>Šifry</h2>
+    <div class="table-responsive">
+        <table border="1" class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Jméno</th>
+                <th>Poradi</th>
+                <th>Souradnice</th>
+                <th>Odpověď</th>
+                <td align="center">Akce</td>
+            </tr>
+            <tr th:if="${cyphers.empty}">
+                <td colspan="6"><p> V systému nejsou šifry</p></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cypher : ${cyphers}">
+                <td th:text="${cypher.cypherId}" align="center">cypherId</td>
+                <td th:text="${cypher.name}">Jmeno</td>
+                <td th:text="${cypher.stage}" align="center">Cislo</td>
+                <td th:text="${cypher.location}">X, Y</td>
+                <td th:text="${cypher.codeword}">codove slovo</td>
+                <td align="center">
+                    <a href="#" th:href="@{/hint/list(cypherId=${cypher.cypherId})}">Detail</a> |
+                    <a href="#" th:href="@{/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}">Upravit</a> |
+                    <a href="#" th:href="@{/cypher/delete/{cypherId}(cypherId=${cypher.cypherId})}">Smazat</a>
+                </td>
+            </tr>
 
-    <tr>
-        <td colspan="6" align="center">
-            <a href="#" th:href="@{/cypher/new}">Přidat</a>
-        </td>
+            <tr>
+                <td colspan="6" align="center">
+                    <a href="#" th:href="@{/cypher/new}">Přidat</a>
+                </td>
 
-    </tr>
-    </tbody>
-</table>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
 

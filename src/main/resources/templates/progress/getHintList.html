@@ -3,27 +3,37 @@
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Luštěniny - Hinty</title>
 </head>
 <body>
-<h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
-<table border="1" width="50%">
-    <thead>
-    <tr>
-        <th>Hodnota</th>
-        <th>Akce</th>
-        <th>Text</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="hint : ${cypher.hints}">
-        <td align="center" th:text="${hint.value}">value</td>
-        <td align="center">
-            <a href="#" th:href="@{/progress/viewTakenHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, hintId=${hint.hintId})}">Vzít Hint</a>
-        </td>
-        <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
-    </tr>
-</table>
+<div class="container">
+    <h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Hodnota</th>
+                <th>Akce</th>
+                <th>Text</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hint : ${cypher.hints}">
+                <td align="center" th:text="${hint.value}">value</td>
+                <td align="center">
+                    <a href="#"
+                       th:href="@{/progress/viewTakenHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, hintId=${hint.hintId})}">Vzít
+                        Hint</a>
+                </td>
+                <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>
 
