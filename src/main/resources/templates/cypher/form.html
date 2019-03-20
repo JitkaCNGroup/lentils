@@ -6,36 +6,40 @@
     <title>CypherDetail</title>
 </head>
 <body>
-<h2><span th:text="${heading}">Nadpis</span></h2>
-<form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
-        <table width="50%" style="font-size: 18px">
-            <tr>
-                <td>Id</td>
-                <td><input th:field="*{cypherId}" readonly/></td>
-            </tr>
-            <tr>
-                <td>Jméno</td>
-                <td><input th:field="*{name}"/></td>
-            </tr>
-            <tr>
-                <td>Pořadí</td>
-                <td><input type="number" th:field="*{stage}"/></td>
-            </tr>
-            <tr>
-                <td>Souřadnice</td>
-                <td><input type="text" th:field="*{location}"/></td>
-            </tr>
-            <tr>
-                <td>Odpověď</td>
-                <td><input type="text" th:field="*{codeword}"/></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Uložit"/>
-                </td>
-            </tr>
-        </table>
-</form>
+<div class="container">
+    <h2><span th:text="${heading}">Nadpis</span></h2>
+    <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
+        <div class="table-responsive">
+            <table class="table" style="font-size: 18px">
+                <tr>
+                    <td>Id</td>
+                    <td><input th:field="*{cypherId}" readonly/></td>
+                </tr>
+                <tr>
+                    <td>Jméno</td>
+                    <td><input th:field="*{name}"/></td>
+                </tr>
+                <tr>
+                    <td>Pořadí</td>
+                    <td><input type="number" th:field="*{stage}"/></td>
+                </tr>
+                <tr>
+                    <td>Souřadnice</td>
+                    <td><input type="text" th:field="*{location}"/></td>
+                </tr>
+                <tr>
+                    <td>Odpověď</td>
+                    <td><input type="text" th:field="*{codeword}"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Uložit"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
 </body>
 </html>
 

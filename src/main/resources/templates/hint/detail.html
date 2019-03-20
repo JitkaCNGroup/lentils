@@ -3,35 +3,43 @@
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>HintDetail</title>
 </head>
 <body>
-<h2><span th:text="${heading}">Nadpis</span></h2>
-<form action="#" th:action="@{/hint/save}" th:object="${hint}" method="post">
-    <table width="50%" style="font-size: 18px">
-        <tr>
-            <td>Cypher Id</td>
-            <td><input type="number" th:field="*{cypher.cypherId}" readonly/></td>
-        </tr>
-        <tr>
-            <td>Hint Id</td>
-            <td><input type="number" th:field="*{hintId}" readonly/></td>
-        </tr>
-        <tr>
-            <td>Text</td>
-            <td><input type="text" th:field="*{text}"/></td>
-        </tr>
-        <tr>
-            <td>Hodnota</td>
-            <td><input type="number" th:field="*{value}"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Uložit"/>
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="container">
+    <h2><span th:text="${heading}">Nadpis</span></h2>
+    <form action="#" th:action="@{/hint/save}" th:object="${hint}" method="post">
+        <div class="table-responsive">
+            <table class="table" style="font-size: 18px">
+                <tr>
+                    <td>Cypher Id</td>
+                    <td><input type="number" th:field="*{cypher.cypherId}" readonly/></td>
+                </tr>
+                <tr>
+                    <td>Hint Id</td>
+                    <td><input type="number" th:field="*{hintId}" readonly/></td>
+                </tr>
+                <tr>
+                    <td>Text</td>
+                    <td><input type="text" th:field="*{text}"/></td>
+                </tr>
+                <tr>
+                    <td>Hodnota</td>
+                    <td><input type="number" th:field="*{value}"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Uložit"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
 </body>
 </html>
 

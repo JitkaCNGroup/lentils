@@ -3,34 +3,42 @@
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Progress</title>
 </head>
 
 <body>
-<h2>Šifry</h2>
-<table border="1" width="50%">
-    <thead>
-    <tr>
-        <th>Jméno</th>
-        <th>Pořadí</th>
-        <th>Souřadnice</th>
-        <td align="center">Akce</td>
-    </tr>
-    <tr th:if="${cyphers.empty}">
-        <td colspan="6"><h3> V systému nejsou šifry</h3></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="cypher : ${cyphers}">
-        <td th:text="${cypher.name}" align="center">Jmeno</td>
-        <td th:text="${cypher.stage}" align="center">Cislo</td>
-        <td th:text="${cypher.location}">X, Y</td>
-        <td align="center">
-            <a href="#" th:href="@{/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h2>Šifry</h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Jméno</th>
+                <th>Pořadí</th>
+                <th>Souřadnice</th>
+                <th>Akce</th>
+            </tr>
+            <tr th:if="${cyphers.empty}">
+                <td colspan="4"><p> V systému nejsou šifry</p></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cypher : ${cyphers}">
+                <td th:text="${cypher.name}" align="center">Jmeno</td>
+                <td th:text="${cypher.stage}" align="center">Cislo</td>
+                <td th:text="${cypher.location}">X, Y</td>
+                <td align="center">
+                    <a href="#" th:href="@{/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
 
