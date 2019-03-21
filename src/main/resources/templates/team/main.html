@@ -3,70 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Team List</title>
 </head>
 <body>
 <div class="container">
-    <h2>Týmy:</h2>
-    <div class="table-responsive">
-        <table class="table" border="1">
-            <thead>
-            <td align="center">Id</td>
-            <td align="center">Jméno týmu</td>
-            <td align="center">Počet členů</td>
-            <td align="center">PIN</td>
-            <td align="center">Akce</td>
-            <tr th:if="${teams.empty}">
-                <td colspan="5"><p> V systému nejsou týmy</p></td>
-            </tr>
-            </thead>
-            <th:block th:each="team : ${teams}">
-                <tr>
-                    <td th:text="${team.teamId}" align="center">8888</td>
-                    <td th:text="${team.name}">Bamboo</td>
-                    <td th:text="${team.numOfMembers}" align="center">8</td>
-                    <td th:text="${team.pin}" align="center">9876</td>
-                    <td align="center">
-                        <a href="#" th:href="@{'/team/update/'+${team.teamId}}">Upravit</a> |
-                        <a href="#" th:href="@{'/team/delete/'+${team.teamId}}">Smazat</a>
-                    </td>
-                </tr>
-            </th:block>
-        </table>
+    <div class="col-sm-12">
+        <h2>Tým</h2>
+        <form action="#" th:action="${action}" th:object="${team}" method="post">
+            <input type="hidden" th:field="*{teamId}"/>
+            <input type="hidden" th:field="*{pin}"/>
+            <div class="form-group">
+                <label for="name">Jméno: (*)</label>
+                <input id="name" class="form-control" type="text" th:field="*{name}"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Chyba - Jméno</div>
+            </div>
+            <div class="form-group">
+                <label for="numberOfMembers">Počet členů: (*)</label>
+                <input id="numberOfMembers" class="form-control" type="number" th:field="*{numOfMembers}"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}">Chyba - Počet členů</div>
+            </div>
+            <input type="submit" class="btn btn-primary" th:value="${action == '/team/add' ? 'Nový' : 'Uložit'}"/>
+        </form>
     </div>
-    <p></p>
-    <hr>
-    <h2>Tým:</h2>
-    <form action="#" th:action="${action}" th:object="${team}" method="post">
-        <input type="hidden" th:field="*{teamId}"/>
-        <input type="hidden" th:field="*{pin}"/>
+
+    <div class="col-sm-12">
+        <h2>Týmy</h2>
         <div class="table-responsive">
-            <table class="table" style="font-size: 18px">
-                <tr>
-                    <td>Jméno: (*)</td>
-                    <td><input type="text" th:field="*{name}"/></td>
-                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                        style="color: orangered; font-size: 14px">Chyba - Jméno
-                    </td>
-                </tr>
-                <tr>
-                    <td>Počet členů: (*)</td>
-                    <td><input type="number" th:field="*{numOfMembers}"/></td>
-                    <td th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}"
-                        style="color: orangered; font-size: 14px">Chyba - Počet členů
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" th:value="${action == '/team/add' ? 'Nový' : 'Uložit'}"/>
-                    </td>
-                </tr>
+            <table class="table">
+                <thead class="thead-light">
+                    <th scope="col">Id</th>
+                    <th scope="col">Jméno týmu</th>
+                    <th scope="col">Počet členů</th>
+                    <th scope="col">PIN</th>
+                    <th scope="col">Akce</th>
+                </thead>
+                <tbody>
+                    <tr th:if="${teams.empty}">
+                        <td colspan="5"><p> V systému nejsou týmy</p></td>
+                    </tr>
+                    <th:block th:each="team : ${teams}">
+                        <tr>
+                            <td th:text="${team.teamId}">8888</td>
+                            <td th:text="${team.name}">Bamboo</td>
+                            <td th:text="${team.numOfMembers}">8</td>
+                            <td th:text="${team.pin}">9876</td>
+                            <td>
+                                <a href="#" th:href="@{'/team/update/'+${team.teamId}}">Upravit</a> |
+                                <a href="#" th:href="@{'/team/delete/'+${team.teamId}}">Smazat</a>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
             </table>
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>
