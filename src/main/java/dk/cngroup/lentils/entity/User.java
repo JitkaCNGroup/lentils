@@ -1,15 +1,19 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public class User {
 
-    public enum UserRole {
-        ADMIN,
-        USER;
+    public User(User user) {
+        this.password = user.getPassword();
+        this.username = user.getUsername();
+        this.userRoles = user.getUserRoles();
+        this.userId = user.getUserId();
     }
+
 
     @Id
     @GeneratedValue
@@ -22,15 +26,16 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role", nullable = false)
-    private UserRole userRole;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name= "user_role", joinColumns = @JoinColumn(name = "username"))
+    private Set<UserRole> userRoles;
 
-    public UserRole getUserRole() {
-        return userRole;
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public void setUserId(Long userId) {
