@@ -1,6 +1,10 @@
 package dk.cngroup.lentils.entity;
 
+import dk.cngroup.lentils.security.Authority;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -17,8 +21,17 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role", nullable = false)
-    private String role;
+    private Set<Authority> authorities = new HashSet<>();
+
+    @Column(name = "authorities")
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
 
     public void setUserId(Long userId) {
         this.userId = userId;
@@ -32,10 +45,6 @@ public class User {
         this.password = password;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -46,9 +55,5 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getRole() {
-        return role;
     }
 }
