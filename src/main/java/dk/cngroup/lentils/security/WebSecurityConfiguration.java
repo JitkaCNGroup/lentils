@@ -21,25 +21,31 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(getPasswordEncoder());
+//        auth.userDetailsService(userDetailsService)
+//                .passwordEncoder(getPasswordEncoder());
 
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(getPasswordEncoder())
-//                .withUser("admin")
-//                .password(getPasswordEncoder().encode("admin"))
-//                .roles("ADMIN");
+        auth.inMemoryAuthentication()
+                .passwordEncoder(getPasswordEncoder())
+                .withUser("admin")
+                .password(getPasswordEncoder().encode("admin"))
+                .roles("ADMIN")
+                .and()
+                .passwordEncoder(getPasswordEncoder())
+                .withUser("user")
+                .password(getPasswordEncoder().encode("user"))
+                .roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/**").hasRole("ADMIN")
-                    .anyRequest().hasRole("ADMIN").and()
+                    .antMatchers("/team/**", "/cypher/**", "/progress/**", "/hint/**", "/finalplace/**")
+                        .hasRole("ADMIN")
+                    .antMatchers("/").hasRole("USER")
+                    .anyRequest().hasRole("USER").and()
                     .formLogin()
                         .loginPage("/login")
-                        .defaultSuccessUrl("/progress")
                         .permitAll()
                         .and()
                     .logout()
