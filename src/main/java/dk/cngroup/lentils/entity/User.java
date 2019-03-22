@@ -27,7 +27,7 @@ public class User {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name= "role", joinColumns = @JoinColumn(name = "username"))
+    @JoinTable(name= "role", joinColumns = @JoinColumn(name = "user_id"))
     private Set<Role> roles;
 
     public Set<Role> getRoles() {
