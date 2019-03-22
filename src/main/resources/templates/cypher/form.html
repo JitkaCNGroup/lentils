@@ -14,40 +14,41 @@
 </head>
 <body>
     <div class="container">
-        <h2><span th:text="${heading}">Nadpis</span></h2>
-        <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
-            <div class="table-responsive">
-                <table class="table" style="font-size: 18px">
-                    <tr>
-                        <td>Id</td>
-                        <td><input th:field="*{cypherId}" readonly/></td>
-                    </tr>
-                    <tr>
-                        <td>Jméno</td>
-                        <td><input th:field="*{name}"/></td>
-                    </tr>
-                    <tr>
-                        <td>Pořadí</td>
-                        <td><input type="number" th:field="*{stage}"/></td>
-                    </tr>
-                    <tr>
-                        <td>Souřadnice</td>
-                        <td><input id="latLng" type="text" th:field="*{location}" readonly/></td>
-                    </tr>
-                    <tr>
-                        <td>Odpověď</td>
-                        <td><input type="text" th:field="*{codeword}"/></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="submit" value="Uložit"/>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </form>
+        <div class="col-sm-12">
+            <h2><span th:text="${heading}">Nadpis</span></h2>
+        </div>
+        <div class="col-sm-6">
+            <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
+                <div class="form-group">
+                    <label for="cypherId">Id</label>
+                    <input id="cypherId" class="form-control" th:field="*{cypherId}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="name">Jméno</label>
+                    <input id="name" class="form-control" th:field="*{name}"/>
+                </div>
+                <div class="form-group">
+                    <label for="stage">Pořadí</label>
+                    <input id="stage" class="form-control" type="number" th:field="*{stage}"/>
+                </div>
+                <div class="form-group">
+                    <label for="location">Souřadnice</label>
+                    <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
+                    <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
+                </div>
+                <div class="form-group">
+                    <label for="codeword">Odpověď</label>
+                    <input id="codeword" class="form-control" type="text" th:field="*{codeword}"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Uložit</button>
+            </form>
+        </div>
+
+        <div class="col-sm-6">
+            <div id='map' style='width: 100%; height: 400px;'></div>
+        </div>
     </div>
-    <div id='map' style='width: 100%; height: 300px;'></div>
+
     <script>
         var map,
             activeMarker;
@@ -78,7 +79,7 @@
         }
 
         function fillLocationToForm(event) {
-            document.getElementById('latLng').value = event.latLng.lat() + ',' + event.latLng.lng();
+            document.getElementById('location').value = event.latLng.lat() + ',' + event.latLng.lng();
         }
 
         function deleteMarker() {
@@ -88,7 +89,7 @@
         }
 
         function addMarkerFromForm() {
-            var latlng = document.getElementById('latLng').value;
+            var latlng = document.getElementById('location').value;
             if (latlng) {
                 var toupleLatLng = latlng.split(",");
                 var lat = parseFloat(toupleLatLng[0]);
