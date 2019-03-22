@@ -7,10 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
@@ -23,20 +20,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private PasswordEncoder getPasswordEncoder() {
         return new PasswordEncoder() {
             @Override
-            public String encode(CharSequence rawPassword) {
+            public String encode(final CharSequence rawPassword) {
                 return rawPassword.toString();
             }
 
             @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return true;
+            public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
+                return encode(rawPassword).equals(encodedPassword);
             }
         };
     }
 
-
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(getPasswordEncoder());
 
@@ -53,20 +49,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/cypher/**", "/progress/**", "/hint/**", "/finalplace/**")
-                        .hasRole("ADMIN")
-                    .antMatchers("/team/**")
-                        .hasRole("USER")
-                    .anyRequest().permitAll().and()
-                    .formLogin()
-                        .loginPage("/login")
-                        .permitAll()
-                        .and()
-                    .logout()
-                        .logoutUrl("/logout")
-                        .permitAll();
+                    .hasRole("ADMIN")
+                .antMatchers("/team/**")
+                    .hasRole("USER")
+                .anyRequest().permitAll().
+                and()
+                .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .permitAll();
     }
     }
