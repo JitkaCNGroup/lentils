@@ -37,8 +37,8 @@ public class TeamController {
             final Model model
     ) {
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
-            return REDIRECT_TO_MAIN_VIEW;
+            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
+            return VIEW_PATH;
         }
         teamService.save(team);
         return REDIRECT_TO_MAIN_VIEW;
