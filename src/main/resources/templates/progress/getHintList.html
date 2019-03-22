@@ -90,7 +90,7 @@
         var pin = document.getElementById("enteredPin").value;
         var data = {"pin": pin, "teamId": teamId, "hintId": hintId};
         $.ajax({
-            url: "/game/takeHintOfCypher",
+            url: "/game/progress/takeHintOfCypher",
             type: 'post',
             data: data,
             success: function () {
