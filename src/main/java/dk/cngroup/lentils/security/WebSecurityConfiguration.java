@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableWebSecurity
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -21,37 +20,47 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    private PasswordEncoder getPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString();
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return true;
+            }
+        };
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(getPasswordEncoder());
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(getPasswordEncoder());
 
-        auth.inMemoryAuthentication()
-                .passwordEncoder(getPasswordEncoder())
-                .withUser("admin")
-                .password(getPasswordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .and()
-                .passwordEncoder(getPasswordEncoder())
-                .withUser("user")
-                .password(getPasswordEncoder().encode("user"))
-                .roles("USER");
+//        auth.inMemoryAuthentication()
+//                .passwordEncoder(getPasswordEncoder())
+//                .withUser("admin")
+//                .password(getPasswordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .and()
+//                .passwordEncoder(getPasswordEncoder())
+//                .withUser("user")
+//                .password(getPasswordEncoder().encode("user"))
+//                .roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .anyRequest().permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/team/**", "/cypher/**", "/progress/**", "/hint/**", "/finalplace/**")
+                .antMatchers("/cypher/**", "/progress/**", "/hint/**", "/finalplace/**")
                         .hasRole("ADMIN")
-                    .antMatchers("/").hasRole("USER")
-                    .anyRequest().hasRole("USER").and()
+                    .antMatchers("/team/**")
+                        .hasRole("USER")
+                    .anyRequest().permitAll().and()
                     .formLogin()
                         .loginPage("/login")
                         .permitAll()
@@ -60,4 +69,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .logoutUrl("/logout")
                         .permitAll();
     }
-}
+    }
