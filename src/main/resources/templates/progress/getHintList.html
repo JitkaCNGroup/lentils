@@ -71,20 +71,22 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var teamId = /*[[${team.teamId}]]*/ "teamId";
+    var teamId = /*[[${team.teamId}]]*/ "teamId",
+        selectedHintId = null;
 
     function openDialog(hintId) {
+        selectedHintId = hintId;
         $('#takeHintModal').modal();
-        $("#verifyBtn").click(function () {
-            verifyPinPost(hintId);
-            $('#takeHintModal').modal('hide');
-            $(".modal-body input").val("");
-        });
     }
 
-    function verifyPinPost(hintId) {
-        var pin = document.getElementById("enteredPin").value;
-        var data = {"pin": pin, "teamId": teamId, "hintId": hintId};
+    $('#verifyBtn').click(function () {
+        var pin = document.getElementById("enteredPin").value,
+            data = {
+                pin: pin,
+                teamId: teamId,
+                hintId: selectedHintId
+            };
+
         $.ajax({
             url: "/progress/takeHintOfCypher",
             type: 'post',
@@ -96,7 +98,11 @@
                 alert("špatný PIN");
             }
         });
-    }
+
+        $('#takeHintModal').modal('hide');
+        $('.modal-body input').val('');
+        selectedHintId = null;
+    });
 
     /*]]>*/
 </script>
