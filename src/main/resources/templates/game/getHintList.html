@@ -67,6 +67,10 @@
             <!--/.Content-->
         </div>
     </div>
+    <form action="/logout" method="post">
+        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+        <button type="submit">Odhlásit</button>
+    </form>
 </div>
 
 <script th:inline="javascript">
@@ -86,7 +90,7 @@
         var pin = document.getElementById("enteredPin").value;
         var data = {"pin": pin, "teamId": teamId, "hintId": hintId};
         $.ajax({
-            url: "/progress/takeHintOfCypher",
+            url: "/game/takeHintOfCypher",
             type: 'post',
             data: data,
             success: function () {
@@ -100,10 +104,6 @@
 
     /*]]>*/
 </script>
-<form action="/logout" method="post">
-    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-    <button type="submit">Odhlásit</button>
-</form>
 </body>
 </html>
 

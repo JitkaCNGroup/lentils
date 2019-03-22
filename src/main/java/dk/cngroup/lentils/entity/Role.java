@@ -1,6 +1,10 @@
 package dk.cngroup.lentils.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "role")
@@ -21,7 +25,7 @@ public class Role {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(final Long roleId) {
         this.roleId = roleId;
     }
 
@@ -29,7 +33,7 @@ public class Role {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 }

@@ -14,16 +14,16 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ProgressService {
+public class GameService {
 
     private final StatusService statusService;
     private final TeamService teamService;
     private final HintTakenService hintTakenService;
 
     @Autowired
-    public ProgressService(final StatusService statusService,
-                           final TeamService teamService,
-                           final HintTakenService hintTakenService) {
+    public GameService(final StatusService statusService,
+                       final TeamService teamService,
+                       final HintTakenService hintTakenService) {
         this.statusService = statusService;
         this.teamService = teamService;
         this.hintTakenService = hintTakenService;

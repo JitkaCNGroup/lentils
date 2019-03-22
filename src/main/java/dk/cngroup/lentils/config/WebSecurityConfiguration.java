@@ -1,16 +1,13 @@
-package dk.cngroup.lentils.security;
+package dk.cngroup.lentils.config;
 
-import dk.cngroup.lentils.repository.UserRepository;
 import dk.cngroup.lentils.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -35,29 +32,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(getPasswordEncoder());
-
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(getPasswordEncoder())
-//                .withUser("admin")
-//                .password(getPasswordEncoder().encode("admin"))
-//                .roles("ADMIN")
-//                .and()
-//                .passwordEncoder(getPasswordEncoder())
-//                .withUser("user")
-//                .password(getPasswordEncoder().encode("user"))
-//                .roles("USER");
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/cypher/**", "/progress/**", "/hint/**", "/finalplace/**")
+                .antMatchers("/admin/**")
                     .hasRole("ADMIN")
-                .antMatchers("/team/**")
+                .antMatchers("/game/**")
                     .hasRole("USER")
-                .anyRequest().permitAll().
-                and()
+                .and()
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
@@ -66,4 +51,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/logout")
                     .permitAll();
     }
-    }
+}

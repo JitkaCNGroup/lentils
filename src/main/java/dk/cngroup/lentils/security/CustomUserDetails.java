@@ -1,5 +1,6 @@
-package dk.cngroup.lentils.entity;
+package dk.cngroup.lentils.security;
 
+import dk.cngroup.lentils.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

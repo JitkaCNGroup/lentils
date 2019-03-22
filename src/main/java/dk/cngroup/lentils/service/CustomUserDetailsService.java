@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.service;
 
-import dk.cngroup.lentils.entity.CustomUserDetails;
+import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
 
-        optionalUser.orElseThrow(() -> new UsernameNotFoundException("Uživatel neexistuje"));
+        optionalUser.orElseThrow(() -> new UsernameNotFoundException("Uživatel neexistuje."));
         return optionalUser.map(CustomUserDetails::new).get();
     }
 }

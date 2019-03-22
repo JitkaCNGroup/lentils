@@ -36,17 +36,17 @@
                     <td align="center">
                         <a href="#"
                            th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
-                           th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
+                           th:href="@{/game/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
                             Přeskočit |
                         </a>
                         <a href="#"
                            th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
-                           th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
+                           th:href="@{/game/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
                             Splnit
                         </a>
                         <a href="#"
                            th:if="${teamsStatuses.get(team.teamId) == null or (teamsStatuses.get(team.teamId)).name() != 'PENDING'}"
-                           th:href="@{/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
+                           th:href="@{/game/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
                             Pending
                         </a>
                     </td>
@@ -58,7 +58,7 @@
                 </span>
                         <a href="#"
                            th:if="${!cypher.getHints().isEmpty()}"
-                           th:href="@{/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
+                           th:href="@{/game/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
                             Hinty
                         </a>
                     </td>
@@ -67,7 +67,7 @@
         </table>
     </div>
     <br>
-    <a align="center" href="#" th:href="@{/progress}"><b>Zpět na seznam šifer</b></a>
+    <a align="center" href="#" th:href="@{/game}"><b>Zpět na seznam šifer</b></a>
     <form action="/logout" method="post">
         <button type="submit">Odhlásit</button>
     </form>

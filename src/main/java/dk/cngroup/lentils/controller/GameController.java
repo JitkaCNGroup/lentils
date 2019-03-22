@@ -7,7 +7,7 @@ import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
-import dk.cngroup.lentils.service.ProgressService;
+import dk.cngroup.lentils.service.GameService;
 import dk.cngroup.lentils.service.TeamService;
 import dk.cngroup.lentils.service.HintTakenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +23,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
-@RequestMapping("/progress")
-public class ProgressController {
-    private static final String PROGRESS_STAGE = "progress/stage";
-    private static final String PROGRESS_LIST = "progress/list";
+@RequestMapping("/game")
+public class GameController {
+    private static final String GAME_STAGE = "game/stage";
+    private static final String GAME_LIST = "game/list";
     private static final String ERROR = "error/error";
-    private static final String HINT_LIST = "progress/getHintList";
+    private static final String HINT_LIST = "game/getHintList";
 
     private final TeamService teamService;
     private final CypherService cypherService;
-    private final ProgressService progressService;
+    private final GameService gameService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
 
     @Autowired
-    public ProgressController(final TeamService teamService,
-                              final CypherService cypherService,
-                              final ProgressService progressService,
-                              final HintService hintService,
-                              final HintTakenService hintTakenService) {
+    public GameController(final TeamService teamService,
+                          final CypherService cypherService,
+                          final GameService gameService,
+                          final HintService hintService,
+                          final HintTakenService hintTakenService) {
         this.teamService = teamService;
         this.cypherService = cypherService;
-        this.progressService = progressService;
+        this.gameService = gameService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
     }
@@ -52,7 +52,7 @@ public class ProgressController {
     @GetMapping
     public String listProgress(final Model model) {
         model.addAttribute("cyphers", cypherService.getAll());
-        return PROGRESS_LIST;
+        return GAME_LIST;
     }
 
     @GetMapping(value = "/stage")
@@ -60,8 +60,8 @@ public class ProgressController {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
-        model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
-        return PROGRESS_STAGE;
+        model.addAttribute("teamsStatuses", gameService.getTeamsStatuses(cypher));
+        return GAME_STAGE;
     }
 
     @GetMapping(value = "/changeStatus/{cypherId}")
@@ -72,12 +72,12 @@ public class ProgressController {
         Cypher cypher = cypherService.getCypher(cypherId);
         Team team = teamService.getTeam(teamId);
         CypherStatus cypherStatus = CypherStatusFactory.create(newStatus);
-        progressService.makeCypher(cypher, team, cypherStatus);
+        gameService.makeCypher(cypher, team, cypherStatus);
 
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
-        model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
-        return PROGRESS_STAGE;
+        model.addAttribute("teamsStatuses", gameService.getTeamsStatuses(cypher));
+        return GAME_STAGE;
     }
 
     @GetMapping(value = "/viewHints/{cypherId}")
@@ -88,7 +88,7 @@ public class ProgressController {
         Team team = teamService.getTeam(teamId);
         model.addAttribute("cypher", cypher);
         model.addAttribute("team", team);
-        model.addAttribute("takenHints", progressService.setTakenHintsToMap(cypher, team));
+        model.addAttribute("takenHints", gameService.setTakenHintsToMap(cypher, team));
         return HINT_LIST;
     }
 
