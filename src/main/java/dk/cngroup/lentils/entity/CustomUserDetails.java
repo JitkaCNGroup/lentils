@@ -17,9 +17,9 @@ public class CustomUserDetails extends User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<SimpleGrantedAuthority> list = getUserRoles()
+        List<SimpleGrantedAuthority> list = getRoles()
                 .stream()
-                .map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.getRole()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toList());
         return list;
     }

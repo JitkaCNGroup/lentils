@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "role")
-public class UserRole {
+public class Role {
 
     @Id
     @GeneratedValue
@@ -14,7 +14,7 @@ public class UserRole {
     @Column(name = "role")
     private String role;
 
-    public UserRole() {
+    public Role() {
     }
 
     public Long getRoleId() {

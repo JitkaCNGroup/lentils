@@ -27,19 +27,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(getPasswordEncoder());
+//        auth.userDetailsService(userDetailsService)
+//                .passwordEncoder(getPasswordEncoder());
 
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(getPasswordEncoder())
-//                .withUser("admin")
-//                .password(getPasswordEncoder().encode("admin"))
-//                .roles("ADMIN")
-//                .and()
-//                .passwordEncoder(getPasswordEncoder())
-//                .withUser("user")
-//                .password(getPasswordEncoder().encode("user"))
-//                .roles("USER");
+        auth.inMemoryAuthentication()
+                .passwordEncoder(getPasswordEncoder())
+                .withUser("admin")
+                .password(getPasswordEncoder().encode("admin"))
+                .roles("ADMIN")
+                .and()
+                .passwordEncoder(getPasswordEncoder())
+                .withUser("user")
+                .password(getPasswordEncoder().encode("user"))
+                .roles("USER");
     }
 
     @Override
@@ -47,6 +47,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/team/**", "/cypher/**", "/progress/**", "/hint/**", "/finalplace/**")
                         .hasRole("ADMIN")
                     .antMatchers("/").hasRole("USER")

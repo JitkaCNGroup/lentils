@@ -10,7 +10,7 @@ public class User {
     public User(User user) {
         this.password = user.getPassword();
         this.username = user.getUsername();
-        this.userRoles = user.getUserRoles();
+        this.roles = user.getRoles();
         this.userId = user.getUserId();
     }
 
@@ -27,15 +27,15 @@ public class User {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name= "user_role", joinColumns = @JoinColumn(name = "username"))
-    private Set<UserRole> userRoles;
+    @JoinTable(name= "role", joinColumns = @JoinColumn(name = "username"))
+    private Set<Role> roles;
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void setUserId(Long userId) {
