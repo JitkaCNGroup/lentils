@@ -17,18 +17,14 @@ public class TeamService {
     private static final String PIN_CHARACTERS = "0123456789";
 
     private final TeamRepository teamRepository;
-    private final UserService userService;
 
     @Autowired
-    public TeamService(final TeamRepository teamRepository,
-                       final UserService userService) {
+    public TeamService(final TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
-        this.userService = userService;
     }
 
     public Team save(final Team team) {
         team.setPin(getUniquePin());
-        userService.createUserForTeam(team);
         return teamRepository.save(team);
     }
 
