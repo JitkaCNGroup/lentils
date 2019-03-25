@@ -2,6 +2,7 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.TeamService;
+import dk.cngroup.lentils.service.UserService;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,9 @@ public class TeamControllerTest {
 
     @Mock
     private TeamService teamService;
+
+    @Mock
+    private UserService userService;
 
     private BindingResult bindingResultMock;
     private Model modelMock;
