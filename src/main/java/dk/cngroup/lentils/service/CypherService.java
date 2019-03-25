@@ -39,8 +39,7 @@ public class CypherService {
     }
 
     public Cypher getNext(final Integer stage) {
-        Cypher cypher = cypherRepository.findByStage(stage);
-        return cypherRepository.findByStage(cypher.getStage() + 1);
+        return cypherRepository.findFirstByStageGreaterThan(stage);
     }
 
     public boolean checkCodeword(final String codeword, final Integer stage) {

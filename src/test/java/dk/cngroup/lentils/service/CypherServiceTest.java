@@ -34,18 +34,6 @@ public class CypherServiceTest {
     }
 
     @Test
-    public void getNextCypherTest() {
-        Cypher cypher1 = getCypherForStage();
-        Cypher cypher2 = getCypherForStage(TESTED_STAGE + 1);
-
-        when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher1);
-        when(repository.findByStage(TESTED_STAGE + 1)).thenReturn(cypher2);
-        Cypher cypher = service.getNext(TESTED_STAGE);
-
-        assertEquals(cypher2, cypher);
-    }
-
-    @Test
     public void checkCodewordTest() {
         Cypher cypher = getCypherForStage();
         when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
