@@ -7,20 +7,14 @@ import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
+import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ProgressService;
 import dk.cngroup.lentils.service.TeamService;
-import dk.cngroup.lentils.service.HintTakenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/progress")
@@ -100,9 +94,16 @@ public class ProgressController {
         if (pin.equals(team.getPin())) {
             Hint hint = hintService.getHint(hintId);
             hintTakenService.takeHint(team, hint);
-            return new ResponseEntity(HttpStatus.OK);
+            return ResponseEntity
+                    .ok()
+                    .header("content-type", "application/json")
+                    .body("{}");
+
         } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .badRequest()
+                    .header("content-type", "application/json")
+                    .body("{}");
         }
     }
 
