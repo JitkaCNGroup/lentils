@@ -32,12 +32,12 @@ public class TeamService {
     }
 
     public Team save(final Team team) {
+        team.setPin(getUniquePin());
         User user = new User();
         user.setPassword(passwordEncoder.encode(team.getPin()));
         user.setUsername(team.getName());
         user.setRoles(roleService.setRole("USER"));
         team.setUser(user);
-        team.setPin(getUniquePin());
         return teamRepository.save(team);
     }
 
