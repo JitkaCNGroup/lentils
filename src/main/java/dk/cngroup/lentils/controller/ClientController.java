@@ -14,7 +14,7 @@ public class ClientController {
 
     private final static String CLIENT_VIEW_CYPHER_LIST = "client/list";
     private final static String CLIENT_VIEW_CYPHER_DESCRIPTION = "client/detail";
-    private final static String CYPHER_MAP_VIEW = "";
+    private final static String REDIRECT_CLIENT_VIEW_CYPHER_LIST = "redirect:/client/list";
 
     private CypherService cypherService;
     private TeamService teamService;
@@ -70,12 +70,6 @@ public class ClientController {
         }
     }
 
-    @GetMapping(value = "/detail/map")
-    public String showMap() {
-        // TODO
-        return CYPHER_MAP_VIEW;
-    }
-
     @GetMapping(value = "/detail/takeHint/{hintId}")
     public String getHint(@PathVariable("hintId") Long hintId) {
         hintTakenService.takeHint(teamService.getTeam(2L),
@@ -83,10 +77,14 @@ public class ClientController {
         return CLIENT_VIEW_CYPHER_DESCRIPTION;
     }
 
-    @PostMapping(value = "/client/detail/giveUp")
-    public String skipCypher() {
-        //TODO
-        // statusService.markCypherSkippedForTeam();
-        return CLIENT_VIEW_CYPHER_LIST;
+    @PostMapping(value = "/detail/giveUp")
+    public String skipCypher(Cypher cypher, Model model) {
+        model.addAttribute("cypher", cypher);
+        if(statusService.getStatusName(teamService.findById(2L),
+                cypherService.getCypher(cypher.getCypherId())).equals("PENDING")) {
+            statusService.markCypherSkippedForTeam(cypherService.getCypher(cypher.getCypherId()),
+                    teamService.findById(2L));
+        }
+        return REDIRECT_CLIENT_VIEW_CYPHER_LIST;
     }
 }
