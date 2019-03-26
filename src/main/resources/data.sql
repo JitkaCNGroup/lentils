@@ -1,8 +1,8 @@
--- users
-INSERT INTO user(user_id, username, password)
+-- user
+INSERT INTO user_account(user_id, username, password)
   SELECT 1, 'admin', '$2a$10$qs.xj/pIYebwtf2FrchEteOvdQ38qLTuFeOZXm8twXL0uOJFY1kMG'
   WHERE NOT EXISTS(
-    SELECT * FROM user WHERE user_id = 1);
+    SELECT * FROM user_account WHERE user_id = 1);
 
 -- roles
 INSERT INTO role(role_id, role)

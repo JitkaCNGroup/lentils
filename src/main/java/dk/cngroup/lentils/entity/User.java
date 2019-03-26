@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Entity
 @SequenceGenerator(name = "seq", initialValue = 500)
-@Table(name = "user")
+@Table(name = "user_account")
 public class User {
 
     public User(final User user) {
@@ -42,7 +42,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Role.class)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
