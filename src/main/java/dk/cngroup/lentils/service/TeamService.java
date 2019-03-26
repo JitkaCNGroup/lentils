@@ -1,9 +1,11 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +19,24 @@ public class TeamService {
     private static final String PIN_CHARACTERS = "0123456789";
 
     private final TeamRepository teamRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Autowired
-    public TeamService(final TeamRepository teamRepository) {
+    public TeamService(final TeamRepository teamRepository,
+                       final PasswordEncoder passwordEncoder,
+                       final RoleService roleService) {
         this.teamRepository = teamRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     public Team save(final Team team) {
+        User user = new User();
+        user.setPassword(passwordEncoder.encode(team.getPin()));
+        user.setUsername(team.getName());
+        user.setRoles(roleService.setRole("USER"));
+        team.setUser(user);
         team.setPin(getUniquePin());
         return teamRepository.save(team);
     }

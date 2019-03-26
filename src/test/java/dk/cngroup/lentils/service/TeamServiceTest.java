@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -29,6 +30,12 @@ public class TeamServiceTest {
 
     @Mock
     TeamRepository repository;
+
+    @Mock
+    RoleService roleService;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     private ObjectGenerator generator;

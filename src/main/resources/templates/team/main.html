@@ -30,7 +30,7 @@
                     style="color: orangered; font-size: 14px">Chyba - Počet členů
                 </p>
             </div>
-            <input type="submit" class="btn btn-primary" th:value="${action == '/team/add' ? 'Nový' : 'Uložit'}"/>
+            <input type="submit" class="btn btn-primary" th:value="${action == 'admin//team/add' ? 'Nový' : 'Uložit'}"/>
         </form>
     </div>
 
@@ -56,8 +56,8 @@
                             <td th:text="${team.numOfMembers}">8</td>
                             <td th:text="${team.pin}">9876</td>
                             <td>
-                                <a href="#" th:href="@{'/team/update/'+${team.teamId}}">Upravit</a> |
-                                <a href="#" th:href="@{'/team/delete/'+${team.teamId}}">Smazat</a>
+                                <a href="#" th:href="@{'/admin/team/update/'+${team.teamId}}">Upravit</a> |
+                                <a href="#" th:href="@{'/admin/team/delete/'+${team.teamId}}">Smazat</a>
                             </td>
                         </tr>
                     </th:block>

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/hint")
+@RequestMapping("/admin/hint")
 public class HintController {
     private static final String VIEW_HINT_LIST = "hint/list";
     private static final String VIEW_HINT = "hint/detail";
-    private static final String REDIRECT_HINT_LIST = "redirect:/hint/list";
+    private static final String REDIRECT_HINT_LIST = "redirect:/admin/hint/list";
 
     private CypherService cypherService;
     private HintService hintService;

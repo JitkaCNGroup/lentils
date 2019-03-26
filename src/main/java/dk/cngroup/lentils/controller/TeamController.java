@@ -5,18 +5,23 @@ import dk.cngroup.lentils.service.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/team")
+@RequestMapping("/admin/team")
 public class TeamController {
     private static final String VIEW_PATH = "team/main";
-    private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/team";
-    private static final String ACTION_TEAM_SAVE = "/team/add";
-    private static final String ACTION_TEAM_UPDATE = "/team/update/";
+    private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/admin/team";
+    private static final String ACTION_TEAM_SAVE = "/admin/team/add";
+    private static final String ACTION_TEAM_UPDATE = "/admin/team/update/";
 
     private final TeamService teamService;
 
