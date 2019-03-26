@@ -27,6 +27,9 @@ public class Team {
     @Column(name = "pin", nullable = false, unique = true)
     private String pin;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
+
     public Team() {
     }
 
@@ -52,6 +55,14 @@ public class Team {
         this.name = name;
         this.numOfMembers = numOfMembers;
         this.pin = pin;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
     }
 
     public Long getTeamId() {

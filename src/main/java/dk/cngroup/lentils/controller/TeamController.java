@@ -2,7 +2,6 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.TeamService;
-import dk.cngroup.lentils.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,12 +24,9 @@ public class TeamController {
     private static final String ACTION_TEAM_UPDATE = "/admin/team/update/";
 
     private final TeamService teamService;
-    private final UserService userService;
 
-    public TeamController(final TeamService teamService,
-                          final UserService userService) {
+    public TeamController(final TeamService teamService) {
         this.teamService = teamService;
-        this.userService = userService;
     }
 
     @GetMapping
@@ -50,7 +46,6 @@ public class TeamController {
             return VIEW_PATH;
         }
         teamService.save(team);
-        userService.createUserForTeam(team);
         return REDIRECT_TO_MAIN_VIEW;
     }
 
@@ -72,7 +67,6 @@ public class TeamController {
             return VIEW_PATH;
         }
         teamService.save(team);
-        userService.createUserForTeam(team);
         return REDIRECT_TO_MAIN_VIEW;
     }
 
