@@ -31,14 +31,26 @@ public class TeamService {
         this.roleService = roleService;
     }
 
+    public Team update(final Team team) {
+        team.setPin(getUniquePin());
+        User user = team.getUser();
+        addUserDataToTeam(team, user);
+        return teamRepository.save(team);
+    }
+
     public Team save(final Team team) {
         team.setPin(getUniquePin());
         User user = new User();
+        addUserDataToTeam(team, user);
+        return teamRepository.save(team);
+    }
+
+    private Team addUserDataToTeam(final Team team, final User user) {
         user.setPassword(passwordEncoder.encode(team.getPin()));
         user.setUsername(team.getName());
         user.setRoles(roleService.setRole("USER"));
         team.setUser(user);
-        return teamRepository.save(team);
+        return team;
     }
 
     public Team getTeam(final Long id) {
