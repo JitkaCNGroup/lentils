@@ -40,17 +40,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
 
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/")
-                    .permitAll().and()
+//                .authorizeRequests().antMatchers("/") TODO: user view - Pavel
+//                    .permitAll().and()
                 .authorizeRequests().antMatchers("/h2-console/**")
                     .permitAll().and()
                 .authorizeRequests().antMatchers("/admin/**")
                     .hasRole("ADMIN").and()
                 .authorizeRequests().antMatchers("/game/**")
-                    .hasAnyRole("USER", "ADMIN")
+                    .hasAnyRole("ORGANIZER")
                 .and()
                 .formLogin()
                     .loginPage("/login")
+                    .defaultSuccessUrl("/successfulLogin", true)
                     .permitAll()
                 .and()
                 .logout()
