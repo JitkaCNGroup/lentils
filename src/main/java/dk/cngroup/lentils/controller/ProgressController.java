@@ -112,6 +112,16 @@ public class ProgressController {
         }
     }
 
+    @GetMapping("/revertHint")
+    public String revertHint(final @RequestParam("teamId") Long teamId,
+                             final @RequestParam("hintId") Long hintId,
+                             final @RequestParam("cypherId") Long cypherId) {
+        Team team = teamService.getTeam(teamId);
+        Hint hint = hintService.getHint(hintId);
+        hintTakenService.revertHint(team, hint);
+        return "redirect:viewHints/" + cypherId + "?teamId=" + teamId;
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleError() {
         return ERROR;
