@@ -2,6 +2,7 @@ package dk.cngroup.lentils.config;
 
 import dk.cngroup.lentils.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @Value("${server.require-ssl}")
+    private boolean requireSsl;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -30,6 +34,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
+
+        if (requireSsl) {
+            http.requiresChannel().anyRequest().requiresSecure();
+        }
+
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/")
                     .permitAll().and()
