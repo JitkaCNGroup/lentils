@@ -16,6 +16,7 @@
         <form action="#" th:action="${action}" th:object="${team}" method="post">
             <input type="hidden" th:field="*{teamId}"/>
             <input type="hidden" th:field="*{pin}"/>
+            <input type="hidden" th:field="*{user}"/>
             <div class="form-group">
                 <label for="name">Jméno: (*)</label>
                 <input id="name" class="form-control" type="text" th:field="*{name}"/>

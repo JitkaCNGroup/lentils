@@ -31,6 +31,13 @@ public class TeamService {
         this.roleService = roleService;
     }
 
+    public Team update(final Team team) {
+        User user = team.getUser();
+        user.setUsername(team.getName());
+        team.setUser(user);
+        return teamRepository.save(team);
+    }
+
     public Team save(final Team team) {
         team.setPin(getUniquePin());
         User user = new User();

@@ -66,7 +66,7 @@ public class TeamController {
             fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH;
         }
-        teamService.save(team);
+        teamService.update(team);
         return REDIRECT_TO_MAIN_VIEW;
     }
 
