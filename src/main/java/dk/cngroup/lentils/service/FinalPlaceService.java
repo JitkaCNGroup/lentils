@@ -11,15 +11,15 @@ import java.util.List;
 @Service
 public class FinalPlaceService {
 
-    private FinalPlaceRepository finalPlacerepository;
+    private FinalPlaceRepository finalPlaceRepository;
 
     @Autowired
-    public FinalPlaceService(final FinalPlaceRepository finalPlacerepository) {
-        this.finalPlacerepository = finalPlacerepository;
+    public FinalPlaceService(final FinalPlaceRepository finalPlaceRepository) {
+        this.finalPlaceRepository = finalPlaceRepository;
     }
 
     public FinalPlace save(final FinalPlace finalPlace) {
-        return finalPlacerepository.save(finalPlace);
+        return finalPlaceRepository.save(finalPlace);
     }
 
     /**
@@ -29,18 +29,14 @@ public class FinalPlaceService {
      * there is only one line in the table
      */
     public FinalPlace getFinalPlace() {
-        List<FinalPlace> finalPlaces = getAll();
+        List<FinalPlace> finalPlaces = finalPlaceRepository.findAll();
         if (finalPlaces.size() == 0) {
             return new FinalPlace();
         } else if (finalPlaces.size() == 1) {
             return finalPlaces.get(0);
-        } else {
-            throw new MoreFinalPlacesException("More final places found.");
         }
-    }
 
-    public List<FinalPlace> getAll() {
-        return finalPlacerepository.findAll();
+        throw new MoreFinalPlacesException("More final places found.");
     }
 
     /**
@@ -50,6 +46,6 @@ public class FinalPlaceService {
      * there is only one line in the table
      */
     public void deleteAll() {
-        finalPlacerepository.deleteAll();
+        finalPlaceRepository.deleteAll();
     }
 }
