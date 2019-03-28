@@ -34,29 +34,44 @@
                     <td th:text="${team.numOfMembers}" align="center">8</td>
                     <td th:text="${team.pin}" align="center">9876</td>
                     <td align="center">
-                        <a href="#"
-                           th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
+                        <a href="#" class="btn btn-default btn-lg"
+                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('SKIPPED')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
-                            Přeskočit |
+                            Přeskočit
                         </a>
-                        <a href="#"
-                           th:if="${(teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
+                        <a href="#" class="btn btn-default btn-lg"
+                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('SOLVED')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
                             Splnit
                         </a>
-                        <a href="#"
-                           th:if="${teamsStatuses.get(team.teamId) == null or (teamsStatuses.get(team.teamId)).name() != 'PENDING'}"
+                        <a href="#" class="btn btn-default btn-lg"
+                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('PENDING')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
-                            Pending
+                            Zahájit
+                        </a>
+                        <a href="#" class="btn btn-default btn-lg"
+                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
+                           th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='lock')}">
+                            Zamknout
                         </a>
                     </td>
-                    <td th:text="${teamsStatuses.get(team.teamId)}" align="center"></td>
+                    <td align="center">
+                        <span
+                            th:if="${teamsStatuses.get(team.teamId) == null}">
+                            Tým nezahájil hru.
+                        </span>
+
+                        <span th:if="${teamsStatuses.get(team.teamId) != null}"
+                            th:text="${teamsStatuses.get(team.teamId)}">
+                        </span>
+
+                         </td>
                     <td align="center">
                 <span
                         th:if="${cypher.getHints().isEmpty()}">
                     Žádné hinty
                 </span>
-                        <a href="#"
+                        <a href="#" class="btn btn-default btn-lg"
                            th:if="${!cypher.getHints().isEmpty()}"
                            th:href="@{/game/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
                             Hinty

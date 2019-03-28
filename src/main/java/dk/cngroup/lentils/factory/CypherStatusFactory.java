@@ -12,6 +12,8 @@ public class CypherStatusFactory {
                 return CypherStatus.SKIPPED;
             case "solve":
                 return CypherStatus.SOLVED;
+            case "lock":
+                return CypherStatus.LOCKED;
             default:
                 throw new IllegalArgumentException();
         }
