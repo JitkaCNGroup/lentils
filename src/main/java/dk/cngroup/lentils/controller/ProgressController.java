@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @Controller
 @RequestMapping("/game/progress")
@@ -112,14 +113,17 @@ public class ProgressController {
         }
     }
 
-    @GetMapping("/revertHint")
-    public String revertHint(final @RequestParam("teamId") Long teamId,
-                             final @RequestParam("hintId") Long hintId,
-                             final @RequestParam("cypherId") Long cypherId) {
+    @DeleteMapping("/revertHint")
+    public ResponseEntity revertHint(final @RequestParam("teamId") Long teamId,
+                                             final @RequestParam("hintId") Long hintId,
+                                             final @RequestParam("cypherId") Long cypherId) {
         Team team = teamService.getTeam(teamId);
         Hint hint = hintService.getHint(hintId);
         hintTakenService.revertHint(team, hint);
-        return "redirect:viewHints/" + cypherId + "?teamId=" + teamId;
+        return ResponseEntity
+                .ok()
+                .header("content-type", "application/json")
+                .body("{}");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

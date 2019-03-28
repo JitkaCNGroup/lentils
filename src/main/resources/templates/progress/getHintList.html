@@ -29,12 +29,12 @@
                 <td align="center" th:text="${hint.value}">value</td>
                 <td align="center">
                     <button th:if="${takenHints.get(hint.hintId) == null}"
-                            th:onclick="'javascript:openDialog(' + ${hint.hintId} + ')'">Vzít Hint
+                            th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">Vzít Hint
                     </button>
-                    <a href="#" th:if="${takenHints.get(hint.hintId) != null}"
-                       th:href="@{/game/progress/revertHint(hintId=${hint.hintId}, teamId=${team.teamId}, cypherId=${cypher.cypherId})}">
+                    <button th:if="${takenHints.get(hint.hintId) != null}"
+                            th:onclick="'javascript:revertHintDialog(' + ${hint.hintId} + ')'">
                         Odebrat Hint
-                    </a>
+                    </button>
                 </td>
                 <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
             </tr>
@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="text-center mt-4">
-                        <button id="verifyBtn" class="btn btn-cyan mt-1">Ověřit <i class="fas fa-sign-in ml-1"></i>
+                        <button id="takeHintBtn" class="btn btn-cyan mt-1">Ověřit <i class="fas fa-sign-in ml-1"></i>
                         </button>
                     </div>
                 </div>
@@ -71,6 +71,31 @@
             <!--/.Content-->
         </div>
     </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="revertHintModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-sm" role="document">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <!-- Modal Body -->
+                <div class="modal-body text-center mb-1">
+                    <h5 class="mt-1 mb-2">Opravdu odebrat Hint?</h5>
+
+                    <div class="text-center mt-4">
+                        <button id="cancelRevertHintBtn" type="button" class="btn btn-danger" data-dismiss="modal">Ne
+                        </button>
+                        <button id="confirmRevertHintBtn" type="button" class="btn btn-success">Ano</button>
+                    </div>
+
+                    <!-- Modal footer -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <form action="/logout" method="post">
         <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <button type="submit">Odhlásit</button>
@@ -80,14 +105,20 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     var teamId = /*[[${team.teamId}]]*/ "teamId",
-        selectedHintId = null;
+        selectedHintId = null,
+        cypherId = /*[[${cypher.cypherId}]]*/ "cypherId";
 
-    function openDialog(hintId) {
+    function takeHintDialog(hintId) {
         selectedHintId = hintId;
         $('#takeHintModal').modal();
     }
 
-    $('#verifyBtn').click(function () {
+    function revertHintDialog(hintId) {
+        selectedHintId = hintId;
+        $('#revertHintModal').modal();
+    }
+
+    $('#takeHintBtn').click(function () {
         var pin = document.getElementById("enteredPin").value,
             data = {
                 pin: pin,
@@ -108,6 +139,33 @@
         });
 
         $('#takeHintModal').modal('hide');
+        $('.modal-body input').val('');
+        selectedHintId = null;
+    });
+
+    $('#confirmRevertHintBtn').click(function () {
+        var revertHintUrl = "/game/progress/revertHint";
+
+        $.ajax({
+            url: revertHintUrl + '?' + $.param({"teamId": teamId, "hintId": selectedHintId, "cypherId": cypherId}),
+            // headers: {"teamId": teamId, "cypherId" : cypherId, "hintId" : selectedHintId},
+            type: 'delete',
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert("Chyba");
+            }
+        });
+
+        $('#revertHintModal').modal('hide');
+        $('.modal-body input').val('');
+        selectedHintId = null;
+    });
+
+    $('#cancelRevertHintBtn').click(function () {
+
+        $('#revertHintModal').modal('hide');
         $('.modal-body input').val('');
         selectedHintId = null;
     });
