@@ -148,7 +148,6 @@
 
         $.ajax({
             url: revertHintUrl + '?' + $.param({"teamId": teamId, "hintId": selectedHintId, "cypherId": cypherId}),
-            // headers: {"teamId": teamId, "cypherId" : cypherId, "hintId" : selectedHintId},
             type: 'delete',
             success: function () {
                 location.reload();
@@ -159,14 +158,12 @@
         });
 
         $('#revertHintModal').modal('hide');
-        $('.modal-body input').val('');
         selectedHintId = null;
     });
 
     $('#cancelRevertHintBtn').click(function () {
 
         $('#revertHintModal').modal('hide');
-        $('.modal-body input').val('');
         selectedHintId = null;
     });
 
