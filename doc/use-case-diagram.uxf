@@ -5,9 +5,9 @@
     <id>UMLClass</id>
     <coordinates>
       <x>150</x>
-      <y>10</y>
+      <y>0</y>
       <w>700</w>
-      <h>730</h>
+      <h>1000</h>
     </coordinates>
     <panel_attributes>Lusteniny App</panel_attributes>
     <additional_attributes/>
@@ -16,7 +16,7 @@
     <id>UMLActor</id>
     <coordinates>
       <x>0</x>
-      <y>140</y>
+      <y>130</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -26,19 +26,19 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>20</x>
-      <y>420</y>
-      <w>60</w>
+      <x>0</x>
+      <y>800</y>
+      <w>80</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>Admin</panel_attributes>
+    <panel_attributes>Organizer</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>330</x>
-      <y>150</y>
+      <y>140</y>
       <w>120</w>
       <h>50</h>
     </coordinates>
@@ -51,7 +51,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>590</x>
-      <y>150</y>
+      <y>140</y>
       <w>120</w>
       <h>50</h>
     </coordinates>
@@ -64,7 +64,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>460</x>
-      <y>150</y>
+      <y>140</y>
       <w>120</w>
       <h>50</h>
     </coordinates>
@@ -77,7 +77,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>200</x>
-      <y>440</y>
+      <y>430</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -91,7 +91,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>650</x>
-      <y>420</y>
+      <y>410</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -106,7 +106,7 @@ bg=green</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>650</x>
-      <y>490</y>
+      <y>480</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -121,7 +121,7 @@ bg=green</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>650</x>
-      <y>560</y>
+      <y>550</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -135,7 +135,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>460</x>
-      <y>210</y>
+      <y>200</y>
       <w>130</w>
       <h>60</h>
     </coordinates>
@@ -148,7 +148,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>310</x>
-      <y>210</y>
+      <y>200</y>
       <w>140</w>
       <h>50</h>
     </coordinates>
@@ -162,7 +162,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>210</x>
-      <y>590</y>
+      <y>580</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -176,7 +176,7 @@ bg=green</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>430</x>
-      <y>530</y>
+      <y>520</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
@@ -190,7 +190,7 @@ Manage prerequisites?
     <id>UMLClass</id>
     <coordinates>
       <x>180</x>
-      <y>60</y>
+      <y>50</y>
       <w>650</w>
       <h>320</h>
     </coordinates>
@@ -201,7 +201,7 @@ Manage prerequisites?
     <id>UMLClass</id>
     <coordinates>
       <x>180</x>
-      <y>410</y>
+      <y>400</y>
       <w>650</w>
       <h>320</h>
     </coordinates>
@@ -212,7 +212,7 @@ Manage prerequisites?
     <id>Relation</id>
     <coordinates>
       <x>70</x>
-      <y>170</y>
+      <y>160</y>
       <w>130</w>
       <h>30</h>
     </coordinates>
@@ -223,7 +223,7 @@ Manage prerequisites?
     <id>Relation</id>
     <coordinates>
       <x>60</x>
-      <y>450</y>
+      <y>440</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -234,7 +234,7 @@ Manage prerequisites?
     <id>UMLUseCase</id>
     <coordinates>
       <x>310</x>
-      <y>300</y>
+      <y>290</y>
       <w>200</w>
       <h>50</h>
     </coordinates>
@@ -247,7 +247,7 @@ bg=yellow</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>190</x>
-      <y>520</y>
+      <y>510</y>
       <w>180</w>
       <h>60</h>
     </coordinates>
@@ -261,19 +261,20 @@ bg=green</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>420</x>
-      <y>450</y>
+      <y>440</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-14&gt;&gt;
-Manage team</panel_attributes>
+Manage team
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>600</x>
-      <y>260</y>
+      <y>250</y>
       <w>130</w>
       <h>60</h>
     </coordinates>
@@ -285,7 +286,7 @@ View score</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>680</x>
-      <y>200</y>
+      <y>190</y>
       <w>130</w>
       <h>60</h>
     </coordinates>
@@ -297,21 +298,21 @@ View prerequisites</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>650</x>
-      <y>640</y>
+      <y>630</y>
       <w>160</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;U-17&gt;&gt;
 Revert taken hint
 
-bg=white</panel_attributes>
+bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>200</x>
-      <y>660</y>
+      <y>650</y>
       <w>200</w>
       <h>60</h>
     </coordinates>
@@ -320,5 +321,38 @@ Manage hints for cypher
 
 bg=green</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>10</x>
+      <y>410</y>
+      <w>60</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Admin</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>740</y>
+      <w>650</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>Organizer's view</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>60</x>
+      <y>830</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
