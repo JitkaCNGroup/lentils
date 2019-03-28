@@ -24,6 +24,11 @@ public class HintTakenService {
         hintTakenRepository.save(new HintTaken(team, hint));
     }
 
+    public void revertHint(final Team team, final Hint hint) {
+        HintTaken hintTaken = hintTakenRepository.findByTeamAndHint(team, hint);
+        hintTakenRepository.delete(hintTaken);
+    }
+
     public int getHintScore(final Team team, final Cypher cypher) {
         int hintScore = 0;
         final List<Hint> hints = cypher.getHints();
