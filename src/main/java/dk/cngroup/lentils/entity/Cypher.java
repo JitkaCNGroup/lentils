@@ -29,6 +29,9 @@ public class Cypher implements Serializable {
     @Column(name = "location")
     private Point location;
 
+    @Column(name = "place_description")
+    private String placeDescription;
+
     @Column(name = "codeword")
     private String codeword;
 
@@ -121,6 +124,14 @@ public class Cypher implements Serializable {
 
     public void setBonusContent(String bonusContent) {
         this.bonusContent = bonusContent;
+    }
+
+    public String getPlaceDescription() {
+        return placeDescription;
+    }
+
+    public void setPlaceDescription(String placeDescription) {
+        this.placeDescription = placeDescription;
     }
 
     @Override

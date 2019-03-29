@@ -115,9 +115,9 @@ a:hover {
 }
 
 .btn-white:hover {
-    -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
-    -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
-    box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+    -webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
 }
 
 .btn-red {
@@ -130,9 +130,30 @@ a:hover {
 }
 
 .btn-red:hover {
-    -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
-    -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
-    box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+    -webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+}
+
+.correctButton{
+    color:white;
+    background-color: limegreen;
+    width: 100%;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+.correctButton:hover{
+    -webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    -moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+}
+
+#correctAnswer{
+    background-color: lightgreen;
+    color: green;
+    text-align: center;
 }
 
 .bold{
@@ -170,23 +191,8 @@ a:hover {
     margin-bottom: 15px;
 }
 
-#correctAnswer{
-    background-color: lightgreen;
-    color: green;
-    text-align: center;
-}
-
-.correctButton{
-    color:white;
-    background-color: limegreen;
-    width: 100%;
-    border-radius: 5px;
-    height: 45px;
-    margin-bottom: 15px;
-}
-
 #bonusInfo{
-    visibility: hidden;
+    display: none;
 }
 
 #bonusButton{
