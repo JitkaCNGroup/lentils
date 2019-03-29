@@ -3,7 +3,6 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.repository.FinalPlaceRepository;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +27,6 @@ public class FinalPlaceServiceIntegrationTest {
     private FinalPlaceRepository finalPlaceRepository;
 
     private ObjectGenerator objectGenerator = new ObjectGenerator();
-
-    @Before
-    public void before() {
-
-    }
 
     @Test
     public void testSaveNewFinalPlace() {

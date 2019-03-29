@@ -19,6 +19,9 @@ public class FinalPlaceService {
     }
 
     public FinalPlace save(final FinalPlace finalPlace) {
+        final FinalPlace existingPlace = getFinalPlace();
+        finalPlace.setFinalPlaceId(existingPlace.getFinalPlaceId());
+
         return finalPlaceRepository.save(finalPlace);
     }
 
