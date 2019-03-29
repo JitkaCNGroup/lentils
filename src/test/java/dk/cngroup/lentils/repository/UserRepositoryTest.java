@@ -41,9 +41,14 @@ public class UserRepositoryTest {
 
     @Test
     public void adminUserIsImportedOnStartup() {
-        Assert.assertEquals(1, userRepository.count());
         List<User> users = userRepository.findAll();
         Assert.assertEquals("admin", users.get(0).getUsername());
+    }
+
+    @Test
+    public void organizerUserIsImportedOnStartup() {
+        List<User> users = userRepository.findAll();
+        Assert.assertEquals("organizer", users.get(1).getUsername());
     }
 
     @Test

@@ -23,11 +23,11 @@ public class LoginController {
         String role = authentication.getAuthorities().toString();
 
         if (role.contains("ADMIN")) {
-            return "redirect:/admin/"; // TODO: admin list of actions
+            return "redirect:/admin/team"; // TODO : Martin - admin list of actions
         } else if (role.contains("ORGANIZER")) {
-            return "redirect:/game/progress"; // TODO: organizer role
+            return "redirect:/game/progress";
         } else if (role.contains("USER")) {
-            return "redirect:/user"; // TODO: Pavel user view
+            return "redirect:/user"; // TODO : Pavel - user view
         } else {
             return "login/login";
         }

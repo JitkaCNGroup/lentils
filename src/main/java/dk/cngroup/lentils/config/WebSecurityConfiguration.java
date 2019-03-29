@@ -40,14 +40,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
 
         http.csrf().disable()
-//                .authorizeRequests().antMatchers("/") TODO: user view - Pavel
-//                    .permitAll().and()
                 .authorizeRequests().antMatchers("/h2-console/**")
-                    .permitAll().and()
+                .permitAll().and()
+                // TODO : user view - Pavel
+                .authorizeRequests().antMatchers("/user/**")
+                    .hasRole("USER").and()
                 .authorizeRequests().antMatchers("/admin/**")
                     .hasRole("ADMIN").and()
                 .authorizeRequests().antMatchers("/game/**")
-                    .hasAnyRole("ORGANIZER")
+                    .hasAnyRole("ORGANIZER", "ADMIN")
                 .and()
                 .formLogin()
                     .loginPage("/login")
