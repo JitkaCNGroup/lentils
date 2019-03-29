@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lušteniny - přhlášení</title>
+    <title>Luštěniny - přihlášení</title>
 </head>
 <body>
 <div class="log-form">
-    <h2>Lušteniny - přihlášení</h2>
+    <h2>Luštěniny - přihlášení</h2>
     <form action="" method="post">
         <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <input type="text" id="username" name="username" placeholder="jméno" />
@@ -14,6 +14,6 @@
         <button type="submit" class="btn">Přihlásit</button>
         <div th:if="${param.error != null}"> Přihlášení se nezdařilo.</div>
     </form>
-</div><!--end log form -->
+</div>
 </body>
 </html>
