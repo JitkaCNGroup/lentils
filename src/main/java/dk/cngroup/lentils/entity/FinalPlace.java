@@ -17,7 +17,7 @@ public class FinalPlace {
     @Column(name = "final_place_id")
     private Long finalPlaceId;
 
-    @Size(min = 5, max = 50)
+    @Size(min = 1, max = 255)
     @Column(name = "title")
     private String title;
 
