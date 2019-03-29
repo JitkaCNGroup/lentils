@@ -21,7 +21,7 @@
     </div>
 
     <!-- Collapse button -->
-    <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    <button id="navbarButton" class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
             aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
             <i class="fa fa-bars"></i></span></button>
     <!-- Collapsible content -->
@@ -52,15 +52,17 @@
     <h2 th:text="|${cypher.stage}. ${cypher.name}|" class="botMargin10">šifra</h2>
     <th:block th:switch="${statusName}">
         <th:block th:case="'PENDING'">
-        <form action="/client/detail/{id}/verify" th:object="${codeWord}" method="post">
-            <div class="pb-2">
+            <form action="/client/detail/verify" th:object="${cypher}" method="post" onsubmit="return (checkCodeword(this))">
                 <div class="pb-2">
-                    <b>Řešení</b>
+                    <div class="pb-2">
+                        <b>Řešení</b>
+                    </div>
+                    <input type="hidden"  th:field="*{cypherId}" >
+                    <input type="hidden" name="codeword"  th:field="*{codeword}" >
+                    <input type="text" name="guess" class="solutionInput" >
+                    <button class="btn-white" type ="submit"> Ověřit </button>
                 </div>
-                <input type="text" class="solutionInput">
-                <button class="btn-white" type ="submit"> Ověřit </button>
-            </div>
-        </form>
+            </form>
         </th:block>
 
         <th:block th:case="'SKIPPED'">
@@ -73,7 +75,7 @@
             <div>
                 <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
                 <b>Kam dál?</b>
-                <a href="/client/detail/tadybudeiddalšíšifry">
+                <a th:href="@{'/client/detail/' + ${nextCypher.cypherId}}">
                     <button class="correctButton"> Zobrazit další šifru </button>
                 </a>
                 <a id="bonusButton">
@@ -91,28 +93,50 @@
         <div th:text="${cypher.location}"></div>
         <div>Cypher place description </div>
         <!-- this button shows map -->
-        <form>
-            <button class="btn-white" type="submit">Zobrazit na mapě</button>
-        </form>
+        <button onclick="showMap()" class="btn-white" type="submit">Zobrazit na mapě</button>
+        <p id="map">MAPA</p>
     </div>
     <br/>
     <!-- Hint section : shows how many hints cypher have and what is their value -->
-    <th block th:if="${not #lists.isEmpty(hints)}">
-    <form action="/client/detail/takeHint">
-        <b>Nápověda</b>
-        <div th:each="hint : ${hints}">
-            <button id="hintButton" type="submit" class="btn-white" th:text="'Získat nápovědu za ' + ${hint.value} + ' bodů'"></button>
-            <!--<div th:each="hintTaken : ${hintsTaken}">-->
-                <!--<div th:if="${hintTaken.hint.hintId} == ${hint.hintId} and ${hintTaken.team.teamId} == ${team.teamId}">-->
-                    <!--<div th:text="${hint.text}"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-        </div>
-        <br/>
-    </form>
-    </th>
+    <th:block th:if="${not #lists.isEmpty(hintsNotTaken)}" >
+        <th:block th:if="${statusName} == 'PENDING'">
+            <b>Nápověda</b>
+            <!-- SHOWS TAKEN HINTS  -->
+            <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
+                <div th:each="hintTaken : ${hintsTaken}">
+                    <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
+                </div>
+            </th:block>
+            <div th:each="hint : ${hintsNotTaken}">
+                <a onclick="return confirm('Opravdu si chcete vzít tuto nápovědu?')">
+                   <form th:action="@{'/client/detail/takeHint/' + ${hint.hintId}}" th:object="${cypher}" method="post">
+                    <input type="hidden"  th:field="*{cypherId}" >
+                    <input type="hidden"  th:field="*{hints}" >
+                    <input type="hidden"  th:field="*{name}" >
+                    <input type="hidden"  th:field="*{stage}" >
+                    <input type="hidden"  th:field="*{location}" >
+                    <input type="hidden"  th:field="*{codeword}" >
+                    <input type="hidden"  th:field="*{bonusContent}" >
+                       <th:block th:if="${hint.value &lt 5}">
+                           <button type="submit" class="btn-white"
+                                   th:text="'Získat nápovědu za ' + ${hint.value} + ' body'"></button>
+                       </th:block>
+                       <th:block th:if="${hint.value &gt 4}">
+                           <button type="submit" class="btn-white"
+                                   th:text="'Získat nápovědu za ' + ${hint.value} + ' bodů'"></button>
+                       </th:block>
+                       <th:block th:if="${hint.value == 1}">
+                           <button type="submit" class="btn-white"
+                                   th:text="'Získat nápovědu za ' + ${hint.value} + ' bod'"></button>
+                       </th:block>
+                   </form>
+                </a>
+            </div>
+            <br/>
+        </th:block>
+    </th:block>
     <!--  GIVE UP CYPHER AVAILABLE ONLY IF STATUS == PENDING -->
-    <th block th:if="${statusName =='PENDING'}">
+    <th:block th:if="${statusName =='PENDING'}">
         <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/client/detail/giveUp" th:object="${cypher}" method="post">
             <input type="hidden"  th:field="*{cypherId}" >
             <input type="hidden"  th:field="*{hints}" >
@@ -124,7 +148,7 @@
             <br/>
             <button class="btn-red" type="submit" onclick="">Vzdát šifru</button>
         </form>
-    </th>
+    </th:block>
     <script>
         function showBonus() {
             var x = document.getElementById("bonusInfo");
@@ -133,13 +157,20 @@
             y.style.visibility = "hidden";
         }
 
-        function showHint() {
-            var x = document.getElementById("hintContent");
+        function showMap() {
+            var x = document.getElementById("map");
             x.style.visibility = "visible";
-            var y = document.getElementById("hintButton");
-            y.style.visibility = "hidden";
         }
-
+        
+        function checkCodeword(form) {
+            if(form.codeword.value == form.guess.value) {
+                return true;
+            }
+            else {
+                alert("Špatná odpověď, zkuste se víc zamyslet :-)");
+                return false;
+            }
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

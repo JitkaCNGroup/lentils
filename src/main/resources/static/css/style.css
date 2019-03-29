@@ -193,10 +193,14 @@ a:hover {
 
 }
 
-#hintButton{
-
-}
-
 #hintContent{
     visibility: hidden;
+    text-align: center;
+}
+
+#map{
+    visibility: hidden;
+}
+
+#navbarButton{
 }

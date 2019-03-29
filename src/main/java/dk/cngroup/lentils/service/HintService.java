@@ -2,21 +2,28 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.HintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HintService {
     private HintRepository hintRepository;
+    private HintTakenService hintTakenService;
 
     @Autowired
-    public HintService(final HintRepository hintRepository) {
+    public HintService(final HintRepository hintRepository,
+                       final HintTakenService hintTakenService) {
         this.hintRepository = hintRepository;
+        this.hintTakenService = hintTakenService;
     }
 
     public List<Hint> getAllByCypher(final Cypher cypher) {
@@ -49,5 +56,18 @@ public class HintService {
 
     public void deleteAlHintsByCypher(final Cypher cypher) {
         hintRepository.deleteByCypher(cypher);
+    }
+
+    public List<Hint> getHintsNotTakenByTeam(Cypher cypher, Team team) {
+        List<Hint> allHintsByCypher = getAllByCypher(cypher);
+        List<HintTaken> allHintsTakenByTeam = hintTakenService.getAllByTeam(team);
+        List<Long> allHintsTakenByTeamHintIds = new ArrayList<>();
+        for (HintTaken ht : allHintsTakenByTeam) {
+            allHintsTakenByTeamHintIds.add(ht.getHint().getHintId());
+        }
+        List<Hint> hintsNotTaken = allHintsByCypher.stream()
+                        .filter(hint -> !allHintsTakenByTeamHintIds.contains(hint.getHintId()))
+                        .collect(Collectors.toList());
+        return hintsNotTaken;
     }
 }
