@@ -53,7 +53,7 @@ public class ClientController {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusName(teamService.getTeam(2L), cypher);
         model.addAttribute("team", teamService.getTeam(2L));
-        model.addAttribute("cypher",cypher);
+        model.addAttribute("cypher", cypher);
         model.addAttribute("statusName", status);
         model.addAttribute("hintsNotTaken",
                 hintService.getHintsNotTakenByTeam(cypher,
