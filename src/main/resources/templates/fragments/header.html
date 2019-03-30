@@ -13,13 +13,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                        <a class="nav-link" href="/admin/cypher">Cyphers<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/admin/cypher">Šifry<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'team'}? 'active' : null">
-                        <a class="nav-link" href="/admin/team">Teams</a>
+                        <a class="nav-link" href="/admin/team">Týmy</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'finalplace'}? 'active' : null">
-                        <a class="nav-link" href="/admin/finalplace/">Final Place</a>
+                        <a class="nav-link" href="/admin/finalplace/">Místo zakončení</a>
                     </li>
                 </ul>
             </div>
