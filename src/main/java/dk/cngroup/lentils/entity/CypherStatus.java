@@ -3,7 +3,8 @@ package dk.cngroup.lentils.entity;
 public enum CypherStatus {
     SOLVED(10),
     SKIPPED(0),
-    PENDING(0);
+    PENDING(0),
+    LOCKED(0);
 
     private int statusValue;
 

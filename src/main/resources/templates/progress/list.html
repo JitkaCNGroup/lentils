@@ -32,7 +32,10 @@
                 <td th:text="${cypher.stage}" align="center">Cislo</td>
                 <td th:text="${cypher.location}">X, Y</td>
                 <td align="center">
-                    <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}">Stav</a>
+                    <a href="#"
+                       class="btn btn-default btn-lg" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}">
+                        Stav
+                    </a>
                 </td>
             </tr>
             </tbody>

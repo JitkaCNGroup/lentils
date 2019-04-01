@@ -28,10 +28,13 @@
                 <td id="hintId" align="center" th:text="${hint.hintId}">value</td>
                 <td align="center" th:text="${hint.value}">value</td>
                 <td align="center">
-                    <button th:if="${takenHints.get(hint.hintId) == null}"
-                            th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">Vzít Hint
+                    <button class="btn btn-default btn-lg"
+                            th:if="${takenHints.get(hint.hintId) == null}"
+                            th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">
+                        Vzít Hint
                     </button>
-                    <button th:if="${takenHints.get(hint.hintId) != null}"
+                    <button class="btn btn-default btn-lg"
+                            th:if="${takenHints.get(hint.hintId) != null}"
                             th:onclick="'javascript:revertHintDialog(' + ${hint.hintId} + ')'">
                         Odebrat Hint
                     </button>
