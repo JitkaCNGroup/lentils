@@ -2,7 +2,11 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
-import dk.cngroup.lentils.service.*;
+import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.HintService;
+import dk.cngroup.lentils.service.HintTakenService;
+import dk.cngroup.lentils.service.StatusService;
+import dk.cngroup.lentils.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

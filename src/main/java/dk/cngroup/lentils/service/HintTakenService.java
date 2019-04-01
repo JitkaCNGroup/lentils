@@ -46,7 +46,7 @@ public class HintTakenService {
         return hintTakenRepository.findByTeam(team);
     }
 
-    public List<HintTaken> getAllByCypher(Cypher cypher){
+    public List<HintTaken> getAllByCypher(final Cypher cypher) {
         List<HintTaken> allHintsTaken = hintTakenRepository.findAll();
         List<HintTaken> hintTakenByCypher = allHintsTaken
                 .stream()
@@ -55,18 +55,18 @@ public class HintTakenService {
         return hintTakenByCypher;
     }
 
-    public List<HintTaken> getAllByTeam(Team team) {
+    public List<HintTaken> getAllByTeam(final Team team) {
         return  hintTakenRepository.findByTeam(team);
     }
 
-    public List<HintTaken> getAllByTeamAndCypher(Team team, Cypher cypher) {
+    public List<HintTaken> getAllByTeamAndCypher(final Team team, final Cypher cypher) {
     List<HintTaken> hintsTakenByTeamAndCypher = hintTakenRepository.findByTeam(team)
             .stream()
             .filter(hintTaken -> cypher.getCypherId().equals(hintTaken.getHint().getCypher().getCypherId()))
             .collect(Collectors.toList());
     return hintsTakenByTeamAndCypher;
     }
-    public List<HintTaken> getAll(){
+    public List<HintTaken> getAll() {
         return hintTakenRepository.findAll();
     }
 }

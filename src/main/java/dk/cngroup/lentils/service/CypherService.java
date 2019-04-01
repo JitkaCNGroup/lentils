@@ -51,7 +51,7 @@ public class CypherService {
         return cypherRepository.findByStage(stage);
     }
 
-    public boolean checkCodeword(String codeword, Long id) {
+    public boolean checkCodeword(String codeword,final Long id) {
         Cypher cypher = cypherRepository.findById(id).get();
         return codeword.equals(cypher.getCodeword());
     }
