@@ -4,19 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <title>CypherDetail</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>CypherDetail</title>
 </head>
 <body>
+    <div th:insert="fragments/header :: header(cypher)"></div>
     <div class="container">
-        <div class="col-sm-12">
-            <h2><span th:text="${heading}">Nadpis</span></h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2><span th:text="${heading}">Nadpis</span></h2>
+            </div>
         </div>
         <div class="col-sm-6">
             <form action="#" th:action="@{/admin/cypher/save}" th:object="${cypher}" method="post">
@@ -44,9 +48,38 @@
                 <button type="submit" class="btn btn-primary">Uložit</button>
             </form>
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <form action="#" th:action="@{/cypher/save}" th:object="${cypher}" method="post">
+                    <div class="form-group">
+                        <label for="cypherId">Id</label>
+                        <input id="cypherId" class="form-control" th:field="*{cypherId}" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Jméno</label>
+                        <input id="name" class="form-control" th:field="*{name}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="stage">Pořadí</label>
+                        <input id="stage" class="form-control" type="number" th:field="*{stage}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Souřadnice</label>
+                        <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
+                        <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="codeword">Odpověď</label>
+                        <input id="codeword" class="form-control" type="text" th:field="*{codeword}"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Uložit</button>
+                </form>
+            </div>
 
-        <div class="col-sm-6">
-            <div id='map' style='width: 100%; height: 400px;'></div>
+
+            <div class="col-sm-6">
+                <div id='map' style='width: 100%; height: 400px;'></div>
+            </div>
         </div>
     </div>
 
