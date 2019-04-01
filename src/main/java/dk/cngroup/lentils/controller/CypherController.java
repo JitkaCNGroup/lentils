@@ -36,7 +36,7 @@ public class CypherController {
     }
 
     @GetMapping(value = "/list")
-    public String listAllCyphers(Model model){
+    public String listAllCyphers(final Model model) {
         model.addAttribute("cyphers", cypherService.getAll());
         return "clientSide/clientSideList";
     }

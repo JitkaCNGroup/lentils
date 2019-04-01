@@ -129,7 +129,7 @@ public class Cypher implements Serializable {
         return bonusContent;
     }
 
-    public void setBonusContent(String bonusContent) {
+    public void setBonusContent(final String bonusContent) {
         this.bonusContent = bonusContent;
     }
 
@@ -137,7 +137,7 @@ public class Cypher implements Serializable {
         return placeDescription;
     }
 
-    public void setPlaceDescription(String placeDescription) {
+    public void setPlaceDescription(final String placeDescription) {
         this.placeDescription = placeDescription;
     }
 

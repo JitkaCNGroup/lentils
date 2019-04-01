@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/client")
 public class ClientController {
 
-    private final static String CLIENT_VIEW_CYPHER_LIST = "client/list";
-    private final static String CLIENT_VIEW_CYPHER_DESCRIPTION = "client/detail";
-    private final static String REDIRECT_CLIENT_VIEW_CYPHER_LIST = "redirect:/client/list";
-    private final static String REDIRECT_CLIENT_VIEW_CYPHER_DESCRIPTION = "redirect:/client/detail";
+    private static final String CLIENT_VIEW_CYPHER_LIST = "client/list";
+    private static final String CLIENT_VIEW_CYPHER_DESCRIPTION = "client/detail";
+    private static final String REDIRECT_CLIENT_VIEW_CYPHER_LIST = "redirect:/client/list";
+    private static final String REDIRECT_CLIENT_VIEW_CYPHER_DESCRIPTION = "redirect:/client/detail";
 
     private CypherService cypherService;
     private TeamService teamService;
@@ -31,11 +31,11 @@ public class ClientController {
     private HintTakenService hintTakenService;
 
     @Autowired
-    public ClientController(CypherService cypherService,
-                            TeamService teamService,
-                            StatusService statusService,
-                            HintService hintService,
-                            HintTakenService hintTakenService) {
+    public ClientController(final CypherService cypherService,
+                            final TeamService teamService,
+                            final StatusService statusService,
+                            final HintService hintService,
+                            final HintTakenService hintTakenService) {
         this.cypherService = cypherService;
         this.teamService = teamService;
         this.statusService = statusService;
@@ -44,7 +44,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/list")
-    public String listAllCyphers(Model model) {
+    public String listAllCyphers(final Model model) {
         model.addAttribute("cyphers", cypherService.getAll());
         model.addAttribute("team", teamService.getTeam(2L));
         model.addAttribute("hints", hintService.getAll());
@@ -53,7 +53,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String cypherDetail(@PathVariable("id")Long id, Model model) {
+    public String cypherDetail(@PathVariable("id") final Long id, final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusName(teamService.getTeam(2L), cypher);
         model.addAttribute("team", teamService.getTeam(2L));
@@ -69,9 +69,9 @@ public class ClientController {
     }
 
     @PostMapping(value = "/detail/verify")
-    public String verifyCodeword(Cypher cypher, Model model) {
+    public String verifyCodeword(final Cypher cypher, final Model model) {
         model.addAttribute("cypher", cypher);
-        if(cypherService.checkCodeword(cypher.getCodeword(), cypher.getCypherId())) {
+        if (cypherService.checkCodeword(cypher.getCodeword(), cypher.getCypherId())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     teamService.getTeam(2L),
                     CypherStatus.SOLVED);
@@ -80,7 +80,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/detail/takeHint/{hintId}")
-    public String getHint(@PathVariable("hintId")Long id, Cypher cypher, Model model) {
+    public String getHint(@PathVariable("hintId") final Long id, final Cypher cypher, final Model model) {
         model.addAttribute(cypher);
         hintTakenService.takeHint(teamService.getTeam(2L),
                 hintService.getHint(id));
@@ -88,9 +88,9 @@ public class ClientController {
     }
 
     @PostMapping(value = "/detail/giveUp")
-    public String skipCypher(Cypher cypher, Model model) {
+    public String skipCypher(final Cypher cypher, final Model model) {
         model.addAttribute("cypher", cypher);
-        if(statusService.getStatusName(teamService.getTeam(2L),
+        if (statusService.getStatusName(teamService.getTeam(2L),
                 cypherService.getCypher(cypher.getCypherId())).equals("PENDING")) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     teamService.getTeam(2L),

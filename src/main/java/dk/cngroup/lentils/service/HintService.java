@@ -58,7 +58,7 @@ public class HintService {
         hintRepository.deleteByCypher(cypher);
     }
 
-    public List<Hint> getHintsNotTakenByTeam(final Cypher cypher, Team team) {
+    public List<Hint> getHintsNotTakenByTeam(final Cypher cypher, final Team team) {
         List<Hint> allHintsByCypher = getAllByCypher(cypher);
         List<HintTaken> allHintsTakenByTeam = hintTakenService.getAllByTeam(team);
         List<Long> allHintsTakenByTeamHintIds = new ArrayList<>();
