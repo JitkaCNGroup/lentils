@@ -16,13 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/client")
+@RequestMapping("/")
 public class ClientController {
 
-    private static final String CLIENT_VIEW_CYPHER_LIST = "client/list";
-    private static final String CLIENT_VIEW_CYPHER_DESCRIPTION = "client/detail";
-    private static final String REDIRECT_CLIENT_VIEW_CYPHER_LIST = "redirect:/client/list";
-    private static final String REDIRECT_CLIENT_VIEW_CYPHER_DESCRIPTION = "redirect:/client/detail";
+    private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
+    private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
+    private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
+    private static final String REDIRECT_TO_CLIENT_LIST = "redirect:/list";
+    private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/detail";
 
     private CypherService cypherService;
     private TeamService teamService;
@@ -43,7 +44,7 @@ public class ClientController {
         this.hintTakenService = hintTakenService;
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "list")
     public String listAllCyphers(final Model model) {
         model.addAttribute("cyphers", cypherService.getAll());
         model.addAttribute("team", teamService.getTeam(2L));
@@ -52,42 +53,50 @@ public class ClientController {
         return CLIENT_VIEW_CYPHER_LIST;
     }
 
-    @GetMapping(value = "/detail/{id}")
+    @GetMapping(value = "detail/{id}")
     public String cypherDetail(@PathVariable("id") final Long id, final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusName(teamService.getTeam(2L), cypher);
         model.addAttribute("team", teamService.getTeam(2L));
         model.addAttribute("cypher", cypher);
-        model.addAttribute("statusName", status);
+        model.addAttribute("status", status);
         model.addAttribute("hintsNotTaken",
                 hintService.getHintsNotTakenByTeam(cypher,
                         teamService.getTeam(2L)));
         model.addAttribute("hintsTaken",
                 hintTakenService.getAllByTeamAndCypher(teamService.getTeam(2L), cypher));
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
-        return CLIENT_VIEW_CYPHER_DESCRIPTION;
+        return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
-    @PostMapping(value = "/detail/verify")
-    public String verifyCodeword(final Cypher cypher, final Model model) {
+    @GetMapping(value = "hints")
+    public String listAllAvailableHintsForCypher(final Cypher cypher, final Model model) {
         model.addAttribute("cypher", cypher);
+        model.addAttribute("hintsNotTaken",
+                hintService.getHintsNotTakenByTeam(cypher,
+                        teamService.getTeam(2L)));
+        return CLIENT_VIEW_HINT_LIST;
+    }
+
+    @PostMapping(value = "detail/verify")
+    public String verifyCodeword(final Cypher cypher) {
         if (cypherService.checkCodeword(cypher.getCodeword(), cypher.getCypherId())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     teamService.getTeam(2L),
                     CypherStatus.SOLVED);
         }
-        return REDIRECT_CLIENT_VIEW_CYPHER_DESCRIPTION + "/" + cypher.getCypherId();
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + "/" + cypher.getCypherId();
     }
 
-    @RequestMapping(value = "/detail/takeHint/{hintId}")
+    @PostMapping(value = "detail/takeHint/{hintId}")
     public String getHint(@PathVariable("hintId") final Long id, final Cypher cypher, final Model model) {
         model.addAttribute(cypher);
         hintTakenService.takeHint(teamService.getTeam(2L),
                 hintService.getHint(id));
-        return REDIRECT_CLIENT_VIEW_CYPHER_DESCRIPTION + "/" + cypher.getCypherId();
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + "/" + cypher.getCypherId();
     }
 
-    @PostMapping(value = "/detail/giveUp")
+    @PostMapping(value = "detail/giveUp")
     public String skipCypher(final Cypher cypher, final Model model) {
         model.addAttribute("cypher", cypher);
         if (statusService.getStatusName(teamService.getTeam(2L),
@@ -96,6 +105,6 @@ public class ClientController {
                     teamService.getTeam(2L),
                     CypherStatus.SKIPPED);
         }
-        return REDIRECT_CLIENT_VIEW_CYPHER_LIST;
+        return REDIRECT_TO_CLIENT_LIST;
     }
 }

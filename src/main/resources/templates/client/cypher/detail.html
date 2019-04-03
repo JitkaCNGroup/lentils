@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse collapsedNavbar" id="navbarSupportedContent1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="/client/list">Šifry </a>
+                    <a class=" nav-link" href="/list">Šifry </a>
                 </li>
                 <div class="dropdown-divider-cst"></div>
                 <li class="nav-item collapsedNotActive">
@@ -47,10 +47,10 @@
 
     <div class="bodyContent ">
         <h2 th:text="|${cypher.stage}. ${cypher.name}|" class="botMargin10">šifra</h2>
-        <th:block th:switch="${statusName}">
+        <th:block th:switch="${status}">
 
             <th:block th:case="'PENDING'">
-                <form action="/client/detail/verify" th:object="${cypher}" method="post" onsubmit="return (checkCodeword(this))">
+                <form action="/detail/verify" th:object="${cypher}" method="post" onsubmit="return (checkCodeword(this))">
                     <div class="pb-2">
                         <div class="pb-2">
                             <b>Řešení</b>
@@ -73,7 +73,7 @@
                 <div>
                     <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
                     <b>Kam dál?</b>
-                    <a th:href="@{'/client/detail/' + ${nextCypher.cypherId}}">
+                    <a th:href="@{'/detail/' + ${nextCypher.cypherId}}">
                         <button class="correctButton"> Zobrazit další šifru </button>
                     </a>
                     <p id="bonusInfo" th:text="${cypher.bonusContent}"></p>
@@ -96,8 +96,7 @@
         </div>
         <br/>
 
-        <th:block th:if="${not #lists.isEmpty(hintsNotTaken)}" >
-            <th:block th:if="${statusName} == 'PENDING'">
+            <th:block th:if="${status == 'PENDING'}">
                 <b>Nápověda</b>
 
                 <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
@@ -105,40 +104,22 @@
                         <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
                     </div>
                 </th:block>
-
-                <div th:each="hint : ${hintsNotTaken}">
-                    <a onclick="return confirm('Opravdu si chcete vzít tuto nápovědu?')">
-                       <form th:action="@{'/client/detail/takeHint/' + ${hint.hintId}}" th:object="${cypher}" method="post">
-                        <input type="hidden"  th:field="*{cypherId}" >
-                        <input type="hidden"  th:field="*{hints}" >
-                        <input type="hidden"  th:field="*{name}" >
-                        <input type="hidden"  th:field="*{stage}" >
-                        <input type="hidden"  th:field="*{placeDescription}" >
-                        <input type="hidden"  th:field="*{location}" >
-                        <input type="hidden"  th:field="*{codeword}" >
-                        <input type="hidden"  th:field="*{bonusContent}" >
-                           <th:block th:if="${hint.value &lt 5}">
-                               <button type="submit" class="btn-white"
-                                       th:text="'Získat nápovědu za ' + ${hint.value} + ' body'"></button>
-                           </th:block>
-                           <th:block th:if="${hint.value &gt 4}">
-                               <button type="submit" class="btn-white"
-                                       th:text="'Získat nápovědu za ' + ${hint.value} + ' bodů'"></button>
-                           </th:block>
-                           <th:block th:if="${hint.value == 1}">
-                               <button type="submit" class="btn-white"
-                                       th:text="'Získat nápovědu za ' + ${hint.value} + ' bod'"></button>
-                           </th:block>
-                       </form>
-                    </a>
-                </div>
+                <form action="/hints" th:object="${cypher}">
+                    <input type="hidden"  th:field="*{cypherId}" >
+                    <input type="hidden"  th:field="*{hints}" >
+                    <input type="hidden"  th:field="*{name}" >
+                    <input type="hidden"  th:field="*{stage}" >
+                    <input type="hidden"  th:field="*{placeDescription}" >
+                    <input type="hidden"  th:field="*{location}" >
+                    <input type="hidden"  th:field="*{codeword}" >
+                    <input type="hidden"  th:field="*{bonusContent}" >
+                    <button type="submit" class="btn-white">Získat nápovědu</button>
+                </form>
                 <br/>
-
             </th:block>
-        </th:block>
 
-        <th:block th:if="${statusName =='PENDING'}">
-            <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/client/detail/giveUp" th:object="${cypher}" method="post">
+        <th:block th:if="${status == 'PENDING'}">
+            <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/detail/giveUp" th:object="${cypher}" method="post">
                 <input type="hidden"  th:field="*{cypherId}" >
                 <input type="hidden"  th:field="*{hints}" >
                 <input type="hidden"  th:field="*{name}" >

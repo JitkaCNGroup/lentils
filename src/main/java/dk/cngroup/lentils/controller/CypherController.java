@@ -35,12 +35,6 @@ public class CypherController {
         return VIEW_CYPHER_LIST;
     }
 
-    @GetMapping(value = "/list")
-    public String listAllCyphers(final Model model) {
-        model.addAttribute("cyphers", cypherService.getAll());
-        return "clientSide/clientSideList";
-    }
-
     @GetMapping(value = "/new")
     public String newCypher(final Model model) {
         Cypher cypher = new Cypher();

@@ -61,10 +61,10 @@ public class HintService {
     public List<Hint> getHintsNotTakenByTeam(final Cypher cypher, final Team team) {
         List<Hint> allHintsByCypher = getAllByCypher(cypher);
         List<HintTaken> allHintsTakenByTeam = hintTakenService.getAllByTeam(team);
-        List<Long> allHintsTakenByTeamHintIds = new ArrayList<>();
-        for (HintTaken ht : allHintsTakenByTeam) {
-            allHintsTakenByTeamHintIds.add(ht.getHint().getHintId());
-        }
+        List<Long> allHintsTakenByTeamHintIds = allHintsTakenByTeam
+                .stream()
+                .map(hintTaken -> hintTaken.getHint().getHintId())
+                .collect(Collectors.toList());
         List<Hint> hintsNotTaken = allHintsByCypher.stream()
                         .filter(hint -> !allHintsTakenByTeamHintIds.contains(hint.getHintId()))
                         .collect(Collectors.toList());
