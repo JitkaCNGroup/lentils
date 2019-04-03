@@ -2,7 +2,10 @@ package dk.cngroup.lentils.repository;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
-import dk.cngroup.lentils.entity.*;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.ObjectGenerator;
@@ -15,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;

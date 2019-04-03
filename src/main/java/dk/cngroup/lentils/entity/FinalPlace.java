@@ -3,7 +3,11 @@ package dk.cngroup.lentils.entity;
 import org.springframework.data.geo.Point;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
