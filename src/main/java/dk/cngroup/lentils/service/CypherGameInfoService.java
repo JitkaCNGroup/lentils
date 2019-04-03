@@ -13,12 +13,11 @@ public class CypherGameInfoService {
     private CypherGameInfoRepository cypherGameInfoRepository;
 
     @Autowired
-    public CypherGameInfoService(CypherGameInfoRepository cypherGameInfoRepository) {
+    public CypherGameInfoService(final CypherGameInfoRepository cypherGameInfoRepository) {
         this.cypherGameInfoRepository = cypherGameInfoRepository;
     }
 
     public List<CypherGameInfo> getAll(){
         return cypherGameInfoRepository.findAll();
     }
-
 }
