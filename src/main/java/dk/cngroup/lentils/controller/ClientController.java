@@ -30,7 +30,7 @@ public class ClientController {
     private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
-
+    
     private CypherService cypherService;
     private HintService hintService;
     private HintTakenService hintTakenService;
