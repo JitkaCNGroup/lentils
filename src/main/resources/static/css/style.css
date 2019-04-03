@@ -144,16 +144,39 @@ a:hover {
     margin-bottom: 15px;
 }
 
-.correctButton:hover{
-    -webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
-    -moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
-    box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
-}
+    .correctButton:hover{
+        -webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+        -moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+        box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    }
 
 #correctAnswer{
     background-color: lightgreen;
     color: green;
     text-align: center;
+    font-weight: bold;
+}
+
+.skippedGoNextButton{
+    color:white;
+    background-color: rgb(237, 24, 72);
+    width: 100%;
+    border-radius: 5px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+    .skippedGoNextButton:hover{
+        -webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+        -moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+        box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);
+    }
+
+#skippedAnswer{
+
+    color: rgb(237, 24, 72);
+    text-align: center;
+    font-weight: bold;
 }
 
 .bold{

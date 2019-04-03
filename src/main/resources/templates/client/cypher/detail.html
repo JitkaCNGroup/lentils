@@ -65,7 +65,10 @@
 
             <th:block th:case="'SKIPPED'">
                 <div class="pb-2">
-                    <b>Tuto šifru jste přeskočili</b>
+                    <p id="skippedAnswer">Tuto šifru jste přeskočili</p>
+                    <a th:href="@{'/detail/' + ${nextCypher.cypherId}}">
+                        <button class="skippedGoNextButton"> Zobrazit další šifru </button>
+                    </a>
                 </div>
             </th:block>
 
