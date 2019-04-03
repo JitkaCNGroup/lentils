@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class StatusService {
@@ -65,7 +64,7 @@ public class StatusService {
         return statusRepository.findAllByCypher(cypher);
     }
 
-    public List<Status> getAllByTeam(Team team) {
+    public List<Status> getAllByTeam(final Team team) {
         return statusRepository.findByTeam(team);
     }
 }

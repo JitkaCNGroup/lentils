@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.entity.view;
 
 import jdk.nashorn.internal.ir.annotations.Immutable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 public class CypherGameInfo {
 
     @Id
-    private Long ID;
+    private Long cypherGameInfoId;
 
     private String stage;
 
@@ -21,15 +22,16 @@ public class CypherGameInfo {
 
     private int count;
 
-    public Long getID() {
-        return ID;
+    public Long getCypherGameInfoId() {
+        return cypherGameInfoId;
     }
 
     public String getStage() {
         return stage;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name; }
 
     public int getStatus() {
         return status;

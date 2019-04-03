@@ -17,7 +17,7 @@ public class CypherGameInfoService {
         this.cypherGameInfoRepository = cypherGameInfoRepository;
     }
 
-    public List<CypherGameInfo> getAll(){
+    public List<CypherGameInfo> getAll() {
         return cypherGameInfoRepository.findAll();
     }
 }

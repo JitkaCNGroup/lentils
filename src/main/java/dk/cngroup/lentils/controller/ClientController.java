@@ -9,6 +9,7 @@ import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.StatusService;
 import dk.cngroup.lentils.service.TeamService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
