@@ -22,7 +22,6 @@ public class ClientController {
     private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
     private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
-    private static final String REDIRECT_TO_CLIENT_LIST = "redirect:/list";
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/detail";
 
     private CypherService cypherService;
@@ -42,15 +41,6 @@ public class ClientController {
         this.statusService = statusService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
-    }
-
-    @GetMapping(value = "list")
-    public String listAllCyphers(final Model model) {
-        model.addAttribute("cyphers", cypherService.getAll());
-        model.addAttribute("team", teamService.getTeam(2L));
-        model.addAttribute("hints", hintService.getAll());
-        model.addAttribute("status", CypherStatus.SKIPPED);
-        return CLIENT_VIEW_CYPHER_LIST;
     }
 
     @GetMapping(value = "detail/{id}")
@@ -105,6 +95,7 @@ public class ClientController {
                     teamService.getTeam(2L),
                     CypherStatus.SKIPPED);
         }
-        return REDIRECT_TO_CLIENT_LIST;
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + "/" +
+                cypherService.getNext(cypher.getStage()).getCypherId();
     }
 }
