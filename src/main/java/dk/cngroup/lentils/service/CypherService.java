@@ -51,11 +51,6 @@ public class CypherService {
         return cypherRepository.findByStage(stage);
     }
 
-    public boolean checkCodeword(final String codeword, final Long id) {
-        Cypher cypher = cypherRepository.findById(id).get();
-        return codeword.equals(cypher.getCodeword());
-    }
-
     public void deleteAll() {
         cypherRepository.deleteAll();
     }

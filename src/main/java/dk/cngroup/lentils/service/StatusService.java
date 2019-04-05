@@ -34,7 +34,7 @@ public class StatusService {
         return status.getCypherStatus().getStatusValue();
     }
 
-    public String getStatusName(final Team team, final Cypher cypher) {
+    public String getStatusNameByTeamAndCypher(final Team team, final Cypher cypher) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
         return status.getCypherStatus().name();
     }

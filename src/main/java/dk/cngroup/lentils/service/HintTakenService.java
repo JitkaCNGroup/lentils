@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class HintTakenService {
@@ -46,26 +45,15 @@ public class HintTakenService {
         return hintTakenRepository.findByTeam(team);
     }
 
-    public List<HintTaken> getAllByCypher(final Cypher cypher) {
-        List<HintTaken> allHintsTaken = hintTakenRepository.findAll();
-        List<HintTaken> hintTakenByCypher = allHintsTaken
-                .stream()
-                .filter(hintTaken -> cypher.getCypherId().equals(hintTaken.getHint().getCypher().getCypherId()))
-                .collect(Collectors.toList());
-        return hintTakenByCypher;
-    }
-
     public List<HintTaken> getAllByTeam(final Team team) {
         return  hintTakenRepository.findByTeam(team);
     }
 
     public List<HintTaken> getAllByTeamAndCypher(final Team team, final Cypher cypher) {
-    List<HintTaken> hintsTakenByTeamAndCypher = hintTakenRepository.findByTeam(team)
-            .stream()
-            .filter(hintTaken -> cypher.getCypherId().equals(hintTaken.getHint().getCypher().getCypherId()))
-            .collect(Collectors.toList());
-    return hintsTakenByTeamAndCypher;
+    List<HintTaken> hintsTakenByTeamAndCypher = hintTakenRepository.findAllByTeamAndCypher(team.getTeamId(), cypher.getCypherId());
+        return hintsTakenByTeamAndCypher;
     }
+
     public List<HintTaken> getAll() {
         return hintTakenRepository.findAll();
     }
