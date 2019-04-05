@@ -50,7 +50,7 @@
         <th:block th:switch="${status}">
 
             <th:block th:case="'PENDING'">
-                <form action="/cypher/verify" th:object="${cypher}" method="post" onsubmit="return (checkCodeword(this))">
+                <form action="/cypher/verify" th:object="${cypher}" method="post">
                     <div class="pb-2">
                         <div class="pb-2">
                             <b>Řešení</b>
