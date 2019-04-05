@@ -10,6 +10,7 @@ import dk.cngroup.lentils.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,13 +64,16 @@ public class ClientController {
     }
 
     @PostMapping(value = "cypher/verify")
-    public String verifyCodeword(final Cypher cypher) {
-        if (cypherService.checkCodeword(cypher.getCodeword(), cypher.getStage())) {
+    public String verifyCodeword(final String guess, final Cypher cypher, final Errors errors) {
+        if (cypherService.checkCodeword(guess, cypher.getStage())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     teamService.getTeam(2L),
                     CypherStatus.SOLVED);
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
+        } else {
+            errors.rejectValue("guess", "guess.equal", "wrong");
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
         }
-        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")

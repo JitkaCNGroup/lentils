@@ -55,11 +55,11 @@
                         <div class="pb-2">
                             <b>Řešení</b>
                         </div>
-                        <input type="hidden"  th:field="*{stage}" >
                         <input type="hidden"  th:field="*{cypherId}" >
-                        <input type="hidden" name="codeword"  th:field="*{codeword}" >
-                        <input type="text" name="guess" class="solutionInput" >
+                        <input type="hidden"  th:field="*{stage}" >
+                        <input type="text" name="guess" class="solutionInput">
                         <button class="btn-white" type ="submit"> Ověřit </button>
+
                     </div>
                 </form>
             </th:block>
@@ -143,16 +143,6 @@
                 bonusInfo.style.display = "block";
                 var bonusButton = document.getElementById("bonusButton");
                 bonusButton.style.display = "none";
-            }
-
-            function checkCodeword(form) {
-                if(form.codeword.value == form.guess.value) {
-                    return true;
-                }
-                else {
-                    alert("Špatná odpověď, zkuste se víc zamyslet :-)");
-                    return false;
-                }
             }
         </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
