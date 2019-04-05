@@ -50,7 +50,7 @@
         <th:block th:switch="${status}">
 
             <th:block th:case="'PENDING'">
-                <form action="/detail/verify" th:object="${cypher}" method="post" onsubmit="return (checkCodeword(this))">
+                <form action="/cypher/verify" th:object="${cypher}" method="post" onsubmit="return (checkCodeword(this))">
                     <div class="pb-2">
                         <div class="pb-2">
                             <b>Řešení</b>
@@ -66,7 +66,7 @@
             <th:block th:case="'SKIPPED'">
                 <div class="pb-2">
                     <p id="skippedAnswer">Tuto šifru jste přeskočili</p>
-                    <a th:href="@{'/detail/' + ${nextCypher.cypherId}}">
+                    <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
                         <button class="skippedGoNextButton"> Zobrazit další šifru </button>
                     </a>
                 </div>
@@ -76,7 +76,7 @@
                 <div>
                     <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
                     <b>Kam dál?</b>
-                    <a th:href="@{'/detail/' + ${nextCypher.cypherId}}">
+                    <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
                         <button class="correctButton"> Zobrazit další šifru </button>
                     </a>
                     <p id="bonusInfo" th:text="${cypher.bonusContent}"></p>
@@ -107,7 +107,7 @@
                         <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
                     </div>
                 </th:block>
-                <form action="/hints" th:object="${cypher}">
+                <form action="/hint" th:object="${cypher}">
                     <input type="hidden"  th:field="*{cypherId}" >
                     <input type="hidden"  th:field="*{hints}" >
                     <input type="hidden"  th:field="*{name}" >
@@ -122,7 +122,7 @@
             </th:block>
 
         <th:block th:if="${status == 'PENDING'}">
-            <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/detail/giveUp" th:object="${cypher}" method="post">
+            <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/cypher/giveUp" th:object="${cypher}" method="post">
                 <input type="hidden"  th:field="*{cypherId}" >
                 <input type="hidden"  th:field="*{hints}" >
                 <input type="hidden"  th:field="*{name}" >
