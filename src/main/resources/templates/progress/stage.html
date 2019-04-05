@@ -35,22 +35,22 @@
                     <td th:text="${team.pin}" align="center">9876</td>
                     <td align="center">
                         <a href="#" class="btn btn-default btn-lg"
-                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('SKIPPED')}"
+                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('SKIPPED')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
                             Přeskočit
                         </a>
                         <a href="#" class="btn btn-default btn-lg"
-                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('SOLVED')}"
+                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('SOLVED')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
                             Splnit
                         </a>
                         <a href="#" class="btn btn-default btn-lg"
-                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('PENDING')}"
+                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('PENDING')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
                             Zahájit
                         </a>
                         <a href="#" class="btn btn-default btn-lg"
-                           th:if="${(teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
+                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
                            th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='lock')}">
                             Zamknout
                         </a>
