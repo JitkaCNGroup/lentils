@@ -13,19 +13,19 @@ import javax.persistence.Table;
 public class CypherGameInfo {
 
     @Id
-    @Column(name= "cypher_game_info_id")
+    @Column(name = "cypher_game_info_id")
     private Long cypherGameInfoId;
 
-    @Column(name= "stage")
+    @Column(name = "stage")
     private String stage;
 
-    @Column(name= "name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name= "status")
+    @Column(name = "status")
     private int status;
 
-    @Column(name= "count")
+    @Column(name = "count")
     private int count;
 
     public Long getCypherGameInfoId() {
