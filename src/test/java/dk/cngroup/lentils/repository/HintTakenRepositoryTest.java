@@ -67,8 +67,7 @@ public class HintTakenRepositoryTest {
         Team team = teamService.save(new Team(99L, "dgdf", 4, "dsdd"));
         Cypher cypher = cypherService.save(new Cypher(TESTED_STAGE));
         Hint hint = hintService.save(new Hint("d", 5, cypher));
-        HintTaken hintTaken = new HintTaken(team, hint);
-        hintTakenRepository.save(hintTaken);
+        createAndSaveHintTaken(team, hint);
         assertEquals(1, hintTakenRepository.count());
         assertEquals(1, hintTakenRepository.findByTeam(team).size());
     }
@@ -82,14 +81,10 @@ public class HintTakenRepositoryTest {
         Hint hint2 = hintService.save(new Hint("b", 3, cypher1));
         Hint hint3 = hintService.save(new Hint("c", 2, cypher2));
         Hint hint4 = hintService.save(new Hint("d", 1, cypher2));
-        HintTaken hintTaken1 = new HintTaken(team, hint1);
-        HintTaken hintTaken2 = new HintTaken(team, hint2);
-        HintTaken hintTaken3 = new HintTaken(team, hint3);
-        HintTaken hintTaken4 = new HintTaken(team, hint4);
-        hintTakenRepository.save(hintTaken1);
-        hintTakenRepository.save(hintTaken2);
-        hintTakenRepository.save(hintTaken3);
-        hintTakenRepository.save(hintTaken4);
+        createAndSaveHintTaken(team, hint1);
+        createAndSaveHintTaken(team, hint2);
+        createAndSaveHintTaken(team, hint3);
+        createAndSaveHintTaken(team, hint4);
         assertEquals(4, hintTakenRepository.count());
         assertEquals(4, hintTakenRepository.findByTeam(team).size());
     }
@@ -103,17 +98,11 @@ public class HintTakenRepositoryTest {
         Hint hint1 = hintService.save(new Hint("a", 4, cypher1));
         Hint hint2 = hintService.save(new Hint("b", 3, cypher1));
         Hint hint3 = hintService.save(new Hint("c", 2, cypher2));
-        Hint hint4 = hintService.save(new Hint("d", 1, cypher2));
-        HintTaken hintTaken1 = new HintTaken(team1, hint1);
-        HintTaken hintTaken2 = new HintTaken(team2, hint2);
-        HintTaken hintTaken3 = new HintTaken(team2, hint3);
-        HintTaken hintTaken4 = new HintTaken(team1, hint4);
-        hintTakenRepository.save(hintTaken1);
-        hintTakenRepository.save(hintTaken2);
-        hintTakenRepository.save(hintTaken3);
-        hintTakenRepository.save(hintTaken4);
-        assertEquals(4, hintTakenRepository.count());
-        assertEquals(2, hintTakenRepository.findByTeam(team1).size());
+        createAndSaveHintTaken(team1, hint1);
+        createAndSaveHintTaken(team2, hint2);
+        createAndSaveHintTaken(team2, hint3);
+        assertEquals(3, hintTakenRepository.count());
+        assertEquals(1, hintTakenRepository.findByTeam(team1).size());
         assertEquals(2, hintTakenRepository.findByTeam(team2).size());
     }
 
@@ -124,11 +113,14 @@ public class HintTakenRepositoryTest {
         Hint hint = hintService.save(new Hint("oh no", 20, cypher));
         assertEquals(0, hintTakenRepository.count());
         assertEquals(0, hintTakenRepository.findByTeam(team).size());
-        assertNotEquals(2, hintTakenRepository.findByTeam(team).size());
-        assertNotEquals(1, hintTakenRepository.findByTeam(team).size());
     }
 
     private HintTaken createHintTaken(Team team, Hint hint) {
         return new HintTaken(team, hint);
+    }
+
+    private void createAndSaveHintTaken(Team team, Hint hint) {
+        HintTaken hintTaken = new HintTaken(team, hint);
+        hintTakenRepository.save(hintTaken);
     }
 }
