@@ -1,5 +1,8 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.util.LoginUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,4 +14,14 @@ public class LoginController {
         return "login/login";
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/login";
+    }
+
+    @GetMapping("/successfulLogin")
+    public String redirectUserBasedOnRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return LoginUtils.getRedirectUrlAfterLoginForRole(authentication.getAuthorities());
+    }
 }

@@ -68,11 +68,11 @@
                          </td>
                     <td align="center">
                 <span
-                        th:if="${cypher.getHints().isEmpty()}">
+                        th:if="${cypher.getHints().isEmpty() or teamsStatuses.get(team.teamId) == null}">
                     Žádné hinty
                 </span>
                         <a href="#" class="btn btn-default btn-lg"
-                           th:if="${!cypher.getHints().isEmpty()}"
+                           th:if="${!cypher.getHints().isEmpty() and teamsStatuses.get(team.teamId) != null}"
                            th:href="@{/game/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
                             Hinty
                         </a>
