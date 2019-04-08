@@ -61,6 +61,17 @@ public class HintTakenServiceTest {
     }
 
     @Test
+    public void testTeamTookOneHintWithRealValue() {
+        final List<Hint> hints = getListOfHints();
+        cypher.setHints(hints);
+        when(hintTakenRepository.findByTeamAndHint(eq(team), eq(hints.get(0)))).thenReturn(new HintTaken());
+
+        final int result = hintTakenService.getHintScore(team, cypher);
+
+        assertEquals(5, result);
+    }
+
+    @Test
     public void testTeamTookMultipleHints() {
         final List<Hint> hints = getListOfHints();
         cypher.setHints(hints);
@@ -71,6 +82,19 @@ public class HintTakenServiceTest {
 
         assertEquals(hints.get(1).getValue() + hints.get(2).getValue(), result);
     }
+
+    @Test
+    public void testTeamTookMultipleHintsWithRealValue() {
+        final List<Hint> hints = getListOfHints();
+        cypher.setHints(hints);
+        when(hintTakenRepository.findByTeamAndHint(eq(team), eq(hints.get(1)))).thenReturn(new HintTaken());
+        when(hintTakenRepository.findByTeamAndHint(eq(team), eq(hints.get(2)))).thenReturn(new HintTaken());
+
+        final int result = hintTakenService.getHintScore(team, cypher);
+
+        assertEquals(10, result);
+    }
+
 
     private List<Hint> getListOfHints() {
         final List<Hint> list = new ArrayList<>();
@@ -85,4 +109,5 @@ public class HintTakenServiceTest {
     private Hint createHintWithValue(int value) {
         return new Hint("abcd", value, cypher);
     }
+
 }
