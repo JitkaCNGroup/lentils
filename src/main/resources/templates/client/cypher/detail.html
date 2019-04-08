@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse collapsedNavbar" id="navbarSupportedContent1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="/list">Šifry </a>
+                    <a class=" nav-link" href="#">Šifry </a>
                 </li>
                 <div class="dropdown-divider-cst"></div>
                 <li class="nav-item collapsedNotActive">
@@ -50,16 +50,14 @@
         <th:block th:switch="${status}">
 
             <th:block th:case="'PENDING'">
-                <form action="/cypher/verify" th:object="${cypher}" method="post">
+                <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codeword}" method="post">
                     <div class="pb-2">
                         <div class="pb-2">
                             <b>Řešení</b>
                         </div>
-                        <input type="hidden"  th:field="*{cypherId}" >
-                        <input type="hidden"  th:field="*{stage}" >
-                        <input type="text" name="guess" class="solutionInput">
+                        <input type="text" th:field="*{guess}" class="solutionInput">
+                        <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
                         <button class="btn-white" type ="submit"> Ověřit </button>
-
                     </div>
                 </form>
             </th:block>

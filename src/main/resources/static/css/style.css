@@ -173,7 +173,12 @@ a:hover {
     }
 
 #skippedAnswer{
+    color: rgb(237, 24, 72);
+    text-align: center;
+    font-weight: bold;
+}
 
+#errorMessage{
     color: rgb(237, 24, 72);
     text-align: center;
     font-weight: bold;
