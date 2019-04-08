@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @RunWith(SpringRunner.class)
@@ -41,12 +42,12 @@ public class UserRepositoryTest {
 
     @Test
     public void adminUserIsImportedOnStartup() {
-        Assert.assertNotNull(isUserInDb("admin"));
+        Assert.assertTrue(isUserInDb("admin"));
     }
 
     @Test
     public void organizerUserIsImportedOnStartup() {
-        Assert.assertNotNull(isUserInDb("organizer"));
+        Assert.assertTrue(isUserInDb("organizer"));
     }
 
     @Test
@@ -82,13 +83,12 @@ public class UserRepositoryTest {
         return user;
     }
 
-    private User isUserInDb(final String username) {
+    private boolean isUserInDb(final String username) {
         List<User> users = userRepository.findAll();
-        User testedUser = users.stream()
+        Optional<User> testedUser = users.stream()
                 .filter(u -> u.getUsername().equals(username))
-                .findAny()
-                .orElse(null);
-        return testedUser;
+                .findAny();
+        return testedUser.isPresent();
     }
 
     private void addUserToTeam(Team team, User user) {
