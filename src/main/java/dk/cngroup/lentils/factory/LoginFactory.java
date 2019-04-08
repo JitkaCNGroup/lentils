@@ -2,7 +2,7 @@ package dk.cngroup.lentils.factory;
 
 public class LoginFactory {
 
-    public static String getRedirectUrl(final String role) {
+    public static String getRedirectUrlAfterLoginForRole(final String role) {
         switch (role) {
             case "[ROLE_ADMIN]":
                 return "redirect:/admin/team";
