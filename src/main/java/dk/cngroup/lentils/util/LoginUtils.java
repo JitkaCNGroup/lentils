@@ -1,9 +1,11 @@
-package dk.cngroup.lentils.factory;
+package dk.cngroup.lentils.util;
 
-public class LoginFactory {
+import java.util.Collection;
 
-    public static String getRedirectUrlAfterLoginForRole(final String role) {
-        switch (role) {
+public class LoginUtils {
+
+    public static String getRedirectUrlAfterLoginForRole(final Collection role) {
+        switch (role.toString()) {
             case "[ROLE_ADMIN]":
                 return "redirect:/admin/team";
             case "[ROLE_ORGANIZER]":

@@ -41,14 +41,12 @@ public class UserRepositoryTest {
 
     @Test
     public void adminUserIsImportedOnStartup() {
-        List<User> users = userRepository.findAll();
-        Assert.assertEquals("admin", users.get(0).getUsername());
+        Assert.assertNotNull(isUserInDb("admin"));
     }
 
     @Test
     public void organizerUserIsImportedOnStartup() {
-        List<User> users = userRepository.findAll();
-        Assert.assertEquals("organizer", users.get(1).getUsername());
+        Assert.assertNotNull(isUserInDb("organizer"));
     }
 
     @Test
@@ -82,6 +80,15 @@ public class UserRepositoryTest {
         user.setUsername(TEST_USERNAME);
         user.setPassword(TEST_PASSWORD);
         return user;
+    }
+
+    private User isUserInDb(final String username) {
+        List<User> users = userRepository.findAll();
+        User testedUser = users.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findAny()
+                .orElse(null);
+        return testedUser;
     }
 
     private void addUserToTeam(Team team, User user) {

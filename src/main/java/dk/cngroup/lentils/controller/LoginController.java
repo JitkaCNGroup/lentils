@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.factory.LoginFactory;
+import dk.cngroup.lentils.util.LoginUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,6 @@ public class LoginController {
     @GetMapping("/successfulLogin")
     public String redirectUserBasedOnRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return LoginFactory.getRedirectUrlAfterLoginForRole(authentication.getAuthorities().toString());
+        return LoginUtils.getRedirectUrlAfterLoginForRole(authentication.getAuthorities());
     }
 }
