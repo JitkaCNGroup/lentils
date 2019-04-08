@@ -8,8 +8,10 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 @Service
@@ -33,12 +35,24 @@ public class ObjectGenerator {
         return generateCypherList(NUMBER_OF_CYPHERS);
     }
 
+    public Cypher generateNewCypher() {
+        return new Cypher(1);
+    }
+/*
+    public Cypher generateCypher() {
+        return new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
+    }
+
     public List<Team> generateTeamList() {
         List<Team> teams = new LinkedList<>();
         IntStream.range(0, NUMBER_OF_TEAMS).forEach(i -> {
             teams.add(new Team(TEAM_NAME + i, 5, "123" + i));
         });
         return teams;
+    }
+
+    public Team generateNewTeam() {
+        return new Team(TEAM_NAME, 5, "1231");
     }
 
     public List<Hint> generateHintsForCypher(List<Cypher> cyphers) {

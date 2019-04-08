@@ -126,6 +126,41 @@ public class StatusServiceTest {
         assertEquals(status.getStatusValue(), returnedValue);
     }
 
+    public void getStatusScoreForOneSolvedCyper() {
+
+        Status status = generateOneTeamCypherAndStatusRow("SOLVED");
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
+
+        assertEquals(10, service.getStatusScore(status.getTeam(), status.getCypher()));
+    }
+
+    @Test
+    public void getStatusScoreForOneSkippedCyper() {
+
+        Status status = generateOneTeamCypherAndStatusRow("SKIPPED");
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
+
+        assertEquals(0, service.getStatusScore(status.getTeam(), status.getCypher()));
+    }
+
+    @Test
+    public void getStatusScoreForOnePendingCyper() {
+
+        Status status = generateOneTeamCypherAndStatusRow("PENDING");
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
+
+        assertEquals(0, service.getStatusScore(status.getTeam(), status.getCypher()));
+    }
+
+    @Test
+    public void getStatusScoreForOneLockedCyper() {
+
+        Status status = generateOneTeamCypherAndStatusRow("LOCKED");
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
+
+        assertEquals(0, service.getStatusScore(status.getTeam(), status.getCypher()));
+    }
+
     private List<Status> fillTeamCypherAndStatusTables() {
         List<Team> teams = generator.generateTeamList();
         when(teamRepository.saveAll(teams)).thenReturn(teams);
@@ -144,6 +179,14 @@ public class StatusServiceTest {
         return statusList;
     }
 
+    private Status generateOneTeamCypherAndStatusRow(String valueOfStatus) {
+        Team team = generator.generateNewTeam();
+        Cypher cypher = generator.generateNewCypher();
+        Status status = new Status(team, cypher, CypherStatus.valueOf(valueOfStatus));
+
+        return status;
+    }
+
     private Status getStatusFromList(String nameOfTestedTeam, int testedStage, List<Status> statusList) {
         for (Status status : statusList) {
             if (status.getCypher().getStage() == testedStage
@@ -153,4 +196,5 @@ public class StatusServiceTest {
         }
         return null;
     }
+
 }
