@@ -70,7 +70,10 @@ public class ClientController {
     }
 
     @PostMapping(value = "cypher/verify/{id}")
-    public String verifyCodeword(@PathVariable("id") final Long id, @Valid final Codeword codeword, final BindingResult result, final Model model) {
+    public String verifyCodeword(@PathVariable("id") final Long id,
+                                 @Valid final Codeword codeword,
+                                 final BindingResult result,
+                                 final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         if (cypherService.checkCodeword(codeword.getGuess(), cypher.getStage())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),

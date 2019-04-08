@@ -11,7 +11,7 @@ public class Codeword {
         return guess;
     }
 
-    public void setGuess(String guess) {
+    public void setGuess(final String guess) {
         this.guess = guess;
     }
 }
