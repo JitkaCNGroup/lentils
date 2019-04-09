@@ -13,6 +13,8 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,5 +41,22 @@ public class HintServiceTest {
         when(hintRepository.findById(any())).thenReturn(Optional.empty());
 
         hintService.getHint(5L);
+    }
+
+    @Test
+    public void saveTest() {
+        final Hint hint = new Hint();
+
+        hintService.save(hint);
+
+        verify(hintRepository).save(eq(hint));
+    }
+
+    @Test
+    public void deleteByIdTest() {
+        final Long id = 666L;
+        hintService.deleteById(id);
+
+        verify(hintRepository).deleteById(eq(id));
     }
 }
