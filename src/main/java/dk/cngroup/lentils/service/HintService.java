@@ -39,8 +39,4 @@ public class HintService {
     public void deleteById(final Long id) {
         hintRepository.deleteById(id);
     }
-
-    public void deleteAlHintsByCypher(final Cypher cypher) {
-        hintRepository.deleteByCypher(cypher);
-    }
 }
