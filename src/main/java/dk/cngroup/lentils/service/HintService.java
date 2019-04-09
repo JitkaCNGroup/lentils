@@ -26,10 +26,6 @@ public class HintService {
         return hintRepository.save(hint);
     }
 
-    public List<Hint> getAll() {
-        return hintRepository.findAll();
-    }
-
     public Hint getHint(final Long hintId) {
         return hintRepository
                 .findById(hintId)
