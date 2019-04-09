@@ -1,32 +1,31 @@
 package dk.cngroup.lentils.service;
 
-import dk.cngroup.lentils.LentilsApplication;
-import dk.cngroup.lentils.entity.*;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Status;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import static dk.cngroup.lentils.service.ObjectGenerator.*;
+import static dk.cngroup.lentils.service.ObjectGenerator.NUMBER_OF_CYPHERS;
+import static dk.cngroup.lentils.service.ObjectGenerator.NUMBER_OF_TEAMS;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
 public class StatusServiceTest {
-    private static final int TESTED_STAGE = 3;
-    private static final int TESTED_TEAM = 5;
 
     @InjectMocks
     StatusService service;
@@ -40,8 +39,7 @@ public class StatusServiceTest {
     @Mock
     StatusRepository statusRepository;
 
-    @Autowired
-    private ObjectGenerator generator;
+    private ObjectGenerator generator = new ObjectGenerator();
 
     @Before
     public void setUp() {
@@ -55,6 +53,77 @@ public class StatusServiceTest {
         when(statusRepository.findAll()).thenReturn(statusList);
 
         assertEquals(NUMBER_OF_CYPHERS * NUMBER_OF_TEAMS, service.getAll().size());
+    }
+
+    @Test
+    public void getAllTest() {
+        final List<Status> testCollection = Collections.singletonList(new Status());
+        when(statusRepository.findAll()).thenReturn(testCollection);
+
+        final List<Status> returnedList = service.getAll();
+
+        assertEquals(testCollection, returnedList);
+    }
+
+    @Test
+    public void markCypherTest() {
+        final Status statusEntity = new Status();
+        statusEntity.setCypherStatus(CypherStatus.PENDING);
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(statusEntity);
+
+        service.markCypher(new Cypher(), new Team(), CypherStatus.SOLVED);
+
+        assertEquals(CypherStatus.SOLVED, statusEntity.getCypherStatus());
+        verify(statusRepository).save(statusEntity);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void markCypherTestWithInvalidArguments() {
+        final Status statusEntity = new Status();
+        statusEntity.setCypherStatus(CypherStatus.PENDING);
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(null);
+
+        service.markCypher(new Cypher(), new Team(), CypherStatus.SOLVED);
+    }
+
+    @Test
+    public void getStatusScoreTest_withLockedStatus() {
+        verifyGetStatusScore(CypherStatus.LOCKED);
+    }
+
+    @Test
+    public void getStatusScoreTest_withSkippedStatus() {
+        verifyGetStatusScore(CypherStatus.SKIPPED);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void getStatusScoreWithInvalidParameters() {
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(null);
+
+        service.getStatusScore(new Team(), new Cypher());
+    }
+
+    @Test
+    public void getAllByCypherTest() {
+        final Cypher parameter = new Cypher();
+        final List<Status> expectedList = Collections.singletonList(new Status());
+        when(statusRepository.findAllByCypher(eq(parameter))).thenReturn(expectedList);
+
+        final List<Status> returnedList = service.getAllByCypher(parameter);
+
+        assertEquals(expectedList, returnedList);
+        verify(statusRepository).findAllByCypher(eq(parameter));
+    }
+
+    private void verifyGetStatusScore(CypherStatus status) {
+        final Status statusEntity = new Status();
+        statusEntity.setCypherStatus(status);
+
+        when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(statusEntity);
+
+        final int returnedValue = service.getStatusScore(new Team(), new Cypher());
+
+        assertEquals(status.getStatusValue(), returnedValue);
     }
 
     private List<Status> fillTeamCypherAndStatusTables() {
