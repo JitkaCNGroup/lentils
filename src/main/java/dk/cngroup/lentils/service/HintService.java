@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HintService {
@@ -36,11 +35,9 @@ public class HintService {
     }
 
     public Hint getHint(final Long hintId) {
-        Optional<Hint> hint = hintRepository.findById(hintId);
-        if (hint.isPresent()) {
-            return hint.get();
-        }
-        throw new ResourceNotFoundException(Hint.class.getSimpleName(), hintId);
+        return hintRepository
+                .findById(hintId)
+                .orElseThrow(() -> new ResourceNotFoundException(Hint.class.getSimpleName(), hintId));
     }
 
     public void deleteById(final Long id) {
