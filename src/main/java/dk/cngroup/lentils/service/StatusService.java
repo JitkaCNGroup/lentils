@@ -21,7 +21,7 @@ public class StatusService {
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-        Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        Status status = getTeamCypherStatus(team, cypher);
         saveNewStatus(status, cypherStatus);
     }
 
@@ -30,18 +30,21 @@ public class StatusService {
     }
 
     public int getStatusScore(final Team team, final Cypher cypher) {
+        return getTeamCypherStatus(team, cypher).getCypherStatus().getStatusValue();
+    }
+
+    private Status getTeamCypherStatus(final Team team, final Cypher cypher) {
         Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        return status.getCypherStatus().getStatusValue();
+        if (status == null) {
+            throw new IllegalStateException("No status found for the given cypher and team in database");
+        }
+
+        return status;
     }
 
     private void saveNewStatus(final Status status, final CypherStatus newStatus) {
         status.setCypherStatus(newStatus);
         statusRepository.save(status);
-    }
-
-    public CypherStatus getCypherStatusForTeam(final Cypher cypher, final Team team) {
-        Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        return status.getCypherStatus();
     }
 
     public void initializeStatusForTeamAndCypher(final Cypher cypher, final Team team) {
