@@ -26,10 +26,6 @@ public class HintService {
         return hintRepository.save(hint);
     }
 
-    public List<Hint> saveAll(final List<Hint> hints) {
-        return hintRepository.saveAll(hints);
-    }
-
     public List<Hint> getAll() {
         return hintRepository.findAll();
     }
