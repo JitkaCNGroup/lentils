@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.security;
 
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,16 +9,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class CustomUserDetails extends User implements UserDetails {
+public class CustomUserDetails implements UserDetails {
+
+    private final User user;
 
     public CustomUserDetails(final User user) {
-        super(user);
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return getRoles()
+        return user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toList());
@@ -25,12 +27,12 @@ public class CustomUserDetails extends User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return super.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return super.getUsername();
+        return user.getUsername();
     }
 
     @Override
@@ -51,5 +53,9 @@ public class CustomUserDetails extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Team getTeam() {
+        return user.getTeam();
     }
 }
