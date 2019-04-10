@@ -15,21 +15,22 @@ public class ScoreService {
     private final CypherService cypherService;
 
     @Autowired
-    public ScoreService(TeamService teamService, StatusService statusService, HintTakenService hintTakenService, CypherService cypherService) {
+    public ScoreService(final TeamService teamService, final StatusService statusService,
+                        final HintTakenService hintTakenService, final CypherService cypherService) {
         this.teamService = teamService;
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
         this.cypherService = cypherService;
     }
 
-    public int getScoreByTeamAndCypher(Team team, Cypher cypher) {
+    public int getScoreByTeamAndCypher(final Team team, final Cypher cypher) {
 
         int hintScore = hintTakenService.getHintScore(team, cypher);
         int statusScore = statusService.getStatusScore(team, cypher);
         return (statusScore - hintScore);
     }
 
-    public int getScoreByTeam(Team team) {
+    public int getScoreByTeam(final Team team) {
 
         int teamScore = 0;
         int scoreByCypher;
