@@ -45,8 +45,8 @@ public class CustomUserDetailsTest {
         user.setRoles(Collections.singleton(role));
         final CustomUserDetails details = createUserDetails(user);
 
-        assertNotNull(details.getRoles());
-        assertEquals(1, details.getRoles().size());
+        assertNotNull(details.getAuthorities());
+        assertEquals(1, details.getAuthorities().size());
     }
 
     private CustomUserDetails createUserDetails(final User user) {
