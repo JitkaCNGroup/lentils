@@ -4,13 +4,12 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class ScoreService {
 
-    protected final TeamService teamService;
+    private final TeamService teamService;
     private final StatusService statusService;
     private final HintTakenService hintTakenService;
     private final CypherService cypherService;
@@ -27,9 +26,7 @@ public class ScoreService {
 
         int hintScore = hintTakenService.getHintScore(team, cypher);
         int statusScore = statusService.getStatusScore(team, cypher);
-        int teamScoreByCypher = statusScore - hintScore;
-
-        return teamScoreByCypher;
+        return (statusScore - hintScore);
     }
 
     public int getScoreByTeam(Team team) {
