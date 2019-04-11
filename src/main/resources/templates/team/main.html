@@ -48,6 +48,7 @@
                     <thead class="thead-light">
                         <th scope="col">Id</th>
                         <th scope="col">Jméno týmu</th>
+                        <th scope="col">Uživatelské jméno</th>
                         <th scope="col">Počet členů</th>
                         <th scope="col">PIN</th>
                         <th scope="col">Akce</th>
@@ -60,6 +61,7 @@
                             <tr>
                                 <td th:text="${team.teamId}">8888</td>
                                 <td th:text="${team.name}">Bamboo</td>
+                                <td th:text="${team.user.username}"></td>
                                 <td th:text="${team.numOfMembers}">8</td>
                                 <td th:text="${team.pin}">9876</td>
                                 <td>
