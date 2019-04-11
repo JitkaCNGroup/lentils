@@ -92,7 +92,7 @@ public class ClientController {
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
         return CLIENT_VIEW_CYPHER_DETAIL;
-        }
+    }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")
     public String getHint(@PathVariable("hintId") final Long id, final Cypher cypher) {
