@@ -4,6 +4,7 @@ import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.TeamRepository;
+import dk.cngroup.lentils.util.UsernameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class TeamService {
 
     public Team update(final Team team) {
         User user = team.getUser();
-        user.setUsername(team.getName());
+        user.setUsername(UsernameUtils.generateUsername(team.getName()));
         team.setUser(user);
         return teamRepository.save(team);
     }
@@ -42,7 +43,7 @@ public class TeamService {
         team.setPin(getUniquePin());
         User user = new User();
         user.setPassword(passwordEncoder.encode(team.getPin()));
-        user.setUsername(team.getName());
+        user.setUsername(UsernameUtils.generateUsername(team.getName()));
         user.setRoles(roleService.setRole("USER"));
         team.setUser(user);
         return teamRepository.save(team);

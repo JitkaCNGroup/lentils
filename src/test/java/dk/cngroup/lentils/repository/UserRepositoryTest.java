@@ -23,6 +23,8 @@ public class UserRepositoryTest {
     private static final String TEAM_PIN = "1234";
     private static final String TEST_USERNAME = "TestedUsername";
     private static final String TEST_PASSWORD = "SecretPassword";
+    private static final String SPECIAL_TEAM_NAME = "Šťastné veselé chlupaté kočky domácí";
+    private static final String GENERATED_USERNAME = "stastne_vesele_chlupate_kocky";
 
     @Autowired
     TeamService teamService;
@@ -33,7 +35,7 @@ public class UserRepositoryTest {
     @Test
     public void saveTeamCreateNewUser() {
         long count = userRepository.count();
-        Team team = createValidTeam();
+        Team team = createValidTeam(TESTED_TEAM_NAME);
         User user = createValidUser();
         addUserToTeam(team, user);
         teamService.save(team);
@@ -52,7 +54,7 @@ public class UserRepositoryTest {
 
     @Test
     public void updateTeamDoNotCreateNewUser() {
-        Team team = createValidTeam();
+        Team team = createValidTeam(TESTED_TEAM_NAME);
         User user = createValidUser();
         addUserToTeam(team, user);
         teamService.save(team);
@@ -63,7 +65,7 @@ public class UserRepositoryTest {
 
     @Test
     public void deleteTeamRemoveUser() {
-        Team team = createValidTeam();
+        Team team = createValidTeam(TESTED_TEAM_NAME);
         User user = createValidUser();
         addUserToTeam(team, user);
         teamService.save(team);
@@ -72,8 +74,15 @@ public class UserRepositoryTest {
         Assert.assertEquals(count - 1, userRepository.count());
     }
 
-    private Team createValidTeam() {
-        return new Team(TESTED_TEAM_NAME, 5, TEAM_PIN);
+    @Test
+    public void addTeamGeneratesProperUsername() {
+        Team team = createValidTeam(SPECIAL_TEAM_NAME);
+        teamService.save(team);
+        Assert.assertTrue(isUserInDb(GENERATED_USERNAME));
+    }
+
+    private Team createValidTeam(final String teamName) {
+        return new Team(teamName, 5, TEAM_PIN);
     }
 
     private User createValidUser() {
