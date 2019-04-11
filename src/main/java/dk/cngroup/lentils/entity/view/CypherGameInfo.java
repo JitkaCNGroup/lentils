@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.entity.view;
 
-import jdk.nashorn.internal.ir.annotations.Immutable;
+import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
