@@ -44,6 +44,7 @@ public class TeamService {
         user.setPassword(passwordEncoder.encode(team.getPin()));
         user.setUsername(team.getName());
         user.setRoles(roleService.setRole("USER"));
+        user.setTeam(team);
         team.setUser(user);
         return teamRepository.save(team);
     }
