@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
 
@@ -87,13 +92,10 @@
         </th:block>
 
         <div class="pb-2">
-            <b>Adresa</b>
-            <br/>
-            <div th:text="${cypher.location}"></div>
-            <br/>
-            <div th:text="${cypher.placeDescription}"></div>
-            <br/>
-            <div>ZDE MAPA</div>
+            <h3>Adresa</h3>
+            <p th:text="${cypher.location}"></p>
+            <p th:text="${cypher.placeDescription}"></p>
+            <div id="map" style='width: 100%; height: 150px;'></div>
             <button href="#" class="btn-white" type="submit">Zobrazit na mapě</button>
         </div>
         <br/>
@@ -143,9 +145,39 @@
                 bonusButton.style.display = "none";
             }
         </script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script>
+            var map;
+
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 14,
+                    center: getCypherLocation()
+                });
+                addMarkerFromForm();
+            }
+
+            function addMarker(location) {
+                activeMarker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+
+            function addMarkerFromForm() {
+                addMarker(getCypherLocation());
+            }
+
+            function getCypherLocation() {
+                var lat = [[${cypher.location.getY()}]];
+                var lng = [[${cypher.location.getX()}]];
+                var locationOfCypher = {lat: lat, lng: lng};
+                return locationOfCypher;
+            }
+
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDseyIGXP_QJWmaCbjVJxxVUQ5vxX44Anw&callback=initMap">
+        </script>
     </div>
 </body>
 </html>
