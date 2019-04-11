@@ -10,18 +10,18 @@ import javax.persistence.Id;
 @Entity
 @Immutable
 @Subselect(
-        "select Cypher.cypher_Id as cypher_id, " +
-                "Cypher.stage as stage, " +
-                "Cypher.name as name, " +
-                "Status.cypher_Status as status, " +
-                "count(Hint.hint_Id) as count " +
-                "from Cypher " +
-                "left join Hint on Hint.cypher_Id = Cypher.cypher_Id " +
-                "left join Status on Status.cypher_cypher_Id = Cypher.cypher_Id " +
-                "left join Hint_Taken on Hint_Taken.hint_hint_Id = Hint.hint_Id " +
-                "where Status.team_team_Id = 2 " +
-                "group by Cypher.cypher_Id " +
-                "order by Cypher.cypher_Id"
+        "SELECT c.cypher_id as cypher_id, " +
+                "c.stage as stage, " +
+                "c.name as name, " +
+                "s.cypher_status as status, " +
+                "count(h.hint_id) as count " +
+        "FROM cypher c " +
+        "LEFT JOIN hint h on h.cypher_id = c.cypher_id " +
+        "LEFT JOIN status s on s.cypher_cypher_id = c.cypher_id " +
+        "LEFT JOIN hint_taken ht on ht.hint_hint_id = h.hint_id " +
+        "WHERE s.team_team_id = 2 " +
+        "GROUP BY c.cypher_id " +
+        "ORDER BY c.cypher_id"
 )
 public class CypherGameInfo {
 
