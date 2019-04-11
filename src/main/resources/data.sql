@@ -31,3 +31,9 @@ INSERT INTO user_role(user_id, role_id)
   SELECT 2, 2
   WHERE NOT EXISTS(
     SELECT * FROM user_role WHERE user_id = 2 AND role_id = 2);
+
+-- team
+INSERT INTO team(team_id, name, num_of_members, pin)
+SELECT 2, 'default team', 5, '1111'
+  WHERE NOT EXISTS(
+    SELECT * FROM team WHERE team_id = 2);

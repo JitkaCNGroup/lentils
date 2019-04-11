@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="cz" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+
+    <title>Šifry</title>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default navbarRed" >
+    <div class="navbarContentCentered">
+        <p class="bold floatLeft" th:text="${team.name}"></p>
+        <p class="floatLeft">Body:xx b</p>
+    </div>
+
+    <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+            aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
+            <i class="fa fa-bars"></i></span></button>
+    <div class="collapse navbar-collapse collapsedNavbar" id="navbarSupportedContent1">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item collapsedActive">
+                <a class=" nav-link" href="#">Šifry<span class="sr-only">(current)</span></a>
+            </li>
+            <div class="dropdown-divider-cst"></div>
+            <li class="nav-item collapsedNotActive">
+                <a class=" nav-link" href="#">Kartička</a>
+            </li>
+            <div class="dropdown-divider-cst"></div>
+            <li class="nav-item collapsedNotActive">
+                <a class=" nav-link" href="#">Kontakty</a>
+            </li>
+            <div class="dropdown-divider-cst"></div>
+            <li class="nav-item collapsedNotActive">
+                <a class=" nav-link" href="#">Odhlásit se</a>
+            </li>
+            <div class="dropdown-divider-cst"></div>
+        </ul>
+    </div>
+</nav>
+
+<div class="bodyContent">
+    <h2  class="botMargin10">Sifry</h2>
+    <div th:each="cypherGameInfo : ${cypherGameInfos}" class="hoverColor border-bottom p-10">
+        <div class="row pb-3 pt-3">
+            <div th:text="|${cypherGameInfo.getStage()}. ${cypherGameInfo.getName()}|" class="col">
+            </div>
+            <div th:unless="${cypherGameInfo.getCount() == 0}" class="col">
+                <a href="#" class="float-right">
+                    <i class="far fa-lightbulb"></i>
+                </a>
+                <p class="float-right" th:text="${cypherGameInfo.getCount()} + 'x '"></p>
+            </div>
+            <th:block th:switch="${cypherGameInfo.getStatus()}">
+                <div th:case="0" class="col-1">
+                    <i class="far fa-check-circle float-right"></i>
+                </div>
+                <div th:case="1" class="col-1">
+                    <i class="far fa-times-circle float-right"></i>
+                </div>
+                <div th:case="2" class="col-1">
+                    <i class="fas fa-spinner float-right"></i>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>
