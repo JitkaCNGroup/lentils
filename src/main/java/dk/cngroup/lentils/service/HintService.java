@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class HintService {
     private HintRepository hintRepository;
+    private HintTakenService hintTakenService;
 
     @Autowired
-    public HintService(final HintRepository hintRepository) {
+    public HintService(final HintRepository hintRepository,
+                       final HintTakenService hintTakenService) {
         this.hintRepository = hintRepository;
+        this.hintTakenService = hintTakenService;
     }
 
     public Hint save(final Hint hint) {

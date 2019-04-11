@@ -44,4 +44,18 @@ public class HintTakenService {
     public List<HintTaken> getTakenHintsOfTeam(final Team team) {
         return hintTakenRepository.findByTeam(team);
     }
+
+    public List<HintTaken> getAllByTeam(final Team team) {
+        return  hintTakenRepository.findByTeam(team);
+    }
+
+    public List<HintTaken> getAllByTeamAndCypher(final Team team, final Cypher cypher) {
+    List<HintTaken> hintsTakenByTeamAndCypher = hintTakenRepository.findAllByTeamAndCypher(team.getTeamId(),
+            cypher.getCypherId());
+        return hintsTakenByTeamAndCypher;
+    }
+
+    public List<HintTaken> getAll() {
+        return hintTakenRepository.findAll();
+    }
 }

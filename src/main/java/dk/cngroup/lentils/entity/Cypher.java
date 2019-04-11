@@ -2,7 +2,14 @@ package dk.cngroup.lentils.entity;
 
 import org.springframework.data.geo.Point;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -29,8 +36,14 @@ public class Cypher implements Serializable {
     @Column(name = "location")
     private Point location;
 
+    @Column(name = "place_description")
+    private String placeDescription;
+
     @Column(name = "codeword")
     private String codeword;
+
+    @Column(name = "bonus_content")
+    private String bonusContent;
 
     public Cypher() {
     }
@@ -112,6 +125,21 @@ public class Cypher implements Serializable {
         hints.add(hint);
     }
 
+    public String getBonusContent() {
+        return bonusContent;
+    }
+
+    public void setBonusContent(final String bonusContent) {
+        this.bonusContent = bonusContent;
+    }
+
+    public String getPlaceDescription() {
+        return placeDescription;
+    }
+
+    public void setPlaceDescription(final String placeDescription) {
+        this.placeDescription = placeDescription;
+    }
 
     @Override
     public String toString() {

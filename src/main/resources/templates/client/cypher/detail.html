@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="cz" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+
+    <title>Detail šifry</title>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbarRed" >
+        <div class="navbarContentCentered">
+            <p class="bold floatLeft" th:text="${team.name}"></p>
+            <p class="floatLeft">Body:xx b</p>
+        </div>
+
+        <button id="navbarButton" class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+                aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
+                <i class="fa fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse collapsedNavbar" id="navbarSupportedContent1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item collapsedNotActive">
+                    <a class=" nav-link" href="#">Šifry </a>
+                </li>
+                <div class="dropdown-divider-cst"></div>
+                <li class="nav-item collapsedNotActive">
+                    <a class=" nav-link" href="#">Kartička</a>
+                </li>
+                <div class="dropdown-divider-cst"></div>
+                <li class="nav-item collapsedNotActive">
+                    <a class=" nav-link" href="#">Kontakty</a>
+                </li>
+                <div class="dropdown-divider-cst"></div>
+                <li class="nav-item collapsedNotActive">
+                    <a class=" nav-link" href="#">Odhlásit se</a>
+                </li>
+                <div class="dropdown-divider-cst"></div>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="bodyContent ">
+        <h2 th:text="|${cypher.stage}. ${cypher.name}|" class="botMargin10">šifra</h2>
+        <th:block th:switch="${status}">
+
+            <th:block th:case="'PENDING'">
+                <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codeword}" method="post">
+                    <div class="pb-2">
+                        <div class="pb-2">
+                            <b>Řešení</b>
+                        </div>
+                        <input type="text" th:field="*{guess}" class="solutionInput">
+                        <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
+                        <button class="btn-white" type ="submit"> Ověřit </button>
+                    </div>
+                </form>
+            </th:block>
+
+            <th:block th:case="'SKIPPED'">
+                <div class="pb-2">
+                    <p id="skippedAnswer">Tuto šifru jste přeskočili</p>
+                    <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
+                        <button class="skippedGoNextButton"> Zobrazit další šifru </button>
+                    </a>
+                </div>
+            </th:block>
+
+            <th:block th:case="${'SOLVED'}">
+                <div>
+                    <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
+                    <b>Kam dál?</b>
+                    <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
+                        <button class="correctButton"> Zobrazit další šifru </button>
+                    </a>
+                    <p id="bonusInfo" th:text="${cypher.bonusContent}"></p>
+                    <a id="bonusButton">
+                        <button class="btn-white" onclick="showBonus()"> Zobrazit bonusové informace </button>
+                    </a>
+                </div>
+            </th:block>
+        </th:block>
+
+        <div class="pb-2">
+            <b>Adresa</b>
+            <br/>
+            <div th:text="${cypher.location}"></div>
+            <br/>
+            <div th:text="${cypher.placeDescription}"></div>
+            <br/>
+            <div>ZDE MAPA</div>
+            <button href="#" class="btn-white" type="submit">Zobrazit na mapě</button>
+        </div>
+        <br/>
+
+            <th:block th:if="${status == 'PENDING'}">
+                <b>Nápověda</b>
+
+                <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
+                    <div th:each="hintTaken : ${hintsTaken}">
+                        <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
+                    </div>
+                </th:block>
+                <form action="/hint" th:object="${cypher}">
+                    <input type="hidden"  th:field="*{cypherId}" >
+                    <input type="hidden"  th:field="*{hints}" >
+                    <input type="hidden"  th:field="*{name}" >
+                    <input type="hidden"  th:field="*{stage}" >
+                    <input type="hidden"  th:field="*{placeDescription}" >
+                    <input type="hidden"  th:field="*{location}" >
+                    <input type="hidden"  th:field="*{codeword}" >
+                    <input type="hidden"  th:field="*{bonusContent}" >
+                    <button type="submit" class="btn-white">Získat nápovědu</button>
+                </form>
+                <br/>
+            </th:block>
+
+        <th:block th:if="${status == 'PENDING'}">
+            <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/cypher/giveUp" th:object="${cypher}" method="post">
+                <input type="hidden"  th:field="*{cypherId}" >
+                <input type="hidden"  th:field="*{hints}" >
+                <input type="hidden"  th:field="*{name}" >
+                <input type="hidden"  th:field="*{stage}" >
+                <input type="hidden"  th:field="*{placeDescription}" >
+                <input type="hidden"  th:field="*{location}" >
+                <input type="hidden"  th:field="*{codeword}" >
+                <input type="hidden"  th:field="*{bonusContent}" >
+                <br/>
+                <button class="btn-red" type="submit" onclick="">Vzdát šifru</button>
+            </form>
+        </th:block>
+
+        <script>
+            function showBonus() {
+                var bonusInfo = document.getElementById("bonusInfo");
+                bonusInfo.style.display = "block";
+                var bonusButton = document.getElementById("bonusButton");
+                bonusButton.style.display = "none";
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </div>
+</body>
+</html>
