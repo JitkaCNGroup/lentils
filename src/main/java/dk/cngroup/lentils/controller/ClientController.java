@@ -80,20 +80,19 @@ public class ClientController {
                     teamService.getTeam(2L),
                     CypherStatus.SOLVED);
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
-        } else {
-            FieldError error = new FieldError("codeword", "guess", "Špatné řešení, zkuste se víc zamyslet :-)");
-            result.addError(error);
-            String status = statusService.getStatusNameByTeamAndCypher(teamService.getTeam(2L), cypher);
-            model.addAttribute("team", teamService.getTeam(2L));
-            model.addAttribute("cypher", cypher);
-            model.addAttribute("status", status);
-            model.addAttribute("hintsTaken",
-                    hintTakenService.getAllByTeamAndCypher(teamService.getTeam(2L), cypher));
-            model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
-            model.addAttribute("codeword", codeword);
-            return CLIENT_VIEW_CYPHER_DETAIL;
         }
-    }
+        FieldError error = new FieldError("codeword", "guess", "Špatné řešení, zkuste se víc zamyslet :-)");
+        result.addError(error);
+        String status = statusService.getStatusNameByTeamAndCypher(teamService.getTeam(2L), cypher);
+        model.addAttribute("team", teamService.getTeam(2L));
+        model.addAttribute("cypher", cypher);
+        model.addAttribute("status", status);
+        model.addAttribute("hintsTaken",
+                hintTakenService.getAllByTeamAndCypher(teamService.getTeam(2L), cypher));
+        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
+        model.addAttribute("codeword", codeword);
+        return CLIENT_VIEW_CYPHER_DETAIL;
+        }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")
     public String getHint(@PathVariable("hintId") final Long id, final Cypher cypher) {
