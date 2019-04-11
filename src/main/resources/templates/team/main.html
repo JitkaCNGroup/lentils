@@ -43,45 +43,33 @@
     <div class="row">
         <div class="col-sm-12">
             <h2>Týmy</h2>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead class="thead-light">
-                            <th scope="col">Id</th>
-                            <th scope="col">Jméno týmu</th>
-                            <th scope="col">Počet členů</th>
-                            <th scope="col">PIN</th>
-                            <th scope="col">Akce</th>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${teams.empty}">
-                                <td colspan="5"><p> V systému nejsou týmy</p></td>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                        <th scope="col">Id</th>
+                        <th scope="col">Jméno týmu</th>
+                        <th scope="col">Počet členů</th>
+                        <th scope="col">PIN</th>
+                        <th scope="col">Akce</th>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${teams.empty}">
+                            <td colspan="5"><p> V systému nejsou týmy</p></td>
+                        </tr>
+                        <th:block th:each="team : ${teams}">
+                            <tr>
+                                <td th:text="${team.teamId}">8888</td>
+                                <td th:text="${team.name}">Bamboo</td>
+                                <td th:text="${team.numOfMembers}">8</td>
+                                <td th:text="${team.pin}">9876</td>
+                                <td>
+                                    <a href="#" th:href="@{/admin/team/update/{teamId}(teamId=${team.teamId})}">Upravit</a> |
+                                    <a href="#" th:href="@{/admin/team/delete/{teamId}(teamId=${team.teamId})}">Smazat</a>
+                                </td>
                             </tr>
-                            <th:block th:each="team : ${teams}">
-                                <tr>
-                                    <td th:text="${team.teamId}">8888</td>
-                                    <td th:text="${team.name}">Bamboo</td>
-                                    <td th:text="${team.numOfMembers}">8</td>
-                                    <td th:text="${team.pin}">9876</td>
-                                    <td>
-                                        <a href="#" th:href="@{'/admin/team/update/'+${team.teamId}}">Upravit</a> |
-                                        <a href="#" th:href="@{'/admin/team/delete/'+${team.teamId}}">Smazat</a>
-                                    </td>
-                            </tr>
-                            <th:block th:each="team : ${teams}">
-                                <tr>
-                                    <td th:text="${team.teamId}">8888</td>
-                                    <td th:text="${team.name}">Bamboo</td>
-                                    <td th:text="${team.numOfMembers}">8</td>
-                                    <td th:text="${team.pin}">9876</td>
-                                    <td>
-                                        <a href="#" th:href="@{/team/update/{teamId}(teamId=${team.teamId})}">Upravit</a> |
-                                        <a href="#" th:href="@{/team/delete/{teamId}(teamId=${team.teamId})}">Smazat</a>
-                                    </td>
-                                </tr>
-                            </th:block>
-                        </tbody>
-                    </table>
-                </div>
+                        </th:block>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
