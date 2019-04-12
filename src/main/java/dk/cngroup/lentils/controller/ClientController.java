@@ -2,12 +2,14 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.FinalPlaceService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/")
@@ -36,12 +39,13 @@ public class ClientController {
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
     private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game";
 
-    private CypherService cypherService;
-    private HintService hintService;
-    private HintTakenService hintTakenService;
-    private StatusService statusService;
-    private CypherGameInfoService cypherGameInfoService;
-    private ScoreService scoreService;
+    private final CypherService cypherService;
+    private final HintService hintService;
+    private final HintTakenService hintTakenService;
+    private final StatusService statusService;
+    private final CypherGameInfoService cypherGameInfoService;
+    private final ScoreService scoreService;
+    private final FinalPlaceService finalPlaceService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
@@ -49,13 +53,15 @@ public class ClientController {
                             final HintService hintService,
                             final HintTakenService hintTakenService,
                             final CypherGameInfoService cypherGameInfoService,
-                            final ScoreService scoreService) {
+                            final ScoreService scoreService,
+                            final FinalPlaceService finalPlaceService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
+        this.finalPlaceService = finalPlaceService;
     }
 
     @GetMapping(value = "cypher")
@@ -72,14 +78,10 @@ public class ClientController {
                                final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status);
-        model.addAttribute("hintsTaken",
-                hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
+
         Codeword codeword = new Codeword();
-        model.addAttribute("codeword", codeword);
+        setDetailModeAttributes(model, user, cypher, status, codeword);
+
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
@@ -101,6 +103,17 @@ public class ClientController {
                                  final BindingResult result,
                                  final Model model) {
         Cypher cypher = cypherService.getCypher(id);
+        String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
+
+        final FinalPlace finalPlace = finalPlaceService.getFinalPlace();
+        if (finalPlace.getOpeningTime() == null || finalPlace.getOpeningTime().isBefore(LocalDateTime.now())) {
+            FieldError error = new FieldError("codeword", "guess", "Hra již byla ukončena");
+            result.addError(error);
+
+            setDetailModeAttributes(model, user, cypher, status, codeword);
+            return CLIENT_VIEW_CYPHER_DETAIL;
+        }
+
         if (cypherService.checkCodeword(cypher, codeword.getGuess())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     user.getTeam(),
@@ -114,14 +127,8 @@ public class ClientController {
 
         FieldError error = new FieldError("codeword", "guess", "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
-        String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status);
-        model.addAttribute("hintsTaken",
-                hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
-        model.addAttribute("codeword", codeword);
+        setDetailModeAttributes(model, user, cypher, status, codeword);
+
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
@@ -150,5 +157,19 @@ public class ClientController {
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypherService.getNext(cypher.getStage()).getCypherId();
         }
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
+    }
+
+    private void setDetailModeAttributes(
+            final Model model,
+            final CustomUserDetails user,
+            final Cypher cypher,
+            final String status,
+            final Codeword codeword) {
+        model.addAttribute("team", user.getTeam());
+        model.addAttribute("cypher", cypher);
+        model.addAttribute("status", status);
+        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
+        model.addAttribute("codeword", codeword);
     }
 }
