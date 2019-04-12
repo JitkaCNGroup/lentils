@@ -36,9 +36,8 @@ public class CypherServiceTest {
     @Test
     public void checkCodewordTest() {
         Cypher cypher = getCypherForStage();
-        when(repository.findByStage(TESTED_STAGE)).thenReturn(cypher);
 
-        assertTrue(service.checkCodeword(CODEWORD, TESTED_STAGE));
+        assertTrue(service.checkCodeword(cypher, CODEWORD));
     }
 
     private Cypher getCypherForStage(Integer stage) {
