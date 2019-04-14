@@ -49,81 +49,92 @@
         </div>
     </nav>
 
-    <div class="bodyContent ">
-        <h2 th:text="|${cypher.stage}. ${cypher.name}|" class="botMargin10">šifra</h2>
-        <th:block th:switch="${status}">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 th:text="|${cypher.stage}. ${cypher.name}|">šifra</h1>
 
-            <th:block th:case="'PENDING'">
-                <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codeword}" method="post">
-                    <div class="pb-2">
-                        <div class="pb-2">
-                            <b>Řešení</b>
+                <th:block th:switch="${status}">
+
+                    <th:block th:case="'PENDING'">
+                        <h2>Řešení</h2>
+                        <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codeword}" method="post">
+                            <div class="form-group">
+                                <!--<label for="guess">Řešení</label>-->
+                                <input id="guess" type="text" th:field="*{guess}" class="form-control" >
+                                <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
+                                <button class="btn btn-primary" type ="btn btn-primary">Ověřit</button>
+                            </div>
+                        </form>
+                    </th:block>
+
+                    <th:block th:case="'SKIPPED'">
+                        <div class="alert alert-danger" role="alert">
+                            Tuto šifru jste přeskočili
+                            <th:block th:if="${nextCypher}">
+                                <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
+                                   role="button">Zobrazit další šifru </button></a>
+                            </th:block>
                         </div>
-                        <input type="text" th:field="*{guess}" class="solutionInput">
-                        <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
-                        <button class="btn-white" type ="submit"> Ověřit </button>
-                    </div>
-                </form>
-            </th:block>
-
-            <th:block th:case="'SKIPPED'">
-                <div class="pb-2">
-                    <p id="skippedAnswer">Tuto šifru jste přeskočili</p>
-                    <th:block th:unless="${nextCypher == null}">
-                        <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
-                            <button class="skippedGoNextButton"> Zobrazit další šifru </button>
-                        </a>
                     </th:block>
-                </div>
-            </th:block>
 
-            <th:block th:case="${'SOLVED'}">
-                <div>
-                    <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
-                    <b>Kam dál?</b>
-                    <th:block th:unless="${nextCypher == null}">
-                        <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
-                            <button class="correctButton"> Zobrazit další šifru </button>
-                        </a>
+                    <th:block th:case="${'SOLVED'}">
+                        <div class="alert alert-success" role="alert">
+                            Zadali jste správné heslo. Šifra byla vyluštěna!
+                        </div>
+
+                        <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
+                        <div th:if="${nextCypher}">
+                            <h2>Kam dál?</h2>
+                            <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
+                               role="button">Zobrazit další šifru </button></a>
+                        </div>
+
+                        <div id="bonusInfo" th:text="${cypher.bonusContent}" class="alert alert-light" role="alert">
+                            <a id="bonusButton">
+                                <button class="btn btn-secondary" onclick="showBonus()"> Zobrazit bonusové informace </button>
+                            </a>
+                        </div>
                     </th:block>
-                    <p id="bonusInfo" th:text="${cypher.bonusContent}"></p>
-                    <a id="bonusButton">
-                        <button class="btn-white" onclick="showBonus()"> Zobrazit bonusové informace </button>
-                    </a>
-                </div>
-            </th:block>
-        </th:block>
-
-        <div class="pb-2">
-            <h3>Adresa</h3>
-            <p th:text="${cypher.location}"></p>
-            <p th:text="${cypher.placeDescription}"></p>
-            <div id="map" style='width: 100%; height: 150px;'></div>
-            <button href="#" class="btn-white" type="submit">Zobrazit na mapě</button>
-        </div>
-        <br/>
-
-            <th:block th:if="${status == 'PENDING'}">
-                <b>Nápověda</b>
-
-                <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
-                    <div th:each="hintTaken : ${hintsTaken}">
-                        <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
-                    </div>
                 </th:block>
-                <form action="/hint" th:object="${cypher}">
-                    <input type="hidden"  th:field="*{cypherId}" >
-                    <input type="hidden"  th:field="*{hints}" >
-                    <input type="hidden"  th:field="*{name}" >
-                    <input type="hidden"  th:field="*{stage}" >
-                    <input type="hidden"  th:field="*{placeDescription}" >
-                    <input type="hidden"  th:field="*{location}" >
-                    <input type="hidden"  th:field="*{codeword}" >
-                    <input type="hidden"  th:field="*{bonusContent}" >
-                    <button type="submit" class="btn-white">Získat nápovědu</button>
-                </form>
-                <br/>
-            </th:block>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Adresa</h2>
+                <p th:text="${'GPRS: ' + cypher.location.y + ' ' + cypher.location.x}"></p>
+                <p th:text="${cypher.placeDescription}"></p>
+                <div id="map" style='width: 100%; height: 150px;'></div>
+                <button href="#" class="btn btn-secondary" type="submit">Zobrazit na mapě</button>
+            </div>
+        </div>
+
+        <th:block th:if="${status == 'PENDING'}">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Nápověda</h2>
+                    <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
+                        <div th:each="hintTaken : ${hintsTaken}">
+                            <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
+                        </div>
+                    </th:block>
+
+                    <form action="/hint" th:object="${cypher}">
+                        <input type="hidden"  th:field="*{cypherId}" >
+                        <input type="hidden"  th:field="*{hints}" >
+                        <input type="hidden"  th:field="*{name}" >
+                        <input type="hidden"  th:field="*{stage}" >
+                        <input type="hidden"  th:field="*{placeDescription}" >
+                        <input type="hidden"  th:field="*{location}" >
+                        <input type="hidden"  th:field="*{codeword}" >
+                        <input type="hidden"  th:field="*{bonusContent}" >
+                        <button type="submit" class="btn-white">Získat nápovědu</button>
+                    </form>
+                    <br/>
+                </div>
+            </div>
+        </th:block>
 
         <th:block th:if="${status == 'PENDING'}">
             <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/cypher/giveUp" th:object="${cypher}" method="post">
