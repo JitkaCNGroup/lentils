@@ -20,4 +20,8 @@ public class CypherGameInfoService {
     public List<CypherGameInfo> getAll() {
         return cypherGameInfoRepository.findAll();
     }
+
+    public List<CypherGameInfo> getAllByTeamId(final Long teamId) {
+        return cypherGameInfoRepository.findAllByTeamId(teamId);
+    }
 }

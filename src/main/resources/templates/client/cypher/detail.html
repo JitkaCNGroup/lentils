@@ -69,9 +69,11 @@
             <th:block th:case="'SKIPPED'">
                 <div class="pb-2">
                     <p id="skippedAnswer">Tuto šifru jste přeskočili</p>
-                    <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
-                        <button class="skippedGoNextButton"> Zobrazit další šifru </button>
-                    </a>
+                    <th:block th:unless="${nextCypher == null}">
+                        <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
+                            <button class="skippedGoNextButton"> Zobrazit další šifru </button>
+                        </a>
+                    </th:block>
                 </div>
             </th:block>
 
@@ -79,9 +81,11 @@
                 <div>
                     <p id="correctAnswer"> Zadali jste správné heslo. Šifra byla vyluštěna!</p>
                     <b>Kam dál?</b>
-                    <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
-                        <button class="correctButton"> Zobrazit další šifru </button>
-                    </a>
+                    <th:block th:unless="${nextCypher == null}">
+                        <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
+                            <button class="correctButton"> Zobrazit další šifru </button>
+                        </a>
+                    </th:block>
                     <p id="bonusInfo" th:text="${cypher.bonusContent}"></p>
                     <a id="bonusButton">
                         <button class="btn-white" onclick="showBonus()"> Zobrazit bonusové informace </button>
