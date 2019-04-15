@@ -35,11 +35,10 @@ public class HintService {
     }
 
     public List<Hint> getAllNotTakenByTeamAndCypher(final Team team, final Cypher cypher) {
-        List <HintTaken> hintsTakenByTeam = hintTakenService.getAllByTeamAndCypher(team, cypher);
-        List <Hint> hintsOfCypher = hintRepository.findByCypher(cypher);
-        return hintsOfCypher
+        List<Hint> hintsNotTakenByTeam = hintRepository.findAllNotTaken(team.getTeamId());
+        return hintsNotTakenByTeam
                 .stream()
-                .filter(hint -> !hint.getHintId().equals(hintsTakenByTeam.stream().filter(hintTaken -> hintTaken.getHint().getHintId().equals(hint.getHintId()))))
+                .filter(hint -> hint.getCypherId().equals(cypher.getCypherId()))
                 .collect(Collectors.toList());
     }
 
