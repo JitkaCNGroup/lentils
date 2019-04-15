@@ -21,7 +21,7 @@ public class CypherGameInfoService {
         return cypherGameInfoRepository.findAll();
     }
 
-    public List<CypherGameInfo> getAllByTeamId(Long teamId) {
+    public List<CypherGameInfo> getAllByTeamId(final Long teamId) {
         return cypherGameInfoRepository.findAllByTeamId(teamId);
     }
 }

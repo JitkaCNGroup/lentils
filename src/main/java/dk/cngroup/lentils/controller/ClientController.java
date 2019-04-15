@@ -58,7 +58,9 @@ public class ClientController {
     }
 
     @GetMapping(value = "cypher/{id}")
-    public String cypherDetail(@PathVariable("id") final Long id, @AuthenticationPrincipal final CustomUserDetails user, final Model model) {
+    public String cypherDetail(@PathVariable("id") final Long id,
+                               @AuthenticationPrincipal final CustomUserDetails user,
+                               final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
         model.addAttribute("team", user.getTeam());
@@ -105,7 +107,9 @@ public class ClientController {
     }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")
-    public String getHint(@PathVariable("hintId") final Long id, @AuthenticationPrincipal final CustomUserDetails user, final Cypher cypher) {
+    public String getHint(@PathVariable("hintId") final Long id,
+                          @AuthenticationPrincipal final CustomUserDetails user,
+                          final Cypher cypher) {
         hintTakenService.takeHint((user.getTeam()),
                 hintService.getHint(id));
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
