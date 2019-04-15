@@ -1,12 +1,16 @@
 package dk.cngroup.lentils.service;
 
+import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.HintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HintService {
@@ -28,6 +32,15 @@ public class HintService {
         return hintRepository
                 .findById(hintId)
                 .orElseThrow(() -> new ResourceNotFoundException(Hint.class.getSimpleName(), hintId));
+    }
+
+    public List<Hint> getAllNotTakenByTeamAndCypher(final Team team, final Cypher cypher) {
+        List <HintTaken> hintsTakenByTeam = hintTakenService.getAllByTeamAndCypher(team, cypher);
+        List <Hint> hintsOfCypher = hintRepository.findByCypher(cypher);
+        return hintsOfCypher
+                .stream()
+                .filter(hint -> !hint.getHintId().equals(hintsTakenByTeam.stream().filter(hintTaken -> hintTaken.getHint().getHintId().equals(hint.getHintId()))))
+                .collect(Collectors.toList());
     }
 
     public List<Hint> saveAll(final List<Hint> hints) {
