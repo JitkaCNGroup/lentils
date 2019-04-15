@@ -2,6 +2,8 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
@@ -110,19 +112,21 @@ public class ClientController {
     public String getHint(@PathVariable("hintId") final Long id,
                           @AuthenticationPrincipal final CustomUserDetails user,
                           final Cypher cypher) {
-        hintTakenService.takeHint((user.getTeam()),
-                hintService.getHint(id));
+        Team team = user.getTeam();
+        Hint hint = hintService.getHint(id);
+        hintTakenService.takeHint(team, hint);
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 
     @PostMapping(value = "cypher/giveUp")
     public String skipCypher(final Cypher cypher, @AuthenticationPrincipal final CustomUserDetails user) {
-        if (statusService.getStatusNameByTeamAndCypher(user.getTeam(),
-                cypherService.getCypher(cypher.getCypherId())).equals("PENDING")) {
-            statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
-                    user.getTeam(),
-                    CypherStatus.SKIPPED);
+        CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+        if (cypherStatus.equals(CypherStatus.PENDING)) {
+            statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
         }
-        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypherService.getNext(cypher.getStage()).getCypherId();
+        if (cypherService.getNext(cypher.getStage()) != null) {
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypherService.getNext(cypher.getStage()).getCypherId();
+        }
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 }
