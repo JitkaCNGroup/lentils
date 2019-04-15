@@ -22,6 +22,7 @@ public class ObjectGenerator {
     public static final int NUMBER_OF_HINTS_FOR_CYPHER = 3;
     public static final String CODEWORD = "Codeword";
     public static final String TEAM_NAME = "Team";
+    public static final String PIN = "1234";
 
     public List<Cypher> generateCypherList(int number) {
         List<Cypher> cyphers = new LinkedList<>();
@@ -52,7 +53,7 @@ public class ObjectGenerator {
     }
 
     public Team generateNewTeam() {
-        return new Team(TEAM_NAME, 5, "1231");
+        return new Team(TEAM_NAME, 5, PIN);
     }
 
     public List<Hint> generateHintsForCypher(List<Cypher> cyphers) {
