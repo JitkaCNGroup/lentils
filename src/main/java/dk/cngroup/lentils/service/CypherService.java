@@ -42,9 +42,16 @@ public class CypherService {
         return cypherRepository.findFirstByStageGreaterThan(stage);
     }
 
-    public boolean checkCodeword(final String codeword, final Integer stage) {
-        Cypher cypher = cypherRepository.findByStage(stage);
+    public boolean checkCodeword(final Cypher cypher, final String codeword) {
         return codeword.equals(cypher.getCodeword());
+    }
+
+    public boolean checkTrapCodeword(final Cypher cypher, final String codeword) {
+        if (cypher.getTrapCodeword().isEmpty()) {
+            return false;
+        }
+
+        return codeword.equals(cypher.getTrapCodeword());
     }
 
     public Cypher getByStage(final int stage) {

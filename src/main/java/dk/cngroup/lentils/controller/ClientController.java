@@ -31,7 +31,9 @@ public class ClientController {
     private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
     private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
+    private static final String CLIENT_TRAP_SCREEN = "client/cypher/trap";
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
+    private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game";
 
     private CypherService cypherService;
     private HintService hintService;
@@ -89,12 +91,17 @@ public class ClientController {
                                  final BindingResult result,
                                  final Model model) {
         Cypher cypher = cypherService.getCypher(id);
-        if (cypherService.checkCodeword(codeword.getGuess(), cypher.getStage())) {
+        if (cypherService.checkCodeword(cypher, codeword.getGuess())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     user.getTeam(),
                     CypherStatus.SOLVED);
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
         }
+
+        if (cypherService.checkTrapCodeword(cypher, codeword.getGuess())) {
+            return REDIRECT_TO_TRAP_SCREEN;
+        }
+
         FieldError error = new FieldError("codeword", "guess", "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
@@ -106,6 +113,11 @@ public class ClientController {
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
         return CLIENT_VIEW_CYPHER_DETAIL;
+    }
+
+    @GetMapping("cypher/lets-play-a-game")
+    public String trapScreen() {
+        return CLIENT_TRAP_SCREEN;
     }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")

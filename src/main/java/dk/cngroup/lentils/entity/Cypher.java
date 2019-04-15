@@ -35,6 +35,9 @@ public class Cypher implements Serializable {
     @Column(name = "codeword")
     private String codeword;
 
+    @Column(name = "trap_codeword")
+    private String trapCodeword;
+
     @Column(name = "bonus_content")
     private String bonusContent;
 
@@ -96,6 +99,14 @@ public class Cypher implements Serializable {
 
     public void setCodeword(final String codeword) {
         this.codeword = codeword;
+    }
+
+    public String getTrapCodeword() {
+        return trapCodeword;
+    }
+
+    public void setTrapCodeword(final String trapCodeword) {
+        this.trapCodeword = trapCodeword;
     }
 
     public Long getCypherId() {
