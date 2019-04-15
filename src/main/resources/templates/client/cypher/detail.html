@@ -67,7 +67,7 @@
                     <p id="skippedAnswer">Tuto šifru jste přeskočili</p>
                     <th:block th:unless="${nextCypher == null}">
                         <a th:href="@{'/cypher/' + ${nextCypher.cypherId}}">
-                        <button class="skippedGoNextButton"> Zobrazit další šifru </button>
+                            <button class="skippedGoNextButton"> Zobrazit další šifru </button>
                         </a>
                     </th:block>
                 </div>
