@@ -52,7 +52,7 @@ public class ClientController {
 
     @GetMapping(value = "cypher")
     public String listAllCyphers(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
-        model.addAttribute("cypherGameInfos", cypherGameInfoService.getAll());
+        model.addAttribute("cypherGameInfos", cypherGameInfoService.getAllByTeamId(user.getTeam().getTeamId()));
         model.addAttribute("team", user.getTeam());
         return CLIENT_VIEW_CYPHER_LIST;
     }

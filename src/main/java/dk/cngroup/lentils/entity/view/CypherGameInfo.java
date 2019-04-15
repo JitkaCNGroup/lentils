@@ -14,12 +14,12 @@ import javax.persistence.Id;
                 "c.stage as stage, " +
                 "c.name as name, " +
                 "s.cypher_status as status, " +
+                "s.team_team_id as team_id, " +
                 "count(h.hint_id) as count " +
         "FROM cypher c " +
         "LEFT JOIN hint h on h.cypher_id = c.cypher_id " +
         "LEFT JOIN status s on s.cypher_cypher_id = c.cypher_id " +
         "LEFT JOIN hint_taken ht on ht.hint_hint_id = h.hint_id " +
-        "WHERE s.team_team_id = 2 " +
         "GROUP BY c.cypher_id " +
         "ORDER BY c.cypher_id"
 )
@@ -40,6 +40,13 @@ public class CypherGameInfo {
 
     @Column(name = "count")
     private int count;
+
+    @Column(name = "team_id")
+    private Long teamId;
+
+    public Long getTeamId() {
+        return teamId;
+    }
 
     public Long getCypherId() {
         return cypherId;
