@@ -24,15 +24,12 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
 public class ScoreServiceTest {
 
     @InjectMocks
     ScoreService scoreService;
 
-    @Autowired
-    private ObjectGenerator generator;
+    private ObjectGenerator generator = new ObjectGenerator();
 
     @Mock
     private HintTakenService hintTakenService;
@@ -46,75 +43,59 @@ public class ScoreServiceTest {
     private Team team;
     private Cypher cypher;
 
+    @Before
+    public void before() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     public void getScoreForOneCypherSolvedNoHints() {
-
-        when(hintTakenService.getHintScore(team, cypher)).thenReturn (0);
-        when(statusService.getStatusScore(team, cypher)).thenReturn (10);
-
-        assertEquals(10, scoreService.getScoreByTeamAndCypher(team, cypher));
+        getScoreForOneCypher(0, 10, 10);
     }
 
     @Test
     public void getScoreForOneCypherSolvedOneHint() {
-
-        when(hintTakenService.getHintScore(team, cypher)).thenReturn (5);
-        when(statusService.getStatusScore(team, cypher)).thenReturn (10);
-
-        assertEquals(5, scoreService.getScoreByTeamAndCypher(team, cypher));
+        getScoreForOneCypher(5, 10, 5);
     }
 
     @Test
     public void getScoreForOneCypherSolvedMoreHints() {
-
-        when(hintTakenService.getHintScore(team, cypher)).thenReturn (12);
-        when(statusService.getStatusScore(team, cypher)).thenReturn (10);
-
-        assertEquals(-2, scoreService.getScoreByTeamAndCypher(team, cypher));
+        getScoreForOneCypher(12, 10, -2);
     }
 
     @Test
     public void getScoreForOneCypherSkippedNoHint() {
-
-        when(hintTakenService.getHintScore(team, cypher)).thenReturn (0);
-        when(statusService.getStatusScore(team, cypher)).thenReturn (0);
-
-        assertEquals(0, scoreService.getScoreByTeamAndCypher(team, cypher));
+        getScoreForOneCypher(0, 0, 0);
     }
 
     @Test
     public void getScoreForOneCypherSkippedWithHint() {
-
-        when(hintTakenService.getHintScore(team, cypher)).thenReturn (8);
-        when(statusService.getStatusScore(team, cypher)).thenReturn (0);
-
-        assertEquals(-8, scoreService.getScoreByTeamAndCypher(team, cypher));
+        getScoreForOneCypher(8, 0, -8);
     }
 
     @Test
     public void getScoreByTeamWithCyphers() {
-
-        List<Cypher> cyphers = generator.generateCypherList(5);
-        when(cypherService.getAll()).thenReturn (cyphers);
-        when(hintTakenService.getHintScore(any(), any())).thenReturn (3);
-        when(statusService.getStatusScore(any(),any())).thenReturn (10);
-
-        assertEquals(35, scoreService.getScoreByTeam(team));
-    }
+        getScoreByTeam(5, 3, 10, 35);
+   }
 
     @Test
     public void getScoreByTeamNoCyphers() {
-
-        List<Cypher> cyphers = generator.generateCypherList(0);
-        when(cypherService.getAll()).thenReturn (cyphers);
-        when(hintTakenService.getHintScore(any(), any())).thenReturn (3);
-        when(statusService.getStatusScore(any(),any())).thenReturn (10);
-
-        assertEquals(0, scoreService.getScoreByTeam(team));
+        getScoreByTeam(5, 3, 10, 35);
     }
 
-    private Hint createHintWithValue(int value) {
-        return new Hint("abcd", value, cypher);
+    public void getScoreForOneCypher(int hintScore, int statusScore, int expected) {
+        when(hintTakenService.getHintScore(team, cypher)).thenReturn(hintScore);
+        when(statusService.getStatusScore(team, cypher)).thenReturn(statusScore);
+
+        assertEquals(expected, scoreService.getScoreByTeamAndCypher(team, cypher));
     }
 
+    public void getScoreByTeam(int numberOfCyphers, int hintScore, int statusScore, int expected) {
+        List<Cypher> cyphers = generator.generateCypherList(numberOfCyphers);
+        when(cypherService.getAll()).thenReturn(cyphers);
+        when(hintTakenService.getHintScore(any(), any())).thenReturn(hintScore);
+        when(statusService.getStatusScore(any(),any())).thenReturn(statusScore);
+
+        assertEquals(expected, scoreService.getScoreByTeam(team));
+    }
 }

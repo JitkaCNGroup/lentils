@@ -126,8 +126,8 @@ public class StatusServiceTest {
         assertEquals(status.getStatusValue(), returnedValue);
     }
 
+    @Test
     public void getStatusScoreForOneSolvedCyper() {
-
         Status status = generateOneTeamCypherAndStatusRow("SOLVED");
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
 
@@ -136,7 +136,6 @@ public class StatusServiceTest {
 
     @Test
     public void getStatusScoreForOneSkippedCyper() {
-
         Status status = generateOneTeamCypherAndStatusRow("SKIPPED");
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
 
@@ -145,7 +144,6 @@ public class StatusServiceTest {
 
     @Test
     public void getStatusScoreForOnePendingCyper() {
-
         Status status = generateOneTeamCypherAndStatusRow("PENDING");
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
 
@@ -154,7 +152,6 @@ public class StatusServiceTest {
 
     @Test
     public void getStatusScoreForOneLockedCyper() {
-
         Status status = generateOneTeamCypherAndStatusRow("LOCKED");
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(status);
 
