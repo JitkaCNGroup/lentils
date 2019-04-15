@@ -43,7 +43,7 @@ public class ObjectGenerator {
     public Cypher generateCypher() {
         return new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
     }
-
+*/
     public List<Team> generateTeamList() {
         List<Team> teams = new LinkedList<>();
         IntStream.range(0, NUMBER_OF_TEAMS).forEach(i -> {
