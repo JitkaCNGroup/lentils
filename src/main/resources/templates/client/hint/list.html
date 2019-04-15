@@ -50,7 +50,7 @@
 
         <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
             <div th:each="hintTaken : ${hintsTaken}">
-                <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
+                <p th:text="|Nápověda (-${hintTaken.hint.value} b.): ${hintTaken.hint.text}|"></p>
             </div>
         </th:block>
         <th:block th:if="${#lists.isEmpty(hintsTaken)}">
