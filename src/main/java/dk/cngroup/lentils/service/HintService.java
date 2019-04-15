@@ -14,13 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class HintService {
     private HintRepository hintRepository;
-    private HintTakenService hintTakenService;
 
     @Autowired
-    public HintService(final HintRepository hintRepository,
-                       final HintTakenService hintTakenService) {
+    public HintService(final HintRepository hintRepository) {
         this.hintRepository = hintRepository;
-        this.hintTakenService = hintTakenService;
     }
 
     public Hint save(final Hint hint) {

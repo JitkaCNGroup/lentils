@@ -19,7 +19,7 @@ public interface HintRepository extends JpaRepository<Hint, Long> {
             "LEFT JOIN team t " +
             "ON ht.team_team_id = t.team_id " +
             "WHERE ht.hint_hint_id != h.hint_id " +
-            "AND t.team_id =?1 " +
+            "AND t.team_id = ?1 " +
             "GROUP BY h.hint_id",
             nativeQuery = true)
     List<Hint> findAllNotTaken(Long teamId);
