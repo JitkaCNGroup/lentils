@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="cs" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -59,17 +59,21 @@
 
         <h2>Zamknuté nápovědy</h2>
 
+        <th:block th:if="${#lists.isEmpty(hintsNotTaken)}">
+            <p>Žádnou nápovědu už nedostanete.</p>
+        </th:block>
+
         <div th:each="hint : ${hintsNotTaken}">
             <a onclick="return confirm('Opravdu si chcete vzít tuto nápovědu?')">
                 <form th:action="@{'/cypher/takeHint/' + ${hint.hintId}}" th:object="${cypher}" method="post">
-                    <input type="hidden"  th:field="*{cypherId}" >
-                    <input type="hidden"  th:field="*{hints}" >
-                    <input type="hidden"  th:field="*{name}" >
-                    <input type="hidden"  th:field="*{stage}" >
-                    <input type="hidden"  th:field="*{placeDescription}" >
-                    <input type="hidden"  th:field="*{location}" >
-                    <input type="hidden"  th:field="*{codeword}" >
-                    <input type="hidden"  th:field="*{bonusContent}" >
+                    <input type="hidden"  th:field="*{cypherId}" />
+                    <input type="hidden"  th:field="*{hints}" />
+                    <input type="hidden"  th:field="*{name}" />
+                    <input type="hidden"  th:field="*{stage}" />
+                    <input type="hidden"  th:field="*{placeDescription}" />
+                    <input type="hidden"  th:field="*{location}" />
+                    <input type="hidden"  th:field="*{codeword}" />
+                    <input type="hidden"  th:field="*{bonusContent}" />
                     <th:block th:if="${hint.value &lt 5}">
                         <button type="submit" class="btn-white"
                                 th:text="'Získat nápovědu (-' + ${hint.value} + ' body)'"></button>
