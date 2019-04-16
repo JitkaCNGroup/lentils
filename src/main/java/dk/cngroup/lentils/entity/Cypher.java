@@ -29,7 +29,7 @@ public class Cypher implements Serializable {
     @Column(name = "location")
     private Point location;
 
-    @Column(name = "place_description", length = 500)
+    @Column(name = "place_description", length = 1000)
     private String placeDescription;
 
     @Column(name = "codeword")
