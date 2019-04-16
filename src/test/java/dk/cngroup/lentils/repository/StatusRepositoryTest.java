@@ -22,8 +22,6 @@ import static dk.cngroup.lentils.entity.CypherStatus.PENDING;
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
 import static dk.cngroup.lentils.service.ObjectGenerator.*;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @Transactional
