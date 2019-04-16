@@ -10,6 +10,7 @@ import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
+import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,24 +41,28 @@ public class ClientController {
     private HintTakenService hintTakenService;
     private StatusService statusService;
     private CypherGameInfoService cypherGameInfoService;
+    private ScoreService scoreService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
                             final StatusService statusService,
                             final HintService hintService,
                             final HintTakenService hintTakenService,
-                            final CypherGameInfoService cypherGameInfoService) {
+                            final CypherGameInfoService cypherGameInfoService,
+                            final ScoreService scoreService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
         this.cypherGameInfoService = cypherGameInfoService;
+        this.scoreService = scoreService;
     }
 
     @GetMapping(value = "cypher")
     public String listAllCyphers(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
         model.addAttribute("cypherGameInfos", cypherGameInfoService.getAllByTeamId(user.getTeam().getTeamId()));
         model.addAttribute("team", user.getTeam());
+        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         return CLIENT_VIEW_CYPHER_LIST;
     }
 
