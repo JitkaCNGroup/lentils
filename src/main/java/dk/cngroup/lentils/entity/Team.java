@@ -35,7 +35,6 @@ public class Team {
     private String pin;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private User user;
 
     public Team() {
