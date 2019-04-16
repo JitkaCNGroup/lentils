@@ -15,7 +15,7 @@ import javax.persistence.Id;
                 "c.name as name, " +
                 "s.cypher_status as status, " +
                 "s.team_team_id as team_id, " +
-                "count(h.hint_id) as count " +
+                "count(ht.hint_hint_id) as count " +
         "FROM cypher c " +
         "LEFT JOIN hint h on h.cypher_id = c.cypher_id " +
         "LEFT JOIN status s on s.cypher_cypher_id = c.cypher_id " +

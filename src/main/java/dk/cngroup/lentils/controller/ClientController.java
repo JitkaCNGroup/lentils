@@ -79,8 +79,13 @@ public class ClientController {
     }
 
     @GetMapping(value = "hint")
-    public String listAllAvailableHintsForCypher(final Cypher cypher, final Model model) {
+    public String hintDetail(@AuthenticationPrincipal final CustomUserDetails user,
+                            final Cypher cypher,
+                            final Model model) {
+        model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
+        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute("hintsNotTaken", hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
         return CLIENT_VIEW_HINT_LIST;
     }
 
