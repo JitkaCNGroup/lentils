@@ -60,20 +60,18 @@ public class HintRepositoryIntegrationTest {
         Hint hint8 = hintRepository.save(new Hint("h", 5, cypher3));
         Hint hint9 = hintRepository.save(new Hint("i", 5, cypher3));
 
-        hintTakenRepository.save(new HintTaken(team1, hint1));
+        saveHintsTaken(team1, hint1);
+        saveHintsTaken(team1, hint4);
+        saveHintsTaken(team1, hint5);
+        saveHintsTaken(team1, hint7);
+        saveHintsTaken(team1, hint8);
+        saveHintsTaken(team1, hint9);
 
-        hintTakenRepository.save(new HintTaken(team1, hint4));
-        hintTakenRepository.save(new HintTaken(team1, hint5));
+        saveHintsTaken(team2, hint1);
+        saveHintsTaken(team2, hint4);
+        saveHintsTaken(team2, hint7);
 
-        hintTakenRepository.save(new HintTaken(team1, hint7));
-        hintTakenRepository.save(new HintTaken(team1, hint8));
-        hintTakenRepository.save(new HintTaken(team1, hint9));
-
-        hintTakenRepository.save(new HintTaken(team2, hint1));
-        hintTakenRepository.save(new HintTaken(team2, hint4));
-        hintTakenRepository.save(new HintTaken(team2, hint7));
-
-        hintTakenRepository.save(new HintTaken(team3, hint1));
+        saveHintsTaken(team3, hint1);
 
         List<Hint> notTakenHintsCypher1Team1 = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(),
                 cypher1.getCypherId());
@@ -99,5 +97,9 @@ public class HintRepositoryIntegrationTest {
         assertEquals(9, hintRepository.findAll().size());
         assertEquals(10, hintTakenRepository.findAll().size());
         assertEquals(6, hintTakenRepository.findByTeam(team1).size());
+    }
+
+    public void saveHintsTaken(Team team, Hint hint) {
+        hintTakenRepository.save(new HintTaken(team, hint));
     }
 }
