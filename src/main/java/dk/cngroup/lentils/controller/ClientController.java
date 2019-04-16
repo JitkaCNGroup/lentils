@@ -77,8 +77,17 @@ public class ClientController {
             model.addAttribute("gameStarted", false);
         }
         model.addAttribute("team", user.getTeam());
-        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         return CLIENT_VIEW_CYPHER_LIST;
+    }
+
+    @GetMapping(value = "cypher/startGame")
+    public String initializeGame(@AuthenticationPrincipal final CustomUserDetails user) {
+        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
+        cyphers.forEach(cypher -> {
+            statusService.initializeStatusForTeamAndCypher(cypher, user.getTeam());
+        });
+        statusService.markCypher(cyphers.get(0), user.getTeam(), CypherStatus.PENDING);
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL;
     }
 
     @GetMapping(value = "cypher/{id}")

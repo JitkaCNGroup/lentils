@@ -14,4 +14,5 @@ public interface StatusRepository extends JpaRepository<Status, StatusKey> {
     List<Status> findAllByCypher(Cypher cypher);
     Status findByTeamAndCypher(Team team, Cypher cypher);
     List<Status> findByTeam(Team team);
+    Boolean existsStatusByCypherAndTeam(Cypher cypher, Team team);
 }
