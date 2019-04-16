@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.service;
+package dk.cngroup.lentils.repository;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
@@ -6,10 +6,7 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.repository.CypherRepository;
-import dk.cngroup.lentils.repository.HintRepository;
-import dk.cngroup.lentils.repository.HintTakenRepository;
-import dk.cngroup.lentils.repository.TeamRepository;
+import dk.cngroup.lentils.service.ObjectGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
