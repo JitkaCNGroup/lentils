@@ -4,11 +4,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
 
@@ -17,10 +17,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbarRed" >
-        <div class="navbarContentCentered">
-            <p class="bold floatLeft" th:text="${team.name}"></p>
-            <p class="floatLeft">Body:xx b</p>
+    <nav class="navbar navbar-default navbar-red" >
+        <div class="navbar-content">
+            <p class="team-name" th:text="${team.name}"></p>
+            <p>Body:xx b</p>
         </div>
 
         <button id="navbarButton" class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
@@ -63,7 +63,7 @@
                                 <!--<label for="guess">Řešení</label>-->
                                 <input id="guess" type="text" th:field="*{guess}" class="form-control" >
                                 <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
-                                <button class="btn btn-primary" type ="btn btn-primary">Ověřit</button>
+                                <button class="btn btn-white" type ="btn btn-primary">Ověřit</button>
                             </div>
                         </form>
                     </th:block>
@@ -71,10 +71,13 @@
                     <th:block th:case="'SKIPPED'">
                         <div class="alert alert-danger" role="alert">
                             Tuto šifru jste přeskočili
-                            <th:block th:if="${nextCypher}">
-                                <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
-                                   role="button">Zobrazit další šifru </button></a>
-                            </th:block>
+                        </div>
+
+                        <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
+                        <div th:if="${nextCypher}">
+                            <h2>Kam dál?</h2>
+                            <a class="btn btn-white" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
+                               role="button">Zobrazit další šifru </button></a>
                         </div>
                     </th:block>
 
@@ -86,13 +89,13 @@
                         <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
                         <div th:if="${nextCypher}">
                             <h2>Kam dál?</h2>
-                            <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
+                            <a class="btn btn-white" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
                                role="button">Zobrazit další šifru </button></a>
                         </div>
 
                         <div id="bonusInfo" th:text="${cypher.bonusContent}" class="alert alert-light" role="alert">
                             <a id="bonusButton">
-                                <button class="btn btn-secondary" onclick="showBonus()"> Zobrazit bonusové informace </button>
+                                <button class="btn btn-white" onclick="showBonus()"> Zobrazit bonusové informace </button>
                             </a>
                         </div>
                     </th:block>
@@ -106,7 +109,7 @@
                 <p th:text="${'GPRS: ' + cypher.location.y + ' ' + cypher.location.x}"></p>
                 <p th:text="${cypher.placeDescription}"></p>
                 <div id="map" style='width: 100%; height: 150px;'></div>
-                <button href="#" class="btn btn-secondary" type="submit">Zobrazit na mapě</button>
+                <button href="#" class="btn btn-white" type="submit">Zobrazit na mapě</button>
             </div>
         </div>
 
