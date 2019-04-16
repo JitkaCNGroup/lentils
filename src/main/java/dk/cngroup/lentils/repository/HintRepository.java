@@ -13,7 +13,7 @@ public interface HintRepository extends JpaRepository<Hint, Long> {
     List<Hint> findByCypher(Cypher cypher);
     void deleteByCypher(Cypher cypher);
 
-    @Query(value = "SELECT h.* FROM hint h " +
+    @Query(value = "SELECT DISTINCT h.* FROM hint h " +
             "LEFT JOIN hint_taken ht ON ht.hint_hint_id = h.hint_id " +
             "WHERE (ht.hint_hint_id IS NULL OR ht.team_team_id <> ?1) AND h.cypher_id = ?2",
     nativeQuery = true)
