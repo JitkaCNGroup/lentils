@@ -7,6 +7,7 @@ import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.service.ObjectGenerator;
+import dk.cngroup.lentils.service.StatusService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import static dk.cngroup.lentils.entity.CypherStatus.PENDING;
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
 import static dk.cngroup.lentils.service.ObjectGenerator.*;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -40,6 +43,9 @@ public class StatusRepositoryTest {
 
     @Autowired
     ObjectGenerator generator;
+
+    @Autowired
+    StatusService statusService;
 
     @Test
     public void findAllZeroTest() {
@@ -97,6 +103,17 @@ public class StatusRepositoryTest {
         Status status1 = repository.save(status);
 
         assertEquals(SOLVED, status1.getCypherStatus());
+    }
+
+    @Test
+    public void initializeStatusForTeamAndCypher() {
+        Team team = generator.generateNewTeam();
+        teamRepository.save(team);
+        Cypher cypher = generator.generateNewCypher();
+        cypherRepository.save(cypher);
+        statusService.initializeStatusForTeamAndCypher(cypher, team);
+
+        assertEquals("LOCKED", statusService.getStatusNameByTeamAndCypher(team, cypher));
     }
 
     private void fillTable() {
