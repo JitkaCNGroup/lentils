@@ -2,14 +2,13 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
-import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
-import dk.cngroup.lentils.service.FinalPlaceService;
+import dk.cngroup.lentils.service.GameLogicService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/")
@@ -45,7 +43,7 @@ public class ClientController {
     private final StatusService statusService;
     private final CypherGameInfoService cypherGameInfoService;
     private final ScoreService scoreService;
-    private final FinalPlaceService finalPlaceService;
+    private final GameLogicService gameLogicService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
@@ -54,14 +52,14 @@ public class ClientController {
                             final HintTakenService hintTakenService,
                             final CypherGameInfoService cypherGameInfoService,
                             final ScoreService scoreService,
-                            final FinalPlaceService finalPlaceService) {
+                            final GameLogicService gameLogicService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
-        this.finalPlaceService = finalPlaceService;
+        this.gameLogicService = gameLogicService;
     }
 
     @GetMapping(value = "cypher")
@@ -87,8 +85,8 @@ public class ClientController {
 
     @GetMapping(value = "hint")
     public String hintDetail(@AuthenticationPrincipal final CustomUserDetails user,
-                            final Cypher cypher,
-                            final Model model) {
+                             final Cypher cypher,
+                             final Model model) {
         model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
@@ -105,8 +103,7 @@ public class ClientController {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
 
-        final FinalPlace finalPlace = finalPlaceService.getFinalPlace();
-        if (finalPlace.getOpeningTime() == null || finalPlace.getOpeningTime().isBefore(LocalDateTime.now())) {
+        if (!gameLogicService.isGameInProgress()) {
             FieldError error = new FieldError("codeword", "guess", "Hra již byla ukončena");
             result.addError(error);
 
