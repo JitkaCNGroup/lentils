@@ -16,7 +16,7 @@ import javax.validation.Valid;
 public class HintController {
     private static final String VIEW_HINT_LIST = "hint/list";
     private static final String VIEW_HINT = "hint/detail";
-    private static final String REDIRECT_HINT_LIST = "redirect:/admin/hint/list";
+    private static final String REDIRECT_HINT_LIST = "redirect:/admin/hint";
 
     private CypherService cypherService;
     private HintService hintService;
@@ -27,7 +27,7 @@ public class HintController {
         this.hintService = hintService;
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "")
     public String hints(@RequestParam("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
@@ -50,7 +50,7 @@ public class HintController {
         return VIEW_HINT;
     }
 
-    @GetMapping(value = "/new")
+    @GetMapping(value = "/add")
     public String newHint(@RequestParam("cypherId") final Long cypherId, final Model model) {
         Hint hint = cypherService.addHint(cypherId);
         model.addAttribute("heading", "Nový hint");
@@ -58,7 +58,7 @@ public class HintController {
         return VIEW_HINT;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/add")
     public String save(@Valid final Hint hint) {
         Hint hint1 = hintService.save(hint);
         return REDIRECT_HINT_LIST + "?cypherId=" + hint1.getCypherId();
