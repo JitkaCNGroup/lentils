@@ -61,8 +61,12 @@ public class StatusService {
         Status status = new Status();
         status.setCypher(cypher);
         status.setTeam(team);
-        status.setCypherStatus(null);
+        status.setCypherStatus(CypherStatus.LOCKED);
         statusRepository.save(status);
+    }
+
+    public Boolean isStatusInDbByCypherAndTeam(final Cypher cypher, final Team team) {
+        return statusRepository.existsStatusByCypherAndTeam(cypher, team);
     }
 
     public List<Status> getAllByCypher(final Cypher cypher) {

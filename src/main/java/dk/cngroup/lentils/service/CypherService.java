@@ -70,6 +70,10 @@ public class CypherService {
         return cypherRepository.findAll();
     }
 
+    public List<Cypher> getAllCyphersOrderByStageAsc() {
+        return cypherRepository.findAllByOrderByStageAsc();
+    }
+
     public int getScore(final Cypher cypher, final Team team) {
         int statusScore = statusService.getStatusScore(team, cypher);
         int hintScore = hintTakenService.getHintScore(team, cypher);

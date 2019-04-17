@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -66,11 +67,27 @@ public class ClientController {
     }
 
     @GetMapping(value = "cypher")
-    public String listAllCyphers(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
-        model.addAttribute("cypherGameInfos", cypherGameInfoService.getAllByTeamId(user.getTeam().getTeamId()));
+    public String clientWelcomePage(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
+        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
+        if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
+            model.addAttribute("gameStarted", true);
+            model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
+            model.addAttribute("cypherGameInfos", cypherGameInfoService.getAllByTeamId(user.getTeam().getTeamId()));
+        } else {
+            model.addAttribute("gameStarted", false);
+        }
         model.addAttribute("team", user.getTeam());
-        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         return CLIENT_VIEW_CYPHER_LIST;
+    }
+
+    @GetMapping(value = "cypher/startGame")
+    public String initializeGame(@AuthenticationPrincipal final CustomUserDetails user) {
+        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
+        cyphers.forEach(cypher -> {
+            statusService.initializeStatusForTeamAndCypher(cypher, user.getTeam());
+        });
+        statusService.markCypher(cyphers.get(0), user.getTeam(), CypherStatus.PENDING);
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL;
     }
 
     @GetMapping(value = "cypher/{id}")
