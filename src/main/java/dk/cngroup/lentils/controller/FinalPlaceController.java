@@ -31,7 +31,7 @@ public class FinalPlaceController {
         return VIEW_FINALPLACE_FORM;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/update")
     public String saveFinalPlace(@Valid final FinalPlace finalPlace, final Model model) {
         finalPlaceService.save(finalPlace);
         return REDIRECT_FINALPLACE_FORM;
