@@ -2,6 +2,7 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
