@@ -1,10 +1,14 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScoreService {
@@ -12,14 +16,17 @@ public class ScoreService {
     private final StatusService statusService;
     private final HintTakenService hintTakenService;
     private final CypherService cypherService;
+    private final TeamService teamService;
 
     @Autowired
     public ScoreService(final StatusService statusService,
                         final HintTakenService hintTakenService,
-                        final CypherService cypherService) {
+                        final CypherService cypherService,
+                        final TeamService teamService) {
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
         this.cypherService = cypherService;
+        this.teamService = teamService;
     }
 
     public int getScoreByTeamAndCypher(final Team team, final Cypher cypher) {
@@ -36,4 +43,13 @@ public class ScoreService {
         }
         return teamScore;
     }
+    public Map<Long, Integer> getAllTeamsWithScores() {
+        List<Team> teams = teamService.getAll();
+        Map<Long, Integer> teamsScores = new HashMap<>();
+        teams.forEach(team -> {
+            teamsScores.put(team.getTeamId(), this.getScoreByTeam(team));
+        });
+        return teamsScores;
+    }
+
 }

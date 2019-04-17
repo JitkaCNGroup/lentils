@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cz"
+      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Progress</title>
+</head>
+
+<body>
+<div class="container">
+    <h2>Šifry</h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Jméno</th>
+                <th>Pořadí</th>
+                <th>Souřadnice</th>
+                <th>Akce</th>
+            </tr>
+            <tr th:if="${teams.empty}">
+                <td colspan="4"><p> V systému nejsou týmy</p></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="team : ${teams}">
+                <td th:text="${team.name}" align="center">Jmeno</td>
+                <td th:text="${teamsStatuses.get(team.teamId)}" align="center">Score</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form action="/logout" method="post">
+        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+        <button type="submit">Odhlásit</button>
+    </form>
+</div>
+</body>
+</html>
+
