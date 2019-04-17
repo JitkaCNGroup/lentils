@@ -22,6 +22,7 @@ import org.springframework.validation.FieldError;
 
 import java.time.LocalDateTime;
 
+import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -109,7 +110,7 @@ public class ClientControllerIntegrationTest {
 
         verify(result).addError(argument.capture());
         assertEquals("guess", argument.getValue().getField());
-        assertEquals("Hra již byla ukončena", argument.getValue().getDefaultMessage());
+        assertEquals(GAME_ENDED_ERROR_MSG, argument.getValue().getDefaultMessage());
         AssertionUtils.assertValueIsNotRedirection(returnValue);
     }
 

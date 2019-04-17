@@ -30,12 +30,15 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class ClientController {
 
+    public static final String GAME_ENDED_ERROR_MSG = "Hra již byla ukončena";
     private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
     private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
     private static final String CLIENT_TRAP_SCREEN = "client/cypher/trap";
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
     private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game";
+    private static final String FORM_OBJECT_NAME = "codeword";
+    private static final String GUESS_FIELD_NAME = "guess";
 
     private final CypherService cypherService;
     private final HintService hintService;
@@ -104,7 +107,7 @@ public class ClientController {
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
-            FieldError error = new FieldError("codeword", "guess", "Hra již byla ukončena");
+            FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
             result.addError(error);
 
             setDetailModeAttributes(model, user, cypher, status, codeword);
@@ -122,7 +125,10 @@ public class ClientController {
             return REDIRECT_TO_TRAP_SCREEN;
         }
 
-        FieldError error = new FieldError("codeword", "guess", "Špatné řešení, zkuste se víc zamyslet :-)");
+        FieldError error = new FieldError(
+                FORM_OBJECT_NAME,
+                GUESS_FIELD_NAME,
+                "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
         setDetailModeAttributes(model, user, cypher, status, codeword);
 
