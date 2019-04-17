@@ -47,7 +47,7 @@ public class CypherService {
     }
 
     public boolean checkTrapCodeword(final Cypher cypher, final String codeword) {
-        if (cypher.getTrapCodeword().isEmpty()) {
+        if (cypher.getTrapCodeword() != null && cypher.getTrapCodeword().isEmpty()) {
             return false;
         }
 

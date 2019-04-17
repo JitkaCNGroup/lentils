@@ -1,7 +1,8 @@
 # U-01: Enter solution
 **Actor:** Player
 
-**Preconditions:** -
+**Preconditions:**
+- Game is not ended
 
 **Postconditions:**
 

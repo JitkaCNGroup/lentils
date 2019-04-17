@@ -8,6 +8,7 @@ import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.GameLogicService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
@@ -29,19 +30,23 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class ClientController {
 
+    public static final String GAME_ENDED_ERROR_MSG = "Hra již byla ukončena";
     private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
     private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
     private static final String CLIENT_TRAP_SCREEN = "client/cypher/trap";
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
     private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game";
+    private static final String FORM_OBJECT_NAME = "codeword";
+    private static final String GUESS_FIELD_NAME = "guess";
 
-    private CypherService cypherService;
-    private HintService hintService;
-    private HintTakenService hintTakenService;
-    private StatusService statusService;
-    private CypherGameInfoService cypherGameInfoService;
-    private ScoreService scoreService;
+    private final CypherService cypherService;
+    private final HintService hintService;
+    private final HintTakenService hintTakenService;
+    private final StatusService statusService;
+    private final CypherGameInfoService cypherGameInfoService;
+    private final ScoreService scoreService;
+    private final GameLogicService gameLogicService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
@@ -49,13 +54,15 @@ public class ClientController {
                             final HintService hintService,
                             final HintTakenService hintTakenService,
                             final CypherGameInfoService cypherGameInfoService,
-                            final ScoreService scoreService) {
+                            final ScoreService scoreService,
+                            final GameLogicService gameLogicService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
+        this.gameLogicService = gameLogicService;
     }
 
     @GetMapping(value = "cypher")
@@ -72,21 +79,17 @@ public class ClientController {
                                final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status);
-        model.addAttribute("hintsTaken",
-                hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
+
         Codeword codeword = new Codeword();
-        model.addAttribute("codeword", codeword);
+        setDetailModeAttributes(model, user, cypher, status, codeword);
+
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
     @GetMapping(value = "hint")
     public String hintDetail(@AuthenticationPrincipal final CustomUserDetails user,
-                            final Cypher cypher,
-                            final Model model) {
+                             final Cypher cypher,
+                             final Model model) {
         model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
@@ -101,6 +104,16 @@ public class ClientController {
                                  final BindingResult result,
                                  final Model model) {
         Cypher cypher = cypherService.getCypher(id);
+        String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
+
+        if (!gameLogicService.isGameInProgress()) {
+            FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
+            result.addError(error);
+
+            setDetailModeAttributes(model, user, cypher, status, codeword);
+            return CLIENT_VIEW_CYPHER_DETAIL;
+        }
+
         if (cypherService.checkCodeword(cypher, codeword.getGuess())) {
             statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
                     user.getTeam(),
@@ -112,16 +125,13 @@ public class ClientController {
             return REDIRECT_TO_TRAP_SCREEN;
         }
 
-        FieldError error = new FieldError("codeword", "guess", "Špatné řešení, zkuste se víc zamyslet :-)");
+        FieldError error = new FieldError(
+                FORM_OBJECT_NAME,
+                GUESS_FIELD_NAME,
+                "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
-        String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status);
-        model.addAttribute("hintsTaken",
-                hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
-        model.addAttribute("codeword", codeword);
+        setDetailModeAttributes(model, user, cypher, status, codeword);
+
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
@@ -150,5 +160,19 @@ public class ClientController {
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypherService.getNext(cypher.getStage()).getCypherId();
         }
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
+    }
+
+    private void setDetailModeAttributes(
+            final Model model,
+            final CustomUserDetails user,
+            final Cypher cypher,
+            final String status,
+            final Codeword codeword) {
+        model.addAttribute("team", user.getTeam());
+        model.addAttribute("cypher", cypher);
+        model.addAttribute("status", status);
+        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
+        model.addAttribute("codeword", codeword);
     }
 }
