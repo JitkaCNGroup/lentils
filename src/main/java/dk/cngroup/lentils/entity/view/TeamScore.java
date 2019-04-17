@@ -6,7 +6,7 @@ public class TeamScore implements Comparable {
     private final Team team;
     private final int score;
 
-    public TeamScore(Team team, int score) {
+    public TeamScore(final Team team, final int score) {
         this.team = team;
         this.score = score;
     }
@@ -20,7 +20,7 @@ public class TeamScore implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(final Object o) {
         int compareScore = ((TeamScore) o).getScore();
         return compareScore - this.score;
     }

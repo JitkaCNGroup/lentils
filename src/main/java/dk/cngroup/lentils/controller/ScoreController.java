@@ -1,16 +1,16 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.CypherStatus;
-import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.factory.CypherStatusFactory;
-import dk.cngroup.lentils.service.*;
+import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.HintService;
+import dk.cngroup.lentils.service.HintTakenService;
+import dk.cngroup.lentils.service.ProgressService;
+import dk.cngroup.lentils.service.ScoreService;
+import dk.cngroup.lentils.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/game/score")
@@ -44,12 +44,7 @@ public class ScoreController {
 
     @GetMapping
     public String listScore(final Model model) {
-        model.addAttribute("teamsAndScores", scoreService.getAllTeamsWithScores());
+        model.addAttribute("teamsWithScores", scoreService.getAllTeamsWithScores());
         return SCORE_LIST;
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleError() {
-        return ERROR;
     }
 }
