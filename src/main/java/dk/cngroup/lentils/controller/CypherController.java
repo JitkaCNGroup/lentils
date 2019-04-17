@@ -35,7 +35,7 @@ public class CypherController {
         return VIEW_CYPHER_LIST;
     }
 
-    @GetMapping(value = "/new")
+    @GetMapping(value = "/add")
     public String newCypher(final Model model) {
         Cypher cypher = new Cypher();
         model.addAttribute("heading", "Nová šifra");
@@ -51,7 +51,7 @@ public class CypherController {
         return VIEW_CYPHER_DETAIL;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/add")
     public String saveCypher(@Valid final Cypher cypher, final Model model) {
         cypherService.save(cypher);
         return REDIRECT_CYPHER_LIST;
