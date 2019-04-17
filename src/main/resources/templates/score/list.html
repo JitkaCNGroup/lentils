@@ -12,27 +12,39 @@
 
 <body>
 <div class="container">
-    <h2>Šifry</h2>
+    <h2>Pořadí týmů podle score</h2>
     <div class="table-responsive">
         <table class="table" border="1">
             <thead>
             <tr>
-                <th>Jméno</th>
-                <th>Pořadí</th>
-                <th>Souřadnice</th>
+                <th>Id týmu</th>
+                <th>Jméno týmu</th>
+                <th>Score</th>
                 <th>Akce</th>
             </tr>
-            <tr th:if="${teams.empty}">
+            <tr th:if="${teamsAndScores.empty}">
                 <td colspan="4"><p> V systému nejsou týmy</p></td>
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="team : ${teams}">
-                <td th:text="${team.name}" align="center">Jmeno</td>
-                <td th:text="${teamsStatuses.get(team.teamId)}" align="center">Score</td>
+            <th:block th:each="teamAndScore : ${teamsAndScores}">
+                <tr>
+                    <td th:text="${teamAndScore.team.teamId}" align="center">1</td>
+                    <td th:text="${teamAndScore.team.name}" align="center">Borci</td>
+                    <td align="center">
 
-            </tr>
-            </tbody>
+                        <span th:if="${teamAndScore.team.teamId != null}"
+                              th:text="${teamAndScore.score}">
+                        </span>
+
+                    </td>
+                    <td align="center">
+                        <a href="#"
+                           class="btn btn-default btn-lg" th:href="@{/game/score/team(teamId=${teamAndScore.team.teamId})}">
+                            Detail score
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
         </table>
     </div>
     <form action="/logout" method="post">

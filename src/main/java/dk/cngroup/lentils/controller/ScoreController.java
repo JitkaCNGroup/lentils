@@ -44,11 +44,9 @@ public class ScoreController {
 
     @GetMapping
     public String listScore(final Model model) {
-        model.addAttribute("teams", teamService.getAll());
-        model.addAttribute("teamsScores", scoreService.getAllTeamsWithScores());
+        model.addAttribute("teamsAndScores", scoreService.getAllTeamsWithScores());
         return SCORE_LIST;
     }
-    
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleError() {
