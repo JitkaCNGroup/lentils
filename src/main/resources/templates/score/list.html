@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="cz"
+      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Progress</title>
+</head>
+
+<body>
+<div class="container">
+    <h2>Pořadí týmů podle score</h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <tr>
+                <th>Id týmu</th>
+                <th>Jméno týmu</th>
+                <th>Score</th>
+                <th>Akce</th>
+            </tr>
+            <tr th:if="${teamsWithScores.empty}">
+                <td colspan="4"><p> V systému nejsou týmy</p></td>
+            </tr>
+            </thead>
+            <th:block th:each="teamWithScore : ${teamsWithScores}">
+                <tr>
+                    <td th:text="${teamWithScore.team.teamId}" align="center">1</td>
+                    <td th:text="${teamWithScore.team.name}" align="center">Borci</td>
+                    <td align="center">
+
+                        <span th:if="${teamWithScore.team.teamId != null}"
+                              th:text="${teamWithScore.score}">
+                        </span>
+
+                    </td>
+                    <td align="center">
+                        <a href="#"
+                           class="btn btn-default btn-lg" th:href="@{/game/score/team(teamId=${teamWithScore.team.teamId})}">
+                            Detail score
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+    <form action="/logout" method="post">
+        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+        <button type="submit">Odhlásit</button>
+    </form>
+</div>
+</body>
+</html>
+
