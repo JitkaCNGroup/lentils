@@ -107,10 +107,11 @@ public class ClientController {
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
-    @GetMapping(value = "hint")
-    public String hintDetail(@AuthenticationPrincipal final CustomUserDetails user,
-                             final Cypher cypher,
+    @GetMapping(value = "cypher/{id}/hint")
+    public String hintDetail(@PathVariable("id") final Long id,
+                             @AuthenticationPrincipal final CustomUserDetails user,
                              final Model model) {
+        Cypher cypher = cypherService.getCypher(id);
         model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));

@@ -121,11 +121,9 @@
                             <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
                         </div>
                     </th:block>
-
-                    <form action="/hint" th:object="${cypher}">
-                        <input type="hidden"  th:field="*{cypherId}" >
-                        <button type="submit" class="btn btn-white">Získat nápovědu</button>
-                    </form>
+                    <a href="#" th:href="|/cypher/${cypher.cypherId}/hint|">
+                        <button class="btn btn-white">Získat nápovědu</button>
+                    </a>
                     <br/>
                 </div>
             </div>
