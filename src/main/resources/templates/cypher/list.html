@@ -43,7 +43,7 @@
                 <td th:text="${cypher.location}">X, Y</td>
                 <td th:text="${cypher.codeword}">codove slovo</td>
                 <td align="center">
-                    <a href="#" th:href="@{/admin/hint/list(cypherId=${cypher.cypherId})}">Detail</a> |
+                    <a href="#" th:href="@{/admin/hint(cypherId=${cypher.cypherId})}">Detail</a> |
                     <a href="#" th:href="@{/admin/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}">Upravit</a> |
                     <a href="#" th:href="@{/admin/cypher/delete/{cypherId}(cypherId=${cypher.cypherId})}">Smazat</a>
                 </td>
