@@ -19,7 +19,7 @@
 <div th:insert="fragments/header :: header(finalplace)"></div>
 <div class="container">
     <h2>Místo ukončení</h2>
-    <form action="#" th:action="@{/admin/finalplace/save}" th:object="${finalplace}" method="post">
+    <form action="#" th:action="@{/admin/finalplace/update}" th:object="${finalplace}" method="post">
         <div class="table-responsive">
             <table class="table" style="font-size: 18px">
                 <tr>
