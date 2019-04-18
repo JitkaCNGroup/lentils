@@ -24,7 +24,7 @@ public class CypherGameInfoService {
     }
 
     public List<CypherGameInfo> getAllByTeamIdAndStatusIsNotLocked(final Long teamId) {
-        int statusLocked = CypherStatus.valueOf("LOCKED").ordinal();
+        int statusLocked = CypherStatus.LOCKED.ordinal();
         return cypherGameInfoRepository.findAllByTeamId(teamId).stream()
                 .filter(cypherGameInfo -> cypherGameInfo.getStatus() != statusLocked)
                 .collect(Collectors.toList());
