@@ -37,9 +37,9 @@ public class HintRepositoryIntegrationTest {
 
     @Test
     public void findHintsNotTakenByTeamWhileOtherTeamsAlsoTakingHintsTest() {
-        Team team1 = teamRepository.save(new Team(1L, "prvni", 4, "1111"));
-        Team team2 = teamRepository.save(new Team(2L, "druhy", 4, "2222"));
-        Team team3 = teamRepository.save(new Team(3L, "treti", 4, "3333"));
+        Team team1 = teamRepository.save(new Team("prvni", 4, "1111"));
+        Team team2 = teamRepository.save(new Team("druhy", 4, "2222"));
+        Team team3 = teamRepository.save(new Team("treti", 4, "3333"));
 
         Cypher cypher1 = cypherRepository.save(new Cypher(1));
         Cypher cypher2 = cypherRepository.save(new Cypher(2));

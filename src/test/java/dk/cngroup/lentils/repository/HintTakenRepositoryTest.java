@@ -63,7 +63,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileOneHintTakenTest() {
-        Team team = teamService.save(new Team(99L, "dgdf", 4, "dsdd"));
+        Team team = teamService.save(new Team("dgdf", 4, "dsdd"));
         Cypher cypher = cypherService.save(new Cypher(TESTED_STAGE));
         createAndSaveHintTaken(team, new Hint("d", 5, cypher));
         assertEquals(1, hintTakenRepository.count());
@@ -72,7 +72,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileFourHintsTakenTest() {
-        Team team = teamService.save(new Team(99L, "aaa", 4, "eeee"));
+        Team team = teamService.save(new Team("aaa", 4, "eeee"));
         Cypher cypher1 = cypherService.save(new Cypher(TESTED_STAGE));
         Cypher cypher2 = cypherService.save(new Cypher());
         createAndSaveHintTaken(team, new Hint("a", 4, cypher1));
@@ -85,8 +85,8 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileSavingToAnotherTeamTest() {
-        Team team1 = teamService.save(new Team(99L, "aaaa", 4, "eeee"));
-        Team team2 = teamService.save(new Team(11L, "bbbbb", 6, "ccccc"));
+        Team team1 = teamService.save(new Team("aaaa", 4, "eeee"));
+        Team team2 = teamService.save(new Team("bbbbb", 6, "ccccc"));
         Cypher cypher1 = cypherService.save(new Cypher(TESTED_STAGE));
         Cypher cypher2 = cypherService.save(new Cypher());
         createAndSaveHintTaken(team1, new Hint("a", 4, cypher1));
