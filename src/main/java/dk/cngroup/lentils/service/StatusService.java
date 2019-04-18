@@ -42,9 +42,8 @@ public class StatusService {
         return status;
     }
 
-    public String getStatusNameByTeamAndCypher(final Team team, final Cypher cypher) {
-        Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        return status.getCypherStatus().name();
+    public Status getStatusByTeamAndCypher(final Team team, final Cypher cypher) {
+        return statusRepository.findByTeamAndCypher(team, cypher);
     }
 
     public CypherStatus getCypherStatusByTeamAndCypher(final Team team, final Cypher cypher) {
