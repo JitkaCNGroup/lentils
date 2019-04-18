@@ -2,6 +2,7 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
@@ -38,6 +39,6 @@ public class StatusServiceIntegrationTest {
         cypherRepository.save(cypher);
         statusService.initializeStatusForTeamAndCypher(cypher, team);
 
-        assertEquals("LOCKED", statusService.getStatusNameByTeamAndCypher(team, cypher));
+        assertEquals(CypherStatus.LOCKED, statusService.getStatusByTeamAndCypher(team, cypher).getCypherStatus());
     }
 }
