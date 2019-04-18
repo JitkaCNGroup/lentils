@@ -29,7 +29,7 @@ public class Cypher implements Serializable {
     @Column(name = "location")
     private Point location;
 
-    @Column(name = "place_description")
+    @Column(name = "place_description", length = 1000)
     private String placeDescription;
 
     @Column(name = "codeword")
@@ -38,7 +38,7 @@ public class Cypher implements Serializable {
     @Column(name = "trap_codeword")
     private String trapCodeword;
 
-    @Column(name = "bonus_content")
+    @Column(name = "bonus_content", length = 1000)
     private String bonusContent;
 
     public Cypher() {
