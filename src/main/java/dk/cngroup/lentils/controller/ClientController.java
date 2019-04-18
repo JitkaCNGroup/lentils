@@ -5,6 +5,7 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
@@ -72,7 +73,8 @@ public class ClientController {
         if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
             model.addAttribute("gameStarted", true);
             model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
-            model.addAttribute("cypherGameInfos", cypherGameInfoService.getAllByTeamId(user.getTeam().getTeamId()));
+            model.addAttribute("cypherGameInfos",
+                    cypherGameInfoService.getAllByTeamIdAndStatusIsNotLocked(user.getTeam().getTeamId()));
         } else {
             model.addAttribute("gameStarted", false);
         }
@@ -96,7 +98,9 @@ public class ClientController {
                                final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
-
+        if (status.equals("LOCKED")) {
+            throw new ResourceNotFoundException("locked cypher", id);
+        }
         Codeword codeword = new Codeword();
         setDetailModeAttributes(model, user, cypher, status, codeword);
 

@@ -47,28 +47,26 @@
 <div class="bodyContent" th:if="${gameStarted == true}">
     <h2  class="botMargin10">Sifry</h2>
     <div th:each="cypherGameInfo : ${cypherGameInfos}" class="hoverColor border-bottom p-10">
-        <div th:unless="${cypherGameInfo.getStatus() == 3}">
-            <div class="row pb-3 pt-3">
-                <div th:text="|${cypherGameInfo.getStage()}. ${cypherGameInfo.getName()}|" class="col">
-                </div>
-                <div th:unless="${cypherGameInfo.getCount() == 0}" class="col">
-                    <a href="#" class="float-right">
-                        <i class="far fa-lightbulb"></i>
-                    </a>
-                    <p class="float-right" th:text="${cypherGameInfo.getCount()} + 'x '"></p>
-                </div>
-                <th:block th:switch="${cypherGameInfo.getStatus()}">
-                    <div th:case="0" class="col-1">
-                        <i class="far fa-check-circle float-right"></i>
-                    </div>
-                    <div th:case="1" class="col-1">
-                        <i class="far fa-times-circle float-right"></i>
-                    </div>
-                    <div th:case="2" class="col-1">
-                        <i class="fas fa-spinner float-right"></i>
-                    </div>
-                </th:block>
+        <div class="row pb-3 pt-3">
+            <div th:text="|${cypherGameInfo.getStage()}. ${cypherGameInfo.getName()}|" class="col">
             </div>
+            <div th:unless="${cypherGameInfo.getCount() == 0}" class="col">
+                <a href="#" class="float-right">
+                    <i class="far fa-lightbulb"></i>
+                </a>
+                <p class="float-right" th:text="${cypherGameInfo.getCount()} + 'x '"></p>
+            </div>
+            <th:block th:switch="${cypherGameInfo.getStatus()}">
+                <div th:case="0" class="col-1">
+                    <i class="far fa-check-circle float-right"></i>
+                </div>
+                <div th:case="1" class="col-1">
+                    <i class="far fa-times-circle float-right"></i>
+                </div>
+                <div th:case="2" class="col-1">
+                    <i class="fas fa-spinner float-right"></i>
+                </div>
+            </th:block>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
