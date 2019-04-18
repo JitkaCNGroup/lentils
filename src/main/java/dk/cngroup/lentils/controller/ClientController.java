@@ -98,12 +98,12 @@ public class ClientController {
                                @AuthenticationPrincipal final CustomUserDetails user,
                                final Model model) {
         Cypher cypher = cypherService.getCypher(id);
-        Status status = statusService.getStatusByTeamAndCypher(user.getTeam(), cypher);
-        if (status.getCypherStatus().equals(CypherStatus.LOCKED)) {
+        CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+        if (status.equals(CypherStatus.LOCKED)) {
             throw new ResourceNotFoundException("locked cypher", id);
         }
         Codeword codeword = new Codeword();
-        setDetailModeAttributes(model, user, cypher, status.getCypherStatus().name(), codeword);
+        setDetailModeAttributes(model, user, cypher, status.name(), codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -126,13 +126,13 @@ public class ClientController {
                                  final BindingResult result,
                                  final Model model) {
         Cypher cypher = cypherService.getCypher(id);
-        Status status = statusService.getStatusByTeamAndCypher(user.getTeam(), cypher);
+        CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
             FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
             result.addError(error);
 
-            setDetailModeAttributes(model, user, cypher, status.getCypherStatus().name(), codeword);
+            setDetailModeAttributes(model, user, cypher, status.name(), codeword);
             return CLIENT_VIEW_CYPHER_DETAIL;
         }
 
@@ -152,7 +152,7 @@ public class ClientController {
                 GUESS_FIELD_NAME,
                 "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
-        setDetailModeAttributes(model, user, cypher, status.getCypherStatus().name(), codeword);
+        setDetailModeAttributes(model, user, cypher, status.name(), codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }

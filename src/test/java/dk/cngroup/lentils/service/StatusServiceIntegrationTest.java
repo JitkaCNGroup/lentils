@@ -39,6 +39,6 @@ public class StatusServiceIntegrationTest {
         cypherRepository.save(cypher);
         statusService.initializeStatusForTeamAndCypher(cypher, team);
 
-        assertEquals(CypherStatus.LOCKED, statusService.getStatusByTeamAndCypher(team, cypher).getCypherStatus());
+        assertEquals(CypherStatus.LOCKED, statusService.getCypherStatusByTeamAndCypher(team, cypher));
     }
 }
