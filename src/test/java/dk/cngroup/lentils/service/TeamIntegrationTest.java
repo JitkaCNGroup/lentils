@@ -35,7 +35,8 @@ public class TeamIntegrationTest {
         createAndSaveTeam("pump", 5, "8888");
         assertEquals(1, teamService.getAll().size());
         assertEquals(3, userRepository.findAll().size());
-        assertNotEquals(userRepository.findByUsername("pump").get().getUserId(), teamRepository.findByName("pump").getTeamId());
+        assertNotEquals(userRepository.findByUsername("pump").get().getUserId(),
+                teamRepository.findByName("pump").getTeamId());
     }
 
     @Test
@@ -46,10 +47,14 @@ public class TeamIntegrationTest {
         createAndSaveTeam("d", 5, "4444");
         assertEquals(4, teamService.getAll().size());
         assertEquals(6, userRepository.findAll().size());
-        assertNotEquals(userRepository.findByUsername("a").get().getUserId(), teamRepository.findByName("a").getTeamId());
-        assertNotEquals(userRepository.findByUsername("b").get().getUserId(), teamRepository.findByName("b").getTeamId());
-        assertNotEquals(userRepository.findByUsername("c").get().getUserId(), teamRepository.findByName("c").getTeamId());
-        assertNotEquals(userRepository.findByUsername("d").get().getUserId(), teamRepository.findByName("d").getTeamId());
+        assertNotEquals(userRepository.findByUsername("a").get().getUserId(),
+                teamRepository.findByName("a").getTeamId());
+        assertNotEquals(userRepository.findByUsername("b").get().getUserId(),
+                teamRepository.findByName("b").getTeamId());
+        assertNotEquals(userRepository.findByUsername("c").get().getUserId(),
+                teamRepository.findByName("c").getTeamId());
+        assertNotEquals(userRepository.findByUsername("d").get().getUserId(),
+                teamRepository.findByName("d").getTeamId());
     }
 
     @Test
