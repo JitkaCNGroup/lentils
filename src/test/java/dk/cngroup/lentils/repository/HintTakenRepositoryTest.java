@@ -99,7 +99,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileNoHintsTakenTest() {
-        Team team = teamService.save(new Team(88L, "team", 5, "aeeaea"));
+        Team team = teamService.save(new Team("team", 5, "aeeaea"));
         Cypher cypher = cypherService.save(new Cypher(88));
         Hint hint = hintService.save(new Hint("oh no", 20, cypher));
         assertEquals(0, hintTakenRepository.count());
