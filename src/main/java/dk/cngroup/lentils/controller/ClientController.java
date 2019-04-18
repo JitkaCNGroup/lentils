@@ -102,7 +102,7 @@ public class ClientController {
             throw new ResourceNotFoundException("locked cypher", id);
         }
         Codeword codeword = new Codeword();
-        setDetailModeAttributes(model, user, cypher, status.name(), codeword);
+        setDetailModelAttributes(model, user, cypher, status, codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -131,7 +131,7 @@ public class ClientController {
             FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
             result.addError(error);
 
-            setDetailModeAttributes(model, user, cypher, status.name(), codeword);
+            setDetailModelAttributes(model, user, cypher, status, codeword);
             return CLIENT_VIEW_CYPHER_DETAIL;
         }
 
@@ -151,7 +151,7 @@ public class ClientController {
                 GUESS_FIELD_NAME,
                 "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
-        setDetailModeAttributes(model, user, cypher, status.name(), codeword);
+        setDetailModelAttributes(model, user, cypher, status, codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -183,15 +183,15 @@ public class ClientController {
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 
-    private void setDetailModeAttributes(
+    private void setDetailModelAttributes(
             final Model model,
             final CustomUserDetails user,
             final Cypher cypher,
-            final String status,
+            final CypherStatus status,
             final Codeword codeword) {
         model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status);
+        model.addAttribute("status", status.name());
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
