@@ -35,7 +35,6 @@ public class TeamService {
     public Team update(final Team team) {
         User user = team.getUser();
         user.setUsername(UsernameUtils.generateUsername(team.getName()));
-        team.setUser(user);
         return teamRepository.save(team);
     }
 
