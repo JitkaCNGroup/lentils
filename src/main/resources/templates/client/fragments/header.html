@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="header(activeTab)">
+    <nav class="navbar navbar-default navbar-red">
+        <div class="navbar-content">
+            <p class="team-name" th:text="${team.name}"></p>
+            <p th:text="|Aktuální skóre: ${score} b.|" th:if="${gameStarted == true}"></p>
+        </div>
+
+        <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+                aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
+                <i class="fa fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"  th:classappend="${activeTab == 'cypher'}? 'active' : null">
+                    <a class="nav-link" href="#">Šifry </a>
+                </li>
+                <li class="nav-item"  th:classappend="${activeTab == 'card'}? 'active' : null">
+                    <a class="nav-link" href="#">Kartička</a>
+                </li>
+                <li class="nav-item"  th:classappend="${activeTab == 'contact'}? 'active' : null">
+                    <a class="nav-link" href="#">Kontakty</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Odhlásit se</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

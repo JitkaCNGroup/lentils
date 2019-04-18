@@ -17,33 +17,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-red" >
-        <div class="navbar-content">
-            <p class="team-name" th:text="${team.name}"></p>
-            <p>Body:xx b</p>
-        </div>
-
-        <button id="navbarButton" class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-                aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
-                <i class="fa fa-bars"></i></span>
-        </button>
-        <div class="collapse navbar-collapse collapsedNavbar" id="navbarSupportedContent1">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Šifry </a>
-                </li>
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Kartička</a>
-                </li>
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Kontakty</a>
-                </li>
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Odhlásit se</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div th:insert="client/fragments/header :: header(cypher)"></div>
 
     <div class="container">
         <div class="row">
