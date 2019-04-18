@@ -5,6 +5,7 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
@@ -72,7 +73,8 @@ public class ClientController {
         if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
             model.addAttribute("gameStarted", true);
             model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
-            model.addAttribute("cypherGameInfos", cypherGameInfoService.getAllByTeamId(user.getTeam().getTeamId()));
+            model.addAttribute("cypherGameInfos",
+                    cypherGameInfoService.getAllByTeamIdAndStatusIsNotLocked(user.getTeam().getTeamId()));
         } else {
             model.addAttribute("gameStarted", false);
         }
@@ -95,10 +97,12 @@ public class ClientController {
                                @AuthenticationPrincipal final CustomUserDetails user,
                                final Model model) {
         Cypher cypher = cypherService.getCypher(id);
-        String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
-
+        CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+        if (status.equals(CypherStatus.LOCKED)) {
+            throw new ResourceNotFoundException("locked cypher", id);
+        }
         Codeword codeword = new Codeword();
-        setDetailModeAttributes(model, user, cypher, status, codeword);
+        setDetailModelAttributes(model, user, cypher, status, codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -121,13 +125,13 @@ public class ClientController {
                                  final BindingResult result,
                                  final Model model) {
         Cypher cypher = cypherService.getCypher(id);
-        String status = statusService.getStatusNameByTeamAndCypher(user.getTeam(), cypher);
+        CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
             FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
             result.addError(error);
 
-            setDetailModeAttributes(model, user, cypher, status, codeword);
+            setDetailModelAttributes(model, user, cypher, status, codeword);
             return CLIENT_VIEW_CYPHER_DETAIL;
         }
 
@@ -147,7 +151,7 @@ public class ClientController {
                 GUESS_FIELD_NAME,
                 "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
-        setDetailModeAttributes(model, user, cypher, status, codeword);
+        setDetailModelAttributes(model, user, cypher, status, codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -179,15 +183,15 @@ public class ClientController {
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 
-    private void setDetailModeAttributes(
+    private void setDetailModelAttributes(
             final Model model,
             final CustomUserDetails user,
             final Cypher cypher,
-            final String status,
+            final CypherStatus status,
             final Codeword codeword) {
         model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status);
+        model.addAttribute("status", status.name());
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
