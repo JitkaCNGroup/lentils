@@ -15,7 +15,6 @@ import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 
 import static dk.cngroup.lentils.service.ObjectGenerator.CODEWORD;
@@ -27,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class HintRepositoryTest {
     private static final int TESTED_STAGE = 3;
+    private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
 
     @Autowired
     private HintRepository hintRepository;
@@ -55,7 +55,7 @@ public class HintRepositoryTest {
 
     @Test
     public void addTest() {
-        Cypher cypher = new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
+        Cypher cypher = new Cypher("Easy", TESTED_STAGE, TEST_LOCATION, CODEWORD);
         Cypher cypher1 = cypherService.save(cypher);
         Hint hint = new Hint("text", 5, cypher1 );
         Hint hint1 = hintRepository.save(hint);

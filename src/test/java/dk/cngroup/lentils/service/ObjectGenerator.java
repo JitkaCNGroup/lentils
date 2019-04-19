@@ -9,10 +9,8 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 @Service
@@ -21,6 +19,7 @@ public class ObjectGenerator {
     public static final int NUMBER_OF_TEAMS = 10;
     public static final int NUMBER_OF_CYPHERS = 5;
     public static final int NUMBER_OF_HINTS_FOR_CYPHER = 3;
+    public static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
     public static final String CODEWORD = "Codeword";
     public static final String TEAM_NAME = "Team";
     public static final String PIN = "1234";
@@ -28,7 +27,7 @@ public class ObjectGenerator {
     public List<Cypher> generateCypherList(int number) {
         List<Cypher> cyphers = new LinkedList<>();
         for (int i = 0; i < number; i++) {
-            cyphers.add(new Cypher(i % number));
+            cyphers.add(new Cypher(TEST_LOCATION, i + number));
         }
         return cyphers;
     }
@@ -38,7 +37,7 @@ public class ObjectGenerator {
     }
 
     public Cypher generateNewCypher() {
-        return new Cypher(1);
+        return new Cypher(TEST_LOCATION, 1);
     }
 /*
     public Cypher generateCypher() {

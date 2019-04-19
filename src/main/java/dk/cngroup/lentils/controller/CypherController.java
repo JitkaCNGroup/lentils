@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
 
@@ -52,7 +54,14 @@ public class CypherController {
     }
 
     @PostMapping(value = "/add")
-    public String saveCypher(@Valid final Cypher cypher, final Model model) {
+    public String saveCypher(@Valid @ModelAttribute final Cypher cypher,
+                             final BindingResult bindingResult,
+                             final Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("heading", getHeading(cypher));
+            model.addAttribute("cypher", cypher);
+            return VIEW_CYPHER_DETAIL;
+        }
         cypherService.save(cypher);
         return REDIRECT_CYPHER_LIST;
     }
@@ -61,5 +70,13 @@ public class CypherController {
     public String deleteCypher(@PathVariable("cypherId") final Long cypherId) {
         cypherService.deleteById(cypherId);
         return REDIRECT_CYPHER_LIST;
+    }
+
+    private String getHeading(final Cypher cypher) {
+        if (cypher.getCypherId() == null) {
+            return "Nová šifra";
+        } else {
+            return "Upravit šifru";
+        }
     }
 }

@@ -18,19 +18,25 @@
             <tr>
                 <th>Id</th>
                 <th>Jméno</th>
-                <th>Poradi</th>
-                <th>Souradnice</th>
+                <th>Pořadí</th>
+                <th>Souřadnice</th>
+                <th>Popis místa</th>
                 <th>Odpověď</th>
+                <th>Špatná odpověď</th>
+                <th>Bonus</th>
             </tr>
             </thead>
             <tbody>
             <tr th:object="${cypher}">
             <tr>
                 <td th:text="${cypher.cypherId}" align="center">cypherId</td>
-                <td th:text="${cypher.name}">name</td>
-                <td th:text="${cypher.stage}" align="center">stage</td>
+                <td th:text="${cypher.name}">Jmeno</td>
+                <td th:text="${cypher.stage}" align="center">Cislo</td>
                 <td th:text="${cypher.location}">X, Y</td>
-                <td th:text="${cypher.codeword}">codeword</td>
+                <td th:text="${cypher.placeDescription}">Popis mista</td>
+                <td th:text="${cypher.codeword}">codove slovo</td>
+                <td th:text="${cypher.trapCodeword}">Past</td>
+                <td th:text="${cypher.bonusContent}">Bonus</td>
             </tr>
             </tbody>
         </table>

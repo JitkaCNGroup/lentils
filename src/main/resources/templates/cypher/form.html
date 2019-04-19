@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="cz"
-      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html lang="cs"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -34,11 +35,13 @@
                     <div class="form-group">
                         <label for="stage">Pořadí</label>
                         <input id="stage" class="form-control" type="number" th:field="*{stage}"/>
+                        <p class="error" th:if="${#fields.hasErrors('stage')}" th:errors="*{stage}">Stage error.</p>
                     </div>
                     <div class="form-group">
                         <label for="location">Souřadnice</label>
                         <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
                         <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
+                        <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error.</p>
                     </div>
                     <div class="form-group">
                         <label for="codeword">Odpověď</label>
@@ -47,6 +50,14 @@
                     <div class="form-group">
                         <label for="trapCodeword">Falešná odpověď</label>
                         <input id="trapCodeword" class="form-control" type="text" th:field="*{trapCodeword}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="bonusContent">Bonusové informance</label>
+                        <textarea id="bonusContent" class="form-control" th:field="*{bonusContent}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="placeDescription">Popis místa</label>
+                        <textarea id="placeDescription" class="form-control" th:field="*{placeDescription}"/>
                     </div>
                     <button type="submit" class="btn btn-primary">Uložit</button>
                 </form>

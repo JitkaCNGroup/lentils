@@ -3,6 +3,8 @@ package dk.cngroup.lentils.entity;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -23,10 +25,13 @@ public class Cypher implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "stage", nullable = false)
+    @Column(name = "stage")
+    @NotNull(message = "Pořadí nesmí být prázdné.")
+    @Min(value = 1, message = "Pořadí musí být větší než 0.")
     private int stage;
 
     @Column(name = "location")
+    @NotNull(message = "Souřadnice nesmí být prázdné.")
     private Point location;
 
     @Column(name = "place_description", length = 1000)
@@ -44,6 +49,10 @@ public class Cypher implements Serializable {
     public Cypher() {
     }
 
+    public Cypher(final Point location, final int stage) {
+        this.location = location;
+        this.stage = stage;
+    }
     public Cypher(final int stage) {
         this.stage = stage;
     }

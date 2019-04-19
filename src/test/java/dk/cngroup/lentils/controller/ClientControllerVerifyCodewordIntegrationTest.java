@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -34,6 +35,8 @@ import static org.mockito.Mockito.verify;
 public class ClientControllerVerifyCodewordIntegrationTest {
     public static final String CORRECT_CODEWORD = "topgun";
     public static final String FALSE_CODEWORD = "firefly";
+    private static final int TESTED_STAGE = 3;
+    private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
 
     @Autowired
     private ClientController testedController;
@@ -115,7 +118,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     private void createTestCypher() {
-        cypher = new Cypher();
+        cypher = new Cypher(TEST_LOCATION, TESTED_STAGE);
         cypher.setCodeword(CORRECT_CODEWORD);
         cypher.setTrapCodeword(FALSE_CODEWORD);
         cypherRepository.save(cypher);

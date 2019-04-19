@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class HintRepositoryIntegrationTest {
+    private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
 
     @Autowired
     private TeamRepository teamRepository;
@@ -41,9 +43,9 @@ public class HintRepositoryIntegrationTest {
         Team team2 = teamRepository.save(new Team("druhy", 4, "2222"));
         Team team3 = teamRepository.save(new Team("treti", 4, "3333"));
 
-        Cypher cypher1 = cypherRepository.save(new Cypher(1));
-        Cypher cypher2 = cypherRepository.save(new Cypher(2));
-        Cypher cypher3 = cypherRepository.save(new Cypher(3));
+        Cypher cypher1 = cypherRepository.save(new Cypher(TEST_LOCATION, 1));
+        Cypher cypher2 = cypherRepository.save(new Cypher(TEST_LOCATION, 2));
+        Cypher cypher3 = cypherRepository.save(new Cypher(TEST_LOCATION, 3));
 
         Hint hint1 = hintRepository.save(new Hint("a", 5, cypher1));
         Hint hint2 = hintRepository.save(new Hint("b", 5, cypher1));
