@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 @Transactional
-public class ClientControllerIntegrationTest {
+public class ClientControllerVerifyCodewordIntegrationTest {
     public static final String CORRECT_CODEWORD = "topgun";
     public static final String FALSE_CODEWORD = "firefly";
 
