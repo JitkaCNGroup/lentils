@@ -27,11 +27,11 @@
                 <h1>Šifry</h1>
                 <div th:each="cypherGameInfo : ${cypherGameInfos}" class="cypher">
                     <a th:href="@{/cypher/{cypherId}(cypherId=${cypherGameInfo.cypherId})}">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center" th:classappend="${cypherGameInfo.getStatus() == 2} ? 'pending' : null">
                             <div th:text="|${cypherGameInfo.getStage()}. ${cypherGameInfo.getName()}|" class="col"></div>
                             <div th:unless="${cypherGameInfo.getCount() == 0}" class="col hints">
+                                <p class="count" th:text="${cypherGameInfo.getCount()} + ' ×'"></p>
                                 <i class="far fa-lightbulb"></i>
-                                <p class="float-right" th:text="${cypherGameInfo.getCount()} + 'x '"></p>
                             </div>
                             <th:block th:switch="${cypherGameInfo.getStatus()}">
                                 <div th:case="0" class="col status">
@@ -52,7 +52,7 @@
 
         <div class="row">
             <div class="col-sm-12" th:unless="${gameStarted}">
-                <a href="#" class="btn btn-default btn-lg" th:href="@{/cypher/startGame}">
+                <a href="#" class="btn btn-primary" th:href="@{/cypher/startGame}">
                     Zahájit hru!
                 </a>
             </div>

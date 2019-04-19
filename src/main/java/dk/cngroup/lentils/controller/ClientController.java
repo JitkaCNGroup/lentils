@@ -112,6 +112,11 @@ public class ClientController {
                              @AuthenticationPrincipal final CustomUserDetails user,
                              final Model model) {
         Cypher cypher = cypherService.getCypher(id);
+        CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+        if (status.equals(CypherStatus.LOCKED)) {
+            throw new ResourceNotFoundException("locked cypher", id);
+        }
+
         model.addAttribute("team", user.getTeam());
         model.addAttribute("cypher", cypher);
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));

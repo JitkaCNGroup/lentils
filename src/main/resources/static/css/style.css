@@ -1,3 +1,7 @@
+html {
+    font-size: 18px;
+}
+
 body {
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -9,7 +13,6 @@ h1 {
 
 h2{
     font-size: 1.25rem;
-    font-weight: 600;
     color: #757575;
     margin-top: 1.25rem;
 }
@@ -17,6 +20,7 @@ h2{
 p{
     text-align: justify;
     color: #555;
+    font-size: 0.9rem;
 }
 
 a {
@@ -34,10 +38,6 @@ p.error{
     font-size: 0.75 rem;
 }
 
-/*.stageCol{*/
-    /*width: 10px;*/
-/*}*/
-
 .navbar-red{
     background-color: rgb(237, 24, 72);
     color: white;
@@ -48,23 +48,6 @@ p.error{
     margin-bottom: 0;
 }
 
-
-/*.navbar-nav .nav-link{*/
-    /*padding-left: 10px;*/
-    /*color: black;*/
-/*}*/
-
-/*.nav-link:hover{*/
-    /*background-color: #e9ecef;*/
-    /*color: black;*/
-/*}*/
-
-/*.dropdown-divider-cst{*/
-
-/*height: 0;*/
-/*overflow: hidden;*/
-/*border-top: 1px solid #e9ecef;*/
-/*}*/
 .navbar-content, .navbar-nav{
     padding: 0.25rem;
 }
@@ -94,65 +77,15 @@ p.error{
     font-weight: 600;
 }
 
-/*.floatLeft{*/
-/*float: left;*/
-/*margin-left:10px;*/
-/*}*/
-
-/*.container{*/
-    /*padding: 20px;*/
-/*}*/
-
-/*.container h1{*/
-    /*color: rgb(237, 24, 72)*/
-/*}*/
-
-/*.container h2{*/
-    /*color: rgb(237, 24, 72)*/
-/*}*/
-
-/*.container h3{*/
-    /*color: rgb(237, 24, 72)*/
-/*}*/
-
-/*.container h4{*/
-    /*color: rgb(237, 24, 72)*/
-/*}*/
-
-/*.container h5{*/
-    /*color: rgb(237, 24, 72)*/
-/*}*/
-
-
-/*.skippedGoNextButton:hover{*/
-    /*-webkit-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);*/
-    /*-moz-box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);*/
-    /*box-shadow: 0px 3px 10px 2px rgba(0, 0, 0, 0.42);*/
-/*}*/
-
-/*#skippedAnswer{*/
-    /*color: rgb(237, 24, 72);*/
-    /*text-align: center;*/
-    /*font-weight: bold;*/
-/*}*/
-
-/*#errorMessage{*/
-    /*color: rgb(237, 24, 72);*/
-    /*text-align: center;*/
-    /*font-weight: bold;*/
-/*}*/
-
-/*.bold{*/
-    /*font-weight: bold;*/
-/*}*/
-
-/*.botMargin10{*/
-    /*margin-bottom: 10px;*/
-/*}*/
-
 .cypher .row {
     height: 4rem;
     border-bottom: solid 1px #E5E5E5;
+    color: #757575;
+}
+
+.cypher .row.pending {
+    font-weight: 600;
+    color: black;
 }
 
 .cypher .row:hover {
@@ -166,6 +99,15 @@ p.error{
 
 .col.hints p{
     margin: 0;
+    font-weight: normal;
+}
+
+.hints p, .hints i {
+    color: #AAA;
+}
+
+.hints .count{
+    display: inline-block;
 }
 
 .col.status {
@@ -189,12 +131,9 @@ p.error{
     color:deepskyblue;
 }
 
-/*.solutionInput{*/
-    /*width: 100%;*/
-    /*border-radius: 5px;*/
-    /*height: 45px;*/
-    /*margin-bottom: 15px;*/
-/*}*/
+.hint-label {
+    font-weight: 600;
+}
 
 #bonus-info {
     display: none;
@@ -235,7 +174,7 @@ a:hover{
 }
 
 
-.container .btn {
+.container .row .btn {
     width: 100%;
     transition: all 0.3s ease 0s;
     font-weight: 600;
@@ -244,25 +183,30 @@ a:hover{
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
+    border: none;
 }
 
-.container .btn-red {
+.container .row .btn-primary {
     color: #FFF;
     background-color: rgb(237, 24, 72);
 }
 
-.container .btn-white {
+.container .row .btn-secondary {
     color: rgb(237, 24, 72);
     background-color: white;
 }
 
-.container .btn-white:hover {
+.container .row .btn-skip {
+    margin-top: 3rem;
+}
+
+.container .row .btn-secondary:hover {
     -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
     -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
     box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
 }
 
-.container .btn-red:hover {
+.container .row .btn-primary:hover {
     -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
     -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
     box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);

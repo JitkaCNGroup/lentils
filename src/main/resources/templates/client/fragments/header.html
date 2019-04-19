@@ -16,17 +16,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"  th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                    <a class="nav-link" href="#">Šifry </a>
+                <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
+                    <a class="nav-link" href="/cypher">Šifry </a>
                 </li>
-                <li class="nav-item"  th:classappend="${activeTab == 'card'}? 'active' : null">
-                    <a class="nav-link" href="#">Kartička</a>
+                <li class="nav-item" th:classappend="${activeTab == 'card'}? 'active' : null">
+                    <a class="nav-link" href="/card">Kartička</a>
                 </li>
-                <li class="nav-item"  th:classappend="${activeTab == 'contact'}? 'active' : null">
-                    <a class="nav-link" href="#">Kontakty</a>
+                <li class="nav-item" th:classappend="${activeTab == 'contact'}? 'active' : null">
+                    <a class="nav-link" href="/contact">Kontakty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Odhlásit se</a>
+                    <a class="nav-link" href="/logout">Odhlásit se</a>
                 </li>
             </ul>
         </div>
