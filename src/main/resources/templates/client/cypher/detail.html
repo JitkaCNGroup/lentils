@@ -17,33 +17,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-red" >
-        <div class="navbar-content">
-            <p class="team-name" th:text="${team.name}"></p>
-            <p>Body:xx b</p>
-        </div>
-
-        <button id="navbarButton" class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-                aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
-                <i class="fa fa-bars"></i></span>
-        </button>
-        <div class="collapse navbar-collapse collapsedNavbar" id="navbarSupportedContent1">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Šifry </a>
-                </li>
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Kartička</a>
-                </li>
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Kontakty</a>
-                </li>
-                <li class="nav-item collapsedNotActive">
-                    <a class=" nav-link" href="#">Odhlásit se</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div th:insert="client/fragments/header :: header(cypher)"></div>
 
     <div class="container">
         <div class="row">
@@ -61,7 +35,7 @@
                                 <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-white" type="submit">Ověřit</button>
+                                <button class="btn btn-primary" type="submit">Ověřit</button>
                             </div>
                         </form>
                     </th:block>
@@ -74,7 +48,7 @@
                         <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
                         <div th:if="${nextCypher}">
                             <h2>Kam dál?</h2>
-                            <a class="btn btn-white" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
+                            <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
                                role="button">Zobrazit další šifru </button></a>
                         </div>
                     </th:block>
@@ -87,11 +61,11 @@
                         <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
                         <div th:if="${nextCypher}">
                             <h2>Kam dál?</h2>
-                            <a class="btn btn-white" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
+                            <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
                                role="button">Zobrazit další šifru </a>
                         </div>
 
-                        <button id="bonus-button" th:if="${cypher.bonusContent}" class="btn btn-white" onclick="showBonus()">Zobrazit bonusové informace</button>
+                        <button id="bonus-button" th:if="${cypher.bonusContent}" class="btn btn-secondary" onclick="showBonus()">Zobrazit bonusové informace</button>
                         <div id="bonus-info">
                             <h2>Bonusové informace</h2>
                             <p th:text="${cypher.bonusContent}" class="alert alert-light" role="alert"></p>
@@ -108,7 +82,7 @@
                 <p th:text="${cypher.placeDescription}"></p>
                 <div id="map" style='width: 100%; height: 150px;'></div>
                 <a th:href="@{https://www.google.com/maps/search/?api=1&query={lat},{lng}(lat=${cypher.location.y}, lng=${cypher.location.x})}"
-                        class="btn btn-white" role="button">Zobrazit na mapě</a>
+                        class="btn btn-secondary" role="button">Zobrazit na mapě</a>
             </div>
         </div>
 
@@ -118,13 +92,14 @@
                     <h2>Nápověda</h2>
                     <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
                         <div th:each="hintTaken : ${hintsTaken}">
-                            <p th:text="|Nápověda (-${hintTaken.hint.value}b.): ${hintTaken.hint.text}|"></p>
+                            <p>
+                                <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
+                                <span th:text="${hintTaken.hint.text}"></span>
+                            </p>
                         </div>
                     </th:block>
-                    <a href="#" th:href="|/cypher/${cypher.cypherId}/hint|">
-                        <button class="btn btn-white">Vybrat nápovědu</button>
-                    </a>
-                    <br/>
+                    <a href="#" th:href="|/cypher/${cypher.cypherId}/hint|"
+                       class="btn btn-secondary" role="button">Vybrat nápovědu</a>
                 </div>
             </div>
         </th:block>
@@ -134,7 +109,7 @@
                 <div class="col-sm-12">
                     <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/cypher/giveUp" th:object="${cypher}" method="post">
                         <input type="hidden"  th:field="*{cypherId}" >
-                        <button class="btn btn-red" type="submit" onclick="">Vzdát šifru</button>
+                        <button class="btn btn-secondary btn-skip" type="submit" onclick="">Vzdát šifru</button>
                     </form>
                 </div>
             </div>
