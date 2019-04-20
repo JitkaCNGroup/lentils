@@ -4,6 +4,7 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.User;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
@@ -77,5 +78,14 @@ public class ObjectGenerator {
     public FinalPlace generateFinalPlace() {
         return new FinalPlace("konecna stanice - krematorium", new Point(2.123, 3.456),
                 LocalDateTime.now());
+    }
+
+    public User createUser(final String username) {
+        final User user = new User();
+
+        user.setUsername(username);
+        user.setPassword("1234");
+
+        return user;
     }
 }
