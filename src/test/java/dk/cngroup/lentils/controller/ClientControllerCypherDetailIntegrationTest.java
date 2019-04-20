@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -32,6 +33,9 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 @Transactional
 public class ClientControllerCypherDetailIntegrationTest {
+    private static final int TESTED_STAGE = 2;
+    private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+
     @Autowired
     private ClientController testedController;
     @Autowired
@@ -91,7 +95,7 @@ public class ClientControllerCypherDetailIntegrationTest {
     }
 
     private void createCypherWithStatus(final CypherStatus value) {
-        cypher = new Cypher();
+        cypher = new Cypher(TEST_LOCATION, TESTED_STAGE);
         cypher.setCodeword("dummy");
         cypherRepository.save(cypher);
 
