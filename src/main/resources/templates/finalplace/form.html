@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz"
+<html lang="cs"
       xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +33,7 @@
 
                 <tr>
                     <td>Souřadnice</td>
-                    <td><input type="text" th:field="*{location}"/></td>
+                    <td><input type="text" id="location" th:field="*{location}"/></td>
                 </tr>
                 <tr>
                     <td>Čas</td>
@@ -47,7 +47,14 @@
             </table>
         </div>
     </form>
+
+    <div id="map" style='width: 100%; height: 150px;'></div>
 </div>
+
+<script th:src="@{/js/admin-map.js}"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDseyIGXP_QJWmaCbjVJxxVUQ5vxX44Anw&callback=initMap">
+</script>
 </body>
 </html>
 
