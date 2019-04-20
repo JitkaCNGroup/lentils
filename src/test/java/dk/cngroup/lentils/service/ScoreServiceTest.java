@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.service;
 
-import dk.cngroup.lentils.entity.*;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.Team;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -9,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
