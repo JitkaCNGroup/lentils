@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <form action="#" th:action="@{/admin/cypher/add}" th:object="${cypher}" method="post">
+                <form action="#" th:action="@{/admin/cypher/save}" th:object="${cypher}" method="post">
                     <div class="form-group">
                         <label for="cypherId">Id</label>
                         <input id="cypherId" class="form-control" th:field="*{cypherId}" readonly/>

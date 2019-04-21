@@ -53,7 +53,7 @@ public class CypherController {
         return VIEW_CYPHER_DETAIL;
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/save")
     public String saveCypher(@Valid @ModelAttribute final Cypher cypher,
                              final BindingResult bindingResult,
                              final Model model) {
