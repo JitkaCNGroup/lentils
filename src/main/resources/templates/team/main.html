@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
     <title>Team List</title>
 </head>
 <body>
@@ -24,15 +26,13 @@
                 <div class="form-group">
                     <label for="name">Jméno: (*)</label>
                     <input id="name" class="form-control" type="text" th:field="*{name}"/>
-                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                        style="color: orangered; font-size: 14px">Chyba - Jméno
+                    <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Chyba - Jméno
                     </p>
                 </div>
                 <div class="form-group">
                     <label for="numberOfMembers">Počet členů: (*)</label>
                     <input id="numberOfMembers" class="form-control" type="number" th:field="*{numOfMembers}"/>
-                    <p th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}"
-                        style="color: orangered; font-size: 14px">Chyba - Počet členů
+                    <p class="error" th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}">Chyba - Počet členů
                     </p>
                 </div>
                 <input type="submit" class="btn btn-primary" th:value="${action == 'admin//team/add' ? 'Nový' : 'Uložit'}"/>

@@ -17,7 +17,7 @@ public class FinalPlace {
     @Column(name = "final_place_id")
     private Long finalPlaceId;
 
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 255, message = "Jméno musi obsahovat 1 - 255 znaků.")
     @Column(name = "title")
     private String title;
 
