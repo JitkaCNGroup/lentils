@@ -180,6 +180,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
 
     private void createFinalPlace(LocalDateTime time) {
         final FinalPlace finalPlace = new FinalPlace();
+        finalPlace.setLocation(TEST_LOCATION);
         finalPlace.setTitle("title");
         finalPlace.setOpeningTime(time);
         finalPlaceRepository.save(finalPlace);
