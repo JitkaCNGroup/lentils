@@ -21,13 +21,13 @@ public class Team {
     @Column(name = "team_id")
     private Long teamId;
 
-    @Column(name = "name", nullable = false, length = 50)
-    @NotEmpty
+    @Column(name = "name", length = 50)
+    @NotEmpty(message = "Jméno nesmí být prázdné.")
     private String name;
 
     @Column(name = "num_of_members", length = 1)
-    @NotNull(message = "must not be empty")
-    @Min(value = 1, message = "numOfMembers - You must enter a number greater or equal to 1")
+    @NotNull(message = "Počet členů nesmí být prázdný.")
+    @Min(value = 1, message = "Počet členů musí být vetší než 0.")
     private Integer numOfMembers;
 
     @Column(name = "pin", nullable = false, unique = true)
@@ -48,8 +48,8 @@ public class Team {
     public Team(
             @NotEmpty
             final String name,
-            @NotNull(message = "must not be empty")
-            @Min(value = 1, message = "numOfMembers - You must enter a number greater or equal to 1")
+            @NotNull(message = "Počet členů nesmí být prázdný.")
+            @Min(value = 1, message = "Počet členů musí být vetší než 0.")
             final Integer numOfMembers
     ) {
         this.name = name;

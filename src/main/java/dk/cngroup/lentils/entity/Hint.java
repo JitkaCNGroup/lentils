@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ public class Hint implements Serializable {
     private Cypher cypher;
 
     @Column(name = "text")
+    @NotEmpty(message = "Text nesmí být prázdný.")
     private String text;
 
     @Column(name = "value")

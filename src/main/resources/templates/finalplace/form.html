@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -18,37 +19,40 @@
 <body>
 <div th:insert="fragments/header :: header(finalplace)"></div>
 <div class="container">
-    <h2>Místo ukončení</h2>
-    <form action="#" th:action="@{/admin/finalplace/update}" th:object="${finalplace}" method="post">
-        <div class="table-responsive">
-            <table class="table" style="font-size: 18px">
-                <tr>
-                    <td>Id</td>
-                    <td><input th:field="*{finalPlaceId}"/></td>
-                </tr>
-                <tr>
-                    <td>Jméno</td>
-                    <td><input th:field="*{title}"/></td>
-                </tr>
-
-                <tr>
-                    <td>Souřadnice</td>
-                    <td><input type="text" id="location" th:field="*{location}"/></td>
-                </tr>
-                <tr>
-                    <td>Čas</td>
-                    <td><input type="datetime-local" th:field="*{openingTime}"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Uložit"/>
-                    </td>
-                </tr>
-            </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Místo ukončení</h2>
         </div>
-    </form>
-
-    <div id="map" style='width: 100%; height: 150px;'></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="#" th:action="@{/admin/finalplace/update}" th:object="${finalPlace}" method="post">
+                <div class="form-group">
+                    <label for="finalPlaceId">Id</label>
+                    <input id="finalPlaceId" class="form-control" th:field="*{finalPlaceId}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="title">Jméno</label>
+                    <input id="title" class="form-control" th:field="*{title}"/>
+                    <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error.</p>
+                </div>
+                <div class="form-group">
+                    <label for="location">Souřadnice</label>
+                    <input id="location" class="form-control" type="text" th:field="*{location}"/>
+                    <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
+                    <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error.</p>
+                </div>
+                <div class="form-group">
+                    <label for="openingTime">Čas</label>
+                    <input id="openingTime" class="form-control" type="datetime-local" th:field="*{openingTime}"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Uložit</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div id="map" style='width: 100%; height: 150px;'></div>
+        </div>
+    </div>
 </div>
 
 <script th:src="@{/js/admin-map.js}"></script>
