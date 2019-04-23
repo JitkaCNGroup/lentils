@@ -22,7 +22,6 @@ public class Team {
     private Long teamId;
 
     @Column(name = "name", length = 50)
-    @NotNull(message = "Jméno nesmí být prázdné.")
     @NotEmpty(message = "Jméno nesmí být prázdné.")
     private String name;
 
