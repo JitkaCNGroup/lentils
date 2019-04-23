@@ -28,7 +28,7 @@ public class FinalPlaceController {
 
     @GetMapping(value = "/")
     public String finalPlace(final Model model) {
-        model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
+        model.addAttribute("finalPlace", finalPlaceService.getFinalPlace());
         return VIEW_FINALPLACE_FORM;
     }
 
@@ -37,7 +37,7 @@ public class FinalPlaceController {
                                  final BindingResult bindingResult,
                                  final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
+            model.addAttribute("finalPlace", finalPlace);
             return VIEW_FINALPLACE_FORM;
         }
         finalPlaceService.save(finalPlace);

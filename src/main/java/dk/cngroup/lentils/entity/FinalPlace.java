@@ -4,6 +4,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,11 +18,12 @@ public class FinalPlace {
     @Column(name = "final_place_id")
     private Long finalPlaceId;
 
-    @Size(min = 1, max = 255, message = "Jméno musi obsahovat 1 - 255 znaků.")
     @Column(name = "title")
+    @Size(min = 1, max = 255, message = "Jméno musí mít 1 - 255 znaků.")
     private String title;
 
     @Column(name = "location")
+    @NotNull(message = "Souřadnice nesmí být prázdné.")
     private Point location;
 
     @Column(name = "opening_time")
