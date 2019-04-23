@@ -7,6 +7,7 @@ import dk.cngroup.lentils.service.HintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,9 +59,24 @@ public class HintController {
         return VIEW_HINT;
     }
 
-    @PostMapping(value = "/add")
-    public String save(@Valid final Hint hint) {
-        Hint hint1 = hintService.save(hint);
+    @PostMapping(value = "/save")
+    public String save(@Valid @ModelAttribute final Hint hint,
+                       final BindingResult bindingResult,
+                       final Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("heading", getHintHeading(hint));
+            model.addAttribute("hint", hint);
+            return VIEW_HINT;
+        }
+            Hint hint1 = hintService.save(hint);
         return REDIRECT_HINT_LIST + "?cypherId=" + hint1.getCypherId();
+    }
+
+    private String getHintHeading(final Hint hint) {
+        if (hint.getHintId() == null) {
+            return "Nový hint";
+        } else {
+            return "Upravit hint";
+        }
     }
 }
