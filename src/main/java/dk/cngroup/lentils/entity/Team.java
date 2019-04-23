@@ -48,8 +48,8 @@ public class Team {
     public Team(
             @NotEmpty
             final String name,
-            @NotNull(message = "must not be empty")
-            @Min(value = 1, message = "numOfMembers - You must enter a number greater or equal to 1")
+            @NotNull(message = "Počet členů nesmí být prázdný.")
+            @Min(value = 1, message = "Počet členů musí být vetší než 0.")
             final Integer numOfMembers
     ) {
         this.name = name;
