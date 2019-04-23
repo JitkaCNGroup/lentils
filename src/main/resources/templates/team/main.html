@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
     <title>Team List</title>
 </head>
 <body>
@@ -40,7 +41,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="container">
         <div class="col-sm-12">
             <h2>Týmy</h2>
             <div class="table-responsive">
@@ -65,8 +66,13 @@
                                 <td th:text="${team.numOfMembers}">8</td>
                                 <td th:text="${team.pin}">9876</td>
                                 <td>
-                                    <a href="#" th:href="@{/admin/team/update/{teamId}(teamId=${team.teamId})}">Upravit</a> |
-                                    <a href="#" th:href="@{/admin/team/delete/{teamId}(teamId=${team.teamId})}">Smazat</a>
+                                    <button class="btn dropdown-togle" type="button" data-toggle="dropdown">Akce
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" th:href="@{/admin/team/update/{teamId}(teamId=${team.teamId})}" class="btn">Upravit</a></li>
+                                        <li><a href="#" th:href="@{/admin/team/delete/{teamId}(teamId=${team.teamId})}" class="btn">Smazat</a></li>
+                                    </ul>
                                 </td>
                             </tr>
                         </th:block>
