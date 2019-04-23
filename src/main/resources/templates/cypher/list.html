@@ -51,9 +51,14 @@
                 <td th:text="${cypher.trapCodeword}">Past</td>
                 <td th:text="${cypher.bonusContent}">Bonus</td>
                 <td align="center">
-                    <a href="#" th:href="@{/admin/hint(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Detail</a> |
-                    <a href="#" th:href="@{/admin/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Upravit</a> |
-                    <a href="#" th:href="@{/admin/cypher/delete/{cypherId}(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Smazat</a>
+                    <button class="btn dropdown-togle" type="button" data-toggle="dropdown">Akce
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" th:href="@{/admin/hint(cypherId=${cypher.cypherId})}" class="btn">Detail</a></li>
+                        <li><a href="#" th:href="@{/admin/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}" class="btn">Upravit</a></li>
+                        <li><a href="#" th:href="@{/admin/cypher/delete/{cypherId}(cypherId=${cypher.cypherId})}" class="btn">Smazat</a></li>
+                    </ul>
                 </td>
             </tr>
 
