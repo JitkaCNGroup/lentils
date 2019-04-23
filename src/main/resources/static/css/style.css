@@ -93,6 +93,17 @@ p.error{
 }
 
 .team .row {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.locked .name,
+.skipped .name,
+.solved .name{
+    color: #757575;
+}
+
+.team {
     border-bottom: solid 1px #E5E5E5;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
@@ -188,11 +199,15 @@ p.error{
 }
 
 span.status {
-    font-size: 0.7rem;
-    padding: 2px;
+    font-size: 0.6rem;
+    padding: 0.05rem 0.3rem;
     background-color: #757575;
     color: #FFF;
     border-radius: 2px;
+}
+
+.pending span.status {
+    background-color: #0095ff;
 }
 
 #bonus-info {
@@ -284,12 +299,16 @@ a:hover{
     background-color: #0081ff;
 }
 
+.container .row .btn-restart,
 .container .row .btn-lock {
     background-color: grey;
 }
 
-.container .row .btn-hints {
-    background-color: grey;
+
+.container .row .btn.flat.btn-hints {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
 }
 
 .container .row .btn.flat {
