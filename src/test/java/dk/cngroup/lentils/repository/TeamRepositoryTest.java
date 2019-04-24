@@ -23,6 +23,7 @@ import static org.junit.Assert.assertFalse;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class TeamRepositoryTest {
     private static final int TESTED_TEAM = 5;
+    private static final String TEST_EMPTY_NAME = "";
 
     @Autowired
     private TeamRepository teamRepository;
@@ -77,6 +78,22 @@ public class TeamRepositoryTest {
 
         assertEquals(0, teamRepository.count());
         assertFalse(teamRepository.findById(team.getTeamId()).isPresent());
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void teamWithEmptyName() {
+        Team team = new Team(TEST_EMPTY_NAME, 5, "12345");
+        teamRepository.save(team);
+
+        assertEquals(0, teamRepository.count());
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void teamWithZeroCount() {
+        Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 0, "12345");
+        teamRepository.save(team);
+
+        assertEquals(0, teamRepository.count());
     }
 
     private Team getAnySaved() {
