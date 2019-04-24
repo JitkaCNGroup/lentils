@@ -26,7 +26,6 @@
                 <p>V systému nejsou šifry<p/>
             </div>
 
-
             <div th:each="team : ${teams}" class="team">
                 <th:block th:with="status=${teamsStatuses.get(team.teamId)}">
                     <div class="row">
