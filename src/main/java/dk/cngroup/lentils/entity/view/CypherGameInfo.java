@@ -20,7 +20,7 @@ import javax.persistence.Id;
         "LEFT JOIN hint h on h.cypher_id = c.cypher_id " +
         "LEFT JOIN status s on s.cypher_cypher_id = c.cypher_id " +
         "LEFT JOIN hint_taken ht on ht.hint_hint_id = h.hint_id " +
-        "GROUP BY c.cypher_id, s.team_team_id " +
+        "GROUP BY c.cypher_id, s.team_team_id, s.cypher_status " +
         "ORDER BY c.cypher_id"
 )
 public class CypherGameInfo {
