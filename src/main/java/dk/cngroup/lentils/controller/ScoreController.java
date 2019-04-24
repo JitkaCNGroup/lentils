@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -36,9 +36,9 @@ public class ScoreController {
         return SCORE_LIST;
     }
 
-    @GetMapping(value = "/{teamId}")
-    public String viewDetailScoreForTeam(final @PathVariable("teamId") Long teamId,
-                                     final Model model) {
+    @GetMapping(value = "/team")
+    public String viewDetailScoreForTeam(final @RequestParam("teamId") Long teamId,
+                                         final Model model) {
         Team team = teamService.getTeam(teamId);
         List<TeamScoreDetail> teamScoreDetails = scoreService.getTeamWithDetailScores(team);
         model.addAttribute("team", team);

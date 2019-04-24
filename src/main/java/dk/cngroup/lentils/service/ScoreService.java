@@ -62,10 +62,9 @@ public class ScoreService {
             teamScoreDetails.add(new TeamScoreDetail(cypher,
                     statusService.getStatusScore(team, cypher),
                     hintTakenService.getAllByTeamAndCypher(team, cypher),
+                    hintTakenService.getHintScore(team, cypher),
                     this.getScoreByTeamAndCypher(team, cypher)));
         }
-
-
         return teamScoreDetails;
     }
 }

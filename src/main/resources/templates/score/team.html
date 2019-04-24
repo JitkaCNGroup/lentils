@@ -19,69 +19,26 @@
             <td align="center">Id</td>
             <td align="center">Název šifry</td>
             <td align="center">Body za šifru</td>
-            <td align="center">Použité hinty</td>
-            <td align="center">Body za hinty</td>
+            <td align="center">Celkem použitých hintů</td>
+            <td align="center">Id použitých hintů</td>
+            <td align="center">Záporné body za hinty</td>
             <td align="center">Celkové score</td>
-           <tr th:if="${teams.empty}">
-                <td colspan="7"><p> V systému nejsou týmy</p></td>
-            </tr>
-            </thead>
-            <th:block th:each="team : ${teams}">
+           </thead>
+            <th:block th:each="team : ${teamWithDetailScores}">
                 <tr>
-                    <td th:text="${team.teamId}" align="center">8888</td>
-                    <td th:text="${team.name}">Bamboo</td>
-                    <td th:text="${team.numOfMembers}" align="center">8</td>
-                    <td th:text="${team.pin}" align="center">9876</td>
-                    <td align="center">
-                        <a href="#" class="btn btn-default btn-lg"
-                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('SKIPPED')}"
-                           th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
-                            Přeskočit
-                        </a>
-                        <a href="#" class="btn btn-default btn-lg"
-                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('SOLVED')}"
-                           th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
-                            Splnit
-                        </a>
-                        <a href="#" class="btn btn-default btn-lg"
-                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('PENDING')}"
-                           th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
-                            Zahájit
-                        </a>
-                        <a href="#" class="btn btn-default btn-lg"
-                           th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
-                           th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='lock')}">
-                            Zamknout
-                        </a>
-                    </td>
-                    <td align="center">
-                        <span
-                            th:if="${teamsStatuses.get(team.teamId) == null}">
-                            Tým nezahájil hru.
-                        </span>
-
-                        <span th:if="${teamsStatuses.get(team.teamId) != null}"
-                            th:text="${teamsStatuses.get(team.teamId)}">
-                        </span>
-
-                         </td>
-                    <td align="center">
-                <span
-                        th:if="${cypher.getHints().isEmpty() or teamsStatuses.get(team.teamId) == null}">
-                    Žádné hinty
-                </span>
-                        <a href="#" class="btn btn-default btn-lg"
-                           th:if="${!cypher.getHints().isEmpty() and teamsStatuses.get(team.teamId) != null}"
-                           th:href="@{/game/progress/viewHints/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId})}">
-                            Hinty
-                        </a>
-                    </td>
+                    <td th:text="${team.cypher.cypherId}" align="center">8888</td>
+                    <td th:text="${team.cypher.name}">Bamboo</td>
+                    <td th:text="${team.statusScore}" align="center">8</td>
+                    <td th:text="${team.hintsTaken.size()}" align="center">9876</td>
+                    <td th:text="${team.toString()}" align="center">9876</td>
+                    <td th:text="${team.hintTakenScore}" align="center">9877</td>
+                    <td th:text="${team.score}" align="center">9877</td>
                 </tr>
             </th:block>
         </table>
     </div>
     <br>
-    <a align="center" href="#" th:href="@{/game/progress}"><b>Zpět na seznam šifer</b></a>
+    <a align="center" href="#" th:href="@{/game/score}"><b>Zpět na seznam týmů</b></a>
     <form action="/logout" method="post">
         <button type="submit">Odhlásit</button>
     </form>
