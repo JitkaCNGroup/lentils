@@ -97,8 +97,6 @@ public class HintRepositoryTest {
     public void hintWithEmptyNameTest() {
         Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
         Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
-        hintRepository.save(hint);
-
-        assertEquals(0, hintRepository.count());
+        hintRepository.saveAndFlush(hint);
     }
 }

@@ -84,17 +84,13 @@ public class TeamRepositoryTest {
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void teamWithEmptyName() {
         Team team = new Team(TEST_EMPTY_NAME, 5, TEST_PIN);
-        teamRepository.save(team);
-
-        assertEquals(0, teamRepository.count());
+        teamRepository.saveAndFlush(team);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void teamWithZeroCount() {
         Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 0, TEST_PIN);
-        teamRepository.save(team);
-
-        assertEquals(0, teamRepository.count());
+        teamRepository.saveAndFlush(team);
     }
 
     private Team getAnySaved() {

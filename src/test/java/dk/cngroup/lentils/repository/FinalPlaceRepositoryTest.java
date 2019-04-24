@@ -50,25 +50,19 @@ public class FinalPlaceRepositoryTest {
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void finalPlaceWithEmptyTitleTest() {
         FinalPlace finalPlace = new FinalPlace(TEST_EMPTY_TITLE, TEST_LOCATION, null);
-        repository.save(finalPlace);
-
-        assertEquals(0, repository.count());
+        repository.saveAndFlush(finalPlace);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void finalPlaceWith256TitleTest() {
         FinalPlace finalPlace = new FinalPlace(TEST_256_TITLE, TEST_LOCATION, null);
-        repository.save(finalPlace);
-
-        assertEquals(0, repository.count());
+        repository.saveAndFlush(finalPlace);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void finalPlaceWithEmptyLocationTest() {
         FinalPlace finalPlace = new FinalPlace(TEST_TITLE, null, null);
-        repository.save(finalPlace);
-
-        assertEquals(0, repository.count());
+        repository.saveAndFlush(finalPlace);
     }
 
     private FinalPlace getAnySaved() {
