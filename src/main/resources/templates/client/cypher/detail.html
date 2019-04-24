@@ -109,6 +109,7 @@
                 <div class="col-sm-12">
                     <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/cypher/giveUp" th:object="${cypher}" method="post">
                         <input type="hidden"  th:field="*{cypherId}" >
+                        <input type="hidden"  th:field="*{stage}" >
                         <button class="btn btn-secondary btn-skip" type="submit" onclick="">Vzdát šifru</button>
                     </form>
                 </div>
