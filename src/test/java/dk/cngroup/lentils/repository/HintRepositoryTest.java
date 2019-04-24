@@ -27,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 public class HintRepositoryTest {
     private static final int TESTED_STAGE = 3;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String TEST_EMPTY_NAME = "";
 
     @Autowired
     private HintRepository hintRepository;
@@ -88,5 +89,14 @@ public class HintRepositoryTest {
         List<Hint> hints = hintRepository.findByCypher(cypher);
 
         assertEquals(ObjectGenerator.NUMBER_OF_HINTS_FOR_CYPHER, hints.size());
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void hintWithEmptyNameTest() {
+        Cypher cypher = cypherService.save(new Cypher("Easy", TESTED_STAGE, TEST_LOCATION, CODEWORD));
+        Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
+        hintRepository.save(hint);
+
+        assertEquals(0, hintRepository.count());
     }
 }
