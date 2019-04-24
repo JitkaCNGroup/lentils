@@ -19,18 +19,16 @@ public class CypherService {
     private StatusService statusService;
 
     @Autowired
-    public void setStatusService(StatusService statusService) {
+    public void setStatusService(final StatusService statusService) {
         this.statusService = statusService;
     }
 
     @Autowired
     public CypherService(final CypherRepository cypherRepository,
                          final TeamService teamService,
-//                         final StatusService statusService,
                          final HintTakenService hintTakenService) {
         this.cypherRepository = cypherRepository;
         this.teamService = teamService;
-//        this.statusService = statusService;
         this.hintTakenService = hintTakenService;
     }
 

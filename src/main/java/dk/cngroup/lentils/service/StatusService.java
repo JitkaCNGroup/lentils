@@ -17,7 +17,7 @@ public class StatusService {
     private CypherService cypherService;
 
     @Autowired
-    public void setCypherService (CypherService cypherService) {
+    public void setCypherService(final CypherService cypherService) {
         this.cypherService = cypherService;
     }
 
