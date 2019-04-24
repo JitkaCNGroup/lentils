@@ -23,6 +23,8 @@ import static org.junit.Assert.assertFalse;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class TeamRepositoryTest {
     private static final int TESTED_TEAM = 5;
+    private static final String TEST_EMPTY_NAME = "";
+    private static final String TEST_PIN = "1234";
 
     @Autowired
     private TeamRepository teamRepository;
@@ -37,7 +39,7 @@ public class TeamRepositoryTest {
 
     @Test
     public void addTest() {
-        Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234");
+        Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 5, TEST_PIN);
         teamRepository.save(team);
 
         assertEquals(1, teamRepository.count());
@@ -72,11 +74,23 @@ public class TeamRepositoryTest {
 
     @Test
     public void deleteOneTest() {
-        Team team = teamRepository.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234"));
+        Team team = teamRepository.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, TEST_PIN));
         teamRepository.deleteById(team.getTeamId());
 
         assertEquals(0, teamRepository.count());
         assertFalse(teamRepository.findById(team.getTeamId()).isPresent());
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void teamWithEmptyName() {
+        Team team = new Team(TEST_EMPTY_NAME, 5, TEST_PIN);
+        teamRepository.saveAndFlush(team);
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void teamWithZeroCount() {
+        Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 0, TEST_PIN);
+        teamRepository.saveAndFlush(team);
     }
 
     private Team getAnySaved() {

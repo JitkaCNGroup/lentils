@@ -27,6 +27,9 @@ import static org.junit.Assert.assertNotNull;
 public class HintRepositoryTest {
     private static final int TESTED_STAGE = 3;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String TEST_EMPTY_NAME = "";
+    private static final String TEST_CYPHER_NAME = "CypherName";
+    private static final String TEST_HINT_NAME = "HintName";
 
     @Autowired
     private HintRepository hintRepository;
@@ -55,9 +58,9 @@ public class HintRepositoryTest {
 
     @Test
     public void addTest() {
-        Cypher cypher = new Cypher("Easy", TESTED_STAGE, TEST_LOCATION, CODEWORD);
+        Cypher cypher = new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD);
         Cypher cypher1 = cypherService.save(cypher);
-        Hint hint = new Hint("text", 5, cypher1 );
+        Hint hint = new Hint(TEST_HINT_NAME, 5, cypher1);
         Hint hint1 = hintRepository.save(hint);
 
         assertNotNull(hint1);
@@ -88,5 +91,12 @@ public class HintRepositoryTest {
         List<Hint> hints = hintRepository.findByCypher(cypher);
 
         assertEquals(ObjectGenerator.NUMBER_OF_HINTS_FOR_CYPHER, hints.size());
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void hintWithEmptyNameTest() {
+        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
+        Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
+        hintRepository.saveAndFlush(hint);
     }
 }
