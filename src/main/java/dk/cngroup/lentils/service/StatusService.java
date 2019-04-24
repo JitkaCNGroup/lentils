@@ -14,6 +14,12 @@ import java.util.List;
 public class StatusService {
 
     private StatusRepository statusRepository;
+    private CypherService cypherService;
+
+    @Autowired
+    public void setCypherService (CypherService cypherService) {
+        this.cypherService = cypherService;
+    }
 
     @Autowired
     public StatusService(final StatusRepository statusRepository) {
@@ -21,9 +27,21 @@ public class StatusService {
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-        if (cypher != null) {
             Status status = getStatusByTeamAndCypher(team, cypher);
             saveNewStatus(status, cypherStatus);
+    }
+
+    public void solveCypher(final Cypher cypher, final Team team) {
+        markCypher(cypher, team, CypherStatus.SOLVED);
+        if (cypherService.getNext(cypher.getStage()) != null) {
+            markCypher(cypherService.getNext(cypher.getStage()), team, CypherStatus.PENDING);
+        }
+    }
+
+    public void skipCypher(final Cypher cypher, final Team team) {
+        markCypher(cypher, team, CypherStatus.SKIPPED);
+        if (cypherService.getNext(cypher.getStage()) != null) {
+            markCypher(cypherService.getNext(cypher.getStage()), team, CypherStatus.PENDING);
         }
     }
 
