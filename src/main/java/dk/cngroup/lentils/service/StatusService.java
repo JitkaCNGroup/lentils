@@ -21,8 +21,10 @@ public class StatusService {
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-        Status status = getStatusByTeamAndCypher(team, cypher);
-        saveNewStatus(status, cypherStatus);
+        if (cypher != null) {
+            Status status = getStatusByTeamAndCypher(team, cypher);
+            saveNewStatus(status, cypherStatus);
+        }
     }
 
     public List<Status> getAll() {
