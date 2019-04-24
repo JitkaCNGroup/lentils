@@ -91,6 +91,23 @@ p.error{
     background-color: #EEE;
 }
 
+.team .row {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.locked .name,
+.skipped .name,
+.solved .name{
+    color: #757575;
+}
+
+.team {
+    border-bottom: solid 1px #E5E5E5;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
 .col.hints {
     -ms-flex: 0 0 4rem;
     flex: 0 0 4rem;
@@ -118,6 +135,30 @@ p.error{
     font-size: 1.2rem;
 }
 
+.cypher.organizer .row div {
+    color: black;
+}
+
+.team .row .col,
+.team .row .col-1,
+.team .row .col-2,
+.team .row .col-3,
+.team .row .col-4,
+.team .row .col-5,
+.team .row .col-6,
+.team .row .col-7{
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.team .row p {
+    margin: 0;
+}
+
+.team .row div {
+    line-height: normal;
+}
+
 .fa-check-circle{
     color: lawngreen;
 }
@@ -132,6 +173,40 @@ p.error{
 
 .hint-label {
     font-weight: 600;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 0.6rem;
+}
+
+.label {
+    font-weight: bold;
+    padding-right: 0.5em;
+}
+
+.name {
+    color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+.team p {
+    text-align: left;
+}
+
+span.status {
+    font-size: 0.6rem;
+    padding: 0.05rem 0.3rem;
+    background-color: #757575;
+    color: #FFF;
+    border-radius: 2px;
+}
+
+.pending span.status {
+    background-color: #0095ff;
 }
 
 #bonus-info {
@@ -209,6 +284,43 @@ a:hover{
     -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
     -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
     box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+}
+
+.container .row .btn-solve {
+    background-color: green;
+}
+
+.container .row .flat.btn-skip {
+    background-color: red;
+}
+
+.container .row .btn-start {
+    background-color: #0081ff;
+}
+
+.container .row .btn-restart,
+.container .row .btn-lock {
+    background-color: grey;
+}
+
+
+.container .row .btn.flat.btn-hints {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.container .row .btn.flat {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border-radius: 0px;
+    box-shadow: none;
+    margin: 2px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #FFF;
+    width: auto;
+    padding: .35rem .65rem;
 }
 
 .last {
