@@ -3,8 +3,11 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.view.TeamScore;
+import dk.cngroup.lentils.entity.view.TeamScoreDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,5 +53,19 @@ public class ScoreService {
                 .sorted()
                 .collect(Collectors.toList());
         return teamScores;
+    }
+
+    public List<TeamScoreDetail> getTeamWithDetailScores(final Team team) {
+        List<TeamScoreDetail> teamScoreDetails = new ArrayList<>();
+        final List<Cypher> cyphers = cypherService.getAll();
+        for (Cypher cypher: cyphers) {
+            teamScoreDetails.add(new TeamScoreDetail(cypher,
+                    statusService.getStatusScore(team, cypher),
+                    hintTakenService.getAllByTeamAndCypher(team, cypher),
+                    this.getScoreByTeamAndCypher(team, cypher)));
+        }
+
+
+        return teamScoreDetails;
     }
 }
