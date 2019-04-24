@@ -181,9 +181,6 @@ public class ClientController {
         if (cypherStatus.equals(CypherStatus.PENDING)) {
             statusService.skipCypher(cypher, user.getTeam());
         }
-        if (cypherService.getNext(cypher.getStage()) != null) {
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypherService.getNext(cypher.getStage()).getCypherId();
-        }
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 
