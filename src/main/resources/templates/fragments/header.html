@@ -21,6 +21,9 @@
                     <li class="nav-item" th:class="${activeTab == 'finalplace'}? 'active' : null">
                         <a class="nav-link" href="/admin/finalplace/">Místo zakončení</a>
                     </li>
+                    <li class="nav-item" th:class="${activeTab == 'contact'}? 'active' : null">
+                        <a class="nav-link" href="/admin/contact/">Kontakt</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout" th:onclick="return confirm('Opravdu se chcete odhlásit?')">Odhlásit se</a>
                     </li>
