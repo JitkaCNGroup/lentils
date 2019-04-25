@@ -96,11 +96,11 @@ public class StatusServiceTest {
         verifyGetStatusScore(CypherStatus.SKIPPED);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void getStatusScoreWithInvalidParameters() {
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(null);
 
-        service.getStatusScore(new Team(), new Cypher());
+        assertEquals(0, service.getStatusScore(new Team(), new Cypher()));
     }
 
     @Test
