@@ -38,6 +38,10 @@ p.error{
     font-size: 0.75 rem;
 }
 
+.navbar-dark{
+    background-color: rgb(237, 24, 72);
+}
+
 .navbar-red{
     background-color: rgb(237, 24, 72);
     color: white;

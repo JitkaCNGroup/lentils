@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="cs"
-      xmlns:th="http://www.springframework.org/schema/data/jaxb">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -16,6 +16,7 @@
     <title>Progres</title>
 </head>
 <body>
+<div th:insert="fragments/organizerHeader :: header(progress)"></div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -33,10 +34,6 @@
             </div>
         </div>
     </div>
-
-    <form action="/logout" method="post">
-        <button type="submit">Odhlásit</button>
-    </form>
 </div>
 </body>
 </html>
