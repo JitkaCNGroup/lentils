@@ -59,11 +59,13 @@ public class ScoreService {
         List<TeamScoreDetail> teamScoreDetails = new ArrayList<>();
         final List<Cypher> cyphers = cypherService.getAll();
         for (Cypher cypher: cyphers) {
-            teamScoreDetails.add(new TeamScoreDetail(cypher,
+            TeamScoreDetail teamScoreDetail = new TeamScoreDetail(
+                    cypher,
                     statusService.getStatusScore(team, cypher),
                     hintTakenService.getAllByTeamAndCypher(team, cypher),
                     hintTakenService.getHintScore(team, cypher),
-                    this.getScoreByTeamAndCypher(team, cypher)));
+                    this.getScoreByTeamAndCypher(team, cypher));
+            teamScoreDetails.add(teamScoreDetail);
         }
         return teamScoreDetails;
     }
