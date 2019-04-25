@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Tým - Detailní score</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>Tým <span th:text="${team.name}"></span> - Stav</h1>
+    <h2>Šifry:</h2>
+    <div class="table-responsive">
+        <table class="table" border="1">
+            <thead>
+            <td>Id</td>
+            <td>Název šifry</td>
+            <td>Body za šifru</td>
+            <td>Celkem použitých hintů</td>
+            <td>Id použitých hintů</td>
+            <td>Záporné body za hinty</td>
+            <td>Celkové score</td>
+           </thead>
+            <th:block th:each="team : ${teamWithDetailScores}">
+                <tr>
+                    <td th:text="${team.cypher.cypherId}">8888</td>
+                    <td th:text="${team.cypher.name}">Bamboo</td>
+                    <td th:text="${team.statusScore}">8</td>
+                    <td th:text="${team.hintsTaken.size()}">9876</td>
+                    <td th:text="${team.toString()}">9876</td>
+                    <td th:text="${team.hintTakenScore}">9877</td>
+                    <td th:text="${team.score}">9877</td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+    <br>
+    <a align="center" href="#" th:href="@{/game/score}"><b>Zpět na seznam týmů</b></a>
+    <form action="/logout" method="post">
+        <button type="submit">Odhlásit</button>
+    </form>
+
+</div>
+</body>
+</html>
