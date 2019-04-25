@@ -51,7 +51,7 @@ public class ProgressController {
 
     @GetMapping
     public String listProgress(final Model model) {
-        model.addAttribute("cyphers", cypherService.getAll());
+        model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
         return PROGRESS_LIST;
     }
 
