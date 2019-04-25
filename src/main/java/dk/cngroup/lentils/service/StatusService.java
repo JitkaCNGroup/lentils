@@ -46,7 +46,7 @@ public class StatusService {
     }
 
     public CypherStatus getCypherStatusByTeamAndCypher(final Team team, final Cypher cypher) {
-            return getStatusByTeamAndCypher(team, cypher).getCypherStatus();
+        return getStatusByTeamAndCypher(team, cypher).getCypherStatus();
     }
 
     private void saveNewStatus(final Status status, final CypherStatus newStatus) {
