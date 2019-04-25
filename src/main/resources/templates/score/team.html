@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz" xmlns:th="http://www.thymeleaf.org">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,23 +16,23 @@
     <div class="table-responsive">
         <table class="table" border="1">
             <thead>
-            <td align="center">Id</td>
-            <td align="center">Název šifry</td>
-            <td align="center">Body za šifru</td>
-            <td align="center">Celkem použitých hintů</td>
-            <td align="center">Id použitých hintů</td>
-            <td align="center">Záporné body za hinty</td>
-            <td align="center">Celkové score</td>
+            <td>Id</td>
+            <td>Název šifry</td>
+            <td>Body za šifru</td>
+            <td>Celkem použitých hintů</td>
+            <td>Id použitých hintů</td>
+            <td>Záporné body za hinty</td>
+            <td>Celkové score</td>
            </thead>
             <th:block th:each="team : ${teamWithDetailScores}">
                 <tr>
-                    <td th:text="${team.cypher.cypherId}" align="center">8888</td>
+                    <td th:text="${team.cypher.cypherId}">8888</td>
                     <td th:text="${team.cypher.name}">Bamboo</td>
-                    <td th:text="${team.statusScore}" align="center">8</td>
-                    <td th:text="${team.hintsTaken.size()}" align="center">9876</td>
-                    <td th:text="${team.toString()}" align="center">9876</td>
-                    <td th:text="${team.hintTakenScore}" align="center">9877</td>
-                    <td th:text="${team.score}" align="center">9877</td>
+                    <td th:text="${team.statusScore}">8</td>
+                    <td th:text="${team.hintsTaken.size()}">9876</td>
+                    <td th:text="${team.toString()}">9876</td>
+                    <td th:text="${team.hintTakenScore}">9877</td>
+                    <td th:text="${team.score}">9877</td>
                 </tr>
             </th:block>
         </table>
