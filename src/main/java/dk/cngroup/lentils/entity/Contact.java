@@ -26,7 +26,7 @@ public class Contact {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "web-pages")
+    @Column(name = "web_pages")
     private String webPages;
 
     @URL
