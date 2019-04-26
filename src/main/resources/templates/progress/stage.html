@@ -19,9 +19,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h1>Šifry</h1>
+            <h1>Týmy</h1>
             <p class="subheading" th:text="${cypher.name}"></p>
-            <h2>Týmy</h2>
             <div th:if="${teams.empty}">
                 <p>V systému nejsou šifry<p/>
             </div>
@@ -55,7 +54,7 @@
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
                                 Solve</a>
-                            <a href="#" class="btn btn-skip btn-skip flat"
+                            <a href="#" class="btn btn-skip flat"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
                                 Skip</a>

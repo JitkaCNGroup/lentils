@@ -17,37 +17,46 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(progress)"></div>
 <div class="container">
-    <h1>Tým <span th:text="${team.name}"></span></h1>
-    <h2>Dostupné hinty pro Šifru <span th:text="${cypher.name}"></span></h2>
-    <div class="table-responsive">
-        <table border="1" class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Hodnota</th>
-                <th>Akce</th>
-                <th>Text</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="hint : ${cypher.hints}">
-                <td id="hintId" align="center" th:text="${hint.hintId}">value</td>
-                <td align="center" th:text="${hint.value}">value</td>
-                <td align="center">
-                    <button class="btn btn-default btn-lg"
-                            th:if="${takenHints.get(hint.hintId) == null}"
-                            th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">
-                        Vzít Hint
-                    </button>
-                    <button class="btn btn-default btn-lg"
-                            th:if="${takenHints.get(hint.hintId) != null}"
-                            th:onclick="'javascript:revertHintDialog(' + ${hint.hintId} + ')'">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Nápověda</h1>
+            <p class="subheading" th:text="|Tým: ${team.name}|"></p>
+            <p class="subheading" th:text="|Šifra: ${cypher.name}|"></p>
+
+            <h2>Odemknuté nápovědy</h2>
+
+            <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
+                <div th:each="hintTaken : ${hintsTaken}">
+                    <p>
+                        <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
+                        <span th:text="${hintTaken.hint.text}"></span>
+                    </p>
+                    <button class="btn btn-sm flat btn-remove"
+                            th:onclick="'javascript:revertHintDialog(' + ${hintTaken.hint.hintId} + ')'">
                         Odebrat Hint
                     </button>
-                </td>
-                <td th:text="${takenHints.get(hint.hintId)}" align="center"></td>
-            </tr>
-        </table>
+                </div>
+            </th:block>
+            <th:block th:if="${#lists.isEmpty(hintsTaken)}">
+                <p>Zatím jste neodemkli žádné nápovědy.</p>
+            </th:block>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Zamknuté nápovědy</h2>
+
+            <th:block th:if="${#lists.isEmpty(hintsNotTaken)}">
+                <p>Žádné další nápovědy nejsou k dispozici.</p>
+            </th:block>
+
+            <div th:each="hint : ${hintsNotTaken}">
+                <button class="btn btn-default flat btn-take"
+                        th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">
+                    Vzít Hint
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -35,7 +35,17 @@ a:hover {
 p.error{
     color: rgb(237, 24, 72);
     font-weight: 600;
-    font-size: 0.75 rem;
+    font-size: 0.75rem;
+}
+
+p.subheading {
+    font-size: 0.8rem;
+    padding: 0.05rem 0.3rem;
+    background-color: #757575;
+    color: #FFF;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 2px;
 }
 
 .navbar-dark{
@@ -290,7 +300,8 @@ a:hover{
     box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
 }
 
-.container .row .btn-solve {
+.container .row .btn-solve,
+.container .row .btn-take {
     background-color: green;
 }
 
@@ -303,7 +314,8 @@ a:hover{
 }
 
 .container .row .btn-restart,
-.container .row .btn-lock {
+.container .row .btn-lock,
+.container .row .btn-remove {
     background-color: grey;
 }
 
