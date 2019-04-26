@@ -4,6 +4,7 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.exception.NextCypherNotFoundException;
 import dk.cngroup.lentils.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,8 @@ import java.util.List;
 @Service
 public class StatusService {
 
-    private StatusRepository statusRepository;
-    private CypherService cypherService;
-
+    private final StatusRepository statusRepository;
+    private final CypherService cypherService;
 
     @Autowired
     public StatusService(final StatusRepository statusRepository,
@@ -25,11 +25,13 @@ public class StatusService {
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-        Status status = getStatusByTeamAndCypher(team, cypher);
-        saveNewStatus(status, cypherStatus);
-        if (cypherService.getNext(cypher.getStage()) != null) {
-            saveNewStatus(getStatusByTeamAndCypher(team, cypherService.getNext(cypher.getStage())),
+        getStatusByCypherAndTeamAndSaveNewStatus(cypher, team, cypherStatus);
+        try {
+            getStatusByCypherAndTeamAndSaveNewStatus(cypherService.getNext(cypher.getStage()),
+                    team,
                     cypherStatus.getNextCypherStatus());
+        } catch (NextCypherNotFoundException | IllegalStateException e) {
+
         }
     }
 
@@ -45,21 +47,8 @@ public class StatusService {
         }
     }
 
-    private Status getStatusByTeamAndCypher(final Team team, final Cypher cypher) {
-        Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        if (status == null) {
-            throw new IllegalStateException("No status found for the given cypher and team in database");
-        }
-        return status;
-    }
-
     public CypherStatus getCypherStatusByTeamAndCypher(final Team team, final Cypher cypher) {
         return getStatusByTeamAndCypher(team, cypher).getCypherStatus();
-    }
-
-    private void saveNewStatus(final Status status, final CypherStatus newStatus) {
-        status.setCypherStatus(newStatus);
-        statusRepository.save(status);
     }
 
     public void initializeStatusForTeamAndCypher(final Cypher cypher, final Team team) {
@@ -80,5 +69,24 @@ public class StatusService {
 
     public List<Status> getAllByTeam(final Team team) {
         return statusRepository.findByTeam(team);
+    }
+
+    private void getStatusByCypherAndTeamAndSaveNewStatus(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
+        Status status = getStatusByTeamAndCypher(team, cypher);
+        saveNewStatus(status, cypherStatus);
+    }
+
+    private Status getStatusByTeamAndCypher(final Team team, final Cypher cypher) {
+        Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        if (status == null) {
+            throw new IllegalStateException("No status found for the given cypher and team in database");
+        }
+
+        return status;
+    }
+
+    private void saveNewStatus(final Status status, final CypherStatus newStatus) {
+        status.setCypherStatus(newStatus);
+        statusRepository.save(status);
     }
 }

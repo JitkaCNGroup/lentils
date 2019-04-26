@@ -4,6 +4,7 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.exception.NextCypherNotFoundException;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
@@ -73,7 +74,7 @@ public class StatusServiceTest {
         final Status statusEntity = new Status();
         statusEntity.setCypherStatus(CypherStatus.PENDING);
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(statusEntity);
-        when(cypherService.getNext(any())).thenReturn(null);
+        when(cypherService.getNext(any())).thenThrow(new NextCypherNotFoundException());
 
         service.markCypher(new Cypher(1), new Team(), CypherStatus.SOLVED);
 
