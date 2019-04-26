@@ -6,6 +6,7 @@ import dk.cngroup.lentils.repository.FinalPlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,12 +26,14 @@ public class FinalPlaceService {
         return finalPlaceRepository.save(finalPlace);
     }
 
-    /**
-     * Get final state entity.
-     *
-     * assumption:
-     * there is only one line in the table
-     */
+    public boolean isWithinOneHourBeforeOpeningTime() {
+        LocalDateTime finalPlaceOpeningTime = getFinalPlace().getOpeningTime();
+        if (finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1))) {
+            return true;
+        }
+        return false;
+    }
+
     public FinalPlace getFinalPlace() {
         List<FinalPlace> finalPlaces = finalPlaceRepository.findAll();
         if (finalPlaces.size() == 0) {
@@ -42,12 +45,6 @@ public class FinalPlaceService {
         throw new MoreFinalPlacesException("More final places found.");
     }
 
-    /**
-     * Delete all final places.
-     *
-     * assumption:
-     * there is only one line in the table
-     */
     public void deleteAll() {
         finalPlaceRepository.deleteAll();
     }

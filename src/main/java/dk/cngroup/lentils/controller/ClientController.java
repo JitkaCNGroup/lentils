@@ -5,6 +5,7 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.exception.NotOneHourBeforeOpeningTimeException;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
@@ -114,6 +115,9 @@ public class ClientController {
 
     @GetMapping(value = "finalPlace")
     public String finalPlaceDetail(final Model model) {
+        if (!finalPlaceService.isWithinOneHourBeforeOpeningTime()) {
+            throw new NotOneHourBeforeOpeningTimeException();
+        }
         model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
         return CLIENT_VIEW_FINAL_PLACE_DETAIL;
     }

@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
@@ -53,5 +55,21 @@ public class FinalPlaceServiceIntegrationTest {
         final List<FinalPlace> placesAfterSave = finalPlaceRepository.findAll();
         assertEquals(1, placesAfterSave.size());
         assertEquals(placeTitle, placesAfterSave.get(0).getDescription());
+    }
+
+    @Test
+    public void shouldBeWithinOneHourBeforeOpeningTime() {
+        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(20);
+        final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
+        finalPlaceService.save(finalPlace);
+        assertTrue(finalPlaceService.isWithinOneHourBeforeOpeningTime());
+    }
+
+    @Test
+    public void shouldNotBeWithinOneHourBeforeOpeningTime() {
+        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(61);
+        final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
+        finalPlaceService.save(finalPlace);
+        assertFalse(finalPlaceService.isWithinOneHourBeforeOpeningTime());
     }
 }
