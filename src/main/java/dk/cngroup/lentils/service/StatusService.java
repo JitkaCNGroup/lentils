@@ -30,7 +30,11 @@ public class StatusService {
     }
 
     public int getStatusScore(final Team team, final Cypher cypher) {
-        return getStatusByTeamAndCypher(team, cypher).getCypherStatus().getStatusValue();
+        try {
+            return getStatusByTeamAndCypher(team, cypher).getCypherStatus().getStatusValue();
+        } catch (IllegalStateException e) {
+            return 0;
+        }
     }
 
     private Status getStatusByTeamAndCypher(final Team team, final Cypher cypher) {
@@ -38,7 +42,6 @@ public class StatusService {
         if (status == null) {
             throw new IllegalStateException("No status found for the given cypher and team in database");
         }
-
         return status;
     }
 
