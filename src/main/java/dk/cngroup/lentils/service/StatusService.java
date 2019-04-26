@@ -16,14 +16,12 @@ public class StatusService {
     private StatusRepository statusRepository;
     private CypherService cypherService;
 
-    @Autowired
-    public void setCypherService(final CypherService cypherService) {
-        this.cypherService = cypherService;
-    }
 
     @Autowired
-    public StatusService(final StatusRepository statusRepository) {
+    public StatusService(final StatusRepository statusRepository,
+                         final CypherService cypherService) {
         this.statusRepository = statusRepository;
+        this.cypherService = cypherService;
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {

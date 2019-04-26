@@ -47,7 +47,6 @@ public class StatusServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        service.setCypherService(cypherService);
     }
 
     @Test
