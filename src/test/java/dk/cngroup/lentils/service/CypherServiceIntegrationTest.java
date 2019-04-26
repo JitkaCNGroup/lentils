@@ -2,7 +2,14 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Status;
+import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.repository.CypherRepository;
+import dk.cngroup.lentils.repository.StatusRepository;
+import dk.cngroup.lentils.repository.TeamRepository;
+import dk.cngroup.lentils.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +27,16 @@ public class CypherServiceIntegrationTest {
 
     @Autowired
     private CypherService testedService;
-
     @Autowired
     private CypherRepository cypherRepository;
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private StatusRepository statusRepository;
+
+    final ObjectGenerator objectGenerator = new ObjectGenerator();
 
     @Test
     public void getNextCypherWhenHavingSuccessiveNumberTest() {
@@ -58,6 +72,32 @@ public class CypherServiceIntegrationTest {
         assertNull(result);
     }
 
+    /**
+     * This tests #65
+     * Cypher with Status record could not be deleted due to incorrect FK constrains.
+     */
+    @Test
+    public void deleteCypher() {
+        final Cypher cypher = getCypherWithStageNumber(1);
+        final Team team = objectGenerator.generateNewTeam();
+        final Status status = new Status();
+        status.setCypherStatus(CypherStatus.PENDING);
+        status.setCypher(cypher);
+        status.setTeam(team);
+
+        teamRepository.saveAndFlush(team);
+        statusRepository.saveAndFlush(status);
+
+        final long cypherCount =  cypherRepository.count();
+        final long statusCount = statusRepository.count();
+        assertEquals(1, cypherCount);
+        assertEquals(1, statusRepository.count());
+
+        testedService.deleteById(cypher.getCypherId());
+
+        assertEquals(cypherCount - 1, cypherRepository.count());
+        assertEquals(statusCount - 1, statusRepository.count());
+    }
 
     private Cypher getCypherWithStageNumber(final int stageNumber) {
         final Cypher cypher = new Cypher(
@@ -67,8 +107,6 @@ public class CypherServiceIntegrationTest {
                 "codeword"
         );
 
-        cypherRepository.save(cypher);
-
-        return cypher;
+        return cypherRepository.save(cypher);
     }
 }
