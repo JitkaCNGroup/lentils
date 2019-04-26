@@ -39,11 +39,15 @@ public class StatusServiceTest {
     @Mock
     StatusRepository statusRepository;
 
+    @Mock
+    CypherService cypherService;
+
     private ObjectGenerator generator = new ObjectGenerator();
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        service.setCypherService(cypherService);
     }
 
     @Test
@@ -70,8 +74,9 @@ public class StatusServiceTest {
         final Status statusEntity = new Status();
         statusEntity.setCypherStatus(CypherStatus.PENDING);
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(statusEntity);
+        when(cypherService.getNext(any())).thenReturn(null);
 
-        service.markCypher(new Cypher(), new Team(), CypherStatus.SOLVED);
+        service.markCypher(new Cypher(1), new Team(), CypherStatus.SOLVED);
 
         assertEquals(CypherStatus.SOLVED, statusEntity.getCypherStatus());
         verify(statusRepository).save(statusEntity);

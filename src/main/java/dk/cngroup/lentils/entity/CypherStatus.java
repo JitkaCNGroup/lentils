@@ -1,10 +1,30 @@
 package dk.cngroup.lentils.entity;
 
 public enum CypherStatus {
-    SOLVED(10),
-    SKIPPED(0),
-    PENDING(0),
-    LOCKED(0);
+    SOLVED(10) {
+        @Override
+        public CypherStatus getNextCypherStatus() {
+            return PENDING;
+        }
+    },
+    SKIPPED(0) {
+        @Override
+        public CypherStatus getNextCypherStatus() {
+            return PENDING;
+        }
+    },
+    PENDING(0) {
+        @Override
+        public CypherStatus getNextCypherStatus() {
+            return LOCKED;
+        }
+    },
+    LOCKED(0) {
+        @Override
+        public CypherStatus getNextCypherStatus() {
+            return LOCKED;
+        }
+    };
 
     private int statusValue;
 
@@ -15,4 +35,6 @@ public enum CypherStatus {
     public int getStatusValue() {
         return statusValue;
     }
+
+    public abstract CypherStatus getNextCypherStatus();
 }

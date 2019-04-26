@@ -29,20 +29,10 @@ public class StatusService {
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
             Status status = getStatusByTeamAndCypher(team, cypher);
             saveNewStatus(status, cypherStatus);
-    }
-
-    public void solveCypher(final Cypher cypher, final Team team) {
-        markCypher(cypher, team, CypherStatus.SOLVED);
-        if (cypherService.getNext(cypher.getStage()) != null) {
-            markCypher(cypherService.getNext(cypher.getStage()), team, CypherStatus.PENDING);
-        }
-    }
-
-    public void skipCypher(final Cypher cypher, final Team team) {
-        markCypher(cypher, team, CypherStatus.SKIPPED);
-        if (cypherService.getNext(cypher.getStage()) != null) {
-            markCypher(cypherService.getNext(cypher.getStage()), team, CypherStatus.PENDING);
-        }
+            if (cypherService.getNext(cypher.getStage()) != null) {
+                saveNewStatus(getStatusByTeamAndCypher(team, cypherService.getNext(cypher.getStage())),
+                        cypherStatus.getNextCypherStatus());
+            }
     }
 
     public List<Status> getAll() {
