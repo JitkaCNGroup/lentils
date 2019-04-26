@@ -53,7 +53,7 @@
             <div th:each="hint : ${hintsNotTaken}">
                 <button class="btn btn-default flat btn-take"
                         th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">
-                    Vzít Hint
+                    <span class="hint-label" th:text="|Nápověda (-${hint.value}b.)|">
                 </button>
             </div>
         </div>
