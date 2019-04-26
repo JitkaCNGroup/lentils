@@ -71,7 +71,9 @@ public class StatusService {
         return statusRepository.findByTeam(team);
     }
 
-    private void getStatusByCypherAndTeamAndSaveNewStatus(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
+    private void getStatusByCypherAndTeamAndSaveNewStatus(final Cypher cypher,
+                                                          final Team team,
+                                                          final CypherStatus cypherStatus) {
         Status status = getStatusByTeamAndCypher(team, cypher);
         saveNewStatus(status, cypherStatus);
     }
