@@ -2,10 +2,10 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
-import dk.cngroup.lentils.entity.Status;
-import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Status;
+import dk.cngroup.lentils.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +24,6 @@ public class ProgressService {
                            final HintTakenService hintTakenService) {
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
-    }
-
-    public void makeCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-        statusService.markCypher(cypher, team, cypherStatus);
     }
 
     public Map<Long, CypherStatus> getTeamsStatuses(final Cypher cypher) {
