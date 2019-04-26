@@ -25,13 +25,13 @@ public class StatusService {
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-        getStatusByCypherAndTeamAndSaveNewStatus(cypher, team, cypherStatus);
+        updateStatus(cypher, team, cypherStatus);
         try {
-            getStatusByCypherAndTeamAndSaveNewStatus(cypherService.getNext(cypher.getStage()),
+            updateStatus(cypherService.getNext(cypher.getStage()),
                     team,
                     cypherStatus.getNextCypherStatus());
         } catch (NextCypherNotFoundException | IllegalStateException e) {
-
+            // status of the last cypher has been changed -> there is no next cypher
         }
     }
 
@@ -71,9 +71,9 @@ public class StatusService {
         return statusRepository.findByTeam(team);
     }
 
-    private void getStatusByCypherAndTeamAndSaveNewStatus(final Cypher cypher,
-                                                          final Team team,
-                                                          final CypherStatus cypherStatus) {
+    private void updateStatus(final Cypher cypher,
+                              final Team team,
+                              final CypherStatus cypherStatus) {
         Status status = getStatusByTeamAndCypher(team, cypher);
         saveNewStatus(status, cypherStatus);
     }
