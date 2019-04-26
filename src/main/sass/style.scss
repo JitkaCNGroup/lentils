@@ -1,0 +1,339 @@
+$theme-color-red: rgb(237, 24, 72);
+$theme-color-light-gray: #757575;
+
+$icon-cypher-solved-color: lawngreen;
+$icon-cypher-skipped-color: red;
+$icon-cypher-pending-color: deepskyblue;
+
+html {
+  font-size: 18px;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-top: 1.25rem;
+}
+
+h2{
+  font-size: 1.25rem;
+  color: $theme-color-light-gray;
+  margin-top: 1.25rem;
+}
+
+p{
+  text-align: justify;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+p.error{
+  color: $theme-color-red;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.navbar-red{
+  background-color: $theme-color-red;
+  color: white;
+}
+
+.navbar p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.navbar-content, .navbar-nav{
+  padding: 0.25rem;
+}
+
+.navbar-content p{
+  color: #fff;
+}
+
+.navbar .fa{
+  color: #fff;
+}
+
+.navbar a{
+  color: #ccc;
+}
+
+.navbar .team-name {
+  font-weight: 600;
+}
+
+.navbar-nav{
+}
+
+.navbar .active a {
+  color: white;
+  font-weight: 600;
+}
+
+.cypher .row {
+  height: 4rem;
+  border-bottom: solid 1px #E5E5E5;
+  color: $theme-color-light-gray;
+}
+
+.cypher .row.pending {
+  font-weight: 600;
+  color: black;
+}
+
+.cypher .row:hover {
+  background-color: #EEE;
+}
+
+.team .row {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.locked .name,
+.skipped .name,
+.solved .name{
+  color: $theme-color-light-gray;
+}
+
+.team {
+  border-bottom: solid 1px #E5E5E5;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+.col.hints {
+  -ms-flex: 0 0 4rem;
+  flex: 0 0 4rem;
+}
+
+.col.hints p{
+  margin: 0;
+  font-weight: normal;
+}
+
+.hints p, .hints i {
+  color: #AAA;
+}
+
+.hints .count{
+  display: inline-block;
+}
+
+.col.status {
+  -ms-flex: 0 0 2rem;
+  flex: 0 0 2rem;
+}
+
+.cypher .row i{
+  font-size: 1.2rem;
+}
+
+.cypher.organizer .row div {
+  color: black;
+}
+
+.team .row .col,
+.team .row .col-1,
+.team .row .col-2,
+.team .row .col-3,
+.team .row .col-4,
+.team .row .col-5,
+.team .row .col-6,
+.team .row .col-7{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.team .row p {
+  margin: 0;
+}
+
+.team .row div {
+  line-height: normal;
+}
+
+.fa-check-circle{
+  color: $icon-cypher-solved-color;
+}
+
+.fa-times-circle{
+  color: $icon-cypher-skipped-color;
+}
+
+.fa-spinner {
+  color: $icon-cypher-pending-color;
+}
+
+.hint-label {
+  font-weight: 600;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.6rem;
+}
+
+.label {
+  font-weight: bold;
+  padding-right: 0.5em;
+}
+
+.name {
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+.team p {
+  text-align: left;
+}
+
+span.status {
+  font-size: 0.6rem;
+  padding: 0.05rem 0.3rem;
+  background-color: $theme-color-light-gray;
+  color: #FFF;
+  border-radius: 2px;
+}
+
+.pending span.status {
+  background-color: #0095ff;
+}
+
+#bonus-info {
+  display: none;
+}
+
+#bonus-info p{
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+#hintContent {
+  visibility: hidden;
+  text-align: center;
+}
+
+a{
+  color: black;
+}
+
+a:hover{
+  color: black;
+  text-decoration: none;
+}
+
+.hoverColor:hover{
+  background-color: #e9ecef;
+  color: black;
+  text-decoration: none;
+}
+
+.paddingRow{
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+#map {
+  margin-bottom: 10px;
+}
+
+
+.container .row .btn {
+  width: 100%;
+  transition: all 0.3s ease 0s;
+  font-weight: 600;
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  border: none;
+}
+
+.container .row .btn-primary {
+  color: #FFF;
+  background-color: $theme-color-red;
+}
+
+.container .row .btn-secondary {
+  color: $theme-color-red;
+  background-color: white;
+}
+
+.container .row .btn-skip {
+  margin-top: 3rem;
+}
+
+.container .row .btn-secondary:hover {
+  -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+}
+
+.container .row .btn-primary:hover {
+  -webkit-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 3px 16px 2px rgba(0, 0, 0, 0.42);
+}
+
+.container .row .btn-solve {
+  background-color: green;
+}
+
+.container .row .flat.btn-skip {
+  background-color: red;
+}
+
+.container .row .btn-start {
+  background-color: #0081ff;
+}
+
+.container .row .btn-restart,
+.container .row .btn-lock {
+  background-color: grey;
+}
+
+
+.container .row .btn.flat.btn-hints {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.container .row .btn.flat {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 2px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #FFF;
+  width: auto;
+  padding: .35rem .65rem;
+}
+
+.last {
+  margin-bottom: 1rem;
+}
+
+.alert-light {
+  background-color: #f3f3f3;
+}
