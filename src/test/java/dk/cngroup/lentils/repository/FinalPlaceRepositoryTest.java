@@ -53,7 +53,7 @@ public class FinalPlaceRepositoryTest {
         repository.saveAndFlush(finalPlace);
     }
 
-    @Test(expected = javax.validation.ConstraintViolationException.class)
+    @Test
     public void finalPlaceWith256TitleTest() {
         FinalPlace finalPlace = new FinalPlace(TEST_256_TITLE, TEST_LOCATION, null);
         repository.saveAndFlush(finalPlace);

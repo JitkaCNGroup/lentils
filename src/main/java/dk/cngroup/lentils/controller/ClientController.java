@@ -9,6 +9,7 @@ import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.FinalPlaceService;
 import dk.cngroup.lentils.service.GameLogicService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
@@ -41,6 +42,7 @@ public class ClientController {
     private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game";
     private static final String FORM_OBJECT_NAME = "codeword";
     private static final String GUESS_FIELD_NAME = "guess";
+    private static final String CLIENT_VIEW_FINAL_PLACE_DETAIL = "client/finalplace/detail";
 
     private final CypherService cypherService;
     private final HintService hintService;
@@ -49,6 +51,7 @@ public class ClientController {
     private final CypherGameInfoService cypherGameInfoService;
     private final ScoreService scoreService;
     private final GameLogicService gameLogicService;
+    private final FinalPlaceService finalPlaceService;
 
     @Autowired
     public ClientController(final CypherService cypherService,
@@ -57,7 +60,8 @@ public class ClientController {
                             final HintTakenService hintTakenService,
                             final CypherGameInfoService cypherGameInfoService,
                             final ScoreService scoreService,
-                            final GameLogicService gameLogicService) {
+                            final GameLogicService gameLogicService,
+                            final FinalPlaceService finalPlaceService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
@@ -65,6 +69,7 @@ public class ClientController {
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
         this.gameLogicService = gameLogicService;
+        this.finalPlaceService = finalPlaceService;
     }
 
     @GetMapping(value = "cypher")
@@ -105,6 +110,12 @@ public class ClientController {
         setDetailModelAttributes(model, user, cypher, status, codeword);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
+    }
+
+    @GetMapping(value = "finalPlace")
+    public String finalPlaceDetail(final Model model) {
+        model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
+        return CLIENT_VIEW_FINAL_PLACE_DETAIL;
     }
 
     @GetMapping(value = "cypher/{id}/hint")

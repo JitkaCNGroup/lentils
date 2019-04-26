@@ -52,6 +52,6 @@ public class FinalPlaceServiceIntegrationTest {
 
         final List<FinalPlace> placesAfterSave = finalPlaceRepository.findAll();
         assertEquals(1, placesAfterSave.size());
-        assertEquals(placeTitle, placesAfterSave.get(0).getTitle());
+        assertEquals(placeTitle, placesAfterSave.get(0).getDescription());
     }
 }
