@@ -25,12 +25,12 @@ public class StatusService {
     }
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
-            Status status = getStatusByTeamAndCypher(team, cypher);
-            saveNewStatus(status, cypherStatus);
-            if (cypherService.getNext(cypher.getStage()) != null) {
-                saveNewStatus(getStatusByTeamAndCypher(team, cypherService.getNext(cypher.getStage())),
-                        cypherStatus.getNextCypherStatus());
-            }
+        Status status = getStatusByTeamAndCypher(team, cypher);
+        saveNewStatus(status, cypherStatus);
+        if (cypherService.getNext(cypher.getStage()) != null) {
+            saveNewStatus(getStatusByTeamAndCypher(team, cypherService.getNext(cypher.getStage())),
+                    cypherStatus.getNextCypherStatus());
+        }
     }
 
     public List<Status> getAll() {
