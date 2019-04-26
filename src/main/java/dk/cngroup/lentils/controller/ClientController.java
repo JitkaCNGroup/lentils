@@ -142,9 +142,7 @@ public class ClientController {
         }
 
         if (cypherService.checkCodeword(cypher, codeword.getGuess())) {
-            statusService.markCypher(cypherService.getCypher(cypher.getCypherId()),
-                    user.getTeam(),
-                    CypherStatus.SOLVED);
+            statusService.markCypher(cypher, user.getTeam(), CypherStatus.SOLVED);
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
         }
 
@@ -182,9 +180,6 @@ public class ClientController {
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
         if (cypherStatus.equals(CypherStatus.PENDING)) {
             statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
-        }
-        if (cypherService.getNext(cypher.getStage()) != null) {
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypherService.getNext(cypher.getStage()).getCypherId();
         }
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }

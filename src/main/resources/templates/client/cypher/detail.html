@@ -31,7 +31,7 @@
                         <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codeword}" method="post">
                             <div class="form-group">
                                 <!--<label for="guess">Řešení</label>-->
-                                <input id="guess" type="text" th:field="*{guess}" class="form-control" >
+                                <input id="guess" type="text" th:field="*{guess}" class="form-control" />
                                 <p th:if="${#fields.hasErrors('guess')}" th:class="'error'" th:errors="*{guess}" id="errorMessage"></p>
                             </div>
                             <div class="form-group">
@@ -108,7 +108,8 @@
             <div class="row last">
                 <div class="col-sm-12">
                     <form onsubmit="return confirm('Opravdu to chcete vzdát?')" action="/cypher/giveUp" th:object="${cypher}" method="post">
-                        <input type="hidden"  th:field="*{cypherId}" >
+                        <input type="hidden"  th:field="*{cypherId}" />
+                        <input type="hidden"  th:field="*{stage}" />
                         <button class="btn btn-secondary btn-skip" type="submit" onclick="">Vzdát šifru</button>
                     </form>
                 </div>

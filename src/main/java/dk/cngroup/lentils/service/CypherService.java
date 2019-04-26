@@ -15,17 +15,20 @@ import java.util.Optional;
 public class CypherService {
     private final CypherRepository cypherRepository;
     private final TeamService teamService;
-    private final StatusService statusService;
     private final HintTakenService hintTakenService;
+    private StatusService statusService;
+
+    @Autowired
+    public void setStatusService(final StatusService statusService) {
+        this.statusService = statusService;
+    }
 
     @Autowired
     public CypherService(final CypherRepository cypherRepository,
                          final TeamService teamService,
-                         final StatusService statusService,
                          final HintTakenService hintTakenService) {
         this.cypherRepository = cypherRepository;
         this.teamService = teamService;
-        this.statusService = statusService;
         this.hintTakenService = hintTakenService;
     }
 
