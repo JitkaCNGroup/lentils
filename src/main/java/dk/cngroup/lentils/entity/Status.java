@@ -10,12 +10,10 @@ public class Status {
 
     @Id
     @ManyToOne
-    @PrimaryKeyJoinColumn
     private Team team;
 
     @Id
     @ManyToOne
-    @PrimaryKeyJoinColumn
     private Cypher cypher;
 
     @Enumerated(EnumType.ORDINAL)

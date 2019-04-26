@@ -91,4 +91,8 @@ public class StatusService {
         status.setCypherStatus(newStatus);
         statusRepository.save(status);
     }
+
+    public void deleteAllByCypherId(final Long cypherId) {
+        statusRepository.deleteAllByCypherCypherId(cypherId);
+    }
 }
