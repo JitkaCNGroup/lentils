@@ -334,3 +334,46 @@ a:hover{
 .alert-light {
     background-color: #f3f3f3;
 }
+
+#final-place {
+    background-color: rgb(237, 24, 72);
+    color: white;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    margin-top: 4px;
+}
+
+#final-place p {
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+#final-place div {
+    text-align: center;
+    font-weight: 600;
+}
+
+#final-place #time {
+    -ms-flex: 0 0 5rem;
+    flex: 0 0 5rem;
+}
+
+#final-place #button {
+    -ms-flex: 0 0 5rem;
+    flex: 0 0 5rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+#final-place #content {
+    padding: 15px;
+}
+
+#footer {
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    width: 100%;
+}
