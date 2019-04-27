@@ -88,7 +88,8 @@ public class ProgressController {
         Team team = teamService.getTeam(teamId);
         model.addAttribute("cypher", cypher);
         model.addAttribute("team", team);
-        model.addAttribute("takenHints", progressService.setTakenHintsToMap(cypher, team));
+        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(team, cypher));
+        model.addAttribute("hintsNotTaken", hintService.getAllNotTakenByTeamAndCypher(team, cypher));
         return HINT_LIST;
     }
 
