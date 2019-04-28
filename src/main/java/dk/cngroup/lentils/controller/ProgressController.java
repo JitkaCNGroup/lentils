@@ -8,6 +8,7 @@ import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.ProgressService;
+import dk.cngroup.lentils.service.StatusService;
 import dk.cngroup.lentils.service.TeamService;
 import dk.cngroup.lentils.service.HintTakenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class ProgressController {
     private final TeamService teamService;
     private final CypherService cypherService;
     private final ProgressService progressService;
+    private final StatusService statusService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
 
@@ -41,12 +43,14 @@ public class ProgressController {
                               final CypherService cypherService,
                               final ProgressService progressService,
                               final HintService hintService,
-                              final HintTakenService hintTakenService) {
+                              final HintTakenService hintTakenService,
+                              final StatusService statusService) {
         this.teamService = teamService;
         this.cypherService = cypherService;
         this.progressService = progressService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
+        this.statusService = statusService;
     }
 
     @GetMapping
@@ -72,7 +76,7 @@ public class ProgressController {
         Cypher cypher = cypherService.getCypher(cypherId);
         Team team = teamService.getTeam(teamId);
         CypherStatus cypherStatus = CypherStatusFactory.create(newStatus);
-        progressService.makeCypher(cypher, team, cypherStatus);
+        statusService.markCypher(cypher, team, cypherStatus);
 
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
