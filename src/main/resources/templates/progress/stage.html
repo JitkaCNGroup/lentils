@@ -50,24 +50,24 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-solve flat"
+                            <a href="#" class="btn btn-solve flat" th:onclick="return confirm('Opravdu chcete vyřešit šifru?')"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
                                 Solve</a>
-                            <a href="#" class="btn btn-skip flat"
+                            <a href="#" class="btn btn-skip flat" th:onclick="return confirm('Opravdu chcete přeskočit šifru?')"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
                                 Skip</a>
-                            <a href="#" class="btn btn-start flat"
+                            <a href="#" class="btn btn-start flat" th:onclick="return confirm('Opravdu chcete zahájit šifru?')"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('LOCKED')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
                                 Start</a>
-                            <a href="#" class="btn btn-restart flat"
+                            <a href="#" class="btn btn-restart flat" th:onclick="return confirm('Opravdu chcete zahájit šifru?')"
                                th:if="${teamsStatuses.get(team.teamId) != null and
                                ((teamsStatuses.get(team.teamId))?.name() == ('SOLVED') or (teamsStatuses.get(team.teamId))?.name() == ('SKIPPED'))}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
                                 Restart</a>
-                            <a href="#" class="btn btn-lock flat"
+                            <a href="#" class="btn btn-lock flat" th:onclick="return confirm('Opravdu chcete zamknout šifru?')"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='lock')}">
                                 Lock</a>
