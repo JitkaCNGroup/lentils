@@ -78,6 +78,11 @@ public class ClientController {
         } else {
             model.addAttribute("gameStarted", false);
         }
+        if (!gameLogicService.allowPlayersToViewFinalPlace(user.getTeam())) {
+            model.addAttribute("finalViewNotAllowed", true);
+        } else {
+            model.addAttribute("openingTime", gameLogicService.getFinalPlaceOpeningTime());
+        }
         model.addAttribute("team", user.getTeam());
         return CLIENT_VIEW_CYPHER_LIST;
     }

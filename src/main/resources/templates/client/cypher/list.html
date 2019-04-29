@@ -55,22 +55,24 @@
             </div>
         </div>
     </div>
-    <a th:href="@{/finalplace}" id="footer">
-        <div id="final-place">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div id="time" class="col">
-                        18:00
-                    </div>
-                    <div id="content" class="col">
-                        Vyhlášení výsledků
-                    </div>
-                    <div id="button" class="col">
-                        Zobrazit
+    <div th:unless="${finalViewNotAllowed}">
+        <a th:href="@{/finalplace}" id="footer">
+            <div id="final-place">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div id="time" class="col">
+                            <p th:text="${openingTime}"></p>
+                        </div>
+                        <div id="content" class="col">
+                            Vyhlášení výsledků
+                        </div>
+                        <div id="button" class="col">
+                            Zobrazit
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>
 </body>
 </html>
