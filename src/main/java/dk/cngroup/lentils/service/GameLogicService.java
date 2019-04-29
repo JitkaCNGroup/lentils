@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -43,5 +44,10 @@ public class GameLogicService {
     public boolean passedTimeToViewFinalPlace() {
         LocalDateTime finalPlaceOpeningTime = finalPlaceService.getFinalPlace().getOpeningTime();
         return finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1));
+    }
+
+    public LocalTime getFinalPlaceOpeningTime() {
+        FinalPlace finalPlace = finalPlaceService.getFinalPlace();
+        return finalPlace.getOpeningTime().toLocalTime();
     }
 }

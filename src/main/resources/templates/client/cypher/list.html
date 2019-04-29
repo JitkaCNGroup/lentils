@@ -55,12 +55,13 @@
             </div>
         </div>
     </div>
-    <a th:href="@{/finalplace}" id="footer">
+
+    <a th:if="finalViewAllowed" th:href="@{/finalplace}" id="footer">
         <div id="final-place">
             <div class="container">
                 <div class="row align-items-center">
                     <div id="time" class="col">
-                        18:00
+                        <p th:text="${openingTime}"></p>
                     </div>
                     <div id="content" class="col">
                         Vyhlášení výsledků
