@@ -42,41 +42,7 @@
         </div>
     </div>
 
-    <script>
-        var map,
-            activeMarker;
-
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 14,
-                center: getFinalPlaceLocation(),
-                disableDefaultUI: true,
-                gestureHandling: 'none',
-                zoomControl: false,
-                draggable: false
-            });
-            addMarkerFromForm();
-        }
-
-        function addMarker(location) {
-            activeMarker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-        }
-
-        function addMarkerFromForm() {
-            addMarker(getFinalPlaceLocation());
-        }
-
-        function getFinalPlaceLocation() {
-            var lat = [[${finalplace.location.getY()}]];
-            var lng = [[${finalplace.location.getX()}]];
-            var locationOfFinalPlace = {lat: lat, lng: lng};
-            return locationOfFinalPlace;
-        }
-
-    </script>
+    <script th:src="@{/js/client-map.js}"></script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDseyIGXP_QJWmaCbjVJxxVUQ5vxX44Anw&callback=initMap">
     </script>
