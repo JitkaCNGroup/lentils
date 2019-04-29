@@ -25,12 +25,6 @@ public class ContactService {
         return contactRepository.save(contact);
     }
 
-    /**
-     * Get contact entity.
-     *
-     * assumption:
-     * there is only one line in the table
-     */
     public Contact getContact() {
         List<Contact> contacts = contactRepository.findAll();
         if (contacts.size() == 0) {
@@ -42,12 +36,6 @@ public class ContactService {
         throw new MoreContactsException("More contacts found.");
     }
 
-    /**
-     * Delete all contacts.
-     *
-     * assumption:
-     * there is only one line in the table
-     */
     public void deleteAll() {
         contactRepository.deleteAll();
     }

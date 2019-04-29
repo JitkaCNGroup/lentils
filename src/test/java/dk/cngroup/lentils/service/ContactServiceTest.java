@@ -31,36 +31,8 @@ public class ContactServiceTest {
     private ObjectGenerator generator = new ObjectGenerator();
 
     @Test
-    public void addNewContactTest() {
-        Contact contact = createNewContact();
-        when(repository.save(contact)).thenReturn(contact);
-
-        assertNotNull(contact);
-        assertEquals(contact, service.save(contact));
-    }
-
-    @Test
-    public void addTwoContactsTest() {
-        Contact contact = createNewContact();
-        when(repository.save(contact)).thenReturn(contact);
-
-        assertNotNull(contact);
-        assertEquals(contact, service.save(contact));
-    }
-
-    @Test
-    public void deleteContactTest() {
-        Contact contact = createNewContact();
-        when(repository.count()).thenReturn(0L);
-
-        service.deleteAll();
-
-        assertEquals(0, repository.count());
-    }
-
-    @Test
     public void testGetContact() {
-        final Contact contact = new Contact();
+        final Contact contact = createNewContact();
         final List<Contact> list = new ArrayList<>();
         list.add(contact);
         when(repository.findAll()).thenReturn(list);
@@ -71,7 +43,7 @@ public class ContactServiceTest {
     }
 
     @Test(expected = MoreContactsException.class)
-    public void testGetFinalPlaceWithMultiplePlacesSet() {
+    public void testGetContactWithMultipleContactsSet() {
         final List<Contact> list = new ArrayList<>();
         list.add(new Contact());
         list.add(new Contact());
@@ -82,7 +54,6 @@ public class ContactServiceTest {
 
     private Contact createNewContact() {
         Contact contact = generator.generateContact();
-        when(repository.save(contact)).thenReturn(contact);
-        return service.save(contact);
+        return contact;
     }
 }

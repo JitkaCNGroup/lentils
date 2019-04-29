@@ -1,9 +1,7 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Contact;
-import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.service.ContactService;
-import dk.cngroup.lentils.service.FinalPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
