@@ -64,7 +64,7 @@ public class FinalPlaceServiceIntegrationTest {
         LocalDateTime openingTime = LocalDateTime.now().plusMinutes(20);
         final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
         finalPlaceService.save(finalPlace);
-        assertTrue(gameLogicService.allowPlayersToViewFinalPlace());
+        assertTrue(gameLogicService.passedTimeToViewFinalPlace());
     }
 
     @Test
@@ -72,6 +72,6 @@ public class FinalPlaceServiceIntegrationTest {
         LocalDateTime openingTime = LocalDateTime.now().plusMinutes(61);
         final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
         finalPlaceService.save(finalPlace);
-        assertFalse(gameLogicService.allowPlayersToViewFinalPlace());
+        assertFalse(gameLogicService.passedTimeToViewFinalPlace());
     }
 }

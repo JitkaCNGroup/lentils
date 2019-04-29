@@ -181,7 +181,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     private void createFinalPlace(LocalDateTime time) {
         final FinalPlace finalPlace = new FinalPlace();
         finalPlace.setLocation(TEST_LOCATION);
-        finalPlace.setDescription("title");
+        finalPlace.setDescription("description");
         finalPlace.setOpeningTime(time);
         finalPlaceRepository.save(finalPlace);
     }

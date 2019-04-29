@@ -390,7 +390,7 @@ a:hover{
     width: 100%;
 }
 
-.alert-danger, red {
+.alert-danger.red {
     background-color: rgb(237, 24, 72);
     color: white;
 }
