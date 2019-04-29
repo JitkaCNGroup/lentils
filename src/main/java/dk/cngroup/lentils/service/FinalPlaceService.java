@@ -26,14 +26,6 @@ public class FinalPlaceService {
         return finalPlaceRepository.save(finalPlace);
     }
 
-    public boolean isWithinOneHourBeforeOpeningTime() {
-        LocalDateTime finalPlaceOpeningTime = getFinalPlace().getOpeningTime();
-        if (finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1))) {
-            return true;
-        }
-        return false;
-    }
-
     public FinalPlace getFinalPlace() {
         List<FinalPlace> finalPlaces = finalPlaceRepository.findAll();
         if (finalPlaces.size() == 0) {

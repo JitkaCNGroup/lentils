@@ -49,7 +49,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/game/**")
                     .hasRole("ORGANIZER").and()
                 .authorizeRequests().antMatchers("/finalPlace")
-                    .authenticated().and()
+                    .hasRole("USER").and()
                 .formLogin()
                     .loginPage("/login")
                     .defaultSuccessUrl("/successfulLogin", true)
