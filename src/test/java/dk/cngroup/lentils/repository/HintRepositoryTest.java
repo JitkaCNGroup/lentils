@@ -29,7 +29,7 @@ public class HintRepositoryTest {
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
     private static final String TEST_EMPTY_NAME = "";
     private static final String TEST_CYPHER_NAME = "CypherName";
-    private static final String TEST_HINT_NAME = "HintName";
+    private static final String TEST_HINT_TEXT = "HintText";
 
     @Autowired
     private HintRepository hintRepository;
@@ -60,7 +60,7 @@ public class HintRepositoryTest {
     public void addTest() {
         Cypher cypher = new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD);
         Cypher cypher1 = cypherService.save(cypher);
-        Hint hint = new Hint(TEST_HINT_NAME, 5, cypher1);
+        Hint hint = new Hint(TEST_HINT_TEXT, 5, cypher1);
         Hint hint1 = hintRepository.save(hint);
 
         assertNotNull(hint1);
@@ -94,7 +94,7 @@ public class HintRepositoryTest {
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
-    public void hintWithEmptyNameTest() {
+    public void hintWithEmptyTextTest() {
         Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
         Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
         hintRepository.saveAndFlush(hint);
@@ -103,7 +103,7 @@ public class HintRepositoryTest {
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void hintWithNotAllowedValueTest() {
         Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
-        Hint hint = new Hint(TEST_EMPTY_NAME, 0, cypher);
+        Hint hint = new Hint(TEST_HINT_TEXT, 0, cypher);
         hintRepository.saveAndFlush(hint);
     }
 }
