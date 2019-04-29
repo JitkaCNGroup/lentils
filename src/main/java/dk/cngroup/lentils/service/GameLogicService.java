@@ -30,20 +30,14 @@ public class GameLogicService {
     }
 
     public boolean allowPlayersToViewFinalPlace(final Team team) {
-        if (passedTimeToViewFinalPlace() || passedAllCyphers(team)) {
-            return true;
-        }
-        return false;
+        return (passedTimeToViewFinalPlace() || passedAllCyphers(team));
     }
 
     public boolean passedAllCyphers(final Team team) {
         List<Status> statusesOfTeam = statusService.getAllByTeam(team);
         Long numberOfStatusPendingByTeam = statusesOfTeam.stream()
                 .filter(status -> status.getCypherStatus().equals(CypherStatus.PENDING)).count();
-        if (numberOfStatusPendingByTeam > 0) {
-            return false;
-        }
-        return true;
+        return (numberOfStatusPendingByTeam <= 0);
     }
 
     public boolean passedTimeToViewFinalPlace() {

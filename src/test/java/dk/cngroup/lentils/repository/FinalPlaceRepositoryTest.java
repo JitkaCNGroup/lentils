@@ -54,7 +54,7 @@ public class FinalPlaceRepositoryTest {
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
-    public void finalPlaceWithDescriptionLengthOver1000Test() {
+    public void finalPlaceWithTooLongDescriptionTest() {
         FinalPlace finalPlace = new FinalPlace(TEST_OVER_1000_DESCRIPTION, TEST_LOCATION, null);
         repository.saveAndFlush(finalPlace);
     }
