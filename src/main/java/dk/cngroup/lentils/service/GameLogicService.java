@@ -29,14 +29,14 @@ public class GameLogicService {
         return finalPlace.getOpeningTime() != null && finalPlace.getOpeningTime().isAfter(LocalDateTime.now());
     }
 
-    public boolean allowPlayersToViewFinalPlace(Team team) {
+    public boolean allowPlayersToViewFinalPlace(final Team team) {
         if (passedTimeToViewFinalPlace() || passedAllCyphers(team)) {
             return true;
         }
         return false;
     }
 
-    public boolean passedAllCyphers(Team team) {
+    public boolean passedAllCyphers(final Team team) {
         List<Status> statusesOfTeam = statusService.getAllByTeam(team);
         Long numberOfStatusPendingByTeam = statusesOfTeam.stream()
                 .filter(status -> status.getCypherStatus().equals(CypherStatus.PENDING)).count();
