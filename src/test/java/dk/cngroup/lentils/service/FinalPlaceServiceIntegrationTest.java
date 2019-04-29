@@ -27,6 +27,8 @@ public class FinalPlaceServiceIntegrationTest {
     private FinalPlaceService finalPlaceService;
     @Autowired
     private FinalPlaceRepository finalPlaceRepository;
+    @Autowired
+    private GameLogicService gameLogicService;
 
     private ObjectGenerator objectGenerator = new ObjectGenerator();
 
@@ -62,7 +64,7 @@ public class FinalPlaceServiceIntegrationTest {
         LocalDateTime openingTime = LocalDateTime.now().plusMinutes(20);
         final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
         finalPlaceService.save(finalPlace);
-        assertTrue(finalPlaceService.isWithinOneHourBeforeOpeningTime());
+        assertTrue(gameLogicService.allowPlayersToViewFinalPlace());
     }
 
     @Test
@@ -70,6 +72,6 @@ public class FinalPlaceServiceIntegrationTest {
         LocalDateTime openingTime = LocalDateTime.now().plusMinutes(61);
         final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
         finalPlaceService.save(finalPlace);
-        assertFalse(finalPlaceService.isWithinOneHourBeforeOpeningTime());
+        assertFalse(gameLogicService.allowPlayersToViewFinalPlace());
     }
 }
