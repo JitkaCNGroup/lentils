@@ -32,9 +32,9 @@
                     <input id="finalPlaceId" class="form-control" th:field="*{finalPlaceId}" readonly/>
                 </div>
                 <div class="form-group">
-                    <label for="title">Jméno</label>
-                    <input id="title" class="form-control" th:field="*{title}"/>
-                    <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error.</p>
+                    <label for="description">Jméno a popis</label>
+                    <input id="description" class="form-control" th:field="*{description}"/>
+                    <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error.</p>
                 </div>
                 <div class="form-group">
                     <label for="location">Souřadnice</label>

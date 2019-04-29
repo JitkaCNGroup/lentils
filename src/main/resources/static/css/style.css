@@ -384,8 +384,13 @@ a:hover{
 }
 
 #footer {
-    position:fixed;
-    left:0px;
-    bottom:0px;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
     width: 100%;
+}
+
+.alert-danger.red {
+    background-color: rgb(237, 24, 72);
+    color: white;
 }

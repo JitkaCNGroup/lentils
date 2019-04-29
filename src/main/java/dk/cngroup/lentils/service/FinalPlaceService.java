@@ -25,12 +25,6 @@ public class FinalPlaceService {
         return finalPlaceRepository.save(finalPlace);
     }
 
-    /**
-     * Get final state entity.
-     *
-     * assumption:
-     * there is only one line in the table
-     */
     public FinalPlace getFinalPlace() {
         List<FinalPlace> finalPlaces = finalPlaceRepository.findAll();
         if (finalPlaces.size() == 0) {
@@ -42,12 +36,6 @@ public class FinalPlaceService {
         throw new MoreFinalPlacesException("More final places found.");
     }
 
-    /**
-     * Delete all final places.
-     *
-     * assumption:
-     * there is only one line in the table
-     */
     public void deleteAll() {
         finalPlaceRepository.deleteAll();
     }

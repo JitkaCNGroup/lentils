@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
@@ -18,9 +19,9 @@ public class FinalPlace {
     @Column(name = "final_place_id")
     private Long finalPlaceId;
 
-    @Column(name = "title")
-    @Size(min = 1, max = 255, message = "Jméno musí mít 1 - 255 znaků.")
-    private String title;
+    @Column(name = "description")
+    @Size(min = 1, max = 1000, message = "Popis musí mít 1 - 1000 znaků.")
+    private String description;
 
     @Column(name = "location")
     @NotNull(message = "Souřadnice nesmí být prázdné.")
@@ -33,10 +34,14 @@ public class FinalPlace {
     public FinalPlace() {
     }
 
-    public FinalPlace(final String title, final Point location, final LocalDateTime openingTime) {
-        this.title = title;
+    public FinalPlace(final String description, final Point location, final LocalDateTime openingTime) {
+        this.description = description;
         this.location = location;
         this.openingTime = openingTime;
+    }
+
+    public LocalTime getOpeningTimeOnly() {
+        return openingTime.toLocalTime();
     }
 
     public Long getFinalPlaceId() {
@@ -47,12 +52,12 @@ public class FinalPlace {
         this.finalPlaceId = finalPlaceId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitle(final String title) {
-        this.title = title;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public LocalDateTime getOpeningTime() {
@@ -75,7 +80,7 @@ public class FinalPlace {
     public String toString() {
         return "FinalPlace{" +
                 "finalPlaceId=" + finalPlaceId +
-                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", location=" + location +
                 ", openingTime=" + openingTime +
                 '}';
@@ -91,13 +96,13 @@ public class FinalPlace {
         }
         FinalPlace that = (FinalPlace) o;
         return Objects.equals(finalPlaceId, that.finalPlaceId) &&
-                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
                 Objects.equals(location, that.location) &&
                 Objects.equals(openingTime, that.openingTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(finalPlaceId, title, location, openingTime);
+        return Objects.hash(finalPlaceId, description, location, openingTime);
     }
 }
