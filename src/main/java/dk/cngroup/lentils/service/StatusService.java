@@ -15,12 +15,15 @@ import java.util.List;
 public class StatusService {
 
     private final StatusRepository statusRepository;
-    private final CypherService cypherService;
+    private CypherService cypherService;
 
     @Autowired
-    public StatusService(final StatusRepository statusRepository,
-                         final CypherService cypherService) {
+    public StatusService(final StatusRepository statusRepository) {
         this.statusRepository = statusRepository;
+    }
+
+    @Autowired
+    public void setCypherService(final CypherService cypherService) {
         this.cypherService = cypherService;
     }
 

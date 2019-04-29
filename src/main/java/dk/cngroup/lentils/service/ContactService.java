@@ -39,7 +39,7 @@ public class ContactService {
             return contacts.get(0);
         }
 
-        throw new MoreContactsException("More final places found.");
+        throw new MoreContactsException("More contacts found.");
     }
 
     /**

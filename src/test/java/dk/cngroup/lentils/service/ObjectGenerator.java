@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.service;
 
+import dk.cngroup.lentils.entity.Contact;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Hint;
@@ -86,5 +87,9 @@ public class ObjectGenerator {
         user.setPassword("1234");
 
         return user;
+    }
+
+    public Contact generateContact() {
+        return new Contact("Veru", "123 456 789", "www.cngroup.dk", "http://xxx");
     }
 }
