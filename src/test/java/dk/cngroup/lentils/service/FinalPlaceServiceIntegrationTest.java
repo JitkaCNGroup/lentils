@@ -47,16 +47,16 @@ public class FinalPlaceServiceIntegrationTest {
         finalPlaceRepository.save(originalPlace);
         assertEquals(1, finalPlaceRepository.findAll().size());
 
-        final String placeTitle = "ABCDE";
+        final String placeDescription = "ABCDE";
         final FinalPlace newPlace = new FinalPlace(
-                placeTitle,
+                placeDescription,
                 new Point(8.5, 5),
                 LocalDateTime.now());
         finalPlaceService.save(newPlace);
 
         final List<FinalPlace> placesAfterSave = finalPlaceRepository.findAll();
         assertEquals(1, placesAfterSave.size());
-        assertEquals(placeTitle, placesAfterSave.get(0).getDescription());
+        assertEquals(placeDescription, placesAfterSave.get(0).getDescription());
     }
 
     @Test
