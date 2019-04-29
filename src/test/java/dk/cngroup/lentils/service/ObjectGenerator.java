@@ -60,7 +60,7 @@ public class ObjectGenerator {
         List<Hint> hints = new LinkedList<>();
         for (Cypher cypher : cyphers) {
             for (int i = 0; i < NUMBER_OF_HINTS_FOR_CYPHER; i++) {
-                hints.add(new Hint("text", i, cypher));
+                hints.add(new Hint("text", i+1, cypher));
             }
         }
         return hints;

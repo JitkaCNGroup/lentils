@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class Hint implements Serializable {
     private String text;
 
     @Column(name = "value")
+    @Min(value = 1, message = "Hodnota musí být vetší než 0.")
     private int value;
 
     public Hint() {

@@ -99,4 +99,11 @@ public class HintRepositoryTest {
         Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
         hintRepository.saveAndFlush(hint);
     }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void hintWithNotAllowedValueTest() {
+        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
+        Hint hint = new Hint(TEST_EMPTY_NAME, 0, cypher);
+        hintRepository.saveAndFlush(hint);
+    }
 }
