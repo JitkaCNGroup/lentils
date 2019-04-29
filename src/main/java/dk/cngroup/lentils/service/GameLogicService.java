@@ -24,9 +24,6 @@ public class GameLogicService {
 
     public boolean allowPlayersToViewFinalPlace() {
         LocalDateTime finalPlaceOpeningTime = finalPlaceService.getFinalPlace().getOpeningTime();
-        if (finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1))) {
-            return true;
-        }
-        return false;
+        return finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1));
     }
 }

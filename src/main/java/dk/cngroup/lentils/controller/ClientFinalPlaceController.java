@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.exception.NotYetTimeToShowOpeningTimeException;
+import dk.cngroup.lentils.exception.FinalPlaceNotYetAccessibleException;
 import dk.cngroup.lentils.service.FinalPlaceService;
 import dk.cngroup.lentils.service.GameLogicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ClientFinalPlaceController {
     @GetMapping(value = "finalplace")
     public String finalPlaceDetail(final Model model) {
         if (!gameLogicService.allowPlayersToViewFinalPlace()) {
-            throw new NotYetTimeToShowOpeningTimeException();
+            throw new FinalPlaceNotYetAccessibleException();
         }
         model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
         return CLIENT_VIEW_FINAL_PLACE_DETAIL;
