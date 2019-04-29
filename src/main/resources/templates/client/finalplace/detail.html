@@ -41,8 +41,12 @@
                class="btn btn-secondary" role="button">Zobrazit na mapě</a>
         </div>
     </div>
-
-    <script th:src="@{/js/client-map.js}"></script>
+    <script>
+        var lat = [[${finalplace.location.getY()}]];
+        var lng = [[${finalplace.location.getX()}]];
+    </script>
+    <script th:src="@{/js/client-map.js}">
+    </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDseyIGXP_QJWmaCbjVJxxVUQ5vxX44Anw&callback=initMap">
     </script>

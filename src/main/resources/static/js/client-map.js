@@ -25,8 +25,6 @@ function addMarkerFromForm() {
 }
 
 function getFinalPlaceLocation() {
-    var lat = [[${finalplace.location.getY()}]];
-    var lng = [[${finalplace.location.getX()}]];
     var locationOfFinalPlace = {lat: lat, lng: lng};
     return locationOfFinalPlace;
 }
