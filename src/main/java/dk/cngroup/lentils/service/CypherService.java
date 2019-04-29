@@ -47,7 +47,7 @@ public class CypherService {
     }
 
     public boolean checkCodeword(final Cypher cypher, final String codeword) {
-        return codeword.equals(cypher.getCodeword());
+        return codeword.equalsIgnoreCase(cypher.getCodeword());
     }
 
     public boolean checkTrapCodeword(final Cypher cypher, final String codeword) {
@@ -55,7 +55,7 @@ public class CypherService {
             return false;
         }
 
-        return codeword.equals(cypher.getTrapCodeword());
+        return codeword.equalsIgnoreCase(cypher.getTrapCodeword());
     }
 
     public Cypher getByStage(final int stage) {
