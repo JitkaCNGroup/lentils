@@ -41,6 +41,7 @@
                 <div class="form-group">
                     <label for="value">Hodnota</label>
                     <input id="value" class="form-control" type="number" th:field="*{value}"/>
+                    <p class="error" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Value error.</p>
                 </div>
                 <button type="submit" class="btn btn-primary">Uložit</button>
             </form>
