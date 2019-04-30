@@ -116,6 +116,9 @@ p.subheading {
     color: #757575;
 }
 
+.fas.fa-chevron-left {
+    color: white;
+}
 .team {
     border-bottom: solid 1px #E5E5E5;
     padding-top: 0.3rem;
