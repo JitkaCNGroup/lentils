@@ -53,7 +53,7 @@
                             <a href="#" class="btn btn-solve flat"
                                th:teamName="${team.name}"
                                th:teamPin="${team.pin}"
-                               th:onclick="|return confirm('Opravdu chcete vyřešit šifru pro team: ' +
+                               th:onclick="|return confirm('Opravdu chcete vyřešit šifru pro tým: ' +
                                     this.getAttribute('teamName') + '?\nPin teamu je ' + this.getAttribute('teamPin'))|"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='solve')}">
@@ -61,7 +61,7 @@
                             <a href="#" class="btn btn-skip flat"
                                th:teamName="${team.name}"
                                th:teamPin="${team.pin}"
-                               th:onclick="|return confirm('Opravdu chcete přeskočit šifru pro team: ' +
+                               th:onclick="|return confirm('Opravdu chcete přeskočit šifru pro tým: ' +
                                     this.getAttribute('teamName') + '?\nPin teamu je ' + this.getAttribute('teamPin'))|"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('PENDING')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='skip')}">
@@ -69,7 +69,7 @@
                             <a href="#" class="btn btn-start flat"
                                th:teamName="${team.name}"
                                th:teamPin="${team.pin}"
-                               th:onclick="|return confirm('Opravdu chcete zahájit šifru pro team: ' +
+                               th:onclick="|return confirm('Opravdu chcete zahájit šifru pro tým: ' +
                                     this.getAttribute('teamName') + '?\nPin teamu je ' + this.getAttribute('teamPin'))|"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() == ('LOCKED')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='pending')}">
@@ -77,7 +77,7 @@
                             <a href="#" class="btn btn-restart flat"
                                th:teamName="${team.name}"
                                th:teamPin="${team.pin}"
-                               th:onclick="|return confirm('Opravdu chcete zahájit šifru pro team: ' +
+                               th:onclick="|return confirm('Opravdu chcete zahájit šifru pro tým: ' +
                                     this.getAttribute('teamName') + '?\nPin teamu je ' + this.getAttribute('teamPin'))|"
                                th:if="${teamsStatuses.get(team.teamId) != null and
                                ((teamsStatuses.get(team.teamId))?.name() == ('SOLVED') or (teamsStatuses.get(team.teamId))?.name() == ('SKIPPED'))}"
@@ -86,7 +86,7 @@
                             <a href="#" class="btn btn-lock flat"
                                th:teamName="${team.name}"
                                th:teamPin="${team.pin}"
-                               th:onclick="|return confirm('Opravdu chcete zamknout šifru pro team: ' +
+                               th:onclick="|return confirm('Opravdu chcete zamknout šifru pro tým: ' +
                                     this.getAttribute('teamName') + '?\nPin teamu je ' + this.getAttribute('teamPin'))|"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='lock')}">
