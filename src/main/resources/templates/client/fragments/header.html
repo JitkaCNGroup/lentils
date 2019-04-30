@@ -7,7 +7,7 @@
     <nav class="navbar navbar-default navbar-red">
         <div class="navbar-content">
             <p class="team-name" th:text="${team.name}"></p>
-            <p th:text="|Aktuální skóre: ${score} b.|" th:if="${gameStarted == true}"></p>
+            <p th:unless="${score} == null" th:text="|Aktuální skóre: ${score} b.|"></p>
         </div>
 
         <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
