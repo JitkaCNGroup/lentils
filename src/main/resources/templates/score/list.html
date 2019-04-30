@@ -16,14 +16,14 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(score)"></div>
 <div class="container">
-    <h2>Pořadí týmů podle score</h2>
+    <h2>Pořadí týmů podle skóre</h2>
     <div class="table-responsive">
         <table class="table" border="1">
             <thead>
             <tr>
                 <th>Id týmu</th>
                 <th>Jméno týmu</th>
-                <th>Score</th>
+                <th>Skóre</th>
                 <th>Akce</th>
             </tr>
             <tr th:if="${teamsWithScores.empty}">
@@ -44,7 +44,7 @@
                     <td align="center">
                         <a href="#"
                            class="btn btn-default btn-lg" th:href="@{/game/score/team(teamId=${teamWithScore.team.teamId})}">
-                            Detail score
+                            Detail skóre
                         </a>
                     </td>
                 </tr>
