@@ -50,13 +50,6 @@
                     <a onclick="return confirm('Opravdu si chcete vzít tuto nápovědu?')">
                         <form th:action="@{'/cypher/takeHint/' + ${hint.hintId}}" th:object="${cypher}" method="post">
                             <input type="hidden"  th:field="*{cypherId}" />
-                            <input type="hidden"  th:field="*{hints}" />
-                            <input type="hidden"  th:field="*{name}" />
-                            <input type="hidden"  th:field="*{stage}" />
-                            <input type="hidden"  th:field="*{placeDescription}" />
-                            <input type="hidden"  th:field="*{location}" />
-                            <input type="hidden"  th:field="*{codeword}" />
-                            <input type="hidden"  th:field="*{bonusContent}" />
 
                             <th:block th:if="${hint.value == 1}">
                                 <button type="submit" class="btn btn-primary"
