@@ -30,7 +30,7 @@ public class GameLogicServiceIntegrationTest {
     private GameLogicService gameLogicService;
 
     @Test
-    public void shouldHavePasedAllCyphers() {
+    public void shouldHavePassedAllCyphers() {
         Team team = new Team("team", 4, "1111");
         teamService.save(team);
         Cypher cypher1 = new Cypher("first", 1, new Point(8,8), "yes");
@@ -45,7 +45,7 @@ public class GameLogicServiceIntegrationTest {
     }
 
     @Test
-    public void shouldNotHavePasedAllCyphers() {
+    public void shouldNotHavePassedAllCyphers() {
         Team team = new Team("team", 4, "1111");
         teamService.save(team);
         Cypher cypher1 = new Cypher("first", 1, new Point(8,8), "yes");
@@ -57,5 +57,10 @@ public class GameLogicServiceIntegrationTest {
         statusService.markCypher(cypher1, team, CypherStatus.SOLVED);
         statusService.markCypher(cypher2, team, CypherStatus.PENDING);
         assertFalse(gameLogicService.passedAllCyphers(team));
+    }
+
+    @Test
+    public void passedTimeToViewFinalPlaceIsFalseWithNoFinalPlaceTest() {
+        assertFalse(gameLogicService.passedTimeToViewFinalPlace());
     }
 }

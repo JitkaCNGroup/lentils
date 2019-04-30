@@ -55,8 +55,8 @@
             </div>
         </div>
     </div>
-
-    <a th:if="finalViewAllowed" th:href="@{/finalplace}" id="footer">
+<div th:if="finalViewAllowed == true">
+    <a th:href="@{/finalplace}" id="footer">
         <div id="final-place">
             <div class="container">
                 <div class="row align-items-center">
@@ -73,5 +73,6 @@
             </div>
         </div>
     </a>
+</div>
 </body>
 </html>
