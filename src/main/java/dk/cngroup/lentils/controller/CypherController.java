@@ -33,7 +33,7 @@ public class CypherController {
 
     @GetMapping
     public String cyphers(final Model model) {
-        model.addAttribute("cyphers", cypherService.getAll());
+        model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
         return VIEW_CYPHER_LIST;
     }
 
