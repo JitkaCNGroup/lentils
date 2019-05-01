@@ -99,8 +99,8 @@ public class GameLogicServiceIntegrationTest {
         return team;
     }
 
-    private void setFinalPlaceTime(final Long minutes) {
-        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(minutes);
+    private void setFinalPlaceTime(final Long plusMinutes) {
+        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(plusMinutes);
         final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
         finalPlaceService.save(finalPlace);
     }
