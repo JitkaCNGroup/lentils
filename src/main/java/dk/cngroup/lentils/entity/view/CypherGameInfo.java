@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.entity.view;
 
+import dk.cngroup.lentils.entity.CypherStatus;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
@@ -14,13 +15,14 @@ import javax.persistence.Id;
                 "c.stage as stage, " +
                 "c.name as name, " +
                 "s.cypher_status as status, " +
-                "s.team_team_id as team_id, " +
+                "t.team_id as team_id, " +
                 "count(ht.hint_hint_id) as count " +
         "FROM cypher c " +
+        "CROSS JOIN team t " +
         "LEFT JOIN hint h on h.cypher_id = c.cypher_id " +
-        "LEFT JOIN status s on s.cypher_cypher_id = c.cypher_id " +
-        "LEFT JOIN hint_taken ht on ht.hint_hint_id = h.hint_id " +
-        "GROUP BY c.cypher_id, s.team_team_id, s.cypher_status " +
+        "LEFT JOIN status s on s.cypher_cypher_id = c.cypher_id AND s.team_team_id = t.team_id " +
+        "LEFT JOIN hint_taken ht on ht.hint_hint_id = h.hint_id AND ht.team_team_id = t.team_id " +
+        "GROUP BY c.cypher_id, t.team_id, s.cypher_status " +
         "ORDER BY c.cypher_id"
 )
 public class CypherGameInfo {
@@ -36,7 +38,7 @@ public class CypherGameInfo {
     private String name;
 
     @Column(name = "status")
-    private int status;
+    private CypherStatus status;
 
     @Column(name = "count")
     private int count;
@@ -59,7 +61,7 @@ public class CypherGameInfo {
     public String getName() {
         return name; }
 
-    public int getStatus() {
+    public CypherStatus getStatus() {
         return status;
     }
 
