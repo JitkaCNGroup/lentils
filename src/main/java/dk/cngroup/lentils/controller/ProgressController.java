@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 @Controller
 @RequestMapping("/game/progress")
@@ -30,6 +29,7 @@ public class ProgressController {
     private static final String PROGRESS_LIST = "progress/list";
     private static final String ERROR = "error/error";
     private static final String HINT_LIST = "progress/getHintList";
+    private static final String REDIRECT_HINT_LIST = "redirect:/game/progress/viewHints/";
 
     private final TeamService teamService;
     private final CypherService cypherService;
@@ -118,17 +118,17 @@ public class ProgressController {
         }
     }
 
-    @DeleteMapping("/revertHint")
-    public ResponseEntity revertHint(final @RequestParam("teamId") Long teamId,
+    @GetMapping("/revertHint")
+    public String revertHint(final @RequestParam("teamId") Long teamId,
                                              final @RequestParam("hintId") Long hintId,
                                              final @RequestParam("cypherId") Long cypherId) {
         Team team = teamService.getTeam(teamId);
         Hint hint = hintService.getHint(hintId);
         hintTakenService.revertHint(team, hint);
-        return ResponseEntity
-                .ok()
-                .header("content-type", "application/json")
-                .body("{}");
+        return REDIRECT_HINT_LIST
+                .concat(cypherId.toString())
+                .concat("?teamId=")
+                .concat(teamId.toString());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

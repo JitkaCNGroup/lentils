@@ -30,10 +30,11 @@
                         <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
                         <span th:text="${hintTaken.hint.text}"></span>
                     </p>
-                    <button class="btn btn-sm flat btn-remove"
-                            th:onclick="'javascript:revertHintDialog(' + ${hintTaken.hint.hintId} + ')'">
+                    <a href="#" class="btn btn-sm flat btn-remove"
+                       th:onclick="return confirm('Opravdu odebrat nápovědu?')"
+                       th:href="@{/game/progress/revertHint(teamId=${team.teamId}, hintId=${hintTaken.hint.hintId}, cypherId=${cypher.cypherId})}" th:autofocus="true">
                         Odebrat nápovědu
-                    </button>
+                    </a>
                 </div>
             </th:block>
             <th:block th:if="${#lists.isEmpty(hintsTaken)}">
@@ -52,7 +53,7 @@
             <div th:each="hint : ${hintsNotTaken}">
                 <button class="btn btn-default flat btn-take"
                         th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">
-                    <span class="hint-label" th:text="|Vzít hint (-${hint.value}b.)|">
+                    <span class="hint-label" th:text="|Vzít hint (-${hint.value}b.)|"></span>
                 </button>
             </div>
         </div>
@@ -87,30 +88,6 @@
             <!--/.Content-->
         </div>
     </div>
-
-    <!-- The Modal -->
-    <div class="modal fade" id="revertHintModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog cascading-modal modal-sm" role="document">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <!-- Modal Body -->
-                <div class="modal-body text-center mb-1">
-                    <h5 class="mt-1 mb-2">Opravdu odebrat nápovědu?</h5>
-
-                    <div class="text-center mt-4">
-                        <button id="cancelRevertHintBtn" type="button" class="btn btn-danger" data-dismiss="modal">Ne
-                        </button>
-                        <button id="confirmRevertHintBtn" type="button" class="btn btn-success">Ano</button>
-                    </div>
-
-                    <!-- Modal footer -->
-                </div>
-
-            </div>
-        </div>
-    </div>
 </div>
 
 <script th:inline="javascript">
@@ -121,12 +98,9 @@
 
     function takeHintDialog(hintId) {
         selectedHintId = hintId;
-        $('#takeHintModal').modal();
-    }
-
-    function revertHintDialog(hintId) {
-        selectedHintId = hintId;
-        $('#revertHintModal').modal();
+        $('#takeHintModal').modal({
+            keyboard: true
+        });
     }
 
     $('#takeHintBtn').click(function () {
@@ -153,31 +127,6 @@
         $('.modal-body input').val('');
         selectedHintId = null;
     });
-
-    $('#confirmRevertHintBtn').click(function () {
-        var revertHintUrl = "/game/progress/revertHint";
-
-        $.ajax({
-            url: revertHintUrl + '?' + $.param({"teamId": teamId, "hintId": selectedHintId, "cypherId": cypherId}),
-            type: 'delete',
-            success: function () {
-                location.reload();
-            },
-            error: function () {
-                alert("Chyba");
-            }
-        });
-
-        $('#revertHintModal').modal('hide');
-        selectedHintId = null;
-    });
-
-    $('#cancelRevertHintBtn').click(function () {
-
-        $('#revertHintModal').modal('hide');
-        selectedHintId = null;
-    });
-
     /*]]>*/
 </script>
 </body>
