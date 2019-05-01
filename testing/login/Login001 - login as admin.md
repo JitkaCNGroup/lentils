@@ -1,7 +1,7 @@
 # Login001 - login as admin
 
 *Description*
->This test case verifies that the administrator is redirected to the Admin part and the list of the teams is displayed.
+>This test case verifies that after successful login the administrator is redirected to the Admin part and the list of the teams is displayed.
 
 
 *Preconditions*
