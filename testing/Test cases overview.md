@@ -1,6 +1,6 @@
 # Login - test cases
 
-1. Login001 - login as admin
+1. [Login001 - login as admin](https://github.com/JitkaCNGroup/lentils/blob/master/testing/Admin001%20-%20login%20as%20admin.md)
 1. Login002 - login as organizer
 1. Login003 - login as team
 
