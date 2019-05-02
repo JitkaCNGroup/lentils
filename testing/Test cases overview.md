@@ -1,8 +1,9 @@
 # Login - test cases
 
 1. [Login001 - login as admin](https://github.com/JitkaCNGroup/lentils/blob/master/testing/login/Login001%20-%20login%20as%20admin.md)
-1. Login002 - login as organizer
-1. Login003 - login as team
+1. [Login002 - login as organizer](https://github.com/JitkaCNGroup/lentils/blob/master/testing/login/Login002%20-%20login%20as%20organizer.md)
+1. [Login003 - login as team](https://github.com/JitkaCNGroup/lentils/blob/master/testing/login/Login003%20-%20login%20as%20team.md)
+1. [Login004 - unsuccessful login](https://github.com/JitkaCNGroup/lentils/blob/master/testing/login/Login004%20-%20unsuccessful%20login.md)
 
 
 # Admin - test cases
