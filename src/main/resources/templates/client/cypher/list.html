@@ -30,7 +30,7 @@
                                 <p class="count" th:text="${cypherGameInfo.getCount()} + ' ×'"></p>
                                 <i class="far fa-lightbulb"></i>
                             </div>
-                            <th:block th:switch="${cypherGameInfo.getStatus()}">
+                            <th:block th:switch="${cypherGameInfo.getStatus().ordinal()}">
                                 <div th:case="0" class="col status">
                                     <i class="far fa-check-circle float-right"></i>
                                 </div>
