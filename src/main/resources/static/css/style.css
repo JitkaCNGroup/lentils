@@ -394,3 +394,66 @@ a:hover{
     background-color: rgb(237, 24, 72);
     color: white;
 }
+
+/** Login page */
+.login-page-body {
+    background-image: url('/img/login-background-mobile-large.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+/* Provide different image sizes for different screens to save bandwidth*/
+@media (min-width: 576px) {
+    .login-page-body {
+        background-image: url('/img/login-background-768.jpg');
+    }
+}
+@media (min-width: 768px) {
+    .login-page-body {
+        background-image: url('/img/login-background-992.jpg');
+    }
+}
+@media (min-width: 992px) {
+    .login-page-body {
+        background-image: url('/img/login-background-1200.jpg');
+    }
+}
+@media (min-width: 1200px) {
+    .login-page-body {
+        background-image: url('/img/login-background-large.jpg');
+    }
+}
+.login-form-header {
+    color: white;
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin-top: 2rem;
+    padding-bottom: 25pt;
+    text-align: center;
+}
+.login-form-label {
+    color: white;
+    font-weight: bold;
+}
+.login-form-submit-btn {
+    margin-top: 20pt;
+    font-weight: bold;
+    color: rgb(237, 24, 72);
+    background-color: white;
+}
+.login-form-error-wrapper {
+    min-height:20pt;
+}
+.login-form-error{
+    color: white;
+}
+.login-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+    z-index: -1;
+}

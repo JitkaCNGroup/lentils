@@ -2,18 +2,42 @@
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1' />
+
     <title>Luštěniny - přihlášení</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
 </head>
-<body>
-<div class="log-form">
-    <h2>Luštěniny - přihlášení</h2>
-    <form action="" method="post">
-        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-        <input type="text" id="username" name="username" placeholder="jméno" />
-        <input type="password" id="password" name="password" placeholder="heslo" />
-        <button type="submit" class="btn">Přihlásit</button>
-        <div th:if="${param.error != null}"> Přihlášení se nezdařilo.</div>
-    </form>
-</div>
+<body class="login-page-body">
+    <div class="container">
+        <h1 class="login-form-header">Luštěniny</h1>
+
+        <form action="/login" method="post">
+            <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+
+            <div class="form-group">
+                <label for="username" class="login-form-label">Uživatelské jméno</label>
+                <input type="text" class="form-control" id="username" name="username" autofocus/>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="login-form-label">Heslo</label>
+                <input type="password" class="form-control" id="password" name="password"/>
+            </div>
+
+            <div class="login-form-error-wrapper">
+                <span th:if="${param.error != null}" class="login-form-error">Přihlášení se nezdařilo.</span>
+            </div>
+
+            <button type="submit" class="btn btn-secondary btn-block login-form-submit-btn">Přihlásit</button>
+        </form>
+    </div>
+    <div class="login-footer">
+        <img src="../../static/img/cngroup-logo.png" th:src="@{/img/cngroup-logo.png}" alt="CN Group Zlin" />
+    </div>
 </body>
 </html>
