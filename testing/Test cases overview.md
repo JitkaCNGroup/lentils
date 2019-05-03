@@ -8,15 +8,15 @@
 
 # Admin - test cases
 
-1. Admin001 - Create, edit and delete team - happy path
-1. Admin002 - Create, edit and delete cypher - happy path
-1. Admin003 - Create, edit final place - happy path
+1. [Admin001 - Create, edit and delete team - happy path](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin001%20-%20Create,%20edit%20and%20delete%20team%20-%20happy%20path.md)
+1. [Admin002 - Create, edit and delete cypher - happy path](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin002%20-%20Create,%20edit%20and%20delete%20cypher%20-%20happy%20path.md)
+1. [Admin003 - Create and edit final place - happy path](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin003%20-%20Create%20and%20edit%20final%20place%20-%20happy%20path.md)
 1. Admin004 - create team - field validations 
 1. Admin005 - update team - field validations
 1. Admin006 - create cypher - field validations
 1. Admin007 - update cypher - field validations
-1. Admin008 - create finalplace - field validations
-1. Admin009 - update finalplace - field validations
+1. Admin008 - create final place - field validations
+1. Admin009 - update final place - field validations
 1. Admin010 - create, update delete hint - happy path
 1. Admin011 - create hint - field validations
 1. Admin012 - update hint - field validations
