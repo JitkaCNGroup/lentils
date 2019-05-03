@@ -82,7 +82,7 @@
                 <p th:text="${cypher.placeDescription}"></p>
                 <div id="map" style='width: 100%; height: 150px;'></div>
                 <a th:href="@{https://www.google.com/maps/search/?api=1&query={lat},{lng}(lat=${cypher.location.y}, lng=${cypher.location.x})}"
-                        class="btn btn-secondary" role="button">Zobrazit na mapě</a>
+                        target="_blank" class="btn btn-secondary" role="button">Zobrazit na mapě</a>
             </div>
         </div>
 
