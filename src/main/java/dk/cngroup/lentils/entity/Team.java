@@ -1,5 +1,7 @@
 package dk.cngroup.lentils.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +25,7 @@ public class Team {
 
     @Column(name = "name", length = 50)
     @NotEmpty(message = "Jméno nesmí být prázdné.")
+    @Length(max = 50, message = "Jméno nesmí být delší než 50 znaků.")
     private String name;
 
     @Column(name = "num_of_members", length = 1)
