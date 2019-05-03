@@ -1,4 +1,4 @@
-Admin003 - Create and edit final place - happy path
+# Admin003 - create and edit final place - happy path
 
 *Description*
 >This test case verifies that it is possible to create and edit the final place in Admin

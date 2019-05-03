@@ -1,4 +1,4 @@
-Admin002 - Create, edit and delete cypher - happy path
+# Admin002 - create, edit and delete cypher - happy path
 
 *Description*
 >This test case verifies that it is possible to create, edit and delete cypher in Admin
@@ -11,9 +11,14 @@ Admin002 - Create, edit and delete cypher - happy path
 |Test Step|Expected Result|
 |---------|---------------|
 |Click on the Pridat button.|Form for creation of the cypher is opened.|
-|Enter valid cypher name to the Jmeno field|Team name is entered.|
-|Enter valid number to the Pocet clenu field.|Number of players is entered.|
-|Save the team.|The team is saved correctly.<br>No error is displayed.<br>New row is displayed in the teams list.|
+|Enter valid cypher name to the Jmeno field.|Cypher name is entered.|
+|Enter valid number to the Poradi field.|Number is entered.|
+|Click into the map to select the coordinates.|The Souradnice field is not empty.|
+|Enter a text to the Odpoved field.|Odpoved field is not empty.|
+|Enter a text to the Falesna Odpoved field.|Falesna odpoved field is not empty.|
+|Enter a text to the Bonusové informace field.|Bonusové informace field is not empty.|
+|Enter a text to the Popis mista field.|Popis mista is not empty.|
+|Save the cypher.|New row with the cypher information is created in the cypher list.<br>No error is displayed.|
 |Validate that the new row contains all correct information.|The row contains:<br>- ID<br>- jmeno<br>- Poradi<br>- Souradnice<br>- Popis mista<br>- Opdoved<br>- Falesna odpoved<br>- Bonus|
 |||
 |Click on the Akce and select Detail.|The cypher detail is displayed.|
