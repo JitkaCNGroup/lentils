@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <title>Kontakt</title>
+</head>
+<body>
+<div th:insert="fragments/header :: header(contact)"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Kontakt</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form action="#" th:action="@{/admin/contact/update}" th:object="${contact}" method="post">
+                <div class="form-group">
+                    <label for="contactId">Id</label>
+                    <input id="contactId" class="form-control" th:field="*{contactId}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="title">Jméno</label>
+                    <input id="title" class="form-control" th:field="*{name}"/>
+                    <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error.</p>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Telefonní číslo</label>
+                    <input id="phoneNumber" class="form-control" th:field="*{phoneNumber}"/>
+                    <p class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">PhoneNumber error.</p>
+                </div>
+                <div class="form-group">
+                    <label for="web">Web</label>
+                    <input id="web" class="form-control" th:field="*{webPages}"/>
+                    <p class="error" th:if="${#fields.hasErrors('webPages')}" th:errors="*{webPages}">webPages error.</p>
+                </div>
+                <div class="form-group">
+                    <label for="facebook">Facebook událost</label>
+                    <input id="facebook" class="form-control" th:field="*{fcbEvent}"/>
+                    <p class="error" th:if="${#fields.hasErrors('fcbEvent')}" th:errors="*{fcbEvent}">fcbEvent error.</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Uložit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
