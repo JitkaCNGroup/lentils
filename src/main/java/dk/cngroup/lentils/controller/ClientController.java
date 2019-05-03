@@ -70,7 +70,7 @@ public class ClientController {
     @GetMapping(value = "cypher")
     public String clientWelcomePage(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
         List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
-        if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
+        if (!cyphers.isEmpty() && statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
             model.addAttribute("gameStarted", true);
             model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
             model.addAttribute("cypherGameInfos",
