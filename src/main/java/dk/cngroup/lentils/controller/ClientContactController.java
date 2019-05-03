@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/contact")
 public class ClientContactController {
-    private static final String VIEW_CONTACT_LIST = "clientcontact/list";
+    private static final String VIEW_CONTACT = "client/contact";
     private final ContactService contactService;
     private final ScoreService scoreService;
     private final CypherService cypherService;
@@ -41,10 +41,11 @@ public class ClientContactController {
         List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
         if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
             model.addAttribute("gameStarted", true);
-            model.addAttribute("contact", contactService.getContact());
-            model.addAttribute("team", user.getTeam());
-            model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         }
-        return VIEW_CONTACT_LIST;
+        model.addAttribute("contact", contactService.getContact());
+        model.addAttribute("team", user.getTeam());
+        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
+
+        return VIEW_CONTACT;
     }
 }
