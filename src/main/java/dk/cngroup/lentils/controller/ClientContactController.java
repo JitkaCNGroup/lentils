@@ -39,12 +39,14 @@ public class ClientContactController {
     public String contact(@AuthenticationPrincipal final CustomUserDetails user,
                           final Model model) {
         List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
-        if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
-            model.addAttribute("gameStarted", true);
+        if (!cyphers.isEmpty()) {
+            if (statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
+                model.addAttribute("gameStarted", true);
+                model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
+            }
         }
         model.addAttribute("contact", contactService.getContact());
         model.addAttribute("team", user.getTeam());
-        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
 
         return VIEW_CONTACT;
     }

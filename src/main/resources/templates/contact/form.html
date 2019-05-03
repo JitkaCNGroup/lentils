@@ -36,18 +36,18 @@
                     <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="title">Telefonní číslo</label>
-                    <input id="title" class="form-control" th:field="*{phoneNumber}"/>
+                    <label for="phoneNumber">Telefonní číslo</label>
+                    <input id="phoneNumber" class="form-control" th:field="*{phoneNumber}"/>
                     <p class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">PhoneNumber error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="title">Web</label>
-                    <input id="title" class="form-control" th:field="*{webPages}"/>
+                    <label for="web">Web</label>
+                    <input id="web" class="form-control" th:field="*{webPages}"/>
                     <p class="error" th:if="${#fields.hasErrors('webPages')}" th:errors="*{webPages}">webPages error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="title">Facebook událost</label>
-                    <input id="title" class="form-control" th:field="*{fcbEvent}"/>
+                    <label for="facebook">Facebook událost</label>
+                    <input id="facebook" class="form-control" th:field="*{fcbEvent}"/>
                     <p class="error" th:if="${#fields.hasErrors('fcbEvent')}" th:errors="*{fcbEvent}">fcbEvent error.</p>
                 </div>
                 <button type="submit" class="btn btn-primary">Uložit</button>
