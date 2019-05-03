@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Jméno a popis</label>
-                    <input id="description" class="form-control" th:field="*{description}"/>
+                    <textarea id="description" class="form-control" th:field="*{description}"/>
                     <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error.</p>
                 </div>
                 <div class="form-group">
