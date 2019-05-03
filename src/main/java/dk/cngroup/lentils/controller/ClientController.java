@@ -75,12 +75,10 @@ public class ClientController {
             model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
             model.addAttribute("cypherGameInfos",
                     cypherGameInfoService.getAllByTeamIdAndStatusIsNotLocked(user.getTeam().getTeamId()));
+            checkTeamAllowedToViewFinalPlace(user, model);
         } else {
             model.addAttribute("gameStarted", false);
-        }
-        if (gameLogicService.allowPlayersToViewFinalPlace(user.getTeam())) {
-            model.addAttribute("finalViewAllowed", true);
-            model.addAttribute("openingTime", gameLogicService.getFinalPlaceOpeningTime());
+            model.addAttribute("finalViewAllowed", false);
         }
         model.addAttribute("team", user.getTeam());
         return CLIENT_VIEW_CYPHER_LIST;
@@ -200,5 +198,13 @@ public class ClientController {
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
+    }
+
+    private void checkTeamAllowedToViewFinalPlace(@AuthenticationPrincipal final CustomUserDetails user,
+                                                  final Model model) {
+        if (gameLogicService.allowPlayersToViewFinalPlace(user.getTeam())) {
+            model.addAttribute("finalViewAllowed", true);
+            model.addAttribute("openingTime", gameLogicService.getFinalPlaceOpeningTime());
+        }
     }
 }

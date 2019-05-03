@@ -38,12 +38,16 @@ public class GameLogicService {
         List<Status> statusesOfTeam = statusService.getAllByTeam(team);
         Long numberOfStatusPendingByTeam = statusesOfTeam.stream()
                 .filter(status -> status.getCypherStatus().equals(CypherStatus.PENDING)).count();
-        return (numberOfStatusPendingByTeam <= 0);
+        return (numberOfStatusPendingByTeam <= 0 && statusesOfTeam.size() > 0);
     }
 
     public boolean passedTimeToViewFinalPlace() {
-        LocalDateTime finalPlaceOpeningTime = finalPlaceService.getFinalPlace().getOpeningTime();
-        return finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1));
+        try {
+            LocalDateTime finalPlaceOpeningTime = finalPlaceService.getFinalPlace().getOpeningTime();
+            return finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public LocalTime getFinalPlaceOpeningTime() {
