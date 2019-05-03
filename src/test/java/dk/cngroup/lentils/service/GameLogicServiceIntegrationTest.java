@@ -52,8 +52,20 @@ public class GameLogicServiceIntegrationTest {
     }
 
     @Test
+    public void passedTimeToViewFinalPlaceIsTrueWithSetFinalPlaceTest() {
+        setFinalPlaceTime(20L);
+        assertTrue(gameLogicService.passedTimeToViewFinalPlace());
+    }
+
+    @Test
     public void gameIsNotInProgressTestWithNoFinalPlaceTest() {
         assertFalse(gameLogicService.isGameInProgress());
+    }
+
+    @Test
+    public void gameIsInProgressTestWithSetFinalPlaceTest() {
+        setFinalPlaceTime(20L);
+        assertTrue(gameLogicService.isGameInProgress());
     }
 
     @Test
