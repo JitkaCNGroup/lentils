@@ -47,12 +47,14 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead class="thead-light">
-                        <th scope="col">Id</th>
-                        <th scope="col">Jméno týmu</th>
-                        <th scope="col">Uživatelské jméno</th>
-                        <th scope="col">Počet členů</th>
-                        <th scope="col">PIN</th>
-                        <th scope="col">Akce</th>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Jméno týmu</th>
+                            <th scope="col">Uživatelské jméno</th>
+                            <th scope="col">Počet členů</th>
+                            <th scope="col">PIN</th>
+                            <th scope="col">Akce</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr th:if="${teams.empty}">
