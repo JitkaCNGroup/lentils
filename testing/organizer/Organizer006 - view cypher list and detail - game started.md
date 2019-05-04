@@ -1,4 +1,4 @@
-# Organizer006 - view cypher list and detail - game is started
+# Organizer006 - view cypher list and detail - game started
 
 *Description*
 >this testcase verifies that the list of the cyphers is displayed after the game is started

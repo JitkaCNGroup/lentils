@@ -1,4 +1,4 @@
-# Organizer009 - score validation
+# Organizer009 - score calculation
 
 *Description*
 >this testcase verifies that the score for team is calculated correctly
