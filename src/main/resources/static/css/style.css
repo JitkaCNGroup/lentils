@@ -395,6 +395,10 @@ a:hover{
     color: white;
 }
 
+.col-centered {
+    text-align: center;
+}
+
 /** Login page */
 .login-page-body {
     background-image: url('/img/login-background-mobile-large.jpg');

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}"/>
@@ -19,29 +18,28 @@
     <div class="table-responsive">
         <table class="table">
             <thead class="thead-light">
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Jméno</th>
-                <th scope="col">Pořadí</th>
-                <th scope="col">Souřadnice</th>
-                <th scope="col">Popis místa</th>
-                <th scope="col">Odpověď</th>
-                <th scope="col">Falešná odpověď</th>
-                <th scope="col">Bonus</th>
-            </tr>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Jméno</th>
+                    <th scope="col">Pořadí</th>
+                    <th scope="col">Souřadnice</th>
+                    <th scope="col">Popis místa</th>
+                    <th scope="col">Odpověď</th>
+                    <th scope="col">Falešná odpověď</th>
+                    <th scope="col">Bonus</th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:object="${cypher}">
-            <tr>
-                <td th:text="${cypher.cypherId}" align="center">cypherId</td>
-                <td th:text="${cypher.name}">Jmeno</td>
-                <td th:text="${cypher.stage}" align="center">Cislo</td>
-                <td th:text="${cypher.location}">X, Y</td>
-                <td th:text="${cypher.placeDescription}">Popis mista</td>
-                <td th:text="${cypher.codeword}">codove slovo</td>
-                <td th:text="${cypher.trapCodeword}">Past</td>
-                <td th:text="${cypher.bonusContent}">Bonus</td>
-            </tr>
+                <tr th:object="${cypher}">
+                    <td th:text="${cypher.cypherId}">cypherId</td>
+                    <td th:text="${cypher.name}">Jmeno</td>
+                    <td th:text="${cypher.stage}">Cislo</td>
+                    <td th:text="${cypher.location}">X, Y</td>
+                    <td th:text="${cypher.placeDescription}">Popis mista</td>
+                    <td th:text="${cypher.codeword}">codove slovo</td>
+                    <td th:text="${cypher.trapCodeword}">Past</td>
+                    <td th:text="${cypher.bonusContent}">Bonus</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -56,7 +54,7 @@
                 <th scope="col">Id</th>
                 <th scope="col">Text</th>
                 <th scope="col">Hodnota</th>
-                <th align="center">Akce</th>
+                <th>Akce</th>
             </tr>
             </thead>
             <tbody>
@@ -75,7 +73,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4" align="center">
+                <td colspan="4" class="col-centered">
                     <a href="#" th:href="@{/admin/hint/add(cypherId=${cypher.cypherId})}" class="btn btn-primary">Přidat</a>
                 </td>
             </tr>
@@ -83,7 +81,7 @@
     </div>
     </div>
     <br>
-    <a align="center" href="#" th:href="@{../admin/cypher}"><b>Zpět na seznam šifer</b></a>
+    <a href="#" th:href="@{../admin/cypher}"><b>Zpět na seznam šifer</b></a>
 </div>
 </body>
 </html>
