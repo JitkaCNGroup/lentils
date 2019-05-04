@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.entity;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class Cypher implements Serializable {
     private Point location;
 
     @Column(name = "place_description", length = 1000)
+    @Length(max = 1000, message = "Bonusové informace nesmí být delší než 1000 znaků.")
     private String placeDescription;
 
     @Column(name = "codeword")
@@ -44,6 +46,7 @@ public class Cypher implements Serializable {
     private String trapCodeword;
 
     @Column(name = "bonus_content", length = 1000)
+    @Length(max = 1000, message = "Bonusové informace nesmí být delší než 1000 znaků.")
     private String bonusContent;
 
     public Cypher() {
@@ -53,6 +56,7 @@ public class Cypher implements Serializable {
         this.location = location;
         this.stage = stage;
     }
+
     public Cypher(final int stage) {
         this.stage = stage;
     }
@@ -62,6 +66,13 @@ public class Cypher implements Serializable {
         this.stage = stage;
         this.location = location;
         this.codeword = codeword;
+    }
+
+    public Cypher(final Point location, final int stage, final String bonusContent, final String placeDescription) {
+        this.location = location;
+        this.stage = stage;
+        this.bonusContent = bonusContent;
+        this.placeDescription = placeDescription;
     }
 
     public Cypher(

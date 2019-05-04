@@ -53,10 +53,12 @@
                     <div class="form-group">
                         <label for="bonusContent">Bonusové informance</label>
                         <textarea id="bonusContent" class="form-control" th:field="*{bonusContent}"/>
+                        <p class="error" th:if="${#fields.hasErrors('bonusContent')}" th:errors="*{bonusContent}">Bonus Content error.</p>
                     </div>
                     <div class="form-group">
                         <label for="placeDescription">Popis místa</label>
                         <textarea id="placeDescription" class="form-control" th:field="*{placeDescription}"/>
+                        <p class="error" th:if="${#fields.hasErrors('placeDescription')}" th:errors="*{placeDescription}">Place Description error.</p>
                     </div>
                     <button type="submit" class="btn btn-primary">Uložit</button>
                 </form>
