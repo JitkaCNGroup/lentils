@@ -24,6 +24,7 @@ import static org.junit.Assert.assertFalse;
 public class TeamRepositoryTest {
     private static final int TESTED_TEAM = 5;
     private static final String TEST_EMPTY_NAME = "";
+    private static final String TEST_TOO_LONG_NAME = "Lorem ipsum dolor sit amet, consectetuer adipiscin1";
     private static final String TEST_PIN = "1234";
 
     @Autowired
@@ -90,6 +91,12 @@ public class TeamRepositoryTest {
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void teamWithZeroCount() {
         Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 0, TEST_PIN);
+        teamRepository.saveAndFlush(team);
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void teamWithTooLongName() {
+        Team team = new Team(TEST_TOO_LONG_NAME, 4, TEST_PIN);
         teamRepository.saveAndFlush(team);
     }
 
