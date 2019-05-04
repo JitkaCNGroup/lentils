@@ -36,7 +36,7 @@ public class Cypher implements Serializable {
     private Point location;
 
     @Column(name = "place_description", length = 1000)
-    @Length(max = 1000, message = "Bonusové informace nesmí být delší než 1000 znaků.")
+    @Length(max = 1000, message = "Popis místa nesmí být delší než 1000 znaků.")
     private String placeDescription;
 
     @Column(name = "codeword")
