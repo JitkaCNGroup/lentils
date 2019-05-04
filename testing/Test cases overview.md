@@ -25,10 +25,13 @@
 
 # Organizator - test cases
 
-1. Org001 - view cypher list
-1. Org002 - view cypher list detail for a team
-1. Org003 - set all cypher statuses for a team
-1. Org004 - take hint and revert hint for a team
+1. Organizer001 - no team and cypher
+1. Organizer002 - view cypher list
+1. Organizer003 - view cypher list detail for a team
+1. Organizer004 - set all cypher statuses for a team
+1. Organizer005 - take hint and revert hint for a team
+1. Organizer006 - view team score
+1. Organizer007 - view team score detail
 
 
 # Game - test cases
