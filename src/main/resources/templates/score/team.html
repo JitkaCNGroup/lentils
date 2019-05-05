@@ -19,16 +19,18 @@
     <h1>Tým <span th:text="${team.name}"></span> - Stav</h1>
     <h2>Šifry:</h2>
     <div class="table-responsive">
-        <table class="table" border="1">
+        <table class="table table-bordered">
             <thead>
-            <td>Id</td>
-            <td>Název šifry</td>
-            <td>Body za šifru</td>
-            <td>Celkem použitých nápověd</td>
-            <td>Id použitých nápověd</td>
-            <td>Záporné body za nápovědy</td>
-            <td>Celkové skóre</td>
-           </thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Název šifry</th>
+                    <th>Body za šifru</th>
+                    <th>Celkem použitých nápověd</th>
+                    <th>Id použitých nápověd</th>
+                    <th>Záporné body za nápovědy</th>
+                    <th>Celkové skóre</th>
+                </tr>
+            </thead>
             <th:block th:each="team : ${teamWithDetailScores}">
                 <tr>
                     <td th:text="${team.cypher.cypherId}">8888</td>
@@ -43,7 +45,7 @@
         </table>
     </div>
     <br>
-    <a align="center" href="#" th:href="@{/game/score}"><b>Zpět na seznam týmů</b></a>
+    <a href="#" th:href="@{/game/score}"><b>Zpět na seznam týmů</b></a>
 </div>
 </body>
 </html>
