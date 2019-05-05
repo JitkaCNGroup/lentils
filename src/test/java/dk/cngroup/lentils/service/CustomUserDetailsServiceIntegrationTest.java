@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
@@ -54,5 +55,40 @@ public class CustomUserDetailsServiceIntegrationTest {
 
         assertNotNull(userDetails);
         assertEquals(user.getUsername(), userDetails.getUsername());
+    }
+
+    @Test
+    public void testUserAccountIsNotLocked() {
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(VALID_USERNAME);
+
+        assertTrue(userDetails.isAccountNonLocked());
+    }
+
+    @Test
+    public void testUserAccountIsNotExpired() {
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(VALID_USERNAME);
+
+        assertTrue(userDetails.isAccountNonExpired());
+    }
+
+    @Test
+    public void testUserAccountIsEnabled() {
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(VALID_USERNAME);
+
+        assertTrue(userDetails.isEnabled());
+    }
+
+    @Test
+    public void testCredentialsNonExpired() {
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(VALID_USERNAME);
+
+        assertTrue(userDetails.isCredentialsNonExpired());
+    }
+
+    @Test
+    public void testCorrectPasswordIsReturned() {
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername(VALID_USERNAME);
+
+        assertEquals(user.getPassword(), userDetails.getPassword());
     }
 }
