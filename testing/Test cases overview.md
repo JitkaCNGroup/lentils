@@ -37,16 +37,12 @@
 
 # Game - test cases
 
-1. Game001 - start game
-1. Game002 - skip cypher
-1. Game003 - send correct codeword
-1. Game004 - send incorrect codeword
-1. Game005 - send trap codeword
-1. Game006 - skip all cyphers
-1. Game007 - view finalplace (cyphers are solved)
-1. Game008 - view finalplace (time is up)
-1. Game009 - take hint
-1. Game010 - view cypher detail
-1. Game011 - open map
-1. Game012 - view contacts
-1. Game013 - view card
+1. [Game001 - start game](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game001%20-%20start%20game.md)
+1. [Game002 - skip cypher](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game002%20-%20skip%20cypher.md)
+1. [Game003 - take hint](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game003%20-%20take%20hint.md)
+1. [Game004 - solve cypher](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game004%20-%20solve%20cypher.md)
+1. [Game005 - view map](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game005%20-%20view%20map.md)
+1. [Game006 - view contact](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game006%20-%20view%20contact.md)
+1. [Game006 - view finalplace - time]
+1. [Game006 - view finalplace - cyphers solved]
+1. [Game009 - view card]
