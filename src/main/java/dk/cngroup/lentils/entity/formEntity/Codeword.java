@@ -11,4 +11,9 @@ public class Codeword {
     public void setGuess(final String guess) {
         this.guess = guess;
     }
+
+    @Override
+    public String toString() {
+        return guess;
+    }
 }
