@@ -23,13 +23,17 @@
 1. [Admin013 - create contact - field validations](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin012%20-%20create%20contact%20-%20field%20validations.md)
 
 
-# Organizator - test cases
+# Organizer - test cases
 
-1. Org001 - view cypher list
-1. Org002 - view cypher list detail for a team
-1. Org003 - set all cypher statuses for a team
-1. Org004 - take hint and revert hint for a team
-
+1. [Organizer001 - no team and cypher](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer001%20-%20no%20team%20and%20cypher.md)
+1. [Organizer002 - view cypher list - game not started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer002%20-%20view%20cypher%20list%20-%20game%20not%20started.md)
+1. [Organizer003 - view score - game not started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer003%20-%20view%20score%20-%20game%20not%20started.md)
+1. [Organizer004 - cypher detail - game not started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer004%20-%20cypher%20detail%20-%20game%20not%20started.md)
+1. [Organizer005 - score detail - game not started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer005%20-%20score%20detail%20-%20game%20not%20started.md)
+1. [Organizer006 - view cypher list and detail - game started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer006%20-%20view%20cypher%20list%20and%20detail%20-%20game%20started.md)
+1. [Organizer007 - change cypher status](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer007%20-%20change%20cypher%20status.md)
+1. [Organizer008 - take and revert hint](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer008%20-%20take%20and%20revert%20hint.md)
+1. [Organizer009 - score calculation](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer009%20-%20score%20calculation.md)
 
 # Game - test cases
 
