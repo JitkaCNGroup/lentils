@@ -1,9 +1,11 @@
 package dk.cngroup.lentils.logger;
 
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 
 import static dk.cngroup.lentils.logger.Action.*;
+import static dk.cngroup.lentils.logger.Author.ORGANIZER;
 import static dk.cngroup.lentils.logger.Author.TEAM;
 
 public class MessageFactory {
@@ -26,5 +28,12 @@ public class MessageFactory {
                                                  final int points,
                                                  final int score) {
         return new Message<>(SKIP_CYPHER, TEAM, user.getTeam().getUser(), null, cypherId, points, score);
+    }
+
+    public static Message<StatusChange> createChangeCypherStatus(final Team team,
+                                                                 final StatusChange cypherId,
+                                                                 final int points,
+                                                                 final int score) {
+        return new Message<>(CHANGE_CYPHER_STATUS, ORGANIZER, null, team, cypherId, points, score);
     }
 }

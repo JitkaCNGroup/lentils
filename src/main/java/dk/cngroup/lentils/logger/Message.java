@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class Message<T> {
-    private static final String MESSAGE_FORMAT = "[%s] '%s' by %s %d %s%s, %s, points: %d, score: %d";
-    private static final String FOR_TEAM_MESSAGE_FORMAT = " (?for team %d %s)";
+    private static final String MESSAGE_FORMAT = "[%s] '%s' by %s%s%s %s, points: %d, score: %d";
+    private static final String FOR_TEAM_MESSAGE_FORMAT = " for team %d %s,";
+    private static final String USER_MESSAGE_FORMAT = " %d %s,";
 
     private final LocalDateTime timestamp;
     private final Action action;
@@ -33,8 +34,15 @@ public class Message<T> {
     @Override
     public String toString() {
         String forTeamMessagePart = getForTeamMessagePart();
-        return String.format(MESSAGE_FORMAT, timestamp, action, author, user.getUserId(), user.getUsername(),
+        String userPart = getUserPart();
+        return String.format(MESSAGE_FORMAT, timestamp, action, author, userPart,
                 forTeamMessagePart, data.toString(), points, score);
+    }
+
+    private String getUserPart() {
+        return Optional.ofNullable(user)
+                .map(u -> String.format(USER_MESSAGE_FORMAT, u.getUserId(), u.getUsername()))
+                .orElse("");
     }
 
     private String getForTeamMessagePart() {
