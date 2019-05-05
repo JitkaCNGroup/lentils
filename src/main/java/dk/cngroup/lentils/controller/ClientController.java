@@ -163,7 +163,8 @@ public class ClientController {
     }
 
     @GetMapping("cypher/lets-play-a-game")
-    public String trapScreen() {
+    public String trapScreen(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
+        model.addAttribute("team", user.getTeam());
         return CLIENT_TRAP_SCREEN;
     }
 
