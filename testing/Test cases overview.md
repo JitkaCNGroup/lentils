@@ -19,8 +19,8 @@
 1. [Admin009 - create, update and delete hint - happy path](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin009%20-%20create,%20edit%20and%20delete%20hint%20-%20happy%20path.md)
 1. [Admin010 - create hint - field validations](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin010%20-%20create%20hint%20-%20field%20validations.md)
 1. [Admin011 - update hint - field validations](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin011%20-%20update%20hint%20-%20field%20validations.md)
-1. [Admin012 - create and edit contact - happy path](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin011%20-%20create%20and%20edit%20contact%20-%20happy%20path.md)
-1. [Admin013 - create contact - field validations](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin012%20-%20create%20contact%20-%20field%20validations.md)
+1. [Admin012 - create and edit contact - happy path](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin012%20-%20create%20and%20edit%20contact%20-%20happy%20path.md)
+1. [Admin013 - create contact - field validations](https://github.com/JitkaCNGroup/lentils/blob/master/testing/admin/Admin013%20-%20create%20contact%20-%20field%20validations.md)
 
 
 # Organizer - test cases
