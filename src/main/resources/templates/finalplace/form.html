@@ -30,19 +30,19 @@
                     <input id="finalPlaceId" class="form-control" th:field="*{finalPlaceId}" readonly/>
                 </div>
                 <div class="form-group">
-                    <label for="description">Jméno a popis</label>
-                    <textarea id="description" class="form-control" th:field="*{description}"/>
+                    <label for="description" class="input-value-required">Jméno a popis</label>
+                    <textarea id="description" class="form-control" th:field="*{description}" required></textarea>
                     <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="location">Souřadnice</label>
+                    <label for="location" class="input-value-required">Souřadnice</label>
                     <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
                     <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
                     <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="openingTime">Čas</label>
-                    <input id="openingTime" class="form-control" type="datetime-local" th:field="*{openingTime}"/>
+                    <label for="openingTime" class="input-value-required">Čas</label>
+                    <input id="openingTime" class="form-control" type="datetime-local" th:field="*{openingTime}" required/>
                 </div>
                 <button type="submit" class="btn btn-primary">Uložit</button>
             </form>

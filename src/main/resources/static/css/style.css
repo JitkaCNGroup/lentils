@@ -403,6 +403,11 @@ a:hover{
     width: 90%;
 }
 
+.input-value-required::after {
+    content: " *";
+    color: red
+}
+
 /** Login page */
 .login-page-body {
     background-image: url('/img/login-background-mobile-large.jpg');

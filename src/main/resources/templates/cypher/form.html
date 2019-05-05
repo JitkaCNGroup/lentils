@@ -32,12 +32,12 @@
                         <input id="name" class="form-control" th:field="*{name}"/>
                     </div>
                     <div class="form-group">
-                        <label for="stage">Pořadí</label>
-                        <input id="stage" class="form-control" type="number" th:field="*{stage}"/>
+                        <label for="stage" class="input-value-required">Pořadí</label>
+                        <input id="stage" class="form-control" type="number" th:field="*{stage}" required/>
                         <p class="error" th:if="${#fields.hasErrors('stage')}" th:errors="*{stage}">Stage error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="location">Souřadnice</label>
+                        <label for="location" class="input-value-required">Souřadnice</label>
                         <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
                         <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
                         <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error.</p>
