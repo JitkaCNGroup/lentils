@@ -4,8 +4,11 @@ import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.ObjectGenerator;
+import dk.cngroup.lentils.service.TeamService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +38,13 @@ public class HintRepositoryTest {
     private HintRepository hintRepository;
 
     @Autowired
+    private HintTakenRepository hintTakenRepository;
+
+    @Autowired
     private CypherService cypherService;
+
+    @Autowired
+    private TeamService teamService;
 
     @Autowired
     private ObjectGenerator generator;
@@ -105,5 +114,78 @@ public class HintRepositoryTest {
         Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
         Hint hint = new Hint(TEST_HINT_TEXT, 0, cypher);
         hintRepository.saveAndFlush(hint);
+    }
+
+    @Test
+    public  void countHintsNotTakenByTeamWhenOneHintFromThreeTakenNoOtherTeamTookHints() {
+        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
+        Cypher cypher = cyphers.get(0);
+        List<Hint> hints = generateAndSaveHints(cypher);
+        cereateAndSaveHintTaken(hints, team1, 1);
+        List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
+        generator.generateHintsForCypher(cyphers);
+        assertEquals(2, notTakenHints.size());
+    }
+
+    @Test
+    public  void countHintsNotTakenByTeamWhenOneHintFromThreeTakenOneOtherTeamTookHints() {
+        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
+        Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
+        Cypher cypher = cyphers.get(0);
+        List<Hint> hints = generateAndSaveHints(cypher);
+        cereateAndSaveHintTaken(hints, team1, 1);
+        cereateAndSaveHintTaken(hints, team2, 1);
+        cereateAndSaveHintTaken(hints, team2, 2);
+        List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
+        generator.generateHintsForCypher(cyphers);
+        assertEquals(2, notTakenHints.size());
+    }
+
+    @Test
+    public  void countHintsNotTakenByTeamWhenNoHintsFromThreeTakenTwoOtherTeams() {
+
+        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
+        Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
+        Team team3 = teamService.save(new Team("ccc", 3, "oooo"));
+        Cypher cypher = cyphers.get(0);
+        List<Hint> hints = generateAndSaveHints(cypher);
+        cereateAndSaveHintTaken(hints, team2, 0);
+        cereateAndSaveHintTaken(hints, team2, 1);
+        cereateAndSaveHintTaken(hints, team2, 2);
+        cereateAndSaveHintTaken(hints, team3, 0);
+        cereateAndSaveHintTaken(hints, team3, 1);
+        List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
+        generator.generateHintsForCypher(cyphers);
+        assertEquals(3, notTakenHints.size());
+    }
+
+    @Test
+    public  void countHintsNotTakenByTeamWhenTwoHintsFromThreeTakenTwoOtherTeams() {
+
+        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
+        Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
+        Team team3 = teamService.save(new Team("ccc", 3, "oooo"));
+        Cypher cypher = cyphers.get(0);
+        List<Hint> hints = generateAndSaveHints(cypher);
+        cereateAndSaveHintTaken(hints, team1, 0);
+        cereateAndSaveHintTaken(hints, team1, 1);
+        cereateAndSaveHintTaken(hints, team2, 2);
+        cereateAndSaveHintTaken(hints, team2, 1);
+        cereateAndSaveHintTaken(hints, team3, 2);
+        cereateAndSaveHintTaken(hints, team3, 1);
+        List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
+        generator.generateHintsForCypher(cyphers);
+        assertEquals(1, notTakenHints.size());
+    }
+
+    private void cereateAndSaveHintTaken(List<Hint> hints, Team team, int index) {
+        HintTaken hintTaken = new HintTaken(team, hints.get(index));
+        hintTakenRepository.save(hintTaken);
+    }
+
+    private List<Hint> generateAndSaveHints(Cypher cypher) {
+        List<Hint> hints = generator.generateHintsForCypher(cypher);
+        hintRepository.saveAll(hints);
+        return hints;
     }
 }
