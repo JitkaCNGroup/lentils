@@ -19,10 +19,6 @@ public class CypherGameInfoService {
         this.cypherGameInfoRepository = cypherGameInfoRepository;
     }
 
-    public List<CypherGameInfo> getAll() {
-        return cypherGameInfoRepository.findAll();
-    }
-
     public List<CypherGameInfo> getAllByTeamIdAndStatusIsNotLocked(final Long teamId) {
         CypherStatus statusLocked = CypherStatus.LOCKED;
         return cypherGameInfoRepository.findAllByTeamId(teamId).stream()
