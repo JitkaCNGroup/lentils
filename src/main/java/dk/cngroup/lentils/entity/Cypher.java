@@ -96,7 +96,7 @@ public class Cypher implements Serializable {
         return mapAddress;
     }
 
-    public void setMapAddress(String mapAddress) {
+    public void setMapAddress(final String mapAddress) {
         this.mapAddress = mapAddress;
     }
 
