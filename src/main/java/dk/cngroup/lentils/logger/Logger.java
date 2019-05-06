@@ -13,6 +13,8 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
@@ -72,7 +74,7 @@ public class Logger {
         int points = -hint.getValue();
         int score = scoreService.getScoreByTeam(user.getTeam());
 
-        Message<Long> message = MessageFactory.createGetHint(user, hintId, points, score);
+        Message<Long> message = MessageFactory.createTakeHint(user, hintId, points, score);
         printer.println(message.toString());
     }
 
@@ -110,6 +112,32 @@ public class Logger {
         printer.println(message.toString());
 
         return result;
+    }
+
+    @After("execution(* dk.cngroup.lentils.controller.ProgressController.viewHintsForCypherByTeam(..))" +
+            "&& args(teamId,hintId,pin)")
+    public ResponseEntity takeHint(ProceedingJoinPoint joinPoint,
+                                   Long teamId,
+                                   Long hintId,
+                                   String pin) throws Throwable {
+        Team team = teamService.getTeam(teamId);
+        Hint hint = hintService.getHint(hintId);
+
+        ResponseEntity result = (ResponseEntity) joinPoint.proceed(joinPoint.getArgs());
+
+        boolean success = result.getStatusCode() == HttpStatus.OK;
+        int points = getTakeHintPoints(hint, success);
+        int score = scoreService.getScoreByTeam(team);
+
+        TakeHintChange takeHintChange = new TakeHintChange(hintId, success);
+        Message<TakeHintChange> message = MessageFactory.createTakeHint(team, takeHintChange, points, score);
+        printer.println(message.toString());
+
+        return result;
+    }
+
+    private int getTakeHintPoints(Hint hint, boolean success) {
+        return success ? -hint.getValue() : 0;
     }
 
     private int getChangeCypherStatusPoints(final CypherStatus oldCypherStatus,
