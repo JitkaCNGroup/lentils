@@ -19,6 +19,7 @@
 |Verify that there is cypher1 name displayed.|The cypher1 name is displayed.|
 |Verify that cypher1 is in status Pending.|There is blue circle displayed for the cypher1.|
 |Click on the cypher1.|The detail of the cypher1 is displayed.|
+|Verify that text with description is displayed.|Cypher1 description is displayed.|
 |Verify that field for codeword with confirmation button are present.|The field Reseni and button Overit are displayed.|
 |Verify that map with the location is displayed.|The map with the location is displayed correctly.|
 |Verify that Zobrazit na mape button is present.|The button is displayed.|

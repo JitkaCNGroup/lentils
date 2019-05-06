@@ -4,7 +4,7 @@
 >this testcase verifies that the team can skip the cypher
 
 *Preconditions*
-* There is at least two cyphers created (cypher1 and cypher2)
+* There are at least two cyphers created (cypher1 and cypher2)
 * The teamA is created
 * The game is already started
 * TeamA is logged in and cypher1 is in satus Pending

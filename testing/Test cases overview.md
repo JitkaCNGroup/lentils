@@ -43,6 +43,6 @@
 1. [Game004 - solve cypher](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game004%20-%20solve%20cypher.md)
 1. [Game005 - view map](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game005%20-%20view%20map.md)
 1. [Game006 - view contact](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game006%20-%20view%20contact.md)
-1. [Game006 - view finalplace - time]
-1. [Game006 - view finalplace - cyphers solved]
-1. [Game009 - view card]
+1. [Game007 - view finalplace - cyphers solved](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game007%20-%20view%20finalplace%20-%20cyphers%20solved.md)
+1. [Game008 - view finalplace - cyphers skipped](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game008%20-%20view%20finalplace%20-%20cyphers%20skipped.md)
+1. [Game009 - view finalplace - time](https://github.com/JitkaCNGroup/lentils/blob/master/testing/game/Game009%20-%20view%20finalplace%20-%20time.md)

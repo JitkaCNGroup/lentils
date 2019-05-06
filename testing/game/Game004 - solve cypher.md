@@ -4,7 +4,7 @@
 >this testcase verifies that the team can solve the cypher with correct codeword
 
 *Preconditions*
-* There is at least two cyphers created (cypher1 with value = 25 and cypher2 with value = 10)
+* There are at least two cyphers created (cypher1 with value = 25 and cypher2 with value = 10)
 * The teamA is created
 * The game is already started
 * TeamA is logged in and cypher1 is in satus Pending
@@ -20,6 +20,8 @@
 |Enter trap codeword to the Reseni field and click on the Overit button.|There is a trap page displayed.<br>There is a button Zkusit znovu present.|
 |Click on the button Zkusit znovu.|The detail of the cypher1 is displayed.|
 |Enter correct codeword to the Reseni field and click on the Overit button.|There is a message displayed that cypher is solved.<br>There is a button Zobrazit dalsi sifru present.|
+|Verify that Zobrazit bonusove informace button is displayed for solved cypher1.|Bonus information button is displayed for the teamA.|
+|Click on the button Zobrazit bonusove informace.|The bonus information is displayed.|
 |Click on the Zobrazit dalsi sifru button.|The detail of the cypher2 is displayed.|
 |Navigate to the list of cyphers via the menu.|The list of cyphers is displayed.|
 |Verify that cypher1 is in status Solved (green checkmark).|The cypher1 is solved.|
