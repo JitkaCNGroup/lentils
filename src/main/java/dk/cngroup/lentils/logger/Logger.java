@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import static dk.cngroup.lentils.entity.CypherStatus.SKIPPED;
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
 
 @Aspect
@@ -84,7 +85,8 @@ public class Logger {
                            CustomUserDetails user){
         int score = scoreService.getScoreByTeam(user.getTeam());
 
-        Message<Long> message = MessageFactory.createSkipCypher(user, cypher.getCypherId(), 0, score);
+        Message<Long> message = MessageFactory.createSkipCypher(user, cypher.getCypherId(), SKIPPED.getStatusValue(),
+                score);
         printer.println(message.toString());
     }
 
@@ -143,19 +145,18 @@ public class Logger {
     private int getChangeCypherStatusPoints(final CypherStatus oldCypherStatus,
                                             final CypherStatus newCypherStatus) {
         if (newCypherStatus == SOLVED && oldCypherStatus != SOLVED) {
-            return 10;
+            return SOLVED.getStatusValue();
         } else if (newCypherStatus != SOLVED && oldCypherStatus == SOLVED) {
-            return -10;
+            return -SOLVED.getStatusValue();
         } else {
             return 0;
         }
     }
 
     private int getVerifyCodewordPoints(String result) {
-        int points = 0;
         if (result.startsWith("redirect:/cypher/")) {
-            points = 10;
+            return SOLVED.getStatusValue();
         }
-        return points;
+        return 0;
     }
 }
