@@ -121,7 +121,7 @@ public class HintRepositoryTest {
         Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
-        cereateAndSaveHintTaken(hints, team1, 1);
+        createAndSaveHintTaken(hints, team1, 1);
         List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
         generator.generateHintsForCypher(cyphers);
         assertEquals(2, notTakenHints.size());
@@ -133,9 +133,9 @@ public class HintRepositoryTest {
         Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
-        cereateAndSaveHintTaken(hints, team1, 1);
-        cereateAndSaveHintTaken(hints, team2, 1);
-        cereateAndSaveHintTaken(hints, team2, 2);
+        createAndSaveHintTaken(hints, team1, 1);
+        createAndSaveHintTaken(hints, team2, 1);
+        createAndSaveHintTaken(hints, team2, 2);
         List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
         generator.generateHintsForCypher(cyphers);
         assertEquals(2, notTakenHints.size());
@@ -143,17 +143,16 @@ public class HintRepositoryTest {
 
     @Test
     public  void countHintsNotTakenByTeamWhenNoHintsFromThreeTakenTwoOtherTeams() {
-
         Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
         Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
         Team team3 = teamService.save(new Team("ccc", 3, "oooo"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
-        cereateAndSaveHintTaken(hints, team2, 0);
-        cereateAndSaveHintTaken(hints, team2, 1);
-        cereateAndSaveHintTaken(hints, team2, 2);
-        cereateAndSaveHintTaken(hints, team3, 0);
-        cereateAndSaveHintTaken(hints, team3, 1);
+        createAndSaveHintTaken(hints, team2, 0);
+        createAndSaveHintTaken(hints, team2, 1);
+        createAndSaveHintTaken(hints, team2, 2);
+        createAndSaveHintTaken(hints, team3, 0);
+        createAndSaveHintTaken(hints, team3, 1);
         List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
         generator.generateHintsForCypher(cyphers);
         assertEquals(3, notTakenHints.size());
@@ -161,24 +160,23 @@ public class HintRepositoryTest {
 
     @Test
     public  void countHintsNotTakenByTeamWhenTwoHintsFromThreeTakenTwoOtherTeams() {
-
         Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
         Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
         Team team3 = teamService.save(new Team("ccc", 3, "oooo"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
-        cereateAndSaveHintTaken(hints, team1, 0);
-        cereateAndSaveHintTaken(hints, team1, 1);
-        cereateAndSaveHintTaken(hints, team2, 2);
-        cereateAndSaveHintTaken(hints, team2, 1);
-        cereateAndSaveHintTaken(hints, team3, 2);
-        cereateAndSaveHintTaken(hints, team3, 1);
+        createAndSaveHintTaken(hints, team1, 0);
+        createAndSaveHintTaken(hints, team1, 1);
+        createAndSaveHintTaken(hints, team2, 2);
+        createAndSaveHintTaken(hints, team2, 1);
+        createAndSaveHintTaken(hints, team3, 2);
+        createAndSaveHintTaken(hints, team3, 1);
         List<Hint> notTakenHints = hintRepository.findHintsNotTakenByTeam(team1.getTeamId(), cypher.getCypherId());
         generator.generateHintsForCypher(cyphers);
         assertEquals(1, notTakenHints.size());
     }
 
-    private void cereateAndSaveHintTaken(List<Hint> hints, Team team, int index) {
+    private void createAndSaveHintTaken(List<Hint> hints, Team team, int index) {
         HintTaken hintTaken = new HintTaken(team, hints.get(index));
         hintTakenRepository.save(hintTaken);
     }
