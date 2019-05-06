@@ -1,4 +1,4 @@
-# Admin009 - create, update and delete hint - happy path
+# Admin009 - create, edit and delete hint - happy path
 
 *Description*
 >This test case verifies that it is possible to create, edit and delete hint of the cypher in Admin
