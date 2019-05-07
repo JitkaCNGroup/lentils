@@ -112,6 +112,37 @@ public class ProgressServiceTest {
         assertEquals(cypher.getHints().get(0).getText(), result.get(cypher.getHints().get(0).getHintId()));
     }
 
+    @Test
+    public void testGetCyphersStatuses() {
+        final Team team = new Team();
+        team.setTeamId(1L);
+
+        final Cypher cypher1 = new Cypher();
+        final Cypher cypher2 = new Cypher();
+        cypher1.setCypherId(10L);
+        cypher2.setCypherId(20L);
+
+        List<Status> dataset = new ArrayList<>();
+        addStatusIntoList(dataset, cypher1, team, CypherStatus.PENDING);
+        addStatusIntoList(dataset, cypher2, team, CypherStatus.SOLVED);
+
+        when(statusService.getAllByTeam(eq(team))).thenReturn(dataset);
+
+        Map<Long, CypherStatus> result = progressService.getCyphersStatuses(team);
+
+        assertEquals(2, result.size());
+        assertEquals(result.get(cypher1.getCypherId()), CypherStatus.PENDING);
+        assertEquals(result.get(cypher2.getCypherId()), CypherStatus.SOLVED);
+    }
+
+    @Test
+    public void testGetCypherStatuses_emptyData() {
+        when(statusService.getAllByTeam(any())).thenReturn(Collections.emptyList());
+
+        Map<Long, CypherStatus> result = progressService.getCyphersStatuses(null);
+
+        assertTrue(result.isEmpty());
+    }
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {
         final Status status = new Status();
 

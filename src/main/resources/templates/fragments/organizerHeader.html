@@ -15,6 +15,9 @@
                     <li class="nav-item" th:classappend="${activeTab == 'progress'}? 'active' : null">
                         <a class="nav-link" href="/game/progress">Přehled šifer<span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item" th:class="${activeTab == 'teamView'}? 'active' : null">
+                        <a class="nav-link" href="/game/progress/teamsList">Přehled týmů</a>
+                    </li>
                     <li class="nav-item" th:class="${activeTab == 'score'}? 'active' : null">
                         <a class="nav-link" href="/game/score">Score</a>
                     </li>

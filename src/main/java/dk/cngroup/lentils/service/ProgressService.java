@@ -35,6 +35,15 @@ public class ProgressService {
         return teamsStatuses;
     }
 
+    public Map<Long, CypherStatus> getCyphersStatuses(final Team team) {
+        List<Status> statuses = statusService.getAllByTeam(team);
+        Map<Long, CypherStatus> cypherStatuses = new HashMap<>();
+        statuses.forEach(status -> {
+            cypherStatuses.put(status.getCypher().getCypherId(), status.getCypherStatus());
+        });
+        return cypherStatuses;
+    }
+
     public Map<Long, String> setTakenHintsToMap(final Cypher cypher, final Team team) {
         List<Hint> hints = cypher.getHints();
         List<HintTaken> takenHints = hintTakenService.getTakenHintsOfTeam(team);
