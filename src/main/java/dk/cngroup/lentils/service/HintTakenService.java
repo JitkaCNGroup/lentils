@@ -32,10 +32,12 @@ public class HintTakenService {
     public int getHintScore(final Team team, final Cypher cypher) {
         int hintScore = 0;
         final List<Hint> hints = cypher.getHints();
-        for (Hint hint: hints) {
-            HintTaken hintTaken = hintTakenRepository.findByTeamAndHint(team, hint);
-            if (hintTaken != null) {
-                hintScore += hint.getValue();
+        if (hints != null) {
+            for (Hint hint : hints) {
+                HintTaken hintTaken = hintTakenRepository.findByTeamAndHint(team, hint);
+                if (hintTaken != null) {
+                    hintScore += hint.getValue();
+                }
             }
         }
         return hintScore;
