@@ -104,7 +104,8 @@ public class CypherServiceIntegrationTest {
                 "cypher",
                 stageNumber,
                 new Point(0,0),
-                "codeword"
+                "codeword",
+                "http://test.com"
         );
 
         return cypherRepository.save(cypher);

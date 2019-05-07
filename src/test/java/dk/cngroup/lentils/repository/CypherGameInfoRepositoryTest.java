@@ -166,6 +166,7 @@ public class CypherGameInfoRepositoryTest {
         cypher.setStage(stage);
         cypher.setLocation(new Point(0, 0));
         cypher.setCodeword("dummy");
+        cypher.setMapAddress("https://abc.com");
 
         cypherRepository.saveAndFlush(cypher);
 

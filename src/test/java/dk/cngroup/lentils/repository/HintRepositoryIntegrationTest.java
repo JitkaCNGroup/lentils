@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class HintRepositoryIntegrationTest {
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     private TeamRepository teamRepository;
@@ -43,9 +44,9 @@ public class HintRepositoryIntegrationTest {
         Team team2 = teamRepository.save(new Team("druhy", 4, "2222"));
         Team team3 = teamRepository.save(new Team("treti", 4, "3333"));
 
-        Cypher cypher1 = cypherRepository.save(new Cypher(TEST_LOCATION, 1));
-        Cypher cypher2 = cypherRepository.save(new Cypher(TEST_LOCATION, 2));
-        Cypher cypher3 = cypherRepository.save(new Cypher(TEST_LOCATION, 3));
+        Cypher cypher1 = cypherRepository.save(new Cypher(TEST_LOCATION, 1, TEST_MAP_ADDRESS));
+        Cypher cypher2 = cypherRepository.save(new Cypher(TEST_LOCATION, 2, TEST_MAP_ADDRESS));
+        Cypher cypher3 = cypherRepository.save(new Cypher(TEST_LOCATION, 3, TEST_MAP_ADDRESS));
 
         Hint hint1 = hintRepository.save(new Hint("a", 5, cypher1));
         Hint hint2 = hintRepository.save(new Hint("b", 5, cypher1));

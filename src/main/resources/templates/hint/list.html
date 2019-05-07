@@ -42,7 +42,7 @@
                     <td th:text="${cypher.trapCodeword}">Past</td>
                     <td th:text="${cypher.bonusContent}">Bonus</td>
                     <td>
-                        <a href="#" th:href="@{${cypher.mapAddress}}" target="_blank" class="btn btn-secondary">Mapa</a>
+                        <a th:if="${cypher.mapAddress} != ''" href="#" th:href="@{${cypher.mapAddress}}" target="_blank" class="btn btn-secondary">Mapa</a>
                     </td>
                 </tr>
             </tbody>

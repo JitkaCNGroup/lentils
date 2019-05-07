@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 public class CypherServiceTest {
     private static final int TESTED_STAGE = 3;
     private static final String CODEWORD = "Codeword";
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @InjectMocks
     CypherService service;
@@ -41,7 +42,7 @@ public class CypherServiceTest {
     }
 
     private Cypher getCypherForStage(Integer stage) {
-        Cypher cypher = new Cypher("blabla", stage, new Point(0,0), CODEWORD);
+        Cypher cypher = new Cypher("blabla", stage, new Point(0,0), CODEWORD, TEST_MAP_ADDRESS);
         when(repository.save(cypher)).thenReturn(cypher);
 
         return cypher;

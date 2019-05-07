@@ -30,6 +30,7 @@ public class StatusRepositoryTest {
     private static final int TESTED_STAGE = 5;
     private static final int TESTED_TEAM = 5;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     StatusRepository statusRepository;
@@ -53,7 +54,7 @@ public class StatusRepositoryTest {
     @Test
     public void addTest() {
         Team team = teamRepository.save(new Team(TEAM_NAME + TESTED_TEAM, 5, "1234"));
-        Cypher cypher = cypherRepository.save(new Cypher(TEST_LOCATION, TESTED_STAGE));
+        Cypher cypher = cypherRepository.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         Status status = statusRepository.save(new Status(team, cypher, PENDING));
 
         assertEquals(1, statusRepository.count());
@@ -68,7 +69,7 @@ public class StatusRepositoryTest {
         List<Team> teams = generator.generateTeamList();
         teamRepository.saveAll(teams);
 
-        Cypher cypher = new Cypher(TEST_LOCATION, 3);
+        Cypher cypher = new Cypher(TEST_LOCATION, 3, TEST_MAP_ADDRESS);
         Cypher cypherSaved =  cypherRepository.save(cypher);
 
         for (Team team : teams) {

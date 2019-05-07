@@ -27,7 +27,9 @@ public class CypherRepositoryTest {
     private static final int TESTED_STAGE_ZERO = 0;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
     private static final String TEST_STRING = "Lorem ipsum";
+    private static final String TEST_EMPTY_STRING = "";
     private static final String TOO_LONG_STRING = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. N1";
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     CypherRepository cypherRepository;
@@ -45,7 +47,7 @@ public class CypherRepositoryTest {
 
     @Test
     public void addNewCypherTest() {
-        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE);
+        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS);
         Cypher cypherNew = cypherRepository.save(cypher);
 
         assertNotNull(cypherNew);
@@ -77,25 +79,31 @@ public class CypherRepositoryTest {
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void cypherWithNegativeStageTest() {
-        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE_NEGATIVE);
+        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE_NEGATIVE, TEST_MAP_ADDRESS);
         cypherRepository.saveAndFlush(cypher);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void cypherWithZeroStageTest() {
-        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE_ZERO);
+        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE_ZERO, TEST_MAP_ADDRESS);
         cypherRepository.saveAndFlush(cypher);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void cypherWithTooLongBonusContentTest() {
-        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TOO_LONG_STRING, TEST_STRING);
+        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TOO_LONG_STRING, TEST_STRING, TEST_MAP_ADDRESS);
         cypherRepository.saveAndFlush(cypher);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void cypherWithTooLongPlaceDescriptionTest() {
-        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_STRING, TOO_LONG_STRING);
+        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_STRING, TOO_LONG_STRING, TEST_MAP_ADDRESS);
+        cypherRepository.saveAndFlush(cypher);
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void cypherWithEmptyMapAddressTest() {
+        Cypher cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_STRING, TOO_LONG_STRING, TEST_EMPTY_STRING);
         cypherRepository.saveAndFlush(cypher);
     }
 }
