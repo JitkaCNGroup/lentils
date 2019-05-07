@@ -3,10 +3,10 @@
 <head>
 </head>
 <body>
-<div th:fragment="header(activeTab, backButtonPresent, parentScreen)">
+<div th:fragment="header(activeTab, parentScreen)">
     <nav class="navbar navbar-default navbar-red">
-        <button th:if="${backButtonPresent}" class="btn back" type="button">
-            <a th:href="${parentScreen}"><i class="fas fa-chevron-left"></i></a>
+        <button th:unless="${parentScreen} == ''" class="btn back" type="button">
+            <a th:href="${parentScreen}"><i class="fas fa-chevron-left whiteChevronLeft"></i></a>
         </button>
 
         <div class="navbar-content">

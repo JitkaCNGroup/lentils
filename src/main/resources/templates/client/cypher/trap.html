@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div th:insert="client/fragments/header :: header('cypher', true, '/cypher/' + ${cypher.cypherId})"></div>
+    <div th:insert="client/fragments/header :: header('cypher', '/cypher/' + ${cypher.cypherId})"></div>
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
