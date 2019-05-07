@@ -116,7 +116,7 @@ public class Logger {
         return result;
     }
 
-    @After("execution(* dk.cngroup.lentils.controller.ProgressController.viewHintsForCypherByTeam(..))" +
+    @Around("execution(* dk.cngroup.lentils.controller.ProgressController.viewHintsForCypherByTeam(..))" +
             "&& args(teamId,hintId,pin)")
     public ResponseEntity takeHint(ProceedingJoinPoint joinPoint,
                                    Long teamId,
@@ -137,6 +137,26 @@ public class Logger {
 
         return result;
     }
+
+    // TODO
+    @After("execution(* dk.cngroup.lentils.controller.ProgressController.revertHint(..))" +
+            "&& args(teamId,hintId,..)")
+    public ResponseEntity takeHint(Long teamId,
+                                   Long hintId) {
+        Team team = teamService.getTeam(teamId);
+        Hint hint = hintService.getHint(hintId);
+
+        int points = getTakeHintPoints(hint, success);
+        int score = scoreService.getScoreByTeam(team);
+
+        TakeHintChange takeHintChange = new TakeHintChange(hintId, success);
+        Message<TakeHintChange> message = MessageFactory.createTakeHint(team, takeHintChange, points, score);
+        printer.println(message.toString());
+
+        return result;
+    }
+
+    // TODO revert hint
 
     private int getTakeHintPoints(Hint hint, boolean success) {
         return success ? -hint.getValue() : 0;
