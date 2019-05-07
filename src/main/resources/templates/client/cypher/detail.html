@@ -45,7 +45,11 @@
                             Tuto šifru jste přeskočili
                         </div>
 
-                        <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
+                        <div th:unless="${nextCypher}">
+                            <a class="btn btn-primary" th:href="@{/finalplace}"
+                               role="button">Vyhlášení výsledků </button></a>
+                        </div>
+
                         <div th:if="${nextCypher}">
                             <h2>Kam dál?</h2>
                             <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
@@ -58,7 +62,11 @@
                             Zadali jste správné heslo. Šifra byla vyluštěna!
                         </div>
 
-                        <!--TODO co kdyz neni dalsi sifra? -> nezobrazovat, ale mohlo by se zobrazit final place-->
+                        <div th:unless="${nextCypher}">
+                            <a class="btn btn-primary" th:href="@{/finalplace}"
+                               role="button">Vyhlášení výsledků </button></a>
+                        </div>
+
                         <div th:if="${nextCypher}">
                             <h2>Kam dál?</h2>
                             <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
