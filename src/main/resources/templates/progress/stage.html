@@ -86,7 +86,7 @@
                             <a href="#" class="btn btn-lock flat"
                                th:teamName="${team.name}"
                                th:teamPin="${team.pin}"
-                               th:onclick="|return confirm('Opravdu chcete zamknout šifru pro tým: ' +
+                               th:onclick="|return confirm('POZOR - tým by měl mít alespoň jednu aktivní šifru!!!\n\nOpravdu chcete zamknout šifru pro tým: ' +
                                     this.getAttribute('teamName') + '?\nPin teamu je ' + this.getAttribute('teamPin'))|"
                                th:if="${teamsStatuses.get(team.teamId) != null and (teamsStatuses.get(team.teamId))?.name() != ('LOCKED')}"
                                th:href="@{/game/progress/changeStatus/{cypherId}(cypherId=${cypher.cypherId}, teamId=${team.teamId}, newStatus='lock')}">
