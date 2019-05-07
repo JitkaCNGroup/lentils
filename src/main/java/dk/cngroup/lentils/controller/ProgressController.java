@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ProgressController {
     private static final String PROGRESS_STAGE = "progress/stage";
     private static final String PROGRESS_LIST = "progress/list";
+    private static final String TEAM_LIST = "progress/teamList";
+    private static final String TEAM_DETAIL = "progress/teamDetail";
     private static final String ERROR = "error/error";
     private static final String HINT_LIST = "progress/getHintList";
     private static final String REDIRECT_HINT_LIST = "redirect:/game/progress/viewHints/";
@@ -57,6 +59,21 @@ public class ProgressController {
     public String listProgress(final Model model) {
         model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
         return PROGRESS_LIST;
+    }
+
+    @GetMapping(value = "/teamsList")
+    public String listTeams(final Model model) {
+        model.addAttribute("teams", teamService.getAll());
+        return TEAM_LIST;
+    }
+
+    @GetMapping(value = "/teamDetail")
+    public String teamProgress(final @RequestParam("teamId") Long teamId, final Model model) {
+        Team team = teamService.getTeam(teamId);
+        model.addAttribute("team", team);
+        model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
+        model.addAttribute("cyphersStatuses", progressService.getCyphersStatuses(team));
+        return TEAM_DETAIL;
     }
 
     @GetMapping(value = "/stage")
