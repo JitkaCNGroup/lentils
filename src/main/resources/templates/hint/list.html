@@ -27,6 +27,8 @@
                     <th scope="col">Odpověď</th>
                     <th scope="col">Falešná odpověď</th>
                     <th scope="col">Bonus</th>
+                    <th scope="col">Mapa</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +41,9 @@
                     <td th:text="${cypher.codeword}">codove slovo</td>
                     <td th:text="${cypher.trapCodeword}">Past</td>
                     <td th:text="${cypher.bonusContent}">Bonus</td>
+                    <td>
+                        <a href="#" th:href="@{${cypher.mapAddress}}" target="_blank" class="btn btn-secondary">Mapa</a>
+                    </td>
                 </tr>
             </tbody>
         </table>

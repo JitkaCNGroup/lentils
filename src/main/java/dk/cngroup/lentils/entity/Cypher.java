@@ -49,6 +49,9 @@ public class Cypher implements Serializable {
     @Length(max = 1000, message = "Bonusové informace nesmí být delší než 1000 znaků.")
     private String bonusContent;
 
+    @Column(name = "map_address")
+    private String mapAddress;
+
     public Cypher() {
     }
 
@@ -87,6 +90,14 @@ public class Cypher implements Serializable {
         this.stage = stage;
         this.location = location;
         this.codeword = codeword;
+    }
+
+    public String getMapAddress() {
+        return mapAddress;
+    }
+
+    public void setMapAddress(final String mapAddress) {
+        this.mapAddress = mapAddress;
     }
 
     public Point getLocation() {
