@@ -123,6 +123,7 @@ public class ClientController {
         model.addAttribute("cypher", cypher);
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute("hintsNotTaken", hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         return CLIENT_VIEW_HINT_LIST;
     }
 
@@ -199,6 +200,7 @@ public class ClientController {
         model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
+        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
     }
 
     private void checkTeamAllowedToViewFinalPlace(@AuthenticationPrincipal final CustomUserDetails user,

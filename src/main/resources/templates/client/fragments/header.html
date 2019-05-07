@@ -3,14 +3,18 @@
 <head>
 </head>
 <body>
-<div th:fragment="header(activeTab)">
+<div th:fragment="header(activeTab, parentScreen)">
     <nav class="navbar navbar-default navbar-red">
+        <button th:unless="${parentScreen} == ''" class="btn back" type="button">
+            <a th:href="${parentScreen}"><i class="fas fa-chevron-left text-white"></i></a>
+        </button>
+
         <div class="navbar-content">
             <p class="team-name" th:text="${team.name}"></p>
-            <p th:text="|Aktuální skóre: ${score} b.|" th:if="${gameStarted == true}"></p>
+            <p th:unless="${score} == null" th:text="|Aktuální skóre: ${score} b.|"></p>
         </div>
 
-        <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        <button class="btn toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
                 aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
                 <i class="fa fa-bars"></i></span>
         </button>
