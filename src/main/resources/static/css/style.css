@@ -90,6 +90,21 @@ p.subheading {
     font-weight: 600;
 }
 
+nav .navbar-content{
+    flex: 1;
+}
+
+nav .back,
+nav .toggle {
+    flex: initial;
+    width: 2rem;
+}
+
+nav .back {
+    padding-left: 0;
+    padding-right: 0.6rem;
+}
+
 .cypher .row {
     height: 4rem;
     border-bottom: solid 1px #E5E5E5;

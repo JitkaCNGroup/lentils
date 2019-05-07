@@ -5,7 +5,7 @@
 <body>
 <div th:fragment="header(activeTab, backButtonPresent, parentScreen)">
     <nav class="navbar navbar-default navbar-red">
-        <button th:if="${backButtonPresent}" class="btn" type="button">
+        <button th:if="${backButtonPresent}" class="btn back" type="button">
             <a th:href="${parentScreen}"><i class="fas fa-chevron-left"></i></a>
         </button>
 
@@ -14,7 +14,7 @@
             <p th:unless="${score} == null" th:text="|Aktuální skóre: ${score} b.|"></p>
         </div>
 
-        <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        <button class="btn toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
                 aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
                 <i class="fa fa-bars"></i></span>
         </button>
