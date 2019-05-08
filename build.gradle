@@ -33,6 +33,8 @@ dependencies {
     compile("org.postgresql:postgresql:42.2.5")
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-security'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-search-orm
+    compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.11.1.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
     testCompile('junit:junit:4.12') {

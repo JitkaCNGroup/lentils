@@ -8,6 +8,7 @@ import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.ProgressService;
+import dk.cngroup.lentils.service.SearchService;
 import dk.cngroup.lentils.service.StatusService;
 import dk.cngroup.lentils.service.TeamService;
 import dk.cngroup.lentils.service.HintTakenService;
@@ -39,6 +40,7 @@ public class ProgressController {
     private final StatusService statusService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
+    private final SearchService searchService;
 
     @Autowired
     public ProgressController(final TeamService teamService,
@@ -46,13 +48,15 @@ public class ProgressController {
                               final ProgressService progressService,
                               final HintService hintService,
                               final HintTakenService hintTakenService,
-                              final StatusService statusService) {
+                              final StatusService statusService,
+                              final SearchService searchService) {
         this.teamService = teamService;
         this.cypherService = cypherService;
         this.progressService = progressService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
+        this.searchService = searchService;
     }
 
     @GetMapping

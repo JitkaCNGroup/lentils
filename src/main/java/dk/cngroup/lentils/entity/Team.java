@@ -1,6 +1,10 @@
 package dk.cngroup.lentils.entity;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.TermVector;
 import org.hibernate.validator.constraints.Length;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@Indexed
 @Entity
 @Table(name = "team")
 public class Team {
@@ -26,6 +31,7 @@ public class Team {
     @Column(name = "name", length = 50)
     @NotEmpty(message = "Jméno nesmí být prázdné.")
     @Length(max = 50, message = "Jméno nesmí být delší než 50 znaků.")
+    @Field(termVector = TermVector.YES)
     private String name;
 
     @Column(name = "num_of_members", length = 1)
