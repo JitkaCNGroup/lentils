@@ -1,6 +1,10 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.entity.*;
+import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.Search;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
@@ -13,7 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Controller
 @RequestMapping("/game/progress")
