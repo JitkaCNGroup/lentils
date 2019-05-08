@@ -57,6 +57,10 @@ public class ObjectGenerator {
         return new Team(TEAM_NAME, 5, PIN);
     }
 
+    public Team generateSpecificTeam(String teamName, String pin) {
+        return new Team(teamName, 5, pin);
+    }
+
     public List<Hint> generateHintsForCypher(List<Cypher> cyphers) {
         List<Hint> hints = new LinkedList<>();
         for (Cypher cypher : cyphers) {
