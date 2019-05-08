@@ -1,9 +1,6 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.CypherStatus;
-import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.*;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
@@ -16,12 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/game/progress")
@@ -86,6 +78,7 @@ public class ProgressController {
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
+        model.addAttribute("search", new Search("", cypherId));
         return PROGRESS_STAGE;
     }
 
@@ -102,6 +95,7 @@ public class ProgressController {
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
+        model.addAttribute("search", new Search("", cypherId));
         return PROGRESS_STAGE;
     }
 
@@ -118,7 +112,7 @@ public class ProgressController {
         return HINT_LIST;
     }
 
-    @PostMapping("/takeHintOfCypher")
+    @PostMapping(value = "/takeHintOfCypher")
     public ResponseEntity viewHintsForCypherByTeam(final @RequestParam("teamId") Long teamId,
                                                  final @RequestParam("hintId") Long hintId,
                                                  final @RequestParam("pin") String pin) {
@@ -139,7 +133,7 @@ public class ProgressController {
         }
     }
 
-    @GetMapping("/revertHint")
+    @GetMapping(value = "/revertHint")
     public String revertHint(final @RequestParam("teamId") Long teamId,
                                              final @RequestParam("hintId") Long hintId,
                                              final @RequestParam("cypherId") Long cypherId) {
@@ -150,6 +144,17 @@ public class ProgressController {
                 .concat(cypherId.toString())
                 .concat("?teamId=")
                 .concat(teamId.toString());
+    }
+
+    @PostMapping(value = "/search")
+    public String searchTeams(@ModelAttribute final Search search,
+                              final Model model) {
+        Cypher cypher = cypherService.getCypher(search.getSearchCypherId());
+        model.addAttribute("teams", searchService.searchTeams(search.getSearchString()));
+        model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
+        model.addAttribute("cypher", cypher);
+        model.addAttribute("search", search);
+        return PROGRESS_STAGE;
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
