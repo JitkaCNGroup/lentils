@@ -4,7 +4,7 @@ public class Search {
     private String searchString;
     private Long searchCypherId;
 
-    public Search(String searchString, Long searchCypherId) {
+    public Search(final String searchString, final Long searchCypherId) {
         this.searchString = searchString;
         this.searchCypherId = searchCypherId;
     }
@@ -13,7 +13,7 @@ public class Search {
         return searchString;
     }
 
-    public void setSearchString(String searchString) {
+    public void setSearchString(final String searchString) {
         this.searchString = searchString;
     }
 
@@ -21,7 +21,7 @@ public class Search {
         return searchCypherId;
     }
 
-    public void setSearchCypherId(Long searchCypherId) {
+    public void setSearchCypherId(final Long searchCypherId) {
         this.searchCypherId = searchCypherId;
     }
 
