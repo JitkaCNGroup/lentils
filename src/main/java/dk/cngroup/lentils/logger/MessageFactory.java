@@ -5,10 +5,7 @@ import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 
-import static dk.cngroup.lentils.logger.Action.CHANGE_CYPHER_STATUS;
-import static dk.cngroup.lentils.logger.Action.SKIP_CYPHER;
-import static dk.cngroup.lentils.logger.Action.TAKE_HINT;
-import static dk.cngroup.lentils.logger.Action.VERIFY_CODEWORD;
+import static dk.cngroup.lentils.logger.Action.*;
 import static dk.cngroup.lentils.logger.Author.ORGANIZER;
 import static dk.cngroup.lentils.logger.Author.TEAM;
 
@@ -41,11 +38,18 @@ public class MessageFactory {
         return createOrganizerMessage(CHANGE_CYPHER_STATUS, team, statusChange, points, score);
     }
 
-    public static Message<TakeHintChange> createTakeHint(final Team team,
-                                                         final TakeHintChange takeHintChange,
+    public static <T> Message<T> createTakeHint(final Team team,
+                                                         final T hintChange,
                                                          final int points,
                                                          final int score) {
-        return createOrganizerMessage(TAKE_HINT, team, takeHintChange, points, score);
+        return createOrganizerMessage(TAKE_HINT, team, hintChange, points, score);
+    }
+
+    public static <T> Message<T> createRevertHint(final Team team,
+                                                final T hintChange,
+                                                final int points,
+                                                final int score) {
+        return createOrganizerMessage(REVERT_HINT, team, hintChange, points, score);
     }
 
     private static <T> Message<T> createOrganizerMessage(final Action action,

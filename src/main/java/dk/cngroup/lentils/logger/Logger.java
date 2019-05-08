@@ -1,9 +1,6 @@
 package dk.cngroup.lentils.logger;
 
-import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.CypherStatus;
-import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.*;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.security.CustomUserDetails;
@@ -16,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 import static dk.cngroup.lentils.entity.CypherStatus.SKIPPED;
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
@@ -30,6 +30,7 @@ public class Logger {
     private final TeamService teamService;
     private final CypherService cypherService;
     private final StatusService statusService;
+    private final HintTakenService hintTakenService;
 
     @Autowired
     public Logger(final Printer printer,
@@ -37,13 +38,15 @@ public class Logger {
                   final HintService hintService,
                   final TeamService teamService,
                   final CypherService cypherService,
-                  final StatusService statusService) {
+                  final StatusService statusService,
+                  final HintTakenService hintTakenService) {
         this.printer = printer;
         this.scoreService = scoreService;
         this.hintService = hintService;
         this.teamService = teamService;
         this.cypherService = cypherService;
         this.statusService = statusService;
+        this.hintTakenService = hintTakenService;
     }
 
     /**
@@ -118,10 +121,10 @@ public class Logger {
 
     @Around("execution(* dk.cngroup.lentils.controller.ProgressController.viewHintsForCypherByTeam(..))" +
             "&& args(teamId,hintId,pin)")
-    public ResponseEntity takeHint(ProceedingJoinPoint joinPoint,
-                                   Long teamId,
-                                   Long hintId,
-                                   String pin) throws Throwable {
+    public ResponseEntity takeHint(final ProceedingJoinPoint joinPoint,
+                                   final Long teamId,
+                                   final Long hintId,
+                                   final String pin) throws Throwable {
         Team team = teamService.getTeam(teamId);
         Hint hint = hintService.getHint(hintId);
 
@@ -138,28 +141,45 @@ public class Logger {
         return result;
     }
 
-    // TODO
-    @After("execution(* dk.cngroup.lentils.controller.ProgressController.revertHint(..))" +
+    @Around("execution(* dk.cngroup.lentils.controller.ProgressController.revertHint(..))" +
             "&& args(teamId,hintId,..)")
-    public ResponseEntity takeHint(Long teamId,
-                                   Long hintId) {
+    public String revertHint(final ProceedingJoinPoint joinPoint,
+                           final Long teamId,
+                           final Long hintId) throws Throwable {
         Team team = teamService.getTeam(teamId);
         Hint hint = hintService.getHint(hintId);
+        boolean isHintTaken = isHintTakenByTeam(hint, team);
 
-        int points = getTakeHintPoints(hint, success);
+        String result = (String) joinPoint.proceed(joinPoint.getArgs());
+
+        int points = getRevertHintPoints(hint, isHintTaken);
         int score = scoreService.getScoreByTeam(team);
 
-        TakeHintChange takeHintChange = new TakeHintChange(hintId, success);
-        Message<TakeHintChange> message = MessageFactory.createTakeHint(team, takeHintChange, points, score);
+        RevertHintChange takeHintChange = new RevertHintChange(hintId, isHintTaken);
+        Message<RevertHintChange> message = MessageFactory.createRevertHint(team, takeHintChange, points, score);
         printer.println(message.toString());
 
         return result;
     }
 
-    // TODO revert hint
+    private boolean isHintTakenByTeam(Hint hint, Team team) {
+        List<HintTaken> takenHints = hintTakenService.getAllByTeamAndCypher(team, hint.getCypher());
+        Optional<HintTaken> takenHint = takenHints.stream()
+                .filter(ht -> ht.getHint().equals(hint))
+                .findAny();
+        return takenHint.isPresent();
+    }
 
     private int getTakeHintPoints(Hint hint, boolean success) {
-        return success ? -hint.getValue() : 0;
+        return getHintPoints(hint, success, -1);
+    }
+
+    private int getRevertHintPoints(Hint hint, boolean isHintTaken) {
+        return getHintPoints(hint, isHintTaken, 1);
+    }
+
+    private int getHintPoints(Hint hint, boolean success, int sign) {
+        return success ? sign * hint.getValue() : 0;
     }
 
     private int getChangeCypherStatusPoints(final CypherStatus oldCypherStatus,
