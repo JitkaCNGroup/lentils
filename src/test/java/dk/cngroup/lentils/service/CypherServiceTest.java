@@ -20,6 +20,7 @@ public class CypherServiceTest {
     private static final int TESTED_STAGE = 3;
     private static final String CODEWORD = "Codeword";
     private static final String CODEWORD_WITH_CZECH_SPECIAL_CHARACTERS = "Příliš Žluťoučký kůň";
+    private static final String CODEWORD_WITHOUT_CZECH_SPECIAL_CHARACTERS = "Prilis Zlutoucky kun";
     private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @InjectMocks
@@ -53,17 +54,16 @@ public class CypherServiceTest {
     @Test
     public void checkLowerCaseCodewordTest() {
         Cypher cypher = getCypherForStage(CODEWORD);
-        String upperCaseCodeword = CODEWORD.toLowerCase();
+        String lowerCaseCodeword = CODEWORD.toLowerCase();
 
-        assertTrue(service.checkCodeword(cypher, upperCaseCodeword));
+        assertTrue(service.checkCodeword(cypher, lowerCaseCodeword));
     }
 
     @Test
     public void checkCodewordWithSpecialCzechCharactersTest() {
-        Cypher cypher = getCypherForStage(CODEWORD_WITH_CZECH_SPECIAL_CHARACTERS);
-        String upperCaseCodeword = CODEWORD_WITH_CZECH_SPECIAL_CHARACTERS.toLowerCase();
+        Cypher cypher = getCypherForStage(CODEWORD_WITHOUT_CZECH_SPECIAL_CHARACTERS);
 
-        assertTrue(service.checkCodeword(cypher, upperCaseCodeword));
+        assertTrue(service.checkCodeword(cypher, CODEWORD_WITH_CZECH_SPECIAL_CHARACTERS));
     }
 
     private Cypher getCypherForStage(Integer stage, String codeword) {
