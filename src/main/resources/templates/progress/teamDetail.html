@@ -25,13 +25,11 @@
             <div th:each="cypher : ${cyphers}" class="cypher organizer">
                 <th:block th:with="status=${cyphersStatuses.get(cypher.cypherId)}">
                     <div class="row align-items-center">
-                        <div class="col-12">
-                            <p th:classappend="${#strings.toLowerCase(status)}">
-                                <span th:text="${cypher.name}" class="name">Bamboo</span>
-                                <a th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}">
-                                    <span class="status" th:if="${cyphersStatuses.get(cypher.cypherId)}" th:text="${status}"></span>
-                                </a>
-                            </p>
+                        <div th:classappend="${#strings.toLowerCase(status)}" class="col-12">
+                            <span th:text="${cypher.name}" class="name">Bamboo</span>
+                            <a th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}">
+                                <span class="status" th:if="${cyphersStatuses.get(cypher.cypherId)}" th:text="${status}"></span>
+                            </a>
                         </div>
                     </div>
                 </th:block>
