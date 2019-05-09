@@ -1,10 +1,10 @@
-package dk.cngroup.lentils.logger;
+package dk.cngroup.lentils.logger.change;
 
-public class RevertHintChange {
+public class TakeHintChange {
     private final Long hintId;
     private final boolean success;
 
-    public RevertHintChange(Long hintId, boolean success) {
+    public TakeHintChange(final Long hintId, final boolean success) {
         this.hintId = hintId;
         this.success = success;
     }

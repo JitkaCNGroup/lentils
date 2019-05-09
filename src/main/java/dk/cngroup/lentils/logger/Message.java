@@ -19,7 +19,13 @@ public class Message<T> {
     private final int points;
     private final int score;
 
-    public Message(Action action, Author author, Team team, Team forTeam, T data, int points, int score) {
+    public Message(final Action action,
+                   final Author author,
+                   final Team team,
+                   final Team forTeam,
+                   final T data,
+                   final int points,
+                   final int score) {
         this.timestamp = LocalDateTime.now();
         this.author = author;
         this.action = action;

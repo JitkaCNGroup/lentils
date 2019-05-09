@@ -7,6 +7,9 @@ import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
+import dk.cngroup.lentils.logger.change.RevertHintChange;
+import dk.cngroup.lentils.logger.change.StatusChange;
+import dk.cngroup.lentils.logger.change.TakeHintChange;
 import dk.cngroup.lentils.logger.printer.Printer;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherService;
@@ -63,14 +66,14 @@ public class Logger {
     }
 
     /**
-     * CLIENT METHODS
+     * CLIENT METHODS.
      */
     @Around("execution(* dk.cngroup.lentils.controller.ClientController.verifyCodeword(..))" +
             "&& args(cypherId,codeword,user,..)")
-    public Object verifyCodeword(ProceedingJoinPoint joinPoint,
-                                 Long cypherId,
-                                 Codeword codeword,
-                                 CustomUserDetails user) throws Throwable {
+    public Object verifyCodeword(final ProceedingJoinPoint joinPoint,
+                                 final Long cypherId,
+                                 final Codeword codeword,
+                                 final CustomUserDetails user) throws Throwable {
         String result = (String) joinPoint.proceed(joinPoint.getArgs());
 
         int points = getVerifyCodewordPoints(result);
@@ -84,8 +87,8 @@ public class Logger {
 
     @After("execution(* dk.cngroup.lentils.controller.ClientController.getHint(..))" +
             "&& args(hintId,user,..)")
-    public void getHint(Long hintId,
-                        CustomUserDetails user){
+    public void getHint(final Long hintId,
+                        final CustomUserDetails user) {
 
         Hint hint = hintService.getHint(hintId);
         int points = -hint.getValue();
@@ -97,8 +100,8 @@ public class Logger {
 
     @After("execution(* dk.cngroup.lentils.controller.ClientController.skipCypher(..))" +
             "&& args(cypher,user)")
-    public void skipCypher(Cypher cypher,
-                           CustomUserDetails user){
+    public void skipCypher(final Cypher cypher,
+                           final CustomUserDetails user) {
         int score = scoreService.getScoreByTeam(user.getTeam());
 
         Message<Long> message = MessageFactory.createSkipCypher(user, cypher.getCypherId(), SKIPPED.getStatusValue(),
@@ -107,14 +110,14 @@ public class Logger {
     }
 
     /**
-     * ORGANIZER METHODS
+     * ORGANIZER METHODS.
      */
     @Around("execution(* dk.cngroup.lentils.controller.ProgressController.changeCypherStatus(..))" +
             "&& args(cypherId,teamId,newStatus,..)")
-    public String changeCypherStatus(ProceedingJoinPoint joinPoint,
-                                     Long cypherId,
-                                     Long teamId,
-                                     String newStatus) throws Throwable {
+    public String changeCypherStatus(final ProceedingJoinPoint joinPoint,
+                                     final Long cypherId,
+                                     final Long teamId,
+                                     final String newStatus) throws Throwable {
         Cypher cypher = cypherService.getCypher(cypherId);
         Team team = teamService.getTeam(teamId);
         CypherStatus oldCypherStatus = statusService.getCypherStatusByTeamAndCypher(team, cypher);
@@ -157,8 +160,8 @@ public class Logger {
     @Around("execution(* dk.cngroup.lentils.controller.ProgressController.revertHint(..))" +
             "&& args(teamId,hintId,..)")
     public String revertHint(final ProceedingJoinPoint joinPoint,
-                           final Long teamId,
-                           final Long hintId) throws Throwable {
+                             final Long teamId,
+                             final Long hintId) throws Throwable {
         Team team = teamService.getTeam(teamId);
         Hint hint = hintService.getHint(hintId);
         boolean isHintTaken = isHintTakenByTeam(hint, team);
@@ -175,7 +178,7 @@ public class Logger {
         return result;
     }
 
-    private boolean isHintTakenByTeam(Hint hint, Team team) {
+    private boolean isHintTakenByTeam(final Hint hint, final Team team) {
         List<HintTaken> takenHints = hintTakenService.getAllByTeamAndCypher(team, hint.getCypher());
         Optional<HintTaken> takenHint = takenHints.stream()
                 .filter(ht -> ht.getHint().equals(hint))

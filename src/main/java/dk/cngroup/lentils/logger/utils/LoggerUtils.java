@@ -6,20 +6,20 @@ import dk.cngroup.lentils.entity.Hint;
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
 
 public class LoggerUtils {
-    public static int getTakeHintPoints(Hint hint, boolean success) {
+    public static int getTakeHintPoints(final Hint hint, final boolean success) {
         return getHintPoints(hint, success, -1);
     }
 
-    public static int getRevertHintPoints(Hint hint, boolean isHintTaken) {
+    public static int getRevertHintPoints(final Hint hint, final boolean isHintTaken) {
         return getHintPoints(hint, isHintTaken, 1);
     }
 
-    private static int getHintPoints(Hint hint, boolean success, int sign) {
+    private static int getHintPoints(final Hint hint, final boolean success, final int sign) {
         return success ? sign * hint.getValue() : 0;
     }
 
     public static int getChangeCypherStatusPoints(final CypherStatus oldCypherStatus,
-                                            final CypherStatus newCypherStatus) {
+                                                  final CypherStatus newCypherStatus) {
         if (newCypherStatus == SOLVED && oldCypherStatus != SOLVED) {
             return SOLVED.getStatusValue();
         } else if (newCypherStatus != SOLVED && oldCypherStatus == SOLVED) {
@@ -29,7 +29,7 @@ public class LoggerUtils {
         }
     }
 
-    public static int getVerifyCodewordPoints(String result) {
+    public static int getVerifyCodewordPoints(final String result) {
         if (result.startsWith("redirect:/cypher/")) {
             return SOLVED.getStatusValue();
         }

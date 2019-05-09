@@ -2,9 +2,14 @@ package dk.cngroup.lentils.logger;
 
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.logger.change.StatusChange;
 import dk.cngroup.lentils.security.CustomUserDetails;
 
-import static dk.cngroup.lentils.logger.Action.*;
+import static dk.cngroup.lentils.logger.Action.CHANGE_CYPHER_STATUS;
+import static dk.cngroup.lentils.logger.Action.REVERT_HINT;
+import static dk.cngroup.lentils.logger.Action.SKIP_CYPHER;
+import static dk.cngroup.lentils.logger.Action.TAKE_HINT;
+import static dk.cngroup.lentils.logger.Action.VERIFY_CODEWORD;
 import static dk.cngroup.lentils.logger.Author.ORGANIZER;
 import static dk.cngroup.lentils.logger.Author.TEAM;
 

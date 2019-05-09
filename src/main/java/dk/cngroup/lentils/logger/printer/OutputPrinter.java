@@ -13,7 +13,7 @@ public abstract class OutputPrinter implements Printer {
     public abstract void initOutput();
 
     @Override
-    public <T> void println(T message) {
+    public <T> void println(final T message) {
         output.println(message);
     }
 }

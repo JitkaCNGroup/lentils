@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.logger;
+package dk.cngroup.lentils.logger.change;
 
 import dk.cngroup.lentils.entity.CypherStatus;
 
@@ -7,7 +7,9 @@ public class StatusChange {
     private final CypherStatus oldCypherStatus;
     private final CypherStatus newCypherStatus;
 
-    public StatusChange(Long cypherId, CypherStatus oldCypherStatus, CypherStatus newCypherStatus) {
+    public StatusChange(final Long cypherId,
+                        final CypherStatus oldCypherStatus,
+                        final CypherStatus newCypherStatus) {
         this.cypherId = cypherId;
         this.oldCypherStatus = oldCypherStatus;
         this.newCypherStatus = newCypherStatus;
