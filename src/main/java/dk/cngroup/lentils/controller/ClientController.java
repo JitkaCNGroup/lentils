@@ -170,7 +170,6 @@ public class ClientController {
         model.addAttribute("team", user.getTeam());
         model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         model.addAttribute("cypher", cypherService.getCypher(id));
-        model.addAttribute("team", user.getTeam());
         return CLIENT_TRAP_SCREEN;
     }
 
