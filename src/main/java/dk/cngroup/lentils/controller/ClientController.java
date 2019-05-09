@@ -38,7 +38,7 @@ public class ClientController {
     private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
     private static final String CLIENT_TRAP_SCREEN = "client/cypher/trap";
     private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
-    private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game";
+    private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game/";
     private static final String FORM_OBJECT_NAME = "codeword";
     private static final String GUESS_FIELD_NAME = "guess";
 
@@ -150,7 +150,7 @@ public class ClientController {
         }
 
         if (cypherService.checkTrapCodeword(cypher, codeword.getGuess())) {
-            return REDIRECT_TO_TRAP_SCREEN;
+            return REDIRECT_TO_TRAP_SCREEN + cypher.getCypherId();
         }
 
         FieldError error = new FieldError(
@@ -163,8 +163,13 @@ public class ClientController {
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
 
-    @GetMapping("cypher/lets-play-a-game")
-    public String trapScreen(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
+    @GetMapping("cypher/lets-play-a-game/{id}")
+    public String trapScreen(@PathVariable("id") final Long id,
+                             @AuthenticationPrincipal final CustomUserDetails user,
+                             final Model model) {
+        model.addAttribute("team", user.getTeam());
+        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
+        model.addAttribute("cypher", cypherService.getCypher(id));
         model.addAttribute("team", user.getTeam());
         return CLIENT_TRAP_SCREEN;
     }

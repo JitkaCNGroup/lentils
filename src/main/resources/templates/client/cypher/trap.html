@@ -11,14 +11,15 @@
 </head>
 
 <body>
-    <div th:insert="client/fragments/header :: header('cypher', '/cypher/' + ${cypher.cypherId})"></div>
+    <div th:insert="client/fragments/header :: header(cypher, '/cypher/' + ${cypher.cypherId})"></div>
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <p>Tak tohle není správná odpověď 3:] - <a href="#" onclick="javascript:history.go(-1)">zkusit znovu</a></p>
-            </div>
             <div class="col-sm-12 col-centered">
+                <p class="trapText">Tak tohle není správná odpověď 3:]</p>
                 <img src="/img/billy.jpg" alt="Billy Saw" class="img-billy"/>
+                <a class="btn btn-under-image" onclick="javascript:history.go(-1)" role="button">
+                    Zkusit znovu
+                </a>
             </div>
         </div>
     </div>
