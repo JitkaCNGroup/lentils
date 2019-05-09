@@ -1,7 +1,6 @@
 package dk.cngroup.lentils.logger;
 
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.security.CustomUserDetails;
 
@@ -14,21 +13,21 @@ public class MessageFactory {
                                                          final Codeword codeword,
                                                          final int points,
                                                          final int score) {
-        return createTeamMessage(VERIFY_CODEWORD, user.getTeam().getUser(), codeword, points, score);
+        return createTeamMessage(VERIFY_CODEWORD, user.getTeam(), codeword, points, score);
     }
 
     public static Message<Long> createTakeHint(final CustomUserDetails user,
                                                final Long hintId,
                                                final int points,
                                                final int score) {
-        return createTeamMessage(TAKE_HINT, user.getTeam().getUser(), hintId, points, score);
+        return createTeamMessage(TAKE_HINT, user.getTeam(), hintId, points, score);
     }
 
     public static Message<Long> createSkipCypher(final CustomUserDetails user,
                                                  final Long cypherId,
                                                  final int points,
                                                  final int score) {
-        return createTeamMessage(SKIP_CYPHER, user.getTeam().getUser(), cypherId, points, score);
+        return createTeamMessage(SKIP_CYPHER, user.getTeam(), cypherId, points, score);
     }
 
     public static Message<StatusChange> createChangeCypherStatus(final Team team,
@@ -61,7 +60,7 @@ public class MessageFactory {
     }
 
     private static <T> Message<T> createTeamMessage(final Action action,
-                                                    final User user,
+                                                    final Team user,
                                                     final T data,
                                                     final int points,
                                                     final int score) {

@@ -6,6 +6,10 @@ public abstract class OutputPrinter implements Printer {
 
     protected PrintStream output;
 
+    public OutputPrinter() {
+        initOutput();
+    }
+
     public abstract void initOutput();
 
     @Override

@@ -2,7 +2,7 @@ package dk.cngroup.lentils.logger.printer;
 
 import org.springframework.stereotype.Component;
 
-@Component()
+@Component
 public class StandardOutputPrinter extends OutputPrinter {
 
     @Override
