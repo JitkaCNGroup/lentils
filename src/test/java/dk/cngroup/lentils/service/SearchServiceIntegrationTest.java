@@ -73,6 +73,7 @@ public class SearchServiceIntegrationTest {
             fullTextEntityManager.createIndexer().startAndWait();
             fullTextEntityManager.flushToIndexes();
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

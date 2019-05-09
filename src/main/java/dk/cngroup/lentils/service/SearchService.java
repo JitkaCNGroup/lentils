@@ -56,6 +56,7 @@ public class SearchService {
         try {
             searchedTeamsList = jpaQuery.getResultList();
         } catch (NoResultException e) {
+            e.printStackTrace();
         }
 
         return searchedTeamsList;
