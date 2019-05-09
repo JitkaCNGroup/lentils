@@ -22,9 +22,9 @@
             <h1>Tým</h1>
             <p class="subheading" th:text="${team.name}"></p>
 
-            <div th:each="cypher : ${cyphers}" class="team">
+            <div th:each="cypher : ${cyphers}" class="cypher organizer">
                 <th:block th:with="status=${cyphersStatuses.get(cypher.cypherId)}">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-12">
                             <p th:classappend="${#strings.toLowerCase(status)}">
                                 <span th:text="${cypher.name}" class="name">Bamboo</span>
