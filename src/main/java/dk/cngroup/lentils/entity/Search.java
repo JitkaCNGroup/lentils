@@ -9,7 +9,7 @@ public class Search {
         this.searchCypherId = searchCypherId;
     }
 
-    public Search(Long searchCypherId) {
+    public Search(final Long searchCypherId) {
         this.searchCypherId = searchCypherId;
     }
 
