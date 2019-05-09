@@ -12,3 +12,15 @@
 [2019-05-09T10:51:03.356772] 'CHANGE_CYPHER_STATUS' by ORGANIZER for team 18 mja, StatusChange{cypherId=4, oldCypherStatus=PENDING, newCypherStatus=SOLVED}, points: 10, score: 20
 [2019-05-09T10:51:18.346414] 'VERIFY_CODEWORD' by TEAM 1 teama, asdwww, points: 0, score: 9
 [2019-05-09T10:51:20.968053] 'VERIFY_CODEWORD' by TEAM 1 teama, asd, points: 0, score: 9
+[2019-05-09T13:01:28.375811] 'VERIFY_CODEWORD' by TEAM 3 testTeam, topgun, points: 0, score: 0
+[2019-05-09T13:01:28.433615] 'VERIFY_CODEWORD' by TEAM 7 testTeam, topgun_wrong, points: 0, score: 0
+[2019-05-09T13:01:28.476468] 'VERIFY_CODEWORD' by TEAM 11 testTeam, topgun, points: 10, score: 10
+[2019-05-09T13:01:28.504588] 'VERIFY_CODEWORD' by TEAM 15 testTeam, firefly, points: 10, score: 0
+[2019-05-14T07:51:05.743669] 'VERIFY_CODEWORD' by TEAM 3 Team, topgun, points: 0, score: 0
+[2019-05-14T07:51:05.871519] 'VERIFY_CODEWORD' by TEAM 7 Team, topgun_wrong, points: 0, score: 0
+[2019-05-14T07:51:05.969609] 'VERIFY_CODEWORD' by TEAM 11 Team, topgun, points: 0, score: 0
+[2019-05-14T07:51:06.081294] 'VERIFY_CODEWORD' by TEAM 15 Team, firefly, points: 0, score: 0
+[2019-05-14T07:51:46.046620] 'VERIFY_CODEWORD' by TEAM 3 Team, topgun, points: 0, score: 0
+[2019-05-14T07:51:46.230007] 'VERIFY_CODEWORD' by TEAM 7 Team, topgun_wrong, points: 0, score: 0
+[2019-05-14T07:51:46.297134] 'VERIFY_CODEWORD' by TEAM 11 Team, topgun, points: 0, score: 0
+[2019-05-14T07:51:58.029912] 'VERIFY_CODEWORD' by TEAM 15 Team, firefly, points: 0, score: 0

@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG;
 import static junit.framework.TestCase.assertTrue;
@@ -41,6 +42,8 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     private ClientController testedController;
     @Autowired
     private CypherRepository cypherRepository;
+    @Autowired
+    private HintRepository hintRepository;
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
@@ -119,9 +122,10 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     private void createTestCypher() {
+        Hint hint = new Hint("abcd", 5, cypher);
+        hintRepository.save(hint);
         cypher = generator.generateValidCypher();
-        cypher.setCodeword(CORRECT_CODEWORD);
-        cypher.setTrapCodeword(FALSE_CODEWORD);
+        cypher.setHints(Collections.singletonList(hint));
         cypherRepository.save(cypher);
     }
 

@@ -1,11 +1,20 @@
 package dk.cngroup.lentils.logger;
 
-import dk.cngroup.lentils.entity.*;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.logger.printer.Printer;
 import dk.cngroup.lentils.security.CustomUserDetails;
-import dk.cngroup.lentils.service.*;
+import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.HintService;
+import dk.cngroup.lentils.service.HintTakenService;
+import dk.cngroup.lentils.service.ScoreService;
+import dk.cngroup.lentils.service.StatusService;
+import dk.cngroup.lentils.service.TeamService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
@@ -19,8 +28,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static dk.cngroup.lentils.entity.CypherStatus.SKIPPED;
-import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
-import static dk.cngroup.lentils.logger.utils.LoggerUtils.*;
+import static dk.cngroup.lentils.logger.utils.LoggerUtils.getChangeCypherStatusPoints;
+import static dk.cngroup.lentils.logger.utils.LoggerUtils.getRevertHintPoints;
+import static dk.cngroup.lentils.logger.utils.LoggerUtils.getTakeHintPoints;
+import static dk.cngroup.lentils.logger.utils.LoggerUtils.getVerifyCodewordPoints;
 
 @Aspect
 @Component
