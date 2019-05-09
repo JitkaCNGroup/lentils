@@ -4,6 +4,7 @@ import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.service.TeamService;
+import dk.cngroup.lentils.util.UsernameUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +81,16 @@ public class UserRepositoryTest {
         Team team = createValidTeam(SPECIAL_TEAM_NAME);
         teamService.save(team);
         Assert.assertTrue(isUserInDb(GENERATED_USERNAME));
+    }
+
+    @Test
+    public void t1() {
+        String newUsername1 = Normalizer
+                .normalize(SPECIAL_TEAM_NAME, Normalizer.Form.NFD);
+
+
+        String newUsername2 = SPECIAL_TEAM_NAME
+                .replaceAll("[^\\p{ASCII}]", "");
     }
 
     private Team createValidTeam(final String teamName) {
