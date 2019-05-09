@@ -298,6 +298,12 @@ a:hover{
     background-color: rgb(237, 24, 72);
 }
 
+.container .row .btn-under-image {
+    color: #FFF;
+    background-color: rgb(237, 24, 72);
+    margin-top: 3rem;
+}
+
 .container .row .btn-secondary {
     color: rgb(237, 24, 72);
     background-color: white;
@@ -356,6 +362,13 @@ a:hover{
     color: #FFF;
     width: auto;
     padding: .35rem .65rem;
+}
+
+.trapText {
+    font-size: 1.25rem;
+    color: #757575;
+    margin-top: 1.25rem;
+    text-align: center;
 }
 
 .last {
