@@ -47,7 +47,7 @@ public class CypherService {
         return compareCodewords(codeword, cypher.getTrapCodeword());
     }
 
-    private boolean compareCodewords(String codeword1, String codeword2) {
+    private boolean compareCodewords(final String codeword1, final String codeword2) {
         String normalizedCodeword1 = CzechCharsetUtils.replaceCzechSpecialCharacters(codeword1);
         String normalizedCodeword2 = CzechCharsetUtils.replaceCzechSpecialCharacters(codeword2);
 
