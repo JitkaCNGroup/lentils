@@ -5,6 +5,7 @@ import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -50,32 +51,44 @@ public class Cypher implements Serializable {
     private String bonusContent;
 
     @Column(name = "map_address")
+    @NotEmpty(message = "Adresa mapy nesmí být prázdná.")
     private String mapAddress;
 
     public Cypher() {
     }
 
-    public Cypher(final Point location, final int stage) {
+    public Cypher(final Point location, final int stage, final String mapAddress) {
         this.location = location;
         this.stage = stage;
+        this.mapAddress = mapAddress;
     }
 
     public Cypher(final int stage) {
         this.stage = stage;
     }
 
-    public Cypher(final String name, final int stage, final Point location, final String codeword) {
+    public Cypher(final String name,
+                  final int stage,
+                  final Point location,
+                  final String codeword,
+                  final String mapAddress) {
         this.name = name;
         this.stage = stage;
         this.location = location;
         this.codeword = codeword;
+        this.mapAddress = mapAddress;
     }
 
-    public Cypher(final Point location, final int stage, final String bonusContent, final String placeDescription) {
+    public Cypher(final Point location,
+                  final int stage,
+                  final String bonusContent,
+                  final String placeDescription,
+                  final String mapAddress) {
         this.location = location;
         this.stage = stage;
         this.bonusContent = bonusContent;
         this.placeDescription = placeDescription;
+        this.mapAddress = mapAddress;
     }
 
     public Cypher(

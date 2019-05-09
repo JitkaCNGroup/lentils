@@ -33,6 +33,7 @@ public class HintRepositoryTest {
     private static final String TEST_EMPTY_NAME = "";
     private static final String TEST_CYPHER_NAME = "CypherName";
     private static final String TEST_HINT_TEXT = "HintText";
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     private HintRepository hintRepository;
@@ -67,7 +68,7 @@ public class HintRepositoryTest {
 
     @Test
     public void addTest() {
-        Cypher cypher = new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD);
+        Cypher cypher = new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD, TEST_MAP_ADDRESS);
         Cypher cypher1 = cypherService.save(cypher);
         Hint hint = new Hint(TEST_HINT_TEXT, 5, cypher1);
         Hint hint1 = hintRepository.save(hint);
@@ -104,14 +105,14 @@ public class HintRepositoryTest {
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void hintWithEmptyTextTest() {
-        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
+        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD, TEST_MAP_ADDRESS));
         Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
         hintRepository.saveAndFlush(hint);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void hintWithNotAllowedValueTest() {
-        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD));
+        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD, TEST_MAP_ADDRESS));
         Hint hint = new Hint(TEST_HINT_TEXT, 0, cypher);
         hintRepository.saveAndFlush(hint);
     }

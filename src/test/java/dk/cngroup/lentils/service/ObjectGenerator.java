@@ -24,11 +24,12 @@ public class ObjectGenerator {
     public static final String CODEWORD = "Codeword";
     public static final String TEAM_NAME = "Team";
     public static final String PIN = "1234";
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     public List<Cypher> generateCypherList(int number) {
         List<Cypher> cyphers = new LinkedList<>();
         for (int i = 0; i < number; i++) {
-            cyphers.add(new Cypher(TEST_LOCATION, i + number));
+            cyphers.add(new Cypher(TEST_LOCATION, i + number, TEST_MAP_ADDRESS));
         }
         return cyphers;
     }
@@ -38,7 +39,7 @@ public class ObjectGenerator {
     }
 
     public Cypher generateNewCypher() {
-        return new Cypher(TEST_LOCATION, 1);
+        return new Cypher(TEST_LOCATION, 1, TEST_MAP_ADDRESS);
     }
 /*
     public Cypher generateCypher() {

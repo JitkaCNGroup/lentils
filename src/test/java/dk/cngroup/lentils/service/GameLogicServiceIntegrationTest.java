@@ -100,8 +100,8 @@ public class GameLogicServiceIntegrationTest {
                                                      final CypherStatus cypherStatus2) {
         Team team = new Team("team", 4, "1111");
         teamService.save(team);
-        Cypher cypher1 = new Cypher("first", 1, new Point(8,8), "yes");
-        Cypher cypher2 = new Cypher("second", 2, new Point(8,8), "yees");
+        Cypher cypher1 = new Cypher("first", 1, new Point(8,8), "yes", "http://go.com" );
+        Cypher cypher2 = new Cypher("second", 2, new Point(8,8), "yees", "http://go.com");
         cypherService.save(cypher1);
         cypherService.save(cypher2);
         statusService.initializeStatusForTeamAndCypher(cypher1, team);

@@ -31,6 +31,7 @@ public class HintTakenRepositoryTest {
     private static final int TESTED_STAGE = 3;
     private static final int TESTED_STAGE_2 = 2;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     private HintTakenRepository hintTakenRepository;
@@ -53,7 +54,7 @@ public class HintTakenRepositoryTest {
     @Test
     public void saveAllHintsTakenForOneCypherOneTeamTest() {
         Team team = teamService.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234"));
-        Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE));
+        Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         List<Hint> hints = hintService.saveAll(generator.generateHintsForCypher(cypher));
         List<HintTaken> hintsTaken = hints.stream()
                 .map(hint -> createHintTaken(team, hint))
@@ -67,7 +68,7 @@ public class HintTakenRepositoryTest {
     @Test
     public void countNumberOfHintsTakenByTeamWhileOneHintTakenTest() {
         Team team = teamService.save(new Team("dgdf", 4, "dsdd"));
-        Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE));
+        Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         createAndSaveHintTaken(team, new Hint("d", 5, cypher));
         assertEquals(1, hintTakenRepository.count());
         assertEquals(1, hintTakenRepository.findByTeam(team).size());
@@ -76,8 +77,8 @@ public class HintTakenRepositoryTest {
     @Test
     public void countNumberOfHintsTakenByTeamWhileFourHintsTakenTest() {
         Team team = teamService.save(new Team("aaa", 4, "eeee"));
-        Cypher cypher1 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE));
-        Cypher cypher2 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE_2));
+        Cypher cypher1 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
+        Cypher cypher2 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE_2, TEST_MAP_ADDRESS));
         createAndSaveHintTaken(team, new Hint("a", 4, cypher1));
         createAndSaveHintTaken(team, new Hint("b", 3, cypher1));
         createAndSaveHintTaken(team, new Hint("c", 2, cypher2));
@@ -90,8 +91,8 @@ public class HintTakenRepositoryTest {
     public void countNumberOfHintsTakenByTeamWhileSavingToAnotherTeamTest() {
         Team team1 = teamService.save(new Team("aaaa", 4, "eeee"));
         Team team2 = teamService.save(new Team("bbbbb", 6, "ccccc"));
-        Cypher cypher1 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE));
-        Cypher cypher2 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE_2));
+        Cypher cypher1 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
+        Cypher cypher2 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE_2, TEST_MAP_ADDRESS));
         createAndSaveHintTaken(team1, new Hint("a", 4, cypher1));
         createAndSaveHintTaken(team2, new Hint("b", 3, cypher1));
         createAndSaveHintTaken(team2, new Hint("c", 2, cypher2));
@@ -103,7 +104,7 @@ public class HintTakenRepositoryTest {
     @Test
     public void countNumberOfHintsTakenByTeamWhileNoHintsTakenTest() {
         Team team = teamService.save(new Team("team", 5, "aeeaea"));
-        Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, 88));
+        Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, 88, TEST_MAP_ADDRESS));
         Hint hint = hintService.save(new Hint("oh no", 20, cypher));
         assertEquals(0, hintTakenRepository.count());
         assertEquals(0, hintTakenRepository.findByTeam(team).size());
