@@ -70,6 +70,7 @@ public class ProgressController {
     @GetMapping(value = "/teamsList")
     public String listTeams(final Model model) {
         model.addAttribute("teams", teamService.getAll());
+        model.addAttribute("search", new Search("", null));
         return TEAM_LIST;
     }
 
@@ -156,8 +157,8 @@ public class ProgressController {
                 .concat(teamId.toString());
     }
 
-    @PostMapping(value = "/search")
-    public String searchTeams(@ModelAttribute final Search search,
+    @PostMapping(value = "/searchTeamsOfCypher")
+    public String searchTeamsOfCypher(@ModelAttribute final Search search,
                               final Model model) {
         Cypher cypher = cypherService.getCypher(search.getSearchCypherId());
         model.addAttribute("teams", searchService.searchTeams(search.getSearchString()));
@@ -165,6 +166,14 @@ public class ProgressController {
         model.addAttribute("cypher", cypher);
         model.addAttribute("search", search);
         return PROGRESS_STAGE;
+    }
+
+    @PostMapping(value = "/searchTeams")
+    public String searchTeams(@ModelAttribute final Search search,
+                              final Model model) {
+        model.addAttribute("teams", searchService.searchTeams(search.getSearchString()));
+        model.addAttribute("search", search);
+        return TEAM_LIST;
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

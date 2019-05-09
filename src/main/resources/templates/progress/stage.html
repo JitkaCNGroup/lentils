@@ -17,13 +17,8 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h1>Týmy</h1>
-            <p class="subheading" th:text="${cypher.name}"></p>
-            <div th:if="${teams.empty}">
-                <p>V systému nejsou týmy<p/>
-            </div>
 
-            <form action="#" th:action="@{/game/progress/search}" th:object="${search}" method="post">
+            <form class="col-sm-6" action="#" th:action="@{/game/progress/searchTeamsOfCypher}" th:object="${search}" method="post">
                 <div class="form-group">
                     <label for="searchString">Hledat tým:</label>
                     <input id="searchString" class="form-control" th:field="*{searchString}" required/>
@@ -33,8 +28,14 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Hledat</button>
             </form>
-            <div th:if="${search.searchString} != ''">
+            <div class="col-sm-6" th:if="${search.searchString} != ''">
                 <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}" class="btn btn-primary">Zobrazit všechny týmy</a>
+            </div>
+
+            <h1>Týmy</h1>
+            <p class="subheading" th:text="${cypher.name}"></p>
+            <div th:if="${teams.empty}">
+                <p>V systému nejsou týmy<p/>
             </div>
             <div th:each="team : ${teams}" class="team">
                 <th:block th:with="status=${teamsStatuses.get(team.teamId)}">
