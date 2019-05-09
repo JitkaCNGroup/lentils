@@ -1,12 +1,8 @@
-package dk.cngroup.lentils.logger;
+package dk.cngroup.lentils.logger.printer;
 
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-@Component
+@Component()
 public class StandardOutputPrinter extends OutputPrinter {
 
     @Override

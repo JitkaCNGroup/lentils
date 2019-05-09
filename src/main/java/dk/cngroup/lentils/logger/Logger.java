@@ -3,6 +3,7 @@ package dk.cngroup.lentils.logger;
 import dk.cngroup.lentils.entity.*;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
+import dk.cngroup.lentils.logger.printer.Printer;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.*;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 import static dk.cngroup.lentils.entity.CypherStatus.SKIPPED;
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
+import static dk.cngroup.lentils.logger.utils.LoggerUtils.*;
 
 @Aspect
 @Component
@@ -64,7 +66,7 @@ public class Logger {
         int score = scoreService.getScoreByTeam(user.getTeam());
 
         Message<Codeword> message = MessageFactory.createVerifyCodeword(user, codeword, points, score);
-        printer.println(message.toString());
+        printer.println(message);
 
         return result;
     }
@@ -79,7 +81,7 @@ public class Logger {
         int score = scoreService.getScoreByTeam(user.getTeam());
 
         Message<Long> message = MessageFactory.createTakeHint(user, hintId, points, score);
-        printer.println(message.toString());
+        printer.println(message);
     }
 
     @After("execution(* dk.cngroup.lentils.controller.ClientController.skipCypher(..))" +
@@ -90,7 +92,7 @@ public class Logger {
 
         Message<Long> message = MessageFactory.createSkipCypher(user, cypher.getCypherId(), SKIPPED.getStatusValue(),
                 score);
-        printer.println(message.toString());
+        printer.println(message);
     }
 
     /**
@@ -114,7 +116,7 @@ public class Logger {
         StatusChange statusChange = new StatusChange(cypherId, oldCypherStatus, newCypherStatus);
 
         Message<StatusChange> message = MessageFactory.createChangeCypherStatus(team, statusChange, points, score);
-        printer.println(message.toString());
+        printer.println(message);
 
         return result;
     }
@@ -136,7 +138,7 @@ public class Logger {
 
         TakeHintChange takeHintChange = new TakeHintChange(hintId, success);
         Message<TakeHintChange> message = MessageFactory.createTakeHint(team, takeHintChange, points, score);
-        printer.println(message.toString());
+        printer.println(message);
 
         return result;
     }
@@ -157,7 +159,7 @@ public class Logger {
 
         RevertHintChange takeHintChange = new RevertHintChange(hintId, isHintTaken);
         Message<RevertHintChange> message = MessageFactory.createRevertHint(team, takeHintChange, points, score);
-        printer.println(message.toString());
+        printer.println(message);
 
         return result;
     }
@@ -168,35 +170,5 @@ public class Logger {
                 .filter(ht -> ht.getHint().equals(hint))
                 .findAny();
         return takenHint.isPresent();
-    }
-
-    private int getTakeHintPoints(Hint hint, boolean success) {
-        return getHintPoints(hint, success, -1);
-    }
-
-    private int getRevertHintPoints(Hint hint, boolean isHintTaken) {
-        return getHintPoints(hint, isHintTaken, 1);
-    }
-
-    private int getHintPoints(Hint hint, boolean success, int sign) {
-        return success ? sign * hint.getValue() : 0;
-    }
-
-    private int getChangeCypherStatusPoints(final CypherStatus oldCypherStatus,
-                                            final CypherStatus newCypherStatus) {
-        if (newCypherStatus == SOLVED && oldCypherStatus != SOLVED) {
-            return SOLVED.getStatusValue();
-        } else if (newCypherStatus != SOLVED && oldCypherStatus == SOLVED) {
-            return -SOLVED.getStatusValue();
-        } else {
-            return 0;
-        }
-    }
-
-    private int getVerifyCodewordPoints(String result) {
-        if (result.startsWith("redirect:/cypher/")) {
-            return SOLVED.getStatusValue();
-        }
-        return 0;
     }
 }

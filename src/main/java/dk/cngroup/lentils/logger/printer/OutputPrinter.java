@@ -1,10 +1,7 @@
-package dk.cngroup.lentils.logger;
-
-import org.springframework.stereotype.Component;
+package dk.cngroup.lentils.logger.printer;
 
 import java.io.*;
 
-@Component
 public abstract class OutputPrinter implements Printer {
 
     protected PrintStream output;
@@ -12,7 +9,7 @@ public abstract class OutputPrinter implements Printer {
     public abstract void initOutput();
 
     @Override
-    public void println(String message) {
+    public <T> void println(T message) {
         output.println(message);
     }
 }
