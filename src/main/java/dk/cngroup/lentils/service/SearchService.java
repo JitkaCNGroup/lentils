@@ -30,6 +30,7 @@ public class SearchService {
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
             fullTextEntityManager.createIndexer().startAndWait();
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
