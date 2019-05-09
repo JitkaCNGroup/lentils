@@ -11,23 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class SearchService {
 
     @Autowired
-    private final EntityManager centityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public SearchService(final EntityManager entityManager) {
         super();
-        this.centityManager = entityManager;
+        this.entityManager = entityManager;
     }
 
     public void initializeSearch() {
         try {
-            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
+            FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
             fullTextEntityManager.createIndexer().startAndWait();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -36,7 +37,7 @@ public class SearchService {
 
     @Transactional
     public List<Team> searchTeams(final String searchString) {
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(centityManager);
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder = fullTextEntityManager
                 .getSearchFactory()
                 .buildQueryBuilder()
@@ -57,7 +58,7 @@ public class SearchService {
         try {
             searchedTeamsList = jpaQuery.getResultList();
         } catch (NoResultException e) {
-            e.printStackTrace();
+           searchedTeamsList = Collections.emptyList();
         }
 
         return searchedTeamsList;

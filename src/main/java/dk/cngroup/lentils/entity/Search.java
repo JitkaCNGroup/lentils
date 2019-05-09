@@ -9,6 +9,10 @@ public class Search {
         this.searchCypherId = searchCypherId;
     }
 
+    public Search(Long searchCypherId) {
+        this.searchCypherId = searchCypherId;
+    }
+
     public String getSearchString() {
         return searchString;
     }

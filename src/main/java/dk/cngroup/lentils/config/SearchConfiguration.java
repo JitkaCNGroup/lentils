@@ -13,11 +13,11 @@ import javax.persistence.EntityManager;
 public class SearchConfiguration {
 
     @Autowired
-    private EntityManager bentityManager;
+    private EntityManager entityManager;
 
     @Transactional
     SearchService searchService() {
-        SearchService searchService = new SearchService(bentityManager);
+        SearchService searchService = new SearchService(entityManager);
         searchService.initializeSearch();
         return searchService;
     }

@@ -67,14 +67,14 @@ public class ProgressController {
         return PROGRESS_LIST;
     }
 
-    @GetMapping(value = "/teamsList")
+    @GetMapping("/teamsList")
     public String listTeams(final Model model) {
         model.addAttribute("teams", teamService.getAll());
-        model.addAttribute("search", new Search("", null));
+        model.addAttribute("search", new Search());
         return TEAM_LIST;
     }
 
-    @GetMapping(value = "/teamDetail")
+    @GetMapping("/teamDetail")
     public String teamProgress(final @RequestParam("teamId") Long teamId, final Model model) {
         Team team = teamService.getTeam(teamId);
         model.addAttribute("team", team);
@@ -83,17 +83,17 @@ public class ProgressController {
         return TEAM_DETAIL;
     }
 
-    @GetMapping(value = "/stage")
+    @GetMapping("/stage")
     public String stageProgress(final @RequestParam("cypherId") Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
-        model.addAttribute("search", new Search("", cypherId));
+        model.addAttribute("search", new Search(cypherId));
         return PROGRESS_STAGE;
     }
 
-    @GetMapping(value = "/changeStatus/{cypherId}")
+    @GetMapping("/changeStatus/{cypherId}")
     public String changeCypherStatus(final @PathVariable("cypherId") Long cypherId,
                                       final @RequestParam("teamId") Long teamId,
                                       final @RequestParam("newStatus") String newStatus,
@@ -106,11 +106,11 @@ public class ProgressController {
         model.addAttribute("cypher", cypher);
         model.addAttribute("teams", teamService.getAll());
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
-        model.addAttribute("search", new Search("", cypherId));
+        model.addAttribute("search", new Search(cypherId));
         return PROGRESS_STAGE;
     }
 
-    @GetMapping(value = "/viewHints/{cypherId}")
+    @GetMapping("/viewHints/{cypherId}")
     public String viewHintsForCypher(final @PathVariable("cypherId") Long cypherId,
                                       final @RequestParam("teamId") Long teamId,
                                       final Model model) {
@@ -123,7 +123,7 @@ public class ProgressController {
         return HINT_LIST;
     }
 
-    @PostMapping(value = "/takeHintOfCypher")
+    @PostMapping("/takeHintOfCypher")
     public ResponseEntity viewHintsForCypherByTeam(final @RequestParam("teamId") Long teamId,
                                                  final @RequestParam("hintId") Long hintId,
                                                  final @RequestParam("pin") String pin) {
@@ -144,7 +144,7 @@ public class ProgressController {
         }
     }
 
-    @GetMapping(value = "/revertHint")
+    @GetMapping("/revertHint")
     public String revertHint(final @RequestParam("teamId") Long teamId,
                                              final @RequestParam("hintId") Long hintId,
                                              final @RequestParam("cypherId") Long cypherId) {
@@ -157,7 +157,7 @@ public class ProgressController {
                 .concat(teamId.toString());
     }
 
-    @PostMapping(value = "/searchTeamsOfCypher")
+    @PostMapping("/searchTeamsOfCypher")
     public String searchTeamsOfCypher(@ModelAttribute final Search search,
                               final Model model) {
         Cypher cypher = cypherService.getCypher(search.getSearchCypherId());
@@ -168,7 +168,7 @@ public class ProgressController {
         return PROGRESS_STAGE;
     }
 
-    @PostMapping(value = "/searchTeams")
+    @PostMapping("/searchTeams")
     public String searchTeams(@ModelAttribute final Search search,
                               final Model model) {
         model.addAttribute("teams", searchService.searchTeams(search.getSearchString()));

@@ -25,7 +25,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Hledat</button>
             </form>
-            <div class="col-sm-6" th:if="${search.searchString} != ''">
+            <div class="col-sm-6" th:if="${search.searchString} != null">
                 <a href="#" th:href="@{/game/progress/teamsList}" class="btn btn-primary">Zobrazit všechny týmy</a>
             </div>
 
