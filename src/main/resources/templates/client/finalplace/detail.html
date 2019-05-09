@@ -32,6 +32,7 @@
                class="btn btn-secondary" role="button">Zobrazit na mapě</a>
         </div>
     </div>
+    <div th:insert="fragments/externalScripts :: externalScripts"></div>
     <script>
         var lat = [[${finalplace.location.getY()}]];
         var lng = [[${finalplace.location.getX()}]];
