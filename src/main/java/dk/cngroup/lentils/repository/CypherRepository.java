@@ -11,4 +11,5 @@ public interface CypherRepository extends JpaRepository<Cypher, Long> {
     Cypher findByStage(int stage);
     Cypher findFirstByStageGreaterThan(int stage);
     List<Cypher> findAllByOrderByStageAsc();
+    Cypher findFirstByOrderByStageAsc();
 }

@@ -67,14 +67,7 @@ public class ProgressController {
     @GetMapping(value = "/teamsList")
     public String listTeams(final Model model) {
         List<Team> teams = teamService.getAll();
-        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
-        boolean allTeamsStarted = true;
-        for (Team team : teams) {
-            if (!statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), team)) {
-                allTeamsStarted = false;
-            }
-        }
-        model.addAttribute("allTeamsStarted", allTeamsStarted);
+        model.addAttribute("allTeamsStarted", progressService.isGameStartedForAllTeams());
         model.addAttribute("teams", teams);
         return TEAM_LIST;
     }
