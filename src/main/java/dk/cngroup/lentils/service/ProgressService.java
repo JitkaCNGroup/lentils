@@ -18,12 +18,18 @@ public class ProgressService {
 
     private final StatusService statusService;
     private final HintTakenService hintTakenService;
+    private final TeamService teamService;
+    private final CypherService cypherService;
 
     @Autowired
     public ProgressService(final StatusService statusService,
-                           final HintTakenService hintTakenService) {
+                           final HintTakenService hintTakenService,
+                           final TeamService teamService,
+                           final CypherService cypherService) {
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
+        this.teamService = teamService;
+        this.cypherService = cypherService;
     }
 
     public Map<Long, CypherStatus> getTeamsStatuses(final Cypher cypher) {
@@ -56,5 +62,16 @@ public class ProgressService {
             });
         });
         return takenHintsMap;
+    }
+
+    public boolean isGameStartedForAllTeams() {
+        List<Team> teams = teamService.getAll();
+        Cypher firstCypher = cypherService.getFirstOrderByStageAsc();
+        for (Team team : teams) {
+            if (!statusService.isStatusInDbByCypherAndTeam(firstCypher, team)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

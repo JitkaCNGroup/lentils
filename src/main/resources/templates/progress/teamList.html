@@ -6,6 +6,16 @@
 <div th:insert="fragments/organizerHeader :: header(teamView)"></div>
 <div class="container">
     <div class="row">
+        <div class="col-sm-12" th:unless="${allTeamsStarted}">
+            <a href="#" class="btn btn-primary" th:href="@{/game/progress/startGame}">
+                Zahájit hru všem týmům!
+            </a>
+        </div>
+        <div class="col-sm-12" th:if="${allTeamsStarted}">
+            <p class="big-centered-text"> Všechny týmy již zahájily hru!</p>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
             <h1>Týmy</h1>
             <div th:if="${teams.empty}">

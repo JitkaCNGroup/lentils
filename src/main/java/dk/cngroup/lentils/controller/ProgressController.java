@@ -6,21 +6,24 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.GameLogicService;
 import dk.cngroup.lentils.service.HintService;
+import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ProgressService;
 import dk.cngroup.lentils.service.StatusService;
 import dk.cngroup.lentils.service.TeamService;
-import dk.cngroup.lentils.service.HintTakenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/game/progress")
@@ -28,6 +31,7 @@ public class ProgressController {
     private static final String PROGRESS_STAGE = "progress/stage";
     private static final String PROGRESS_LIST = "progress/list";
     private static final String TEAM_LIST = "progress/teamList";
+    private static final String REDIRECT_TEAM_LIST = "redirect:/game/progress/teamsList";
     private static final String TEAM_DETAIL = "progress/teamDetail";
     private static final String ERROR = "error/error";
     private static final String HINT_LIST = "progress/getHintList";
@@ -39,6 +43,7 @@ public class ProgressController {
     private final StatusService statusService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
+    private final GameLogicService gameLogicService;
 
     @Autowired
     public ProgressController(final TeamService teamService,
@@ -46,13 +51,15 @@ public class ProgressController {
                               final ProgressService progressService,
                               final HintService hintService,
                               final HintTakenService hintTakenService,
-                              final StatusService statusService) {
+                              final StatusService statusService,
+                              final GameLogicService gameLogicService) {
         this.teamService = teamService;
         this.cypherService = cypherService;
         this.progressService = progressService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
+        this.gameLogicService = gameLogicService;
     }
 
     @GetMapping
@@ -63,8 +70,16 @@ public class ProgressController {
 
     @GetMapping(value = "/teamsList")
     public String listTeams(final Model model) {
-        model.addAttribute("teams", teamService.getAll());
+        List<Team> teams = teamService.getAll();
+        model.addAttribute("allTeamsStarted", progressService.isGameStartedForAllTeams());
+        model.addAttribute("teams", teams);
         return TEAM_LIST;
+    }
+
+    @GetMapping(value = "/startGame")
+    public String initializeGameForAllTeams() {
+        gameLogicService.initializeGameForAllTeams();
+        return REDIRECT_TEAM_LIST;
     }
 
     @GetMapping(value = "/teamDetail")

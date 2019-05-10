@@ -74,6 +74,10 @@ public class CypherService {
         return cypherRepository.findAllByOrderByStageAsc();
     }
 
+    public Cypher getFirstOrderByStageAsc() {
+        return cypherRepository.findFirstByOrderByStageAsc();
+    }
+
     public int getScore(final Cypher cypher, final Team team) {
         int statusScore = statusService.getStatusScore(team, cypher);
         int hintScore = hintTakenService.getHintScore(team, cypher);
