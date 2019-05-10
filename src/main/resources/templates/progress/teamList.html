@@ -16,6 +16,12 @@
         </div>
     </div>
     <div class="row">
+        <p th:text="'Týmy se nacházejí na stanovištích ' + ${teamsGameState}"></p>
+    </div>
+    <div class="row">
+        <p th:text="'Počet týmů, které mají doluštěno je ' + ${teamsFinished}"></p>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
             <h1>Týmy</h1>
             <div th:if="${teams.empty}">

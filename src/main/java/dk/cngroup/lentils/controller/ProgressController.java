@@ -73,6 +73,8 @@ public class ProgressController {
         List<Team> teams = teamService.getAll();
         model.addAttribute("allTeamsStarted", progressService.isGameStartedForAllTeams());
         model.addAttribute("teams", teams);
+        model.addAttribute("teamsGameState", progressService.getCurrentStageRangeOfAllTeams());
+        model.addAttribute("teamsFinished", progressService.getNumberOfFinishedTeams());
         return TEAM_LIST;
     }
 
