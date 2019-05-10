@@ -49,6 +49,10 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
+    public List<Team> searchTeams(final String searchString) {
+        return teamRepository.findByNameContaining(searchString);
+    }
+
     public Team getTeam(final Long id) {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()) {

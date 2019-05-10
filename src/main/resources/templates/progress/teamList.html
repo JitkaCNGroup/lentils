@@ -26,9 +26,24 @@
     </th:block>
     <div class="row">
         <div class="col-sm-12">
+
+            <form class="col-sm-6" action="#" th:action="@{/game/progress/teamsList}" method="get">
+                <div class="form-group">
+                    <label for="search">Hledat tým:</label>
+                    <input type="text" id="search" name="search" class="form-control" required/>
+                </div>
+                <button type="submit" class="btn btn-primary">Hledat</button>
+            </form>
+            <div class="col-sm-6" th:if="${search} != null">
+                <a href="#" th:href="@{/game/progress/teamsList}" class="btn btn-secondary">Zobrazit všechny týmy</a>
+            </div>
+
             <h1>Týmy</h1>
-            <div th:if="${teams.empty}">
+            <div th:if="${teams.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
+            </div>
+            <div th:if="${teams.empty and search != null}">
+                <p>Žádný tým nenalezen<p/>
             </div>
 
             <div th:each="team : ${teams}" class="cypher organizer">

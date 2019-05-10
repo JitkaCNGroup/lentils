@@ -7,6 +7,7 @@ import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.repository.TeamRepository;
 import dk.cngroup.lentils.repository.UserRepository;
 import dk.cngroup.lentils.util.UsernameUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,12 +17,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
+@SpringBootTest(classes = {LentilsApplication.class, DataConfig.class})
 public class TeamServiceIntegrationTest {
 
     @Autowired
@@ -38,6 +41,7 @@ public class TeamServiceIntegrationTest {
 
     @Before
     public void setup() {
+        createVariousTeams();
         numOfUsersBeforeTest = userRepository.findAll().size();
         numOfTeamsBeforeTest = teamRepository.findAll().size();
     }
@@ -80,5 +84,33 @@ public class TeamServiceIntegrationTest {
         assertNotNull(team);
         assertEquals(team.getUser().getUserId(), user.getUserId());
         assertEquals(user.getTeam().getTeamId(), team.getTeamId());
+    }
+
+    @Test
+    public void searchTeamOneResultTest(){
+        List<Team> teams = teamService.searchTeams("Sparta");
+
+        Assert.assertEquals(1, teams.size());
+    }
+
+    @Test
+    public void searchTeamMultipleResultsTest() {
+        List<Team> teams = teamService.searchTeams("Sevci");
+
+        Assert.assertEquals(2, teams.size());
+    }
+
+    @Test
+    public void searchTeamNoResultTest() {
+        List<Team> teams = teamService.searchTeams("Pribram");
+
+        Assert.assertEquals(0, teams.size());
+    }
+
+    private void createVariousTeams() {
+        createAndSaveTeam("Sparta","0123");
+        createAndSaveTeam("Banik","4567");
+        createAndSaveTeam("SevciA","8901");
+        createAndSaveTeam("SevciB","2345");
     }
 }
