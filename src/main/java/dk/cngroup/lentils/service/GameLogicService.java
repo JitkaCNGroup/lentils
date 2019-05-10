@@ -62,7 +62,7 @@ public class GameLogicService {
         return finalPlace.getOpeningTime().toLocalTime();
     }
 
-    public void initializeGameForTeam(Team team) {
+    public void initializeGameForTeam(final Team team) {
         List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
         if (!statusService.isStatusInDbByCypherAndTeam(cypherService.getFirstOrderByStageAsc(), team)) {
             cyphers.forEach(cypher -> {
