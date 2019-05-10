@@ -86,11 +86,7 @@ public class ClientController {
 
     @GetMapping(value = "cypher/startGame")
     public String initializeGame(@AuthenticationPrincipal final CustomUserDetails user) {
-        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
-        cyphers.forEach(cypher -> {
-            statusService.initializeStatusForTeamAndCypher(cypher, user.getTeam());
-        });
-        statusService.markCypher(cyphers.get(0), user.getTeam(), CypherStatus.PENDING);
+        gameLogicService.initializeGameForTeam(user.getTeam());
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL;
     }
 

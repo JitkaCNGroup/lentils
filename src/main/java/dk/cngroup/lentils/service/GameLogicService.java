@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.service;
 
+import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Status;
@@ -16,12 +17,18 @@ public class GameLogicService {
 
     private final FinalPlaceService finalPlaceService;
     private final StatusService statusService;
+    private final CypherService cypherService;
+    private final TeamService teamService;
 
     @Autowired
     public GameLogicService(final FinalPlaceService finalPlaceService,
-                            final StatusService statusService) {
+                            final StatusService statusService,
+                            final CypherService cypherService,
+                            final TeamService teamService) {
         this.finalPlaceService = finalPlaceService;
         this.statusService = statusService;
+        this.cypherService = cypherService;
+        this.teamService = teamService;
     }
 
     public boolean isGameInProgress() {
@@ -53,5 +60,22 @@ public class GameLogicService {
     public LocalTime getFinalPlaceOpeningTime() {
         FinalPlace finalPlace = finalPlaceService.getFinalPlace();
         return finalPlace.getOpeningTime().toLocalTime();
+    }
+
+    public void initializeGameForTeam(Team team) {
+        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
+        if (!statusService.isStatusInDbByCypherAndTeam(cypherService.getFirstOrderByStageAsc(), team)) {
+            cyphers.forEach(cypher -> {
+                statusService.initializeStatusForTeamAndCypher(cypher, team);
+            });
+            statusService.markCypher(cypherService.getFirstOrderByStageAsc(), team, CypherStatus.PENDING);
+        }
+    }
+
+    public void initializeGameForAllTeams() {
+        List<Team> teams = teamService.getAll();
+        for (Team team : teams) {
+            initializeGameForTeam(team);
+        }
     }
 }

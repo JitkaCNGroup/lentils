@@ -6,6 +6,7 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.GameLogicService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ProgressService;
@@ -42,6 +43,7 @@ public class ProgressController {
     private final StatusService statusService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
+    private final GameLogicService gameLogicService;
 
     @Autowired
     public ProgressController(final TeamService teamService,
@@ -49,13 +51,15 @@ public class ProgressController {
                               final ProgressService progressService,
                               final HintService hintService,
                               final HintTakenService hintTakenService,
-                              final StatusService statusService) {
+                              final StatusService statusService,
+                              final GameLogicService gameLogicService) {
         this.teamService = teamService;
         this.cypherService = cypherService;
         this.progressService = progressService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
+        this.gameLogicService = gameLogicService;
     }
 
     @GetMapping
@@ -74,16 +78,7 @@ public class ProgressController {
 
     @GetMapping(value = "/startGame")
     public String initializeGameForAllTeams() {
-        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
-        List<Team> teams = teamService.getAll();
-        for (Team t : teams) {
-            if (!statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), t)) {
-                cyphers.forEach(cypher -> {
-                    statusService.initializeStatusForTeamAndCypher(cypher, t);
-                });
-                statusService.markCypher(cyphers.get(0), t, CypherStatus.PENDING);
-            }
-        }
+        gameLogicService.initializeGameForAllTeams();
         return REDIRECT_TEAM_LIST;
     }
 
