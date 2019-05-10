@@ -83,16 +83,6 @@ public class UserRepositoryTest {
         Assert.assertTrue(isUserInDb(GENERATED_USERNAME));
     }
 
-    @Test
-    public void t1() {
-        String newUsername1 = Normalizer
-                .normalize(SPECIAL_TEAM_NAME, Normalizer.Form.NFD);
-
-
-        String newUsername2 = SPECIAL_TEAM_NAME
-                .replaceAll("[^\\p{ASCII}]", "");
-    }
-
     private Team createValidTeam(final String teamName) {
         return new Team(teamName, 5, TEAM_PIN);
     }

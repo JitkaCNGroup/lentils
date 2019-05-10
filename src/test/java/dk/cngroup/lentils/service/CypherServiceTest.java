@@ -22,6 +22,7 @@ public class CypherServiceTest {
     private static final String CODEWORD_WITH_CZECH_SPECIAL_CHARACTERS = "Příliš Žluťoučký kůň";
     private static final String CODEWORD_WITHOUT_CZECH_SPECIAL_CHARACTERS = "Prilis Zlutoucky kun";
     private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
+    private static final String CYPHER_NAME = "blabla";
 
     @InjectMocks
     CypherService service;
@@ -67,7 +68,7 @@ public class CypherServiceTest {
     }
 
     private Cypher getCypherForStage(Integer stage, String codeword) {
-        Cypher cypher = new Cypher("blabla", stage, new Point(0,0), codeword, TEST_MAP_ADDRESS);
+        Cypher cypher = new Cypher(CYPHER_NAME, stage, new Point(0,0), codeword, TEST_MAP_ADDRESS);
         when(repository.save(cypher)).thenReturn(cypher);
 
         return cypher;
