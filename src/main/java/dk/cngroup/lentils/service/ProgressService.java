@@ -80,7 +80,7 @@ public class ProgressService {
     }
 
     public String getCurrentStageRangeOfAllTeams() {
-        List<Team> teams =teamService.getAll();
+        List<Team> teams = teamService.getAll();
         int teamsWithPendingCypher = countTeamsWithPendingCypher(teams);
         int[] stages = fillInStagesOfTeams(teams, teamsWithPendingCypher);
         int min = Arrays.stream(stages).min().getAsInt();
@@ -99,7 +99,7 @@ public class ProgressService {
         return numberOfFinishedTeams;
     }
 
-    private int[] fillInStagesOfTeams(List<Team> teams, int numberOfTeams) {
+    private int[] fillInStagesOfTeams(final List<Team> teams, final int numberOfTeams) {
         int[] stages = new int[numberOfTeams];
         int counter = 0;
         for (Team team : teams) {
@@ -111,7 +111,7 @@ public class ProgressService {
         return stages;
     }
 
-    private int countTeamsWithPendingCypher(List<Team> teams) {
+    private int countTeamsWithPendingCypher(final List<Team> teams) {
         int i = 0;
         for (Team team : teams) {
             if (hasCypherPending(team)) {
@@ -121,7 +121,7 @@ public class ProgressService {
         return i;
     }
 
-    private boolean hasCypherPending(Team team) {
+    private boolean hasCypherPending(final Team team) {
         return statusService.getAllByTeam(team)
                 .stream()
                 .filter(status -> status.getCypherStatus() == CypherStatus.PENDING)
