@@ -73,9 +73,6 @@ public class GameLogicService {
     }
 
     public void initializeGameForAllTeams() {
-        List<Team> teams = teamService.getAll();
-        for (Team team : teams) {
-            initializeGameForTeam(team);
-        }
+        teamService.getAll().forEach(team -> initializeGameForTeam(team));
     }
 }
