@@ -26,12 +26,12 @@ public class TeamServiceIntegrationTest {
 
     @Autowired
     private TeamService teamService;
-
     @Autowired
     private TeamRepository teamRepository;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ObjectGenerator generator;
 
     private int numOfUsersBeforeTest;
     private int numOfTeamsBeforeTest;
@@ -44,7 +44,7 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void addingOneTeamCorrectlyCreatesUser() {
-        createAndSaveTeam("pump", 5, "8888");
+        createAndSaveTeam("pump", "8888");
 
         assertEquals(numOfTeamsBeforeTest + 1, teamRepository.count());
         assertEquals(numOfUsersBeforeTest + 1, userRepository.count());
@@ -53,10 +53,10 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void addingFourTeamsCorrectlyCreatesUsers() {
-        createAndSaveTeam("a", 5, "1111");
-        createAndSaveTeam("b", 5, "2222");
-        createAndSaveTeam("c", 5, "3333");
-        createAndSaveTeam("d", 5, "4444");
+        createAndSaveTeam("a", "1111");
+        createAndSaveTeam("b","2222");
+        createAndSaveTeam("c","3333");
+        createAndSaveTeam("d","4444");
 
         assertEquals(numOfTeamsBeforeTest + 4, teamService.getAll().size());
         assertEquals(numOfUsersBeforeTest + 4, userRepository.findAll().size());
@@ -66,8 +66,8 @@ public class TeamServiceIntegrationTest {
         assertThatTeamHasAssociatedCorrectUser("d");
     }
 
-    private void createAndSaveTeam(String name, int numberOfMembers, String pin) {
-        Team team = new Team(name, numberOfMembers, pin);
+    private void createAndSaveTeam(String name, String pin) {
+        Team team = generator.generateTeamWithNameAndPin(name, pin);
         teamService.save(team);
     }
 

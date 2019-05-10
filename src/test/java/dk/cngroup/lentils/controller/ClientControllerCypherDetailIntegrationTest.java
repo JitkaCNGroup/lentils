@@ -47,6 +47,8 @@ public class ClientControllerCypherDetailIntegrationTest {
     private UserRepository userRepository;
     @Autowired
     private StatusRepository statusRepository;
+    @Autowired
+    private ObjectGenerator generator;
 
     @Mock
     private Model model;
@@ -108,10 +110,7 @@ public class ClientControllerCypherDetailIntegrationTest {
     }
 
     private void createTestTeamAndUser() {
-        team = new Team();
-        team.setName("testTeam");
-        team.setPin("1234");
-        team.setNumOfMembers(5);
+        team = generator.generateValidTeam();
         teamRepository.save(team);
 
         user = new User();

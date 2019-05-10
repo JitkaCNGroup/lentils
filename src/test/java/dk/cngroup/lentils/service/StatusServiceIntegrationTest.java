@@ -33,7 +33,7 @@ public class StatusServiceIntegrationTest {
 
     @Test
     public void initializeStatusForTeamAndCypher() {
-        Team team = objectGenerator.generateNewTeam();
+        Team team = objectGenerator.generateValidTeam();
         teamRepository.save(team);
         Cypher cypher = objectGenerator.generateNewCypher();
         cypherRepository.save(cypher);

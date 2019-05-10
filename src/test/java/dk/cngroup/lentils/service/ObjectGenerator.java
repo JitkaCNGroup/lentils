@@ -25,6 +25,21 @@ public class ObjectGenerator {
     public static final String TEAM_NAME = "Team";
     public static final String PIN = "1234";
     private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
+    public static int DEFAULT_NUM_OF_MEMBERS = 4;
+
+    public Team generateValidTeam() {
+        return generateTeamWithNameAndPin(TEAM_NAME, PIN);
+    }
+
+    public Team generateTeamWithNameAndPin(final String name, final String pin) {
+        final Team team = new Team();
+
+        team.setName(name);
+        team.setPin(pin);
+        team.setNumOfMembers(DEFAULT_NUM_OF_MEMBERS);
+
+        return team;
+    }
 
     public List<Cypher> generateCypherList(int number) {
         List<Cypher> cyphers = new LinkedList<>();
@@ -41,21 +56,13 @@ public class ObjectGenerator {
     public Cypher generateNewCypher() {
         return new Cypher(TEST_LOCATION, 1, TEST_MAP_ADDRESS);
     }
-/*
-    public Cypher generateCypher() {
-        return new Cypher("Easy", TESTED_STAGE, new Point(49.0988161, 17.7519189), CODEWORD);
-    }
-*/
+
     public List<Team> generateTeamList() {
         List<Team> teams = new LinkedList<>();
         IntStream.range(0, NUMBER_OF_TEAMS).forEach(i -> {
-            teams.add(new Team(TEAM_NAME + i, 5, "123" + i));
+            teams.add(generateTeamWithNameAndPin(TEAM_NAME + i, "123" + i));
         });
         return teams;
-    }
-
-    public Team generateNewTeam() {
-        return new Team(TEAM_NAME, 5, PIN);
     }
 
     public List<Hint> generateHintsForCypher(List<Cypher> cyphers) {
