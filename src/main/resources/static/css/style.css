@@ -146,12 +146,7 @@ nav .back {
     flex: 0 0 4rem;
 }
 
-.col.hints p{
-    margin: 0;
-    font-weight: normal;
-}
-
-.hints p, .hints i {
+.hints span, .hints i {
     color: #AAA;
 }
 
@@ -197,10 +192,10 @@ nav .back {
 }
 
 .fa-times-circle{
-    color: red;
+    color: color: rgb(237, 24, 72);;
 }
 
-.fa-spinner {
+.fa-clock {
     color:deepskyblue;
 }
 

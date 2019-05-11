@@ -15,7 +15,7 @@
                         <div class="row align-items-center" th:classappend="${cypherGameInfo.getStatus() == 2} ? 'pending' : null">
                             <div th:text="|${cypherGameInfo.getStage()}. ${cypherGameInfo.getName()}|" class="col"></div>
                             <div th:unless="${cypherGameInfo.getCount() == 0}" class="col hints">
-                                <p class="count" th:text="${cypherGameInfo.getCount()} + ' ×'"></p>
+                                <span class="count" th:text="${cypherGameInfo.getCount()} + ' ×'"></span>
                                 <i class="far fa-lightbulb"></i>
                             </div>
                             <th:block th:switch="${cypherGameInfo.getStatus().ordinal()}">
@@ -26,7 +26,7 @@
                                     <i class="far fa-times-circle float-right"></i>
                                 </div>
                                 <div th:case="2" class="col status">
-                                    <i class="fas fa-spinner float-right"></i>
+                                    <i class="far fa-clock float-right"></i>
                                 </div>
                             </th:block>
                         </div>
