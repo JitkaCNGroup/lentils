@@ -2,9 +2,9 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.CypherRepository;
+import dk.cngroup.lentils.util.CzechCharsetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,6 @@ import java.util.Optional;
 @Service
 public class CypherService {
     private final CypherRepository cypherRepository;
-    private final TeamService teamService;
-    private final HintTakenService hintTakenService;
     private StatusService statusService;
 
     @Autowired
@@ -25,21 +23,12 @@ public class CypherService {
     }
 
     @Autowired
-    public CypherService(final CypherRepository cypherRepository,
-                         final TeamService teamService,
-                         final HintTakenService hintTakenService) {
+    public CypherService(final CypherRepository cypherRepository) {
         this.cypherRepository = cypherRepository;
-        this.teamService = teamService;
-        this.hintTakenService = hintTakenService;
     }
 
     public Cypher save(final Cypher cypher) {
         return cypherRepository.save(cypher);
-    }
-
-    public List<Hint> getHintsForStage(final Integer stage) {
-        Cypher cypher = cypherRepository.findByStage(stage);
-        return cypher.getHints();
     }
 
     public Cypher getNext(final Integer stage) {
@@ -47,7 +36,7 @@ public class CypherService {
     }
 
     public boolean checkCodeword(final Cypher cypher, final String codeword) {
-        return codeword.equalsIgnoreCase(cypher.getCodeword());
+        return compareCodewords(codeword, cypher.getCodeword());
     }
 
     public boolean checkTrapCodeword(final Cypher cypher, final String codeword) {
@@ -55,7 +44,14 @@ public class CypherService {
             return false;
         }
 
-        return codeword.equalsIgnoreCase(cypher.getTrapCodeword());
+        return compareCodewords(codeword, cypher.getTrapCodeword());
+    }
+
+    private boolean compareCodewords(final String codeword1, final String codeword2) {
+        String normalizedCodeword1 = CzechCharsetUtils.replaceCzechSpecialCharacters(codeword1);
+        String normalizedCodeword2 = CzechCharsetUtils.replaceCzechSpecialCharacters(codeword2);
+
+        return normalizedCodeword1.equalsIgnoreCase(normalizedCodeword2);
     }
 
     public Cypher getByStage(final int stage) {
@@ -76,18 +72,6 @@ public class CypherService {
 
     public Cypher getFirstOrderByStageAsc() {
         return cypherRepository.findFirstByOrderByStageAsc();
-    }
-
-    public int getScore(final Cypher cypher, final Team team) {
-        int statusScore = statusService.getStatusScore(team, cypher);
-        int hintScore = hintTakenService.getHintScore(team, cypher);
-        return statusScore - hintScore;
-    }
-
-    public int getScore(final Long cypherId, final Long teamId) {
-        Team team = teamService.getTeam(teamId);
-        Cypher cypher = getCypher(cypherId);
-        return getScore(cypher, team);
     }
 
     @Transactional
