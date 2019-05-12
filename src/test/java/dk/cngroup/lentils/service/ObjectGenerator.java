@@ -17,11 +17,18 @@ import java.util.stream.IntStream;
 @Service
 public class ObjectGenerator {
 
+    // Cypher constants
+    public static final String CYPHER_DEFAULT_NAME = "foobar";
+    public static final String CYPHER_DEFAULT_FALSE_CODEWORD = "joke";
+    public static final String CYPHER_DEFAULT_BONUS_CONTENT = "Lorem ipsum ab surdum";
+    public static final String CYPHER_DEFAULT_PLACE_DESCRIPTION = "In a galaxy far far away";
+    public static final String CYPHER_DEFAULT_CODEWORD = "Codeword";
+    public static final Point CYPHER_DEFAULT_LOCATION = new Point(59.9090442, 10.7423389);
+    public static final int CYPHER_DEFAULT_STAGE = 1;
+
     public static final int NUMBER_OF_TEAMS = 10;
     public static final int NUMBER_OF_CYPHERS = 5;
     public static final int NUMBER_OF_HINTS_FOR_CYPHER = 3;
-    public static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
-    public static final String CODEWORD = "Codeword";
     public static final String TEAM_NAME = "Team";
     public static final String PIN = "1234";
     private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
@@ -44,7 +51,7 @@ public class ObjectGenerator {
     public List<Cypher> generateCypherList(int number) {
         List<Cypher> cyphers = new LinkedList<>();
         for (int i = 0; i < number; i++) {
-            cyphers.add(new Cypher(TEST_LOCATION, i + number, TEST_MAP_ADDRESS));
+            cyphers.add(new Cypher(CYPHER_DEFAULT_LOCATION, i + number, TEST_MAP_ADDRESS));
         }
         return cyphers;
     }
@@ -54,7 +61,29 @@ public class ObjectGenerator {
     }
 
     public Cypher generateNewCypher() {
-        return new Cypher(TEST_LOCATION, 1, TEST_MAP_ADDRESS);
+        return new Cypher(CYPHER_DEFAULT_LOCATION, 1, TEST_MAP_ADDRESS);
+    }
+
+    public Cypher generateValidCypher() {
+        final Cypher cypher = new Cypher();
+
+        cypher.setName(CYPHER_DEFAULT_NAME);
+        cypher.setStage(CYPHER_DEFAULT_STAGE);
+        cypher.setLocation(CYPHER_DEFAULT_LOCATION);
+        cypher.setCodeword(CYPHER_DEFAULT_CODEWORD);
+        cypher.setTrapCodeword(CYPHER_DEFAULT_FALSE_CODEWORD);
+        cypher.setMapAddress(TEST_MAP_ADDRESS);
+        cypher.setPlaceDescription(CYPHER_DEFAULT_PLACE_DESCRIPTION);
+        cypher.setBonusContent(CYPHER_DEFAULT_BONUS_CONTENT);
+
+        return cypher;
+    }
+
+    public Cypher generateValidCypherWithStage(final int stage) {
+        final Cypher cypher = generateValidCypher();
+        cypher.setStage(stage);
+
+        return cypher;
     }
 
     public List<Team> generateTeamList() {
