@@ -7,6 +7,10 @@ import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.view.StageRangeOfTeams;
+import dk.cngroup.lentils.entity.TeamProgress;
+import dk.cngroup.lentils.entity.TeamProgressFinished;
+import dk.cngroup.lentils.entity.TeamProgressNotStarted;
+import dk.cngroup.lentils.entity.TeamProgressPlaying;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -133,4 +137,27 @@ public class ProgressService {
                 .get();
         return statusPending.getCypher().getStage();
     }
+
+    public List<String> getAllTeamsWithTeamProgress() {
+        List<Team> teams = teamService.getAll();
+        List<String> teamsProgresses = teams.stream()
+                .map(team -> this.getTeamProgress(team))
+                .collect(Collectors.toList());
+        return teamsProgresses;
+    }
+
+    public String getTeamProgress(Team team) {
+        List<Status> pendingCyphers= statusService.getPendingCyphers(team);
+        TeamProgress teamProgress;
+        if (!statusService.getAllByTeam(team).isEmpty()) {
+            teamProgress = new TeamProgressFinished();
+            if (!pendingCyphers.isEmpty()) {
+                if (pendingCyphers.size() > 1) {
+                    throw new IllegalStateException("More PENDING statuses found for the given cypher and team in database");
+                } else teamProgress = new TeamProgressPlaying(pendingCyphers.get(0).getCypher().getStage());
+            }
+        } else teamProgress = new TeamProgressNotStarted();
+        return teamProgress.toString();
+    }
+
 }
