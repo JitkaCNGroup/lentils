@@ -52,6 +52,10 @@ p.subheading {
     background-color: rgb(237, 24, 72);
 }
 
+.navbar-dark .navbar-toggler {
+    border: none;
+}
+
 .navbar-red{
     background-color: rgb(237, 24, 72);
     color: white;
