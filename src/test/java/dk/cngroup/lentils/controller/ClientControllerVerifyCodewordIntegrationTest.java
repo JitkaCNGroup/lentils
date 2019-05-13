@@ -35,9 +35,7 @@ import static org.mockito.Mockito.verify;
 public class ClientControllerVerifyCodewordIntegrationTest {
     public static final String CORRECT_CODEWORD = "topgun";
     public static final String FALSE_CODEWORD = "firefly";
-    private static final int TESTED_STAGE = 3;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
-    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     private ClientController testedController;
@@ -121,7 +119,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     private void createTestCypher() {
-        cypher = new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS);
+        cypher = generator.generateValidCypher();
         cypher.setCodeword(CORRECT_CODEWORD);
         cypher.setTrapCodeword(FALSE_CODEWORD);
         cypherRepository.save(cypher);

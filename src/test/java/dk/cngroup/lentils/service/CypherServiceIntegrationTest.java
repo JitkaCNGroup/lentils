@@ -99,13 +99,8 @@ public class CypherServiceIntegrationTest {
     }
 
     private Cypher getCypherWithStageNumber(final int stageNumber) {
-        final Cypher cypher = new Cypher(
-                "cypher",
-                stageNumber,
-                new Point(0,0),
-                "codeword",
-                "http://test.com"
-        );
+        final Cypher cypher = objectGenerator.generateValidCypher();
+        cypher.setStage(stageNumber);
 
         return cypherRepository.save(cypher);
     }

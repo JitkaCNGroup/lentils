@@ -14,13 +14,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static dk.cngroup.lentils.service.ObjectGenerator.CODEWORD;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -29,11 +27,8 @@ import static org.junit.Assert.assertNotNull;
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class HintRepositoryTest {
     private static final int TESTED_STAGE = 3;
-    private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
     private static final String TEST_EMPTY_NAME = "";
-    private static final String TEST_CYPHER_NAME = "CypherName";
     private static final String TEST_HINT_TEXT = "HintText";
-    private static final String TEST_MAP_ADDRESS = "https://goo.gl/maps/jsvj1SWFR3rVUi7F6";
 
     @Autowired
     private HintRepository hintRepository;
@@ -68,7 +63,7 @@ public class HintRepositoryTest {
 
     @Test
     public void addTest() {
-        Cypher cypher = new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD, TEST_MAP_ADDRESS);
+        Cypher cypher = generator.generateValidCypher();
         Cypher cypher1 = cypherService.save(cypher);
         Hint hint = new Hint(TEST_HINT_TEXT, 5, cypher1);
         Hint hint1 = hintRepository.save(hint);
@@ -105,14 +100,14 @@ public class HintRepositoryTest {
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void hintWithEmptyTextTest() {
-        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD, TEST_MAP_ADDRESS));
+        Cypher cypher = cypherService.save(generator.generateValidCypher());
         Hint hint = new Hint(TEST_EMPTY_NAME, 5, cypher);
         hintRepository.saveAndFlush(hint);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void hintWithNotAllowedValueTest() {
-        Cypher cypher = cypherService.save(new Cypher(TEST_CYPHER_NAME, TESTED_STAGE, TEST_LOCATION, CODEWORD, TEST_MAP_ADDRESS));
+        Cypher cypher = cypherService.save(generator.generateValidCypher());
         Hint hint = new Hint(TEST_HINT_TEXT, 0, cypher);
         hintRepository.saveAndFlush(hint);
     }
