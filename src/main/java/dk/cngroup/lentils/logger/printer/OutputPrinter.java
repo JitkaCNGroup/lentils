@@ -4,7 +4,7 @@ import java.io.*;
 
 public abstract class OutputPrinter implements Printer {
 
-    protected PrintStream output;
+    private PrintStream output;
 
     public OutputPrinter() {
         initOutput();
@@ -15,5 +15,9 @@ public abstract class OutputPrinter implements Printer {
     @Override
     public <T> void println(final T message) {
         output.println(message);
+    }
+
+    public void setOutput(PrintStream output) {
+        this.output = output;
     }
 }

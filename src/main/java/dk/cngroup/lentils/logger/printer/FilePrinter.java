@@ -17,10 +17,10 @@ public class FilePrinter extends OutputPrinter {
             File file = new File(LOG_FILE);
             file.createNewFile();
             FileOutputStream fileOutputStream = new FileOutputStream(file, true);
-            output = new PrintStream(fileOutputStream);
+            setOutput(new PrintStream(fileOutputStream));
         } catch (IOException e) {
             System.err.println("Log file cannot be created or open. Log will be written to standard error output.");
-            output = System.out;
+            setOutput(System.out);
         }
     }
 }

@@ -37,6 +37,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     public static final String CORRECT_CODEWORD = "topgun";
     public static final String FALSE_CODEWORD = "firefly";
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String HINT_NAME = "abcd";
 
     @Autowired
     private ClientController testedController;
@@ -109,7 +110,6 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     @Test
     public void testCheckCodewordAfterGameHasEnded() {
         final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
-        LocalDateTime endTime = LocalDateTime.now().minusHours(2);
         setupThatGameHasAlreadyEnded();
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
@@ -122,7 +122,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     private void createTestCypher() {
-        Hint hint = new Hint("abcd", 5, cypher);
+        Hint hint = new Hint(HINT_NAME, 5, cypher);
         hintRepository.save(hint);
         cypher = generator.generateValidCypher();
         cypher.setHints(Collections.singletonList(hint));
