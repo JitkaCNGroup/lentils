@@ -14,12 +14,12 @@
             <p th:unless="${score} == null" th:text="|Aktuální skóre: ${score} b.|"></p>
         </div>
 
-        <button class="btn toggle" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="dark-blue-text"><i class="fa fa-bars"></i></span>
+        <button class="btn toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+                aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text">
+                <i class="fa fa-bars"></i></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
                     <a class="nav-link" href="/cypher">Šifry </a>
                 </li>
