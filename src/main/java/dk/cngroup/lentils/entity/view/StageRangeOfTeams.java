@@ -4,7 +4,7 @@ public class StageRangeOfTeams {
     private final int min;
     private final int max;
 
-    public StageRangeOfTeams(int min, int max) {
+    public StageRangeOfTeams(final int min, final int max) {
         this.min = min;
         this.max = max;
     }

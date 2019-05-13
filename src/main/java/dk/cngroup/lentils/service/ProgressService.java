@@ -104,7 +104,7 @@ public class ProgressService {
         return numberOfFinishedTeams;
     }
 
-    private List<Team> getTeamsWithPendingCypher(List<Team> teams) {
+    private List<Team> getTeamsWithPendingCypher(final List<Team> teams) {
         List<Team> teamsWithCypherPending = teams.stream()
                 .filter(team -> hasCypherPending(team))
                 .collect(Collectors.toList());
