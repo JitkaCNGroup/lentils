@@ -16,7 +16,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Hledat</button>
             </form>
-            <div class="col-sm-6" th:if="${search} != null">
+            <div class="col-sm-6" th:if="${search != '' and search != null}">
                 <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Zobrazit všechny týmy</a>
             </div>
             <br>
