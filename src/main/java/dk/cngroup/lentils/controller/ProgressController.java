@@ -4,6 +4,7 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.TeamProgressWithTeam;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.GameLogicService;
@@ -78,7 +79,9 @@ public class ProgressController {
         if (progressService.getTeamsWithPendingCypher(allTeams).size() > 0) {
             model.addAttribute("minMaxStages", progressService.getCurrentStageRangeOfAllTeams());
         }
-        model.addAttribute("teamsFinished", progressService.getNumberOfFinishedTeams());
+        model.addAttribute("teamsFinished", progressService.getNumberOfFinishedTeams());   
+        List<TeamProgressWithTeam> teamsProgres = progressService.getAllTeamsWithTeamProgress();
+        model.addAttribute("teamsProgress", teamsProgres);
         return TEAM_LIST;
     }
 

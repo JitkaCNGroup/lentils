@@ -2,7 +2,7 @@ package dk.cngroup.lentils.entity;
 
 public class TeamProgressPlaying implements TeamProgress {
 
-    int actualStage;
+    private int actualStage;
 
     public TeamProgressPlaying(int actualStage) {
         this.actualStage = actualStage;

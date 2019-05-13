@@ -11,6 +11,7 @@ import dk.cngroup.lentils.entity.TeamProgress;
 import dk.cngroup.lentils.entity.TeamProgressFinished;
 import dk.cngroup.lentils.entity.TeamProgressNotStarted;
 import dk.cngroup.lentils.entity.TeamProgressPlaying;
+import dk.cngroup.lentils.entity.TeamProgressWithTeam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,6 +86,7 @@ public class ProgressService {
         return true;
     }
 
+<<<<<<< HEAD
     public List<Team> getSearchedTeams(final String searchString) {
         if (searchString == null) {
             return teamService.getAll();
@@ -138,16 +140,16 @@ public class ProgressService {
         return statusPending.getCypher().getStage();
     }
 
-    public List<String> getAllTeamsWithTeamProgress() {
+    public List<TeamProgressWithTeam> getAllTeamsWithTeamProgress() {
         List<Team> teams = teamService.getAll();
-        List<String> teamsProgresses = teams.stream()
-                .map(team -> this.getTeamProgress(team))
+        List<TeamProgressWithTeam> teamsProgresses = teams.stream()
+                .map(team -> new TeamProgressWithTeam(team, this.getTeamProgress(team)))
                 .collect(Collectors.toList());
         return teamsProgresses;
     }
 
     public String getTeamProgress(Team team) {
-        List<Status> pendingCyphers= statusService.getPendingCyphers(team);
+        List<Status> pendingCyphers = statusService.getPendingCyphers(team);
         TeamProgress teamProgress;
         if (!statusService.getAllByTeam(team).isEmpty()) {
             teamProgress = new TeamProgressFinished();
@@ -157,7 +159,7 @@ public class ProgressService {
                 } else teamProgress = new TeamProgressPlaying(pendingCyphers.get(0).getCypher().getStage());
             }
         } else teamProgress = new TeamProgressNotStarted();
-        return teamProgress.toString();
+       return teamProgress.toString();
     }
 
 }

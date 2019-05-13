@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,10 @@ public class ProgressServiceTest {
     private StatusService statusService;
     @Mock
     private HintTakenService hintTakenService;
+    @Mock
+    private TeamService teamService;
+
+    private ObjectGenerator generator = new ObjectGenerator();
 
     @InjectMocks
     private ProgressService progressService;
@@ -143,6 +148,88 @@ public class ProgressServiceTest {
 
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    public void testGetTeamProgressByPlayingTeam() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher = generator.generateValidCypherWithStage(1);
+        Status status = new Status(team, cypher, CypherStatus.PENDING);
+        List<Status> statusList = new LinkedList<>();
+        statusList.add(status);
+        when(statusService.getPendingCyphers(team)).thenReturn(statusList);
+        when(statusService.getAllByTeam(any())).thenReturn(statusList);
+
+        assertEquals("Aktuální stage: 1", progressService.getTeamProgress(team));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testGetTeamProgressByPlayingTeamTwoPendingCyphers() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher1 = generator.generateValidCypherWithStage(1);
+        Cypher cypher2 = generator.generateValidCypherWithStage(2);
+        Status status1 = new Status(team, cypher1, CypherStatus.PENDING);
+        Status status2 = new Status(team, cypher2, CypherStatus.PENDING);
+        List<Status> statusList = new LinkedList<>();
+        statusList.add(status1);
+        statusList.add(status2);
+        when(statusService.getPendingCyphers(team)).thenReturn(statusList);
+        when(statusService.getAllByTeam(any())).thenReturn(statusList);
+
+        progressService.getTeamProgress(team);
+    }
+
+    @Test
+    public void testGetTeamProgressByNotStartedTeam() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher = generator.generateValidCypherWithStage(1);
+        List<Status> statusList = new LinkedList<>();
+        when(statusService.getPendingCyphers(team)).thenReturn(statusList);
+        when(statusService.getAllByTeam(any())).thenReturn(statusList);
+
+        assertEquals("Hra nezahájena", progressService.getTeamProgress(team));
+    }
+
+    @Test
+    public void testGetTeamProgressByFinishedTeam() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher = generator.generateValidCypherWithStage(1);
+        List<Status> statusListPending = new LinkedList<>();
+        Status status = new Status(team, cypher, CypherStatus.SOLVED);
+        List<Status> statusListSolved = new LinkedList<>();
+        statusListSolved.add(status);
+        when(statusService.getPendingCyphers(team)).thenReturn(statusListPending);
+        when(statusService.getAllByTeam(any())).thenReturn(statusListSolved);
+
+        assertEquals("Hra ukončena", progressService.getTeamProgress(team));
+    }
+
+//    @Test
+//    public void testgetTwoTeamsWithTeamProgress() {
+//        List<Team> teams = new LinkedList<>();
+//        teams.add(new Team("team1", 2, "1234"));
+//        teams.add(new Team("team2", 2, "4321"));
+//        Cypher cypher = generator.generateValidCypherWithStage(1);
+//        Status status1 = new Status(teams.get(0), cypher, CypherStatus.PENDING);
+//        Status status2 = new Status(teams.get(1), cypher, CypherStatus.SOLVED);
+//        List<Status> statusListPending = new LinkedList<>();
+//        List<Status> statusListAllStatusesTeam1 = new LinkedList<>();
+//        List<Status> statusListAllStatusesTeam2 = new LinkedList<>();
+//        statusListPending.add(status1);
+//        statusListAllStatusesTeam1.add(status1);
+//        statusListAllStatusesTeam2.add(status2);
+//        when(statusService.getPendingCyphers(any())).thenReturn(statusListPending);
+//        when(statusService.getAllByTeam(teams.get(0))).thenReturn(statusListAllStatusesTeam1);
+//        when(statusService.getAllByTeam(teams.get(1))).thenReturn(statusListAllStatusesTeam2);
+//        when(teamService.getAll()).thenReturn(teams);
+//
+//        String s1 = "Aktuální stage: 1";
+//        String s2 = "Hra ukončena";
+//        List<String> teamProgress = new LinkedList<>();
+//        teamProgress.add(s1);
+//        teamProgress.add(s2);
+//
+//        assertEquals(teamProgress, progressService.getAllTeamsWithTeamProgress());
+//    }
 
 
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {
