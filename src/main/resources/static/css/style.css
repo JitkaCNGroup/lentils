@@ -366,6 +366,13 @@ a:hover{
     text-align: center;
 }
 
+td .btn-default {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 0;
+}
+
 .last {
     margin-bottom: 1rem;
 }
