@@ -17,7 +17,7 @@ public abstract class OutputPrinter implements Printer {
         output.println(message);
     }
 
-    public void setOutput(PrintStream output) {
+    public void setOutput(final PrintStream output) {
         this.output = output;
     }
 }
