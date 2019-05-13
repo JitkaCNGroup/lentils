@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,24 +34,19 @@ public class ProgressServiceIntegrationTest {
     @Autowired
     private GameLogicService gameLogicService;
 
+    @Autowired
+    private ObjectGenerator generator;
+
     @Test
     public void getCurrentStageRangeOfAllTeamsTest() {
-        Cypher cypher1 = new Cypher(new Point(1.0, 1.0), 1, "address1");
-        Cypher cypher2 = new Cypher(new Point(1.0, 1.0), 2, "address2");
-        Cypher cypher3 = new Cypher(new Point(1.0, 1.0), 3, "address3");
-        Cypher cypher4 = new Cypher(new Point(1.0, 1.0), 4, "address4");
-        cypherService.save(cypher1);
-        cypherService.save(cypher2);
-        cypherService.save(cypher3);
-        cypherService.save(cypher4);
-        Team team1 = new Team("team1", 4, "1111");
-        Team team2 = new Team("team2", 4, "2222");
-        Team team3 = new Team("team3", 4, "3333");
-        Team team4 = new Team("team4", 4, "4444");
-        teamRepository.save(team1);
-        teamRepository.save(team2);
-        teamRepository.save(team3);
-        teamRepository.save(team4);
+        Cypher cypher1 = cypherService.save(generator.generateValidCypherWithStage(1));
+        Cypher cypher2 = cypherService.save(generator.generateValidCypherWithStage(2));
+        Cypher cypher3 = cypherService.save(generator.generateValidCypherWithStage(3));
+        Cypher cypher4 = cypherService.save(generator.generateValidCypherWithStage(4));
+        Team team1 = teamRepository.save(generator.generateTeamWithNameAndPin("team1", "1111"));
+        Team team2 = teamRepository.save(generator.generateTeamWithNameAndPin("team2", "2222"));
+        Team team3 = teamRepository.save(generator.generateTeamWithNameAndPin("team3", "3333"));
+        Team team4 = teamRepository.save(generator.generateTeamWithNameAndPin("team4", "4444"));
         gameLogicService.initializeGameForAllTeams();
         statusService.markCypher(cypher1, team1, CypherStatus.LOCKED);
         statusService.markCypher(cypher2, team1, CypherStatus.LOCKED);
@@ -82,22 +76,14 @@ public class ProgressServiceIntegrationTest {
 
     @Test
     public void shouldBeZeroGetNumberOfFinishedTeamsTest() {
-        Cypher cypher1 = new Cypher(new Point(1.0, 1.0), 1, "address1");
-        Cypher cypher2 = new Cypher(new Point(1.0, 1.0), 2, "address2");
-        Cypher cypher3 = new Cypher(new Point(1.0, 1.0), 3, "address3");
-        Cypher cypher4 = new Cypher(new Point(1.0, 1.0), 4, "address4");
-        cypherService.save(cypher1);
-        cypherService.save(cypher2);
-        cypherService.save(cypher3);
-        cypherService.save(cypher4);
-        Team team1 = new Team("team1", 4, "1111");
-        Team team2 = new Team("team2", 4, "2222");
-        Team team3 = new Team("team3", 4, "3333");
-        Team team4 = new Team("team4", 4, "4444");
-        teamRepository.save(team1);
-        teamRepository.save(team2);
-        teamRepository.save(team3);
-        teamRepository.save(team4);
+        Cypher cypher1 = cypherService.save(generator.generateValidCypher());
+        Cypher cypher2 = cypherService.save(generator.generateValidCypher());
+        Cypher cypher3 = cypherService.save(generator.generateValidCypher());
+        Cypher cypher4 = cypherService.save(generator.generateValidCypher());
+        Team team1 = teamRepository.save(generator.generateTeamWithNameAndPin("team1", "1111"));
+        Team team2 = teamRepository.save(generator.generateTeamWithNameAndPin("team2", "2222"));
+        Team team3 = teamRepository.save(generator.generateTeamWithNameAndPin("team3", "3333"));
+        Team team4 = teamRepository.save(generator.generateTeamWithNameAndPin("team4", "4444"));
         gameLogicService.initializeGameForAllTeams();
         statusService.markCypher(cypher1, team1, CypherStatus.LOCKED);
         statusService.markCypher(cypher2, team1, CypherStatus.LOCKED);
@@ -124,22 +110,14 @@ public class ProgressServiceIntegrationTest {
 
     @Test
     public void shouldBeTwoGetNumberOfFinishedTeamsTest() {
-        Cypher cypher1 = new Cypher(new Point(1.0, 1.0), 1, "address1");
-        Cypher cypher2 = new Cypher(new Point(1.0, 1.0), 2, "address2");
-        Cypher cypher3 = new Cypher(new Point(1.0, 1.0), 3, "address3");
-        Cypher cypher4 = new Cypher(new Point(1.0, 1.0), 4, "address4");
-        cypherService.save(cypher1);
-        cypherService.save(cypher2);
-        cypherService.save(cypher3);
-        cypherService.save(cypher4);
-        Team team1 = new Team("team1", 4, "1111");
-        Team team2 = new Team("team2", 4, "2222");
-        Team team3 = new Team("team3", 4, "3333");
-        Team team4 = new Team("team4", 4, "4444");
-        teamRepository.save(team1);
-        teamRepository.save(team2);
-        teamRepository.save(team3);
-        teamRepository.save(team4);
+        Cypher cypher1 = cypherService.save(generator.generateValidCypher());
+        Cypher cypher2 = cypherService.save(generator.generateValidCypher());
+        Cypher cypher3 = cypherService.save(generator.generateValidCypher());
+        Cypher cypher4 = cypherService.save(generator.generateValidCypher());
+        Team team1 = teamRepository.save(generator.generateTeamWithNameAndPin("team1", "1111"));
+        Team team2 = teamRepository.save(generator.generateTeamWithNameAndPin("team2", "2222"));
+        Team team3 = teamRepository.save(generator.generateTeamWithNameAndPin("team3", "3333"));
+        Team team4 = teamRepository.save(generator.generateTeamWithNameAndPin("team4", "4444"));
         gameLogicService.initializeGameForAllTeams();
         statusService.markCypher(cypher1, team1, CypherStatus.LOCKED);
         statusService.markCypher(cypher2, team1, CypherStatus.LOCKED);
