@@ -75,7 +75,7 @@ public class GameLogicService {
         teamService.getAll().forEach(team -> initializeGameForTeam(team));
     }
 
-    private boolean existsStatusForTeam(final Team team, CypherStatus cypherStatus) {
+    private boolean existsStatusForTeam(final Team team, final CypherStatus cypherStatus) {
         return statusService.getAllByTeam(team).stream()
                 .anyMatch(status -> status.getCypherStatus() == cypherStatus);
     }
