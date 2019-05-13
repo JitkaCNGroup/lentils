@@ -44,8 +44,10 @@ public class GameLogicService {
     public boolean passedAllCyphers(final Team team) {
         List<Status> statusesOfTeam = statusService.getAllByTeam(team);
         Long numberOfStatusPendingByTeam = statusesOfTeam.stream()
-                .filter(status -> status.getCypherStatus().equals(CypherStatus.PENDING)).count();
-        return (numberOfStatusPendingByTeam <= 0 && statusesOfTeam.size() > 0);
+                .filter(status -> status.getCypherStatus() == CypherStatus.PENDING).count();
+        Long numberOfStatusLockedByTeam = statusesOfTeam.stream()
+                .filter(status -> status.getCypherStatus() == CypherStatus.LOCKED).count();
+        return (numberOfStatusPendingByTeam <= 0 && numberOfStatusLockedByTeam < 1 && statusesOfTeam.size() > 0);
     }
 
     public boolean passedTimeToViewFinalPlace() {

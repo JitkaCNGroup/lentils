@@ -6,13 +6,16 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.view.StageRangeOfTeams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProgressService {
@@ -79,13 +82,15 @@ public class ProgressService {
         return true;
     }
 
-    public String getCurrentStageRangeOfAllTeams() {
+    public StageRangeOfTeams getCurrentStageRangeOfAllTeams() {
         List<Team> teams = teamService.getAll();
-        int teamsWithPendingCypher = countTeamsWithPendingCypher(teams);
-        int[] stages = fillInStagesOfTeams(teams, teamsWithPendingCypher);
-        int min = Arrays.stream(stages).min().getAsInt();
-        int max = Arrays.stream(stages).max().getAsInt();
-        return min + "-" + max;
+        List<Team> teamsWithCypherPending = getTeamsWithPendingCypher(teams);
+        List<Integer> stages = new ArrayList<>();
+        teamsWithCypherPending.stream()
+                .forEach(team -> stages.add(getStageOfPendingCypherForTeam(team)));
+        StageRangeOfTeams stageRangeOfTeams = new StageRangeOfTeams(Collections.min(stages),
+                Collections.max(stages));
+        return stageRangeOfTeams;
     }
 
     public int getNumberOfFinishedTeams() {
@@ -99,26 +104,11 @@ public class ProgressService {
         return numberOfFinishedTeams;
     }
 
-    private int[] fillInStagesOfTeams(final List<Team> teams, final int numberOfTeams) {
-        int[] stages = new int[numberOfTeams];
-        int counter = 0;
-        for (Team team : teams) {
-            if (hasCypherPending(team)) {
-                stages[counter] = getStageOfPendingCypherForTeam(team);
-                counter++;
-            }
-        }
-        return stages;
-    }
-
-    private int countTeamsWithPendingCypher(final List<Team> teams) {
-        int i = 0;
-        for (Team team : teams) {
-            if (hasCypherPending(team)) {
-                i++;
-            }
-        }
-        return i;
+    private List<Team> getTeamsWithPendingCypher(List<Team> teams) {
+        List<Team> teamsWithCypherPending = teams.stream()
+                .filter(team -> hasCypherPending(team))
+                .collect(Collectors.toList());
+        return teamsWithCypherPending;
     }
 
     private boolean hasCypherPending(final Team team) {
@@ -133,7 +123,7 @@ public class ProgressService {
         List<Status> statuses = statusService.getAllByTeam(team);
         Status statusPending = statuses
                 .stream()
-                .filter(status -> status.getCypherStatus().equals(CypherStatus.PENDING))
+                .filter(status -> status.getCypherStatus() == CypherStatus.PENDING)
                 .findFirst()
                 .get();
         return statusPending.getCypher().getStage();

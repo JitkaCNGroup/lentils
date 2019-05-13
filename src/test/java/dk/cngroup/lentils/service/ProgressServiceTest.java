@@ -143,6 +143,7 @@ public class ProgressServiceTest {
 
         assertTrue(result.isEmpty());
     }
+
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {
         final Status status = new Status();
 
