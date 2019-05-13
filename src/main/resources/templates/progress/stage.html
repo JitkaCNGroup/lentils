@@ -20,8 +20,8 @@
                 <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Zobrazit všechny týmy</a>
             </div>
             <br>
-            <p class="subheading" th:text="${cypher.name}"></p>
-            <h1>Týmy</h1>
+            <h1 th:text="${cypher.name}"></h1>
+            <h2>Týmy</h2>
             <div th:if="${teams.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
             </div>
