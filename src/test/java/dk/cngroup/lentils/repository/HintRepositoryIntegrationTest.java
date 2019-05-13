@@ -38,11 +38,13 @@ public class HintRepositoryIntegrationTest {
     @Autowired
     private HintTakenRepository hintTakenRepository;
 
+    private ObjectGenerator generator = new ObjectGenerator();
+
     @Test
     public void findHintsNotTakenByTeamWhileOtherTeamsAlsoTakingHintsTest() {
-        Team team1 = teamRepository.save(new Team("prvni", 4, "1111"));
-        Team team2 = teamRepository.save(new Team("druhy", 4, "2222"));
-        Team team3 = teamRepository.save(new Team("treti", 4, "3333"));
+        Team team1 = teamRepository.save(generator.generateTeamWithNameAndPin("prvni", "1111"));
+        Team team2 = teamRepository.save(generator.generateTeamWithNameAndPin("druhy", "2222"));
+        Team team3 = teamRepository.save(generator.generateTeamWithNameAndPin("treti", "3333"));
 
         Cypher cypher1 = cypherRepository.save(new Cypher(TEST_LOCATION, 1, TEST_MAP_ADDRESS));
         Cypher cypher2 = cypherRepository.save(new Cypher(TEST_LOCATION, 2, TEST_MAP_ADDRESS));

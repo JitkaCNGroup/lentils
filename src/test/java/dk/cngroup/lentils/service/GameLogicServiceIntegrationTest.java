@@ -33,6 +33,8 @@ public class GameLogicServiceIntegrationTest {
     private GameLogicService gameLogicService;
     @Autowired
     private FinalPlaceService finalPlaceService;
+    @Autowired
+    private ObjectGenerator generator;
 
     @Test
     public void shouldHavePassedAllCyphers() {
@@ -98,7 +100,7 @@ public class GameLogicServiceIntegrationTest {
 
     private Team setCyphersToSpecificStatusesForTeam(final CypherStatus cypherStatus1,
                                                      final CypherStatus cypherStatus2) {
-        Team team = new Team("team", 4, "1111");
+        Team team = generator.generateValidTeam();
         teamService.save(team);
         Cypher cypher1 = new Cypher("first", 1, new Point(8,8), "yes", "http://go.com" );
         Cypher cypher2 = new Cypher("second", 2, new Point(8,8), "yees", "http://go.com");

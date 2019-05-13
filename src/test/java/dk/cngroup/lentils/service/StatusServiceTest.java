@@ -183,7 +183,7 @@ public class StatusServiceTest {
     }
 
     private Status generateOneTeamCypherAndStatusRow(String valueOfStatus) {
-        Team team = generator.generateNewTeam();
+        Team team = generator.generateValidTeam();
         Cypher cypher = generator.generateNewCypher();
         Status status = new Status(team, cypher, CypherStatus.valueOf(valueOfStatus));
 

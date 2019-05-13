@@ -119,7 +119,7 @@ public class HintRepositoryTest {
 
     @Test
     public  void countHintsNotTakenByTeamWhenOneHintFromThreeTakenNoOtherTeamTookHints() {
-        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
+        Team team1 = teamService.save(generator.generateValidTeam());
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
         createAndSaveHintTaken(hints, team1, 1);
@@ -130,8 +130,8 @@ public class HintRepositoryTest {
 
     @Test
     public  void countHintsNotTakenByTeamWhenOneHintFromThreeTakenOneOtherTeamTookHints() {
-        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
-        Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
+        Team team1 = teamService.save(generator.generateTeamWithNameAndPin("aaa", "eeee"));
+        Team team2 = teamService.save(generator.generateTeamWithNameAndPin("bbb", "uuuu"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
         createAndSaveHintTaken(hints, team1, 1);
@@ -144,9 +144,9 @@ public class HintRepositoryTest {
 
     @Test
     public  void countHintsNotTakenByTeamWhenNoHintsFromThreeTakenTwoOtherTeams() {
-        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
-        Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
-        Team team3 = teamService.save(new Team("ccc", 3, "oooo"));
+        Team team1 = teamService.save(generator.generateTeamWithNameAndPin("aaa", "eeee"));
+        Team team2 = teamService.save(generator.generateTeamWithNameAndPin("bbb", "uuuu"));
+        Team team3 = teamService.save(generator.generateTeamWithNameAndPin("ccc", "oooo"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
         createAndSaveHintTaken(hints, team2, 0);
@@ -161,9 +161,9 @@ public class HintRepositoryTest {
 
     @Test
     public  void countHintsNotTakenByTeamWhenTwoHintsFromThreeTakenTwoOtherTeams() {
-        Team team1 = teamService.save(new Team("aaa", 4, "eeee"));
-        Team team2 = teamService.save(new Team("bbb", 2, "uuuu"));
-        Team team3 = teamService.save(new Team("ccc", 3, "oooo"));
+        Team team1 = teamService.save(generator.generateTeamWithNameAndPin("aaa", "eeee"));
+        Team team2 = teamService.save(generator.generateTeamWithNameAndPin("bbb", "uuuu"));
+        Team team3 = teamService.save(generator.generateTeamWithNameAndPin("ccc", "oooo"));
         Cypher cypher = cyphers.get(0);
         List<Hint> hints = generateAndSaveHints(cypher);
         createAndSaveHintTaken(hints, team1, 0);

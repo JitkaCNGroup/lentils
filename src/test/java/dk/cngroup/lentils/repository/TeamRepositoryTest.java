@@ -29,7 +29,6 @@ public class TeamRepositoryTest {
 
     @Autowired
     private TeamRepository teamRepository;
-
     @Autowired
     private ObjectGenerator generator;
 
@@ -40,7 +39,7 @@ public class TeamRepositoryTest {
 
     @Test
     public void addTest() {
-        Team team = new Team(generator.TEAM_NAME + TESTED_TEAM, 5, TEST_PIN);
+        Team team = generator.generateValidTeam();
         teamRepository.save(team);
 
         assertEquals(1, teamRepository.count());

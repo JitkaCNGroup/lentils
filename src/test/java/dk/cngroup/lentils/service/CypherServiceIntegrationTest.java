@@ -5,7 +5,6 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
@@ -79,7 +78,7 @@ public class CypherServiceIntegrationTest {
     @Test
     public void deleteCypher() {
         final Cypher cypher = getCypherWithStageNumber(1);
-        final Team team = objectGenerator.generateNewTeam();
+        final Team team = objectGenerator.generateValidTeam();
         final Status status = new Status();
         status.setCypherStatus(CypherStatus.PENDING);
         status.setCypher(cypher);

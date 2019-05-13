@@ -3,6 +3,7 @@ package dk.cngroup.lentils.repository;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.User;
+import dk.cngroup.lentils.service.ObjectGenerator;
 import dk.cngroup.lentils.service.TeamService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,14 +29,15 @@ public class UserRepositoryTest {
 
     @Autowired
     TeamService teamService;
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private ObjectGenerator generator;
 
     @Test
     public void saveTeamCreateNewUser() {
         long count = userRepository.count();
-        Team team = createValidTeam(TESTED_TEAM_NAME);
+        Team team = generator.generateTeamWithNameAndPin(TESTED_TEAM_NAME, TEAM_PIN);
         User user = createValidUser();
         addUserToTeam(team, user);
         teamService.save(team);
@@ -54,7 +56,7 @@ public class UserRepositoryTest {
 
     @Test
     public void updateTeamDoNotCreateNewUser() {
-        Team team = createValidTeam(TESTED_TEAM_NAME);
+        Team team = generator.generateTeamWithNameAndPin(TESTED_TEAM_NAME, TEAM_PIN);
         User user = createValidUser();
         addUserToTeam(team, user);
         teamService.save(team);
@@ -65,7 +67,7 @@ public class UserRepositoryTest {
 
     @Test
     public void deleteTeamRemoveUser() {
-        Team team = createValidTeam(TESTED_TEAM_NAME);
+        Team team = generator.generateTeamWithNameAndPin(TESTED_TEAM_NAME, TEAM_PIN);
         User user = createValidUser();
         addUserToTeam(team, user);
         teamService.save(team);
@@ -76,13 +78,9 @@ public class UserRepositoryTest {
 
     @Test
     public void addTeamGeneratesProperUsername() {
-        Team team = createValidTeam(SPECIAL_TEAM_NAME);
+        Team team = generator.generateTeamWithNameAndPin(SPECIAL_TEAM_NAME, TEAM_PIN);
         teamService.save(team);
         Assert.assertTrue(isUserInDb(GENERATED_USERNAME));
-    }
-
-    private Team createValidTeam(final String teamName) {
-        return new Team(teamName, 5, TEAM_PIN);
     }
 
     private User createValidUser() {

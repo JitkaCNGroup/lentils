@@ -27,7 +27,6 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 public class HintTakenRepositoryTest {
-    private static final int TESTED_TEAM = 5;
     private static final int TESTED_STAGE = 3;
     private static final int TESTED_STAGE_2 = 2;
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
@@ -53,7 +52,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void saveAllHintsTakenForOneCypherOneTeamTest() {
-        Team team = teamService.save(new Team(generator.TEAM_NAME + TESTED_TEAM, 5, "1234"));
+        Team team = teamService.save(generator.generateValidTeam());
         Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         List<Hint> hints = hintService.saveAll(generator.generateHintsForCypher(cypher));
         List<HintTaken> hintsTaken = hints.stream()
@@ -67,7 +66,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileOneHintTakenTest() {
-        Team team = teamService.save(new Team("dgdf", 4, "dsdd"));
+        Team team = teamService.save(generator.generateValidTeam());
         Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         createAndSaveHintTaken(team, new Hint("d", 5, cypher));
         assertEquals(1, hintTakenRepository.count());
@@ -76,7 +75,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileFourHintsTakenTest() {
-        Team team = teamService.save(new Team("aaa", 4, "eeee"));
+        Team team = teamService.save(generator.generateValidTeam());
         Cypher cypher1 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         Cypher cypher2 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE_2, TEST_MAP_ADDRESS));
         createAndSaveHintTaken(team, new Hint("a", 4, cypher1));
@@ -89,8 +88,8 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileSavingToAnotherTeamTest() {
-        Team team1 = teamService.save(new Team("aaaa", 4, "eeee"));
-        Team team2 = teamService.save(new Team("bbbbb", 6, "ccccc"));
+        Team team1 = teamService.save(generator.generateTeamWithNameAndPin("aaa", "1111"));
+        Team team2 = teamService.save(generator.generateTeamWithNameAndPin("bbb", "2222"));
         Cypher cypher1 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE, TEST_MAP_ADDRESS));
         Cypher cypher2 = cypherService.save(new Cypher(TEST_LOCATION, TESTED_STAGE_2, TEST_MAP_ADDRESS));
         createAndSaveHintTaken(team1, new Hint("a", 4, cypher1));
@@ -103,7 +102,7 @@ public class HintTakenRepositoryTest {
 
     @Test
     public void countNumberOfHintsTakenByTeamWhileNoHintsTakenTest() {
-        Team team = teamService.save(new Team("team", 5, "aeeaea"));
+        Team team = teamService.save(generator.generateValidTeam());
         Cypher cypher = cypherService.save(new Cypher(TEST_LOCATION, 88, TEST_MAP_ADDRESS));
         Hint hint = hintService.save(new Hint("oh no", 20, cypher));
         assertEquals(0, hintTakenRepository.count());

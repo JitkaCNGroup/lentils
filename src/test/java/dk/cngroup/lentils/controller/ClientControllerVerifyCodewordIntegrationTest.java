@@ -51,6 +51,8 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     private StatusRepository statusRepository;
     @Autowired
     private FinalPlaceRepository finalPlaceRepository;
+    @Autowired
+    private ObjectGenerator generator;
 
     private BindingResult result;
     private Cypher cypher;
@@ -126,10 +128,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     private void createTestTeamAndUser() {
-        team = new Team();
-        team.setName("testTeam");
-        team.setPin("1234");
-        team.setNumOfMembers(5);
+        team = generator.generateValidTeam();
         teamRepository.save(team);
 
         user = new User();
