@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG;
 import static junit.framework.TestCase.assertTrue;
@@ -36,11 +37,14 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     public static final String CORRECT_CODEWORD = "topgun";
     public static final String FALSE_CODEWORD = "firefly";
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String HINT_NAME = "abcd";
 
     @Autowired
     private ClientController testedController;
     @Autowired
     private CypherRepository cypherRepository;
+    @Autowired
+    private HintRepository hintRepository;
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
@@ -106,7 +110,6 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     @Test
     public void testCheckCodewordAfterGameHasEnded() {
         final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
-        LocalDateTime endTime = LocalDateTime.now().minusHours(2);
         setupThatGameHasAlreadyEnded();
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
@@ -119,9 +122,12 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     private void createTestCypher() {
+        Hint hint = new Hint(HINT_NAME, 5, cypher);
+        hintRepository.save(hint);
         cypher = generator.generateValidCypher();
         cypher.setCodeword(CORRECT_CODEWORD);
         cypher.setTrapCodeword(FALSE_CODEWORD);
+        cypher.setHints(Collections.singletonList(hint));
         cypherRepository.save(cypher);
     }
 

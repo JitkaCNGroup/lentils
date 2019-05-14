@@ -33,6 +33,8 @@ dependencies {
     compile("org.postgresql:postgresql:42.2.5")
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
     testCompile('junit:junit:4.12') {
