@@ -125,6 +125,8 @@ public class ClientControllerVerifyCodewordIntegrationTest {
         Hint hint = new Hint(HINT_NAME, 5, cypher);
         hintRepository.save(hint);
         cypher = generator.generateValidCypher();
+        cypher.setCodeword(CORRECT_CODEWORD);
+        cypher.setTrapCodeword(FALSE_CODEWORD);
         cypher.setHints(Collections.singletonList(hint));
         cypherRepository.save(cypher);
     }
