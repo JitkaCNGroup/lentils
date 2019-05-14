@@ -69,11 +69,13 @@ public class ProgressController {
     }
 
     @GetMapping(value = "/teamsList")
-    public String listTeams(final Model model) {
-        List<Team> teams = teamService.getAll();
+    public String listTeams(final @RequestParam(value = "search", required = false) String searchString,
+                            final Model model) {
+        List<Team> allTeams = teamService.getAll();
         model.addAttribute("allTeamsStarted", progressService.isGameStartedForAllTeams());
-        model.addAttribute("teams", teams);
-        if (progressService.getTeamsWithPendingCypher(teams).size() > 0) {
+        model.addAttribute("search", searchString);
+        model.addAttribute("teams", progressService.getSearchedTeams(searchString));
+        if (progressService.getTeamsWithPendingCypher(allTeams).size() > 0) {
             model.addAttribute("minMaxStages", progressService.getCurrentStageRangeOfAllTeams());
         }
         model.addAttribute("teamsFinished", progressService.getNumberOfFinishedTeams());
@@ -96,16 +98,20 @@ public class ProgressController {
     }
 
     @GetMapping(value = "/stage")
-    public String stageProgress(final @RequestParam("cypherId") Long cypherId, final Model model) {
+    public String stageProgress(final @RequestParam("cypherId") Long cypherId,
+                                final @RequestParam(value = "search", required = false) String searchString,
+                                final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute("cypher", cypher);
-        model.addAttribute("teams", teamService.getAll());
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
+        model.addAttribute("search", searchString);
+        model.addAttribute("teams", progressService.getSearchedTeams(searchString));
         return PROGRESS_STAGE;
     }
 
     @GetMapping(value = "/changeStatus/{cypherId}")
-    public String changeCypherStatus(final @PathVariable("cypherId") Long cypherId,
+    public String changeCypherStatus(final @RequestParam(value = "search", required = false) String searchString,
+                                     final @PathVariable("cypherId") Long cypherId,
                                       final @RequestParam("teamId") Long teamId,
                                       final @RequestParam("newStatus") String newStatus,
                                       final Model model) {
@@ -115,8 +121,9 @@ public class ProgressController {
         statusService.markCypher(cypher, team, cypherStatus);
 
         model.addAttribute("cypher", cypher);
-        model.addAttribute("teams", teamService.getAll());
+        model.addAttribute("teams", progressService.getSearchedTeams(searchString));
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
+        model.addAttribute("search", searchString);
         return PROGRESS_STAGE;
     }
 

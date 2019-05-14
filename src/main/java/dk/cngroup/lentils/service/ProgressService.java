@@ -81,6 +81,14 @@ public class ProgressService {
         return true;
     }
 
+    public List<Team> getSearchedTeams(final String searchString) {
+        if (searchString == null) {
+            return teamService.getAll();
+        } else {
+            return teamService.searchTeams(searchString);
+        }
+    }
+
     public StageRangeOfTeams getCurrentStageRangeOfAllTeams() {
         List<Team> teams = teamService.getAll();
         List<Team> teamsWithCypherPending = getTeamsWithPendingCypher(teams);
