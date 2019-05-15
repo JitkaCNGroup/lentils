@@ -21,6 +21,8 @@
             </div>
             <br>
             <h1 th:text="${cypher.name}"></h1>
+            <button id="codeword-show" class="btn btn-primary" onclick="changeCodewordVisibility()">Zobrazit řešení</button>
+            <p id="codeword" th:text="${cypher.codeword}"></p>
             <h2>Týmy</h2>
             <div th:if="${teams.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
@@ -106,7 +108,19 @@
         </div>
     </div>
 </div>
-
+<script>
+    function changeCodewordVisibility() {
+        var codeword = document.getElementById("codeword");
+        var codewordButton = document.getElementById("codeword-show");
+        if (codeword.style.visibility === "visible") {
+            codeword.style.visibility = "hidden";
+            codewordButton.innerHTML = "Zobrazit řešení";
+        } else {
+            codeword.style.visibility = "visible";
+            codewordButton.innerHTML = "Skrýt řešení";
+        }
+    }
+</script>
 <div th:insert="fragments/externalScripts :: externalScripts"></div>
 </body>
 </html>

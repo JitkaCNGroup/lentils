@@ -421,6 +421,12 @@ a:hover{
     width: 100%;
 }
 
+#codeword {
+    visibility: hidden;
+    text-align: center;
+    font-weight: bold;
+}
+
 .alert-danger.red {
     background-color: rgb(237, 24, 72);
     color: white;
