@@ -122,19 +122,6 @@
         </div>
     </div>
 </div>
-<script>
-    function changeCodewordVisibility() {
-        var codeword = document.getElementById("codeword");
-        var codewordButton = document.getElementById("codeword-show");
-        if (codeword.style.visibility === "visible") {
-            codeword.style.visibility = "hidden";
-            codewordButton.innerHTML = "Zobrazit řešení";
-        } else {
-            codeword.style.visibility = "visible";
-            codewordButton.innerHTML = "Skrýt řešení";
-        }
-    }
-</script>
 <div th:insert="fragments/externalScripts :: externalScripts"></div>
 </body>
 </html>
