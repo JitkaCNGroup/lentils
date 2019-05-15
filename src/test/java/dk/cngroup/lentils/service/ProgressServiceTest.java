@@ -6,6 +6,7 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.factory.TeamProgressFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -159,7 +160,7 @@ public class ProgressServiceTest {
         when(statusService.getPendingCyphers(team)).thenReturn(statusList);
         when(statusService.getAllByTeam(any())).thenReturn(statusList);
 
-        assertEquals("Aktuální stage: 1", progressService.getTeamProgress(team));
+        assertEquals("Aktuální stage: 1", TeamProgressFactory.create(team, statusService));
     }
 
     @Test
@@ -169,7 +170,7 @@ public class ProgressServiceTest {
         List<Status> statusList = new LinkedList<>();
         when(statusService.getAllByTeam(any())).thenReturn(statusList);
 
-        assertEquals("Hra nezahájena", progressService.getTeamProgress(team));
+        assertEquals("Hra nezahájena", TeamProgressFactory.create(team, statusService));
     }
 
     @Test
@@ -183,7 +184,7 @@ public class ProgressServiceTest {
         when(statusService.getPendingCyphers(team)).thenReturn(statusListPending);
         when(statusService.getAllByTeam(any())).thenReturn(statusListSolved);
 
-        assertEquals("Hra ukončena", progressService.getTeamProgress(team));
+        assertEquals("Hra ukončena", TeamProgressFactory.create(team, statusService));
     }
 
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {

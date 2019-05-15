@@ -7,10 +7,8 @@ import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.view.StageRangeOfTeams;
-import dk.cngroup.lentils.entity.TeamProgressFinished;
-import dk.cngroup.lentils.entity.TeamProgressNotStarted;
-import dk.cngroup.lentils.entity.TeamProgressPlaying;
 import dk.cngroup.lentils.entity.TeamProgressWithTeam;
+import dk.cngroup.lentils.factory.TeamProgressFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -150,22 +148,8 @@ public class ProgressService {
 
     private List<TeamProgressWithTeam> getTeamProgressWithTeams(final List<Team> teams) {
         return teams.stream()
-                .map(team -> new TeamProgressWithTeam(team, this.getTeamProgress(team)))
+                .map(team -> new TeamProgressWithTeam(team, TeamProgressFactory.create(team, statusService)))
                 .collect(Collectors.toList());
-    }
-
-    public String getTeamProgress(final Team team) {
-        if (statusService.getAllByTeam(team).isEmpty()) {
-            return new TeamProgressNotStarted().toString();
-        }
-
-        List<Status> pendingCyphers = statusService.getPendingCyphers(team);
-        if (pendingCyphers.isEmpty()) {
-            return new TeamProgressFinished().toString();
-        }
-
-        int stageOfPendingCypher = pendingCyphers.get(0).getCypher().getStage();
-        return new TeamProgressPlaying(stageOfPendingCypher).toString();
     }
 
 }
