@@ -109,6 +109,31 @@ nav .back {
     padding-right: 0.6rem;
 }
 
+.score .row {
+    height: 4rem;
+    border-bottom: solid 1px #E5E5E5;
+    color: black;
+}
+
+.score .row:hover {
+    background-color: #EEE;
+}
+
+.score .row div{
+    text-align: center;
+}
+
+.score-header {
+    border-bottom: solid 1px #E5E5E5;
+}
+
+.score-header .col p{
+    color:black;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1rem;
+}
+
 .cypher .row {
     height: 4rem;
     border-bottom: solid 1px #E5E5E5;
@@ -368,6 +393,13 @@ a:hover{
     color: #757575;
     margin-top: 1.25rem;
     text-align: center;
+}
+
+td .btn-default {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 0;
 }
 
 .last {
