@@ -7,7 +7,6 @@ import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.view.StageRangeOfTeams;
-import dk.cngroup.lentils.entity.TeamProgress;
 import dk.cngroup.lentils.entity.TeamProgressFinished;
 import dk.cngroup.lentils.entity.TeamProgressNotStarted;
 import dk.cngroup.lentils.entity.TeamProgressPlaying;
@@ -141,37 +140,32 @@ public class ProgressService {
 
     public List<TeamProgressWithTeam> getAllTeamsWithTeamProgress() {
         List<Team> teams = teamService.getAll();
-        List<TeamProgressWithTeam> teamsProgresses = teams.stream()
-                .map(team -> new TeamProgressWithTeam(team, this.getTeamProgress(team)))
-                .collect(Collectors.toList());
-        return teamsProgresses;
+        return getTeamProgressWithTeams(teams);
     }
 
     public List<TeamProgressWithTeam> getSearchedTeamsWithTeamProgress(final String searchString) {
-        List<Team> teams = this.getSearchedTeams(searchString);
-        List<TeamProgressWithTeam> teamsProgresses = teams.stream()
+        List<Team> teams = getSearchedTeams(searchString);
+        return getTeamProgressWithTeams(teams);
+    }
+
+    private List<TeamProgressWithTeam> getTeamProgressWithTeams(final List<Team> teams) {
+        return teams.stream()
                 .map(team -> new TeamProgressWithTeam(team, this.getTeamProgress(team)))
                 .collect(Collectors.toList());
-        return teamsProgresses;
     }
 
     public String getTeamProgress(final Team team) {
-        List<Status> pendingCyphers = statusService.getPendingCyphers(team);
-        TeamProgress teamProgress;
-        if (!statusService.getAllByTeam(team).isEmpty()) {
-            teamProgress = new TeamProgressFinished();
-            if (!pendingCyphers.isEmpty()) {
-                if (pendingCyphers.size() > 1) {
-                    throw new IllegalStateException("More PENDING statuses found for the given cypher" +
-                            " and team in database");
-                } else {
-                    teamProgress = new TeamProgressPlaying(pendingCyphers.get(0).getCypher().getStage());
-                }
-            }
-        } else {
-            teamProgress = new TeamProgressNotStarted();
+        if (statusService.getAllByTeam(team).isEmpty()) {
+            return new TeamProgressNotStarted().toString();
         }
-       return teamProgress.toString();
+
+        List<Status> pendingCyphers = statusService.getPendingCyphers(team);
+        if (pendingCyphers.isEmpty()) {
+            return new TeamProgressFinished().toString();
+        }
+
+        int stageOfPendingCypher = pendingCyphers.get(0).getCypher().getStage();
+        return new TeamProgressPlaying(stageOfPendingCypher).toString();
     }
 
 }

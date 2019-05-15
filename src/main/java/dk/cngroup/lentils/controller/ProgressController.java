@@ -75,7 +75,6 @@ public class ProgressController {
         List<Team> allTeams = teamService.getAll();
         model.addAttribute("allTeamsStarted", progressService.isGameStartedForAllTeams());
         model.addAttribute("search", searchString);
-        model.addAttribute("teams", progressService.getSearchedTeams(searchString));
         if (progressService.getTeamsWithPendingCypher(allTeams).size() > 0) {
             model.addAttribute("minMaxStages", progressService.getCurrentStageRangeOfAllTeams());
         }

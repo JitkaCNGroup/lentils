@@ -223,5 +223,4 @@ public class Cypher implements Serializable {
         return Objects.hash(cypherId, hints, name, stage, location, codeword);
     }
 
-
 }

@@ -5,7 +5,7 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(teamView)"></div>
 <div class="container">
-    <th:block th:unless="${teams.isEmpty()}">
+    <th:block th:unless="${teamsProgress.isEmpty()}">
         <div class="row">
             <div class="col-sm-12" th:unless="${allTeamsStarted}">
                 <a href="#" class="btn btn-primary" th:href="@{/game/progress/startGame}">
@@ -39,10 +39,10 @@
             </div>
 
             <h1>Týmy</h1>
-            <div th:if="${teams.empty and search == null}">
+            <div th:if="${teamsProgress.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
             </div>
-            <div th:if="${teams.empty and search != null}">
+            <div th:if="${teamsProgress.empty and search != null}">
                 <p>Žádný tým nenalezen<p/>
             </div>
 

@@ -162,28 +162,11 @@ public class ProgressServiceTest {
         assertEquals("Aktuální stage: 1", progressService.getTeamProgress(team));
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testGetTeamProgressByPlayingTeamTwoPendingCyphers() {
-        Team team = generator.generateValidTeam();
-        Cypher cypher1 = generator.generateValidCypherWithStage(1);
-        Cypher cypher2 = generator.generateValidCypherWithStage(2);
-        Status status1 = new Status(team, cypher1, CypherStatus.PENDING);
-        Status status2 = new Status(team, cypher2, CypherStatus.PENDING);
-        List<Status> statusList = new LinkedList<>();
-        statusList.add(status1);
-        statusList.add(status2);
-        when(statusService.getPendingCyphers(team)).thenReturn(statusList);
-        when(statusService.getAllByTeam(any())).thenReturn(statusList);
-
-        progressService.getTeamProgress(team);
-    }
-
     @Test
     public void testGetTeamProgressByNotStartedTeam() {
         Team team = generator.generateValidTeam();
         Cypher cypher = generator.generateValidCypherWithStage(1);
         List<Status> statusList = new LinkedList<>();
-        when(statusService.getPendingCyphers(team)).thenReturn(statusList);
         when(statusService.getAllByTeam(any())).thenReturn(statusList);
 
         assertEquals("Hra nezahájena", progressService.getTeamProgress(team));
