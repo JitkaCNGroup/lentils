@@ -4,7 +4,7 @@ public class TeamProgressPlaying implements TeamProgress {
 
     private int actualStage;
 
-    public TeamProgressPlaying(int actualStage) {
+    public TeamProgressPlaying(final int actualStage) {
         this.actualStage = actualStage;
     }
 

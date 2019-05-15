@@ -203,35 +203,6 @@ public class ProgressServiceTest {
         assertEquals("Hra ukončena", progressService.getTeamProgress(team));
     }
 
-//    @Test
-//    public void testgetTwoTeamsWithTeamProgress() {
-//        List<Team> teams = new LinkedList<>();
-//        teams.add(new Team("team1", 2, "1234"));
-//        teams.add(new Team("team2", 2, "4321"));
-//        Cypher cypher = generator.generateValidCypherWithStage(1);
-//        Status status1 = new Status(teams.get(0), cypher, CypherStatus.PENDING);
-//        Status status2 = new Status(teams.get(1), cypher, CypherStatus.SOLVED);
-//        List<Status> statusListPending = new LinkedList<>();
-//        List<Status> statusListAllStatusesTeam1 = new LinkedList<>();
-//        List<Status> statusListAllStatusesTeam2 = new LinkedList<>();
-//        statusListPending.add(status1);
-//        statusListAllStatusesTeam1.add(status1);
-//        statusListAllStatusesTeam2.add(status2);
-//        when(statusService.getPendingCyphers(any())).thenReturn(statusListPending);
-//        when(statusService.getAllByTeam(teams.get(0))).thenReturn(statusListAllStatusesTeam1);
-//        when(statusService.getAllByTeam(teams.get(1))).thenReturn(statusListAllStatusesTeam2);
-//        when(teamService.getAll()).thenReturn(teams);
-//
-//        String s1 = "Aktuální stage: 1";
-//        String s2 = "Hra ukončena";
-//        List<String> teamProgress = new LinkedList<>();
-//        teamProgress.add(s1);
-//        teamProgress.add(s2);
-//
-//        assertEquals(teamProgress, progressService.getAllTeamsWithTeamProgress());
-//    }
-
-
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {
         final Status status = new Status();
 

@@ -86,7 +86,6 @@ public class ProgressService {
         return true;
     }
 
-<<<<<<< HEAD
     public List<Team> getSearchedTeams(final String searchString) {
         if (searchString == null) {
             return teamService.getAll();
@@ -148,17 +147,30 @@ public class ProgressService {
         return teamsProgresses;
     }
 
-    public String getTeamProgress(Team team) {
+    public List<TeamProgressWithTeam> getSearchedTeamsWithTeamProgress(final String searchString) {
+        List<Team> teams = this.getSearchedTeams(searchString);
+        List<TeamProgressWithTeam> teamsProgresses = teams.stream()
+                .map(team -> new TeamProgressWithTeam(team, this.getTeamProgress(team)))
+                .collect(Collectors.toList());
+        return teamsProgresses;
+    }
+
+    public String getTeamProgress(final Team team) {
         List<Status> pendingCyphers = statusService.getPendingCyphers(team);
         TeamProgress teamProgress;
         if (!statusService.getAllByTeam(team).isEmpty()) {
             teamProgress = new TeamProgressFinished();
             if (!pendingCyphers.isEmpty()) {
                 if (pendingCyphers.size() > 1) {
-                    throw new IllegalStateException("More PENDING statuses found for the given cypher and team in database");
-                } else teamProgress = new TeamProgressPlaying(pendingCyphers.get(0).getCypher().getStage());
+                    throw new IllegalStateException("More PENDING statuses found for the given cypher" +
+                            " and team in database");
+                } else {
+                    teamProgress = new TeamProgressPlaying(pendingCyphers.get(0).getCypher().getStage());
+                }
             }
-        } else teamProgress = new TeamProgressNotStarted();
+        } else {
+            teamProgress = new TeamProgressNotStarted();
+        }
        return teamProgress.toString();
     }
 

@@ -5,7 +5,7 @@ public class TeamProgressWithTeam {
     private Team team;
     private String teamProgress;
 
-    public TeamProgressWithTeam(Team team, String teamProgress) {
+    public TeamProgressWithTeam(final Team team, final String teamProgress) {
         this.team = team;
         this.teamProgress = teamProgress;
     }
@@ -14,7 +14,7 @@ public class TeamProgressWithTeam {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(final Team team) {
         this.team = team;
     }
 
@@ -22,7 +22,7 @@ public class TeamProgressWithTeam {
         return teamProgress;
     }
 
-    public void setTeamProgress(String teamProgress) {
+    public void setTeamProgress(final String teamProgress) {
         this.teamProgress = teamProgress;
     }
 

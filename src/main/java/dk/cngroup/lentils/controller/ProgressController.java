@@ -80,7 +80,7 @@ public class ProgressController {
             model.addAttribute("minMaxStages", progressService.getCurrentStageRangeOfAllTeams());
         }
         model.addAttribute("teamsFinished", progressService.getNumberOfFinishedTeams());   
-        List<TeamProgressWithTeam> teamsProgres = progressService.getAllTeamsWithTeamProgress();
+        List<TeamProgressWithTeam> teamsProgres = progressService.getSearchedTeamsWithTeamProgress(searchString);
         model.addAttribute("teamsProgress", teamsProgres);
         return TEAM_LIST;
     }

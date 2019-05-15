@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.entity;
 
-public class TeamProgressNotStarted implements TeamProgress{
+public class TeamProgressNotStarted implements TeamProgress {
 
     @Override
     public String toString() {
