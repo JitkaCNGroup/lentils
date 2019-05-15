@@ -422,9 +422,29 @@ a:hover{
 }
 
 #codeword {
-    visibility: hidden;
     text-align: center;
     font-weight: bold;
+}
+
+.accordion {
+    margin-bottom: 8px;
+}
+
+.card-header {
+    background-color: white;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.25rem;
+}
+
+.card-header:hover {
+    cursor: pointer;
+}
+
+#collapseOne {
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.25rem;
 }
 
 .alert-danger.red {
