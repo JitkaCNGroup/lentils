@@ -6,21 +6,37 @@
 <div th:insert="fragments/organizerHeader :: header(progress)"></div>
 <div class="container">
     <div class="row">
+        <div class="col-sm-6">
+            <h1 th:text="${cypher.name}"></h1>
+            <div class="accordion" id="codewordAccordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Zobrazit řešení šifry
+                    </div>
+                    <div th:text="${cypher.codeword}" id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#codewordAccordion">
+                    </div>
+                </div>
+                <div class="card">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form class="col-sm-6" action="#" th:action="@{/game/progress/stage}" method="get">
+            <div class="form-group">
+                <input name="cypherId" th:value="*{cypher.cypherId}" hidden/>
+                <label for="search">Hledat tým:</label>
+                <input type="text" id="search" name="search" class="form-control" required/>
+            </div>
+            <button type="submit" class="btn btn-primary">Hledat</button>
+        </form>
+        <div class="col-sm-6" th:if="${search != '' and search != null}">
+            <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Zobrazit všechny týmy</a>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
 
-            <form class="col-sm-6" action="#" th:action="@{/game/progress/stage}" method="get">
-                <div class="form-group">
-                    <input name="cypherId" th:value="*{cypher.cypherId}" hidden/>
-                    <label for="search">Hledat tým:</label>
-                    <input type="text" id="search" name="search" class="form-control" required/>
-                </div>
-                <button type="submit" class="btn btn-primary">Hledat</button>
-            </form>
-            <div class="col-sm-6" th:if="${search != '' and search != null}">
-                <a href="#" th:href="@{/game/progress/stage(cypherId=${cypher.cypherId})}" class="btn btn-secondary">Zobrazit všechny týmy</a>
-            </div>
-            <br>
-            <h1 th:text="${cypher.name}"></h1>
             <h2>Týmy</h2>
             <div th:if="${teams.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
@@ -106,7 +122,6 @@
         </div>
     </div>
 </div>
-
 <div th:insert="fragments/externalScripts :: externalScripts"></div>
 </body>
 </html>
