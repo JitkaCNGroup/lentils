@@ -3,9 +3,9 @@ package dk.cngroup.lentils.entity;
 public class TeamProgressWithTeam {
 
     private Team team;
-    private String teamProgress;
+    private TeamProgress teamProgress;
 
-    public TeamProgressWithTeam(final Team team, final String teamProgress) {
+    public TeamProgressWithTeam(final Team team, final TeamProgress teamProgress) {
         this.team = team;
         this.teamProgress = teamProgress;
     }
@@ -18,11 +18,11 @@ public class TeamProgressWithTeam {
         this.team = team;
     }
 
-    public String getTeamProgress() {
+    public TeamProgress getTeamProgress() {
         return teamProgress;
     }
 
-    public void setTeamProgress(final String teamProgress) {
+    public void setTeamProgress(final TeamProgress teamProgress) {
         this.teamProgress = teamProgress;
     }
 

@@ -160,7 +160,7 @@ public class ProgressServiceTest {
         when(statusService.getPendingCyphers(team)).thenReturn(statusList);
         when(statusService.getAllByTeam(any())).thenReturn(statusList);
 
-        assertEquals("Aktuální stage: 1", TeamProgressFactory.create(team, statusService));
+        assertEquals("Aktuální stage: 1", TeamProgressFactory.create(team, statusService).toString());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class ProgressServiceTest {
         List<Status> statusList = new LinkedList<>();
         when(statusService.getAllByTeam(any())).thenReturn(statusList);
 
-        assertEquals("Hra nezahájena", TeamProgressFactory.create(team, statusService));
+        assertEquals("Hra nezahájena", TeamProgressFactory.create(team, statusService).toString());
     }
 
     @Test
@@ -184,7 +184,7 @@ public class ProgressServiceTest {
         when(statusService.getPendingCyphers(team)).thenReturn(statusListPending);
         when(statusService.getAllByTeam(any())).thenReturn(statusListSolved);
 
-        assertEquals("Hra ukončena", TeamProgressFactory.create(team, statusService));
+        assertEquals("Hra ukončena", TeamProgressFactory.create(team, statusService).toString());
     }
 
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {
