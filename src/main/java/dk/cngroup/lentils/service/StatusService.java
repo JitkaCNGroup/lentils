@@ -95,7 +95,7 @@ public class StatusService {
         statusRepository.save(status);
     }
 
-    public List<Status> getPendingCyphers(Team team) {
+    public List<Status> getPendingCyphers(final Team team) {
         return statusRepository.findStatusPendingByTeam(team.getTeamId());
     }
 
