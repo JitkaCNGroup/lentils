@@ -50,7 +50,9 @@
                 <a th:href="@{/game/progress/teamDetail(teamId=${teamProgress.team.teamId})}">
                     <div class="row align-items-center">
                         <div th:text="${teamProgress.getTeam().getName()}" class="col"></div>
-                        <div th:text="${teamProgress.getTeamProgress()}" class="col"></div>
+                        <div class="col text-right">
+                            <div th:text="${teamProgress.getTeamProgress()}" class="team-status"></div>
+                        </div>
                     </div>
                 </a>
             </div>

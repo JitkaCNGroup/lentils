@@ -262,6 +262,15 @@ span.status {
     border-radius: 2px;
 }
 
+.cypher.organizer .row .team-status {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 0.05rem 0.3rem;
+    background-color: #757575;
+    color: #FFF;
+    border-radius: 2px;
+}
+
 .pending span.status {
     background-color: #0095ff;
 }
