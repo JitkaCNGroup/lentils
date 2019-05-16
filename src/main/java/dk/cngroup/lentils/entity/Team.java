@@ -23,7 +23,7 @@ public class Team {
     @Column(name = "team_id")
     private Long teamId;
 
-    @Column(name = "name", length = 50)
+    @Column(name = "name", length = 50, unique = true)
     @NotEmpty(message = "Jméno nesmí být prázdné.")
     @Length(max = 50, message = "Jméno nesmí být delší než 50 znaků.")
     private String name;

@@ -36,11 +36,10 @@ public class TeamController {
     }
 
     @PostMapping(value = "/add")
-    public String addTeam(
-            @Valid @ModelAttribute final Team team,
+    public String addTeam(@ModelAttribute @Valid final Team team,
             final BindingResult bindingResult,
-            final Model model
-    ) {
+            final Model model) {
+        teamService.checkNameIsUnique(team.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH;
@@ -56,12 +55,11 @@ public class TeamController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(
-            @PathVariable("id") final Long id,
+    public String update(@PathVariable("id") final Long id,
             @Valid final Team team,
             final BindingResult bindingResult,
-            final Model model
-    ) {
+            final Model model) {
+        teamService.checkNameIsUnique(team.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH;

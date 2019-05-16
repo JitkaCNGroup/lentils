@@ -19,9 +19,6 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class})
@@ -50,8 +47,8 @@ public class TeamServiceIntegrationTest {
     public void addingOneTeamCorrectlyCreatesUser() {
         createAndSaveTeam("pump", "8888");
 
-        assertEquals(numOfTeamsBeforeTest + 1, teamRepository.count());
-        assertEquals(numOfUsersBeforeTest + 1, userRepository.count());
+        Assert.assertEquals(numOfTeamsBeforeTest + 1, teamRepository.count());
+        Assert.assertEquals(numOfUsersBeforeTest + 1, userRepository.count());
         assertThatTeamHasAssociatedCorrectUser("pump");
     }
 
@@ -62,8 +59,8 @@ public class TeamServiceIntegrationTest {
         createAndSaveTeam("c","3333");
         createAndSaveTeam("d","4444");
 
-        assertEquals(numOfTeamsBeforeTest + 4, teamService.getAll().size());
-        assertEquals(numOfUsersBeforeTest + 4, userRepository.findAll().size());
+        Assert.assertEquals(numOfTeamsBeforeTest + 4, teamService.getAll().size());
+        Assert.assertEquals(numOfUsersBeforeTest + 4, userRepository.findAll().size());
         assertThatTeamHasAssociatedCorrectUser("a");
         assertThatTeamHasAssociatedCorrectUser("b");
         assertThatTeamHasAssociatedCorrectUser("c");
@@ -81,9 +78,9 @@ public class TeamServiceIntegrationTest {
                 .findByUsername(UsernameUtils.generateUsername(teamName))
                 .orElseThrow(() -> new RuntimeException("Cannot find user"));
 
-        assertNotNull(team);
-        assertEquals(team.getUser().getUserId(), user.getUserId());
-        assertEquals(user.getTeam().getTeamId(), team.getTeamId());
+        Assert.assertNotNull(team);
+        Assert.assertEquals(team.getUser().getUserId(), user.getUserId());
+        Assert.assertEquals(user.getTeam().getTeamId(), team.getTeamId());
     }
 
     @Test
@@ -105,6 +102,16 @@ public class TeamServiceIntegrationTest {
         List<Team> teams = teamService.searchTeams("Pribram");
 
         Assert.assertEquals(0, teams.size());
+    }
+
+    @Test
+    public void teamNameIsNotUniqueTest() {
+        Assert.assertFalse(teamService.isTeamNameUnique("Sparta"));
+    }
+
+    @Test
+    public void teamNameIsUniqueTest() {
+        Assert.assertTrue(teamService.isTeamNameUnique("Dragons"));
     }
 
     private void createVariousTeams() {
