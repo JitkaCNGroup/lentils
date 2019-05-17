@@ -5,7 +5,7 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(teamView)"></div>
 <div class="container">
-    <th:block th:unless="${teams.isEmpty()}">
+    <th:block th:unless="${teamsProgress.isEmpty()}">
         <div class="row">
             <div class="col-sm-12" th:unless="${allTeamsStarted}">
                 <a href="#" class="btn btn-primary" th:href="@{/game/progress/startGame}">
@@ -39,17 +39,20 @@
             </div>
 
             <h1>Týmy</h1>
-            <div th:if="${teams.empty and search == null}">
+            <div th:if="${teamsProgress.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
             </div>
-            <div th:if="${teams.empty and search != null}">
+            <div th:if="${teamsProgress.empty and search != null}">
                 <p>Žádný tým nenalezen<p/>
             </div>
 
-            <div th:each="team : ${teams}" class="cypher organizer">
-                <a th:href="@{/game/progress/teamDetail(teamId=${team.teamId})}">
+            <div th:each="teamProgress : ${teamsProgress}" class="cypher organizer">
+                <a th:href="@{/game/progress/teamDetail(teamId=${teamProgress.team.teamId})}">
                     <div class="row align-items-center">
-                        <div th:text="${team.name}" class="col"></div>
+                        <div th:text="${teamProgress.getTeam().getName()}" class="col"></div>
+                        <div class="col text-right">
+                            <div th:text="${teamProgress.getTeamProgress()}" class="team-status"></div>
+                        </div>
                     </div>
                 </a>
             </div>

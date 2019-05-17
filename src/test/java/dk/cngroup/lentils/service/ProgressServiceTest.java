@@ -6,6 +6,7 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.factory.TeamProgressFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,10 @@ public class ProgressServiceTest {
     private StatusService statusService;
     @Mock
     private HintTakenService hintTakenService;
+    @Mock
+    private TeamService teamService;
+
+    private ObjectGenerator generator = new ObjectGenerator();
 
     @InjectMocks
     private ProgressService progressService;
@@ -142,6 +148,43 @@ public class ProgressServiceTest {
         Map<Long, CypherStatus> result = progressService.getCyphersStatuses(null);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetTeamProgressByPlayingTeam() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher = generator.generateValidCypherWithStage(1);
+        Status status = new Status(team, cypher, CypherStatus.PENDING);
+        List<Status> statusList = new LinkedList<>();
+        statusList.add(status);
+        when(statusService.getPendingCyphers(team)).thenReturn(statusList);
+        when(statusService.getAllByTeam(any())).thenReturn(statusList);
+
+        assertEquals("Aktuální stage: 1", TeamProgressFactory.create(team, statusService).toString());
+    }
+
+    @Test
+    public void testGetTeamProgressByNotStartedTeam() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher = generator.generateValidCypherWithStage(1);
+        List<Status> statusList = new LinkedList<>();
+        when(statusService.getAllByTeam(any())).thenReturn(statusList);
+
+        assertEquals("Hra nezahájena", TeamProgressFactory.create(team, statusService).toString());
+    }
+
+    @Test
+    public void testGetTeamProgressByFinishedTeam() {
+        Team team = generator.generateValidTeam();
+        Cypher cypher = generator.generateValidCypherWithStage(1);
+        List<Status> statusListPending = new LinkedList<>();
+        Status status = new Status(team, cypher, CypherStatus.SOLVED);
+        List<Status> statusListSolved = new LinkedList<>();
+        statusListSolved.add(status);
+        when(statusService.getPendingCyphers(team)).thenReturn(statusListPending);
+        when(statusService.getAllByTeam(any())).thenReturn(statusListSolved);
+
+        assertEquals("Hra ukončena", TeamProgressFactory.create(team, statusService).toString());
     }
 
     private void addStatusIntoList(final List<Status> dataset, final Cypher cypher, final Team team, final CypherStatus value) {

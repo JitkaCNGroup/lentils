@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.repository;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.StatusKey;
 import dk.cngroup.lentils.entity.Team;
@@ -16,4 +17,5 @@ public interface StatusRepository extends JpaRepository<Status, StatusKey> {
     List<Status> findByTeam(Team team);
     Boolean existsStatusByCypherAndTeam(Cypher cypher, Team team);
     void deleteAllByCypherCypherId(Long cypherId);
+    List<Status> findByTeamAndCypherStatus(Team team, CypherStatus cypherStatus);
 }

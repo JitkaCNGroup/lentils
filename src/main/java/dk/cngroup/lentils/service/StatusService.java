@@ -95,6 +95,10 @@ public class StatusService {
         statusRepository.save(status);
     }
 
+    public List<Status> getPendingCyphers(final Team team) {
+        return statusRepository.findByTeamAndCypherStatus(team, CypherStatus.PENDING);
+    }
+
     public void deleteAllByCypherId(final Long cypherId) {
         statusRepository.deleteAllByCypherCypherId(cypherId);
     }
