@@ -99,6 +99,14 @@ public class TeamRepositoryTest {
         teamRepository.saveAndFlush(team);
     }
 
+    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
+    public void teamWithNotUniqueName() {
+        Team team1 = generator.generateTeamWithNameAndPin("rangers", TEST_PIN);
+        Team team2 = generator.generateTeamWithNameAndPin("rangers", TEST_PIN);
+        teamRepository.saveAndFlush(team1);
+        teamRepository.saveAndFlush(team2);
+    }
+
     private Team getAnySaved() {
         String teamName = generator.TEAM_NAME + TESTED_TEAM;
         return teamRepository.findByName(teamName);

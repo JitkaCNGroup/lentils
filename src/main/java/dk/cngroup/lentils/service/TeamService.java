@@ -8,6 +8,8 @@ import dk.cngroup.lentils.util.UsernameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,9 @@ public class TeamService {
 
     private static final int PIN_LENGTH = 4;
     private static final String PIN_CHARACTERS = "0123456789";
+    private static final String UNIQUE_TEAM_NAME_ERROR = "Zadané jméno už existuje.";
+    private static final String TEAM_ENTITY = "team";
+    private static final String NAME_PROPERTY = "name";
 
     private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
@@ -101,5 +106,26 @@ public class TeamService {
             pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
         }
         return String.copyValueOf(pin);
+    }
+
+    public boolean isTeamNameUnique(final String teamName) {
+        if (teamRepository.findByName(teamName) == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public void checkNameIsUnique(final String teamName, final BindingResult bindingResult) {
+        if (!isTeamNameUnique(teamName)) {
+            FieldError error = new FieldError(
+                    TEAM_ENTITY,
+                    NAME_PROPERTY,
+                    teamName,
+                    true,
+                    null,
+                    null,
+                    UNIQUE_TEAM_NAME_ERROR);
+            bindingResult.addError(error);
+        }
     }
 }
