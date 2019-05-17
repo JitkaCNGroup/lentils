@@ -96,7 +96,7 @@ public class StatusService {
     }
 
     public List<Status> getPendingCyphers(final Team team) {
-        return statusRepository.findStatusPendingByTeam(team.getTeamId());
+        return statusRepository.findByTeamAndCypherStatus(team, CypherStatus.PENDING);
     }
 
     public void deleteAllByCypherId(final Long cypherId) {
