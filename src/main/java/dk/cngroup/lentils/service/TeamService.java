@@ -50,7 +50,7 @@ public class TeamService {
     }
 
     public List<Team> searchTeams(final String searchString) {
-        return teamRepository.findByNameContaining(searchString);
+        return teamRepository.findByNameIgnoreCaseContaining(searchString);
     }
 
     public Team getTeam(final Long id) {
