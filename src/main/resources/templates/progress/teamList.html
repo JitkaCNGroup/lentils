@@ -13,31 +13,37 @@
                 </a>
             </div>
             <div class="col-sm-12" th:if="${allTeamsStarted}">
-                <p class="big-centered-text"> Všechny týmy již zahájily hru!</p>
+                <h2> Všechny týmy již zahájily hru!</h2>
             </div>
         </div>
+        <h2>Stav hry</h2>
         <div class="row">
-            <p th:text="'Týmy se nacházejí na stanovištích ' + ${minMaxStages.getMin()} + '-' + ${minMaxStages.getMax()}">
-            </p>
+            <div class="col-sm-12">
+                <p th:text="'Týmy se nacházejí na stanovištích: ' + ${minMaxStages.getMin()} + '-' + ${minMaxStages.getMax()}"></p>
+            </div>
         </div>
-        <div class="row">
-            <p th:text="'Počet týmů, které mají doluštěno je ' + ${teamsFinished}"></p>
+        <div class="row" th:if="${teamsFinished gt 0}">
+            <div class="col-sm-12">
+                <p th:text="'Počet týmů, které mají doluštěno: ' + ${teamsFinished}"></p>
+            </div>
         </div>
     </th:block>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 col-md-6">
 
-            <form class="col-sm-6" action="#" th:action="@{/game/progress/teamsList}" method="get">
+            <form action="#" th:action="@{/game/progress/teamsList}" method="get">
                 <div class="form-group">
                     <label for="search">Hledat tým:</label>
                     <input type="text" id="search" name="search" class="form-control" required/>
                 </div>
                 <button type="submit" class="btn btn-primary">Hledat</button>
             </form>
-            <div class="col-sm-6" th:if="${search} != null">
+            <div th:if="${search} != null">
                 <a href="#" th:href="@{/game/progress/teamsList}" class="btn btn-secondary">Zobrazit všechny týmy</a>
             </div>
+        </div>
 
+        <div class="col-sm-12">
             <h1>Týmy</h1>
             <div th:if="${teamsProgress.empty and search == null}">
                 <p>V systému nejsou týmy<p/>
