@@ -109,10 +109,7 @@ public class TeamService {
     }
 
     public boolean isTeamNameUnique(final String teamName) {
-        if (teamRepository.findByName(teamName) == null) {
-            return true;
-        }
-        return false;
+        return teamRepository.findByName(teamName) == null;
     }
 
     public void checkNameIsUnique(final String teamName, final BindingResult bindingResult) {
