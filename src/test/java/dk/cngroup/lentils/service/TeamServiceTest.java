@@ -53,16 +53,4 @@ public class TeamServiceTest {
 
         assertNotNull(team.getPin());
     }
-
-    @Test
-    public void deleteAllTest() {
-        List<Team> teams = generator.generateTeamList();
-        when(repository.saveAll(teams)).thenReturn(teams);
-
-        service.deleteAll();
-
-        when(repository.count()).thenReturn(new Long(0));
-        assertEquals(0, repository.count());
-    }
-
 }

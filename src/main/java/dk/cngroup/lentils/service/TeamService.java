@@ -81,10 +81,6 @@ public class TeamService {
         teamRepository.deleteById(id);
     }
 
-    public void deleteAll() {
-        teamRepository.deleteAll();
-    }
-
     public List<Team> getAll() {
         return teamRepository.findAll();
     }
