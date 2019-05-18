@@ -20,4 +20,6 @@ public interface HintTakenRepository extends JpaRepository<HintTaken, HintTakenK
             "WHERE ht.team_team_id = ?1 AND h.cypher_id = ?2",
             nativeQuery = true)
     List<HintTaken> findAllByTeamAndCypher(Long teamId, Long cypherId);
+
+    void deleteAllByTeamTeamId(Long teamId);
 }

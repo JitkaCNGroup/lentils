@@ -2,8 +2,17 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
+import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.HintTaken;
+import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.User;
+import dk.cngroup.lentils.repository.CypherRepository;
+import dk.cngroup.lentils.repository.HintRepository;
+import dk.cngroup.lentils.repository.HintTakenRepository;
+import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
 import dk.cngroup.lentils.repository.UserRepository;
 import dk.cngroup.lentils.util.UsernameUtils;
@@ -16,7 +25,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,6 +38,14 @@ public class TeamServiceIntegrationTest {
     private TeamRepository teamRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CypherRepository cypherRepository;
+    @Autowired
+    private StatusRepository statusRepository;
+    @Autowired
+    private HintRepository hintRepository;
+    @Autowired
+    private HintTakenRepository hintTakenRepository;
     @Autowired
     private ObjectGenerator generator;
 
@@ -67,22 +83,6 @@ public class TeamServiceIntegrationTest {
         assertThatTeamHasAssociatedCorrectUser("d");
     }
 
-    private void createAndSaveTeam(String name, String pin) {
-        Team team = generator.generateTeamWithNameAndPin(name, pin);
-        teamService.save(team);
-    }
-
-    private void assertThatTeamHasAssociatedCorrectUser(final String teamName) {
-        final Team team = teamRepository.findByName(teamName);
-        final User user = userRepository
-                .findByUsername(UsernameUtils.generateUsername(teamName))
-                .orElseThrow(() -> new RuntimeException("Cannot find user"));
-
-        Assert.assertNotNull(team);
-        Assert.assertEquals(team.getUser().getUserId(), user.getUserId());
-        Assert.assertEquals(user.getTeam().getTeamId(), team.getTeamId());
-    }
-
     @Test
     public void searchTeamOneResultTest(){
         List<Team> teams = teamService.searchTeams("Sparta");
@@ -114,10 +114,54 @@ public class TeamServiceIntegrationTest {
         Assert.assertTrue(teamService.isTeamNameUnique("Dragons"));
     }
 
+    @Test
+    public void testDeleteTeam() {
+        final Cypher cypher = generator.generateValidCypher();
+        cypherRepository.save(cypher);
+        final Team team = createAndSaveTeam("alpha", "1111");
+        final List<Hint> hints = generator.generateHintsForCypher(cypher);
+        hintRepository.saveAll(hints);
+
+        // Create status for team
+        final Status status = new Status();
+        status.setTeam(team);
+        status.setCypher(cypher);
+        status.setCypherStatus(CypherStatus.PENDING);
+        statusRepository.saveAndFlush(status);
+
+        // Create one taken hint
+        final HintTaken hintTaken = new HintTaken();
+        hintTaken.setTeam(team);
+        hintTaken.setHint(hints.get(0));
+        hintTakenRepository.saveAndFlush(hintTaken);
+
+        final long countBefore = teamRepository.count();
+
+        teamService.delete(team.getTeamId());
+
+        Assert.assertEquals(countBefore - 1, teamRepository.count());
+    }
+
     private void createVariousTeams() {
         createAndSaveTeam("Sparta","0123");
         createAndSaveTeam("Banik","4567");
         createAndSaveTeam("SevciA","8901");
         createAndSaveTeam("SevciB","2345");
+    }
+
+    private Team createAndSaveTeam(String name, String pin) {
+        Team team = generator.generateTeamWithNameAndPin(name, pin);
+        return teamService.save(team);
+    }
+
+    private void assertThatTeamHasAssociatedCorrectUser(final String teamName) {
+        final Team team = teamRepository.findByName(teamName);
+        final User user = userRepository
+                .findByUsername(UsernameUtils.generateUsername(teamName))
+                .orElseThrow(() -> new RuntimeException("Cannot find user"));
+
+        Assert.assertNotNull(team);
+        Assert.assertEquals(team.getUser().getUserId(), user.getUserId());
+        Assert.assertEquals(user.getTeam().getTeamId(), team.getTeamId());
     }
 }
