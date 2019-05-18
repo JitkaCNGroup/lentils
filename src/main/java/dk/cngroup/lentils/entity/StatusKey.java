@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class StatusKey implements Serializable {
     private Long cypher;
@@ -20,5 +21,25 @@ public class StatusKey implements Serializable {
 
     public Long getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        StatusKey statusKey = (StatusKey) o;
+
+        return cypher.equals(statusKey.cypher) &&
+                team.equals(statusKey.team);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cypher, team);
     }
 }
