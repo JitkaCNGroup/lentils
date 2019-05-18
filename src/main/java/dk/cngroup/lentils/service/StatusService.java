@@ -102,4 +102,8 @@ public class StatusService {
     public void deleteAllByCypherId(final Long cypherId) {
         statusRepository.deleteAllByCypherCypherId(cypherId);
     }
+
+    public void deleteAllByTeamId(final Long teamId) {
+        statusRepository.deleteAllByTeamTeamId(teamId);
+    }
 }

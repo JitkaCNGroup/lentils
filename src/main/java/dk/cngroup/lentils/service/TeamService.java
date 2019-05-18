@@ -3,11 +3,13 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
+import dk.cngroup.lentils.repository.HintTakenRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
 import dk.cngroup.lentils.util.UsernameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -25,14 +27,20 @@ public class TeamService {
     private static final String NAME_PROPERTY = "name";
 
     private final TeamRepository teamRepository;
+    private final HintTakenRepository hintTakenRepository;
+    private final StatusService statusService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
 
     @Autowired
     public TeamService(final TeamRepository teamRepository,
+                       final HintTakenRepository hintTakenRepository,
+                       final StatusService statusService,
                        final PasswordEncoder passwordEncoder,
                        final RoleService roleService) {
         this.teamRepository = teamRepository;
+        this.hintTakenRepository = hintTakenRepository;
+        this.statusService = statusService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
     }
@@ -66,7 +74,10 @@ public class TeamService {
         throw new ResourceNotFoundException(Team.class.getSimpleName(), id);
     }
 
+    @Transactional
     public void delete(final Long id) {
+        statusService.deleteAllByTeamId(id);
+        hintTakenRepository.deleteAllByTeamTeamId(id);
         teamRepository.deleteById(id);
     }
 
