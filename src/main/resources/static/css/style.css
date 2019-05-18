@@ -17,7 +17,7 @@ h2{
     margin-top: 1.25rem;
 }
 
-p{
+p, ul.contact li{
     text-align: justify;
     color: #555;
     font-size: 0.9rem;
@@ -363,7 +363,7 @@ a:hover{
     background-color: green;
 }
 
-.container .row .flat.btn-skip {
+.container .row .btn-flat.btn-skip {
     background-color: red;
 }
 
@@ -378,13 +378,13 @@ a:hover{
 }
 
 
-.container .row .btn.flat.btn-hints {
+.container .row .btn.btn-flat.btn-hints {
     background-color: white;
     color: black;
     border: 1px solid black;
 }
 
-.container .row .btn.flat {
+.container .row .btn.btn-flat {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     border-radius: 0px;
@@ -395,6 +395,11 @@ a:hover{
     color: #FFF;
     width: auto;
     padding: .35rem .65rem;
+}
+
+.btn-cn {
+    background-color: rgb(237, 24, 72);
+    margin: 0px;
 }
 
 .big-centered-text {
@@ -563,3 +568,17 @@ td .btn-default {
     text-align: center;
     z-index: -1;
 }
+
+ul.contact {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul.contact i {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
+    color: rgb(237, 24, 72);
+}
+

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
@@ -27,23 +28,29 @@ public class Contact {
     private String phoneNumber;
 
     @Column(name = "web_pages")
-    private String webPages;
+    private String webAddress;
 
     @URL
     @Column(name = "fcb_event")
-    private String fcbEvent;
+    private String facebookEvent;
+
+    @Email
+    @Column(name = "email")
+    private String email;
 
     public Contact() {
     }
 
     public Contact(final String name,
                    final String phoneNumber,
-                   final String webPages,
-                   final String fcbEvent) {
+                   final String webAddress,
+                   final String facebookEvent,
+                   final String email) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.webPages = webPages;
-        this.fcbEvent = fcbEvent;
+        this.webAddress = webAddress;
+        this.facebookEvent = facebookEvent;
+        this.email = email;
     }
 
     public Long getContactId() {
@@ -70,20 +77,28 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWebPages() {
-        return webPages;
+    public String getWebAddress() {
+        return webAddress;
     }
 
-    public void setWebPages(final String webPages) {
-        this.webPages = webPages;
+    public void setWebAddress(final String webAddress) {
+        this.webAddress = webAddress;
     }
 
-    public String getFcbEvent() {
-        return fcbEvent;
+    public String getFacebookEvent() {
+        return facebookEvent;
     }
 
-    public void setFcbEvent(final String fcbEvent) {
-        this.fcbEvent = fcbEvent;
+    public void setFacebookEvent(final String facebookEvent) {
+        this.facebookEvent = facebookEvent;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -92,29 +107,27 @@ public class Contact {
                 "contactId=" + contactId +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", webPages='" + webPages + '\'' +
-                ", fcbEvent='" + fcbEvent + '\'' +
+                ", webAddress='" + webAddress + '\'' +
+                ", facebookEvent='" + facebookEvent + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(getContactId(), contact.getContactId()) &&
-                Objects.equals(getName(), contact.getName()) &&
-                Objects.equals(getPhoneNumber(), contact.getPhoneNumber()) &&
-                Objects.equals(getWebPages(), contact.getWebPages()) &&
-                Objects.equals(getFcbEvent(), contact.getFcbEvent());
+        return Objects.equals(contactId, contact.contactId) &&
+                Objects.equals(name, contact.name) &&
+                Objects.equals(phoneNumber, contact.phoneNumber) &&
+                Objects.equals(webAddress, contact.webAddress) &&
+                Objects.equals(facebookEvent, contact.facebookEvent) &&
+                Objects.equals(email, contact.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getContactId(), getName(), getPhoneNumber(), getWebPages(), getFcbEvent());
+        return Objects.hash(contactId, name, phoneNumber, webAddress, facebookEvent, email);
     }
 }

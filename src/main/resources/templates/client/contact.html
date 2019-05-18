@@ -9,13 +9,20 @@
     <div class="row">
         <div class="col-sm-12">
             <h1>Kontakt</h1>
-            <h2>Kontaktní osoba</h2>
-            <p th:text="${contact.name}">Jmeno</p>
-            <h2>Telefon</h2>
-            <p th:text="${contact.phoneNumber}" align="center">Telefon</p>
+            <h2 th:text="${contact.name}">Jmeno</h2>
+            <ul class="contact">
+                <li>
+                    <i class="fas fa-phone"></i>
+                    <span th:text="${contact.phoneNumber}">email@email.com</span>
+                </li>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <span th:text="${contact.email}">email@email.com</span>
+                </li>
+            </ul>
             <h2>Odkazy</h2>
-            <a th:href="${contact.webPages}">CN Group</a><br>
-            <a th:href="${contact.fcbEvent}">Facebook</a>
+            <a th:href="${contact.webAddress}" role="button" class="btn btn-flat btn-cn" >CN Group</a>
+            <a th:href="${contact.facebookEvent}" role="button" class="btn btn-flat btn-cn">Facebook</a>
         </div>
     </div>
 </div>
