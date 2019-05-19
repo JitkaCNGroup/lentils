@@ -23,6 +23,9 @@ public class Hint implements Serializable {
     @NotEmpty(message = "Text nesmí být prázdný.")
     private String text;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "value")
     @Min(value = 1, message = "Hodnota musí být vetší než 0.")
     private int value;
@@ -62,6 +65,14 @@ public class Hint implements Serializable {
 
     public void setText(final String text) {
         this.text = text;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getValue() {
