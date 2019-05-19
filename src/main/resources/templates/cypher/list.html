@@ -19,7 +19,6 @@
                 <th scope="col">Odpověď</th>
                 <th scope="col">Falešná odpověď</th>
                 <th scope="col">Bonus</th>
-                <th scope="col">Mapa</th>
                 <th scope="col">Akce</th>
             </tr>
             <tr th:if="${cyphers.empty}">
@@ -37,15 +36,16 @@
                 <td th:text="${cypher.trapCodeword}">Past</td>
                 <td th:text="${cypher.bonusContent}">Bonus</td>
                 <td>
-                    <a href="#" th:href="@{${cypher.mapAddress}}" target="_blank" class="btn btn-secondary">Mapa</a>
-                </td>
-                <td>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="#" th:href="@{/admin/hint(cypherId=${cypher.cypherId})}" class="btn">Detail</a></li>
                         <li><a href="#" th:href="@{/admin/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}" class="btn">Upravit</a></li>
+                        <li>
+                            <a th:if="${cypher.mapAddress != '' && cypher.mapAddress != null}" href="#" th:href="@{${cypher.mapAddress}}" target="_blank" class="btn">Mapa</a>
+                            <span th:if="${cypher.mapAddress == '' || cypher.mapAddress == null}" class="btn text-muted">Mapa</span>
+                        </li>
                         <li><a href="#" th:href="@{/admin/cypher/delete/{cypherId}(cypherId=${cypher.cypherId})}" class="btn">Smazat</a></li>
                     </ul>
                 </td>
