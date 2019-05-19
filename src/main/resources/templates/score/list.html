@@ -5,37 +5,42 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(score)"></div>
 <div class="container">
-    <p class="big-centered-text">Pořadí týmů podle skóre</p>
-    <div class="row score-header">
-        <div class="col">
-            <p>Id týmu</p>
-        </div>
-        <div class="col">
-            <p>Jméno týmu</p>
-        </div>
-        <div class="col">
-            <p>Skóre</p>
-        </div>
-    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Pořadí týmů podle skóre</h1>
 
-    <div th:if="${teamsWithScores.empty}">
-        <p>V systému nejsou týmy</p>
-    </div>
-    <div th:each="teamWithScore : ${teamsWithScores}" class="score">
-        <a th:href="@{/game/score/team(teamId=${teamWithScore.team.teamId})}">
-            <div class="row align-items-center">
-                <div class="col" th:text="${teamWithScore.team.teamId}">
+            <div class="row score-header">
+                <div class="col identifier">
+                    <p>ID</p>
                 </div>
-
-                <div class="col" th:text="${teamWithScore.team.name}">
+                <div class="col">
+                    <p>Název</p>
                 </div>
-
-                <th:block th:if="${teamWithScore.team.teamId != null}">
-                    <div class="col" th:text="${teamWithScore.score}">
-                    </div>
-                </th:block>
+                <div class="col points">
+                    <p>Body</p>
+                </div>
             </div>
-        </a>
+
+            <div th:if="${teamsWithScores.empty}">
+                <p>V systému nejsou týmy</p>
+            </div>
+            <div th:each="teamWithScore : ${teamsWithScores}" class="score">
+                <a th:href="@{/game/score/team(teamId=${teamWithScore.team.teamId})}">
+                    <div class="row align-items-center">
+                        <div class="col identifier" th:text="${teamWithScore.team.teamId}">
+                        </div>
+
+                        <div class="col" th:text="${teamWithScore.team.name}">
+                        </div>
+
+                        <th:block th:if="${teamWithScore.team.teamId != null}">
+                            <div class="col points" th:text="${teamWithScore.score}">
+                            </div>
+                        </th:block>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
