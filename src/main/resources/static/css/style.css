@@ -129,7 +129,7 @@ nav .back {
     font-size: 1rem;
 }
 
-.row .identifier, .row .points {
+.row .points, .row .order{
     -ms-flex: 0 0 5rem;
     flex: 0 0 5rem;
 }
