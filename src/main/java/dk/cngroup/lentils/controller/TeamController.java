@@ -39,7 +39,7 @@ public class TeamController {
     public String addTeam(@ModelAttribute @Valid final Team team,
             final BindingResult bindingResult,
             final Model model) {
-        teamService.checkNameIsUnique(team.getName(), bindingResult);
+        teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH;
@@ -59,7 +59,7 @@ public class TeamController {
             @Valid final Team team,
             final BindingResult bindingResult,
             final Model model) {
-        teamService.checkNameIsUnique(team.getName(), bindingResult);
+        teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH;

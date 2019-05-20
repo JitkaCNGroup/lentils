@@ -106,12 +106,14 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void teamNameIsNotUniqueTest() {
-        Assert.assertFalse(teamService.isTeamNameUnique("Sparta"));
+        Team team = generator.generateTeamWithNameAndPin("Sparta", "1111");
+        Assert.assertFalse(teamService.isUsernameUnique(team));
     }
 
     @Test
     public void teamNameIsUniqueTest() {
-        Assert.assertTrue(teamService.isTeamNameUnique("Dragons"));
+        Team team = generator.generateTeamWithNameAndPin("Dragons", "2222");
+        Assert.assertTrue(teamService.isUsernameUnique(team));
     }
 
     @Test
