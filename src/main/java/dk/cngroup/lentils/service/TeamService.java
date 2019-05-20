@@ -5,6 +5,7 @@ import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.HintTakenRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
+import dk.cngroup.lentils.repository.UserRepository;
 import dk.cngroup.lentils.util.UsernameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,18 +32,21 @@ public class TeamService {
     private final StatusService statusService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final UserRepository userRepository;
 
     @Autowired
     public TeamService(final TeamRepository teamRepository,
                        final HintTakenRepository hintTakenRepository,
                        final StatusService statusService,
                        final PasswordEncoder passwordEncoder,
-                       final RoleService roleService) {
+                       final RoleService roleService,
+                       final UserRepository userRepository) {
         this.teamRepository = teamRepository;
         this.hintTakenRepository = hintTakenRepository;
         this.statusService = statusService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.userRepository = userRepository;
     }
 
     public Team update(final Team team) {
@@ -115,16 +119,22 @@ public class TeamService {
         return String.copyValueOf(pin);
     }
 
-    public boolean isTeamNameUnique(final String teamName) {
-        return teamRepository.findByName(teamName) == null;
+    public boolean isUsernameUnique(final Team team) {
+        String checkedUsername = UsernameUtils.generateUsername(team.getName());
+        Optional<User> userInDb = userRepository.findByUsername(checkedUsername);
+        if (team.getTeamId() == null) {
+            return !userInDb.isPresent();
+        } else {
+            return !userInDb.isPresent() || userInDb.get().getTeam().getTeamId().equals(team.getTeamId());
+        }
     }
 
-    public void checkNameIsUnique(final String teamName, final BindingResult bindingResult) {
-        if (!isTeamNameUnique(teamName)) {
+    public void checkUsernameIsUnique(final Team team, final BindingResult bindingResult) {
+        if (!isUsernameUnique(team)) {
             FieldError error = new FieldError(
                     TEAM_ENTITY,
                     NAME_PROPERTY,
-                    teamName,
+                    team.getName(),
                     true,
                     null,
                     null,
