@@ -27,12 +27,20 @@
                     <p class="error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error.</p>
                 </div>
                 <div class="form-group">
+                    <label for="imageUrl">URL obrázku</label>
+                    <input id="imageUrl" class="form-control" th:field="*{imageUrl}"/>
+                    <p class="error" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Image URL error.</p>
+                </div>
+                <div class="form-group">
                     <label for="value">Hodnota</label>
                     <input id="value" class="form-control" type="number" th:field="*{value}"/>
                     <p class="error" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Value error.</p>
                 </div>
                 <button type="submit" class="btn btn-primary">Uložit</button>
             </form>
+        </div>
+        <div class="col-sm-6">
+            <img th:if="${hint.imageUrl}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.imageUrl}}" />
         </div>
     </div>
 </div>

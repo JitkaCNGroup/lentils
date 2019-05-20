@@ -89,6 +89,8 @@
                             <p>
                                 <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
                                 <span th:text="${hintTaken.hint.text}"></span>
+                                <br />
+                                <img th:if="${hintTaken.hint.imageUrl}" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.hint.imageUrl}}" />
                             </p>
                         </div>
                     </th:block>
