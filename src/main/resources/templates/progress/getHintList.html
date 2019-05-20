@@ -79,7 +79,7 @@
     </div>
 </div>
 
-<div th:insert="fragments/externalScripts :: externalScripts"></div>
+<th:block th:include="fragments/externalScripts :: externalScripts" />
 <script th:inline="javascript">
     /*<![CDATA[*/
     var teamId = /*[[${team.teamId}]]*/ "teamId",
