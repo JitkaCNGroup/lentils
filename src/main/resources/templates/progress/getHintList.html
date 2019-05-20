@@ -19,7 +19,7 @@
                         <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
                         <span th:text="${hintTaken.hint.text}"></span>
                     </p>
-                    <a href="#" class="btn btn-sm flat btn-remove"
+                    <a href="#" class="btn btn-sm btn-flat btn-remove"
                        th:onclick="return confirm('Opravdu odebrat nápovědu?')"
                        th:href="@{/game/progress/revertHint(teamId=${team.teamId}, hintId=${hintTaken.hint.hintId}, cypherId=${cypher.cypherId})}">
                         Odebrat nápovědu
@@ -40,7 +40,7 @@
             </th:block>
 
             <div th:each="hint : ${hintsNotTaken}">
-                <button class="btn btn-default flat btn-take"
+                <button class="btn btn-default btn-flat btn-take"
                         th:onclick="'javascript:takeHintDialog(' + ${hint.hintId} + ')'">
                     <span class="hint-label" th:text="|Vzít hint (-${hint.value}b.)|"></span>
                 </button>
