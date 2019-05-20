@@ -13,9 +13,9 @@
 
 |Test Step|Expected Result|
 |---------|---------------|
-|Login as teamA with correct PIN.|The Zahajit hru button is displayed.|
-|Verify that there is team name and team score displayed in the header.|The teamA name and score 0 is displayed in the header.|
+|Login as teamA with correct PIN.|The Zahajit hru button is displayed. Verify that there is team name displayed in the header|
 |Click on the Zahajit hru button.|The game is started.|
+|Verify that there is team name and team score displayed in the header.|The teamA name and score 0 is displayed in the header.|
 |Verify that there is cypher1 name displayed.|The cypher1 name is displayed.|
 |Verify that cypher1 is in status Pending.|There is blue circle displayed for the cypher1.|
 |Click on the cypher1.|The detail of the cypher1 is displayed.|
