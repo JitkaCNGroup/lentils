@@ -10,8 +10,8 @@
             <h1>Pořadí týmů podle skóre</h1>
 
             <div class="row score-header">
-                <div class="col identifier">
-                    <p>ID</p>
+                <div class="col order">
+                    <p>Pořadí</p>
                 </div>
                 <div class="col">
                     <p>Název</p>
@@ -27,12 +27,8 @@
             <div th:each="teamWithScore : ${teamsWithScores}" class="score">
                 <a th:href="@{/game/score/team(teamId=${teamWithScore.team.teamId})}">
                     <div class="row align-items-center">
-                        <div class="col identifier" th:text="${teamWithScore.team.teamId}">
-                        </div>
-
-                        <div class="col" th:text="${teamWithScore.team.name}">
-                        </div>
-
+                        <div class="col order" th:text="${teamWithScore.rank}"></div>
+                        <div class="col" th:text="${teamWithScore.team.name}"></div>
                         <th:block th:if="${teamWithScore.team.teamId != null}">
                             <div class="col points" th:text="${teamWithScore.score}">
                             </div>

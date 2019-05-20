@@ -19,16 +19,19 @@ public class ScoreService {
     private final HintTakenService hintTakenService;
     private final CypherService cypherService;
     private final TeamService teamService;
+    private final RankService rankService;
 
     @Autowired
     public ScoreService(final StatusService statusService,
                         final HintTakenService hintTakenService,
                         final CypherService cypherService,
-                        final TeamService teamService) {
+                        final TeamService teamService,
+                        final RankService rankService) {
         this.statusService = statusService;
         this.hintTakenService = hintTakenService;
         this.cypherService = cypherService;
         this.teamService = teamService;
+        this.rankService = rankService;
     }
 
     public int getScoreByTeamAndCypher(final Team team, final Cypher cypher) {
@@ -52,6 +55,7 @@ public class ScoreService {
                 .map(team -> new TeamScore(team, this.getScoreByTeam(team)))
                 .sorted()
                 .collect(Collectors.toList());
+        rankService.computeRank(teamScores);
         return teamScores;
     }
 
