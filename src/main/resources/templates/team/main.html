@@ -24,7 +24,7 @@
                     <p class="error" th:if="${#fields.hasErrors('numOfMembers')}" th:errors="*{numOfMembers}">Chyba - Počet členů
                     </p>
                 </div>
-                <input type="submit" class="btn btn-primary" th:value="${action == 'admin//team/add' ? 'Nový' : 'Uložit'}"/>
+                <input type="submit" class="btn btn-primary" th:value="${action == 'admin/team/add' ? 'Nový' : 'Uložit'}"/>
             </form>
         </div>
     </div>

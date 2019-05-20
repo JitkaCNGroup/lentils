@@ -61,7 +61,7 @@ public class TeamController {
             final Model model) {
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
+            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_UPDATE + id);
             return VIEW_PATH;
         }
         teamService.update(team);
