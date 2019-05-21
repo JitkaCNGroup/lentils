@@ -6,13 +6,18 @@
 *Preconditions*
 * Admin user is logged in
 * Team list is opened
+* teamA is already created
 
 |Test Step|Expected Result|
 |---------|---------------|
 |Leave all fields empty.|All fields are empty.|
-|Save the team.|Team is not saved.<br>There are errors under the both fields displayed.|
+|Save the team.|Team is not saved.<br>There is a FE empty field validation displayed.|
 |||
 |Enter the text with > 50 characters to the Jmeno field.|Jmeno field contains more than 50 characters.|
+|Enter valid number to the Pocet clenu field.|Pocet clenu contains valid number.|
+|Save the team.|Team is not saved.<br>Error under the Jmeno field is displayed.|
+|||
+|Enter the text teamA to the Jmeno field.|Jmeno field contains team1.|
 |Enter valid number to the Pocet clenu field.|Pocet clenu contains valid number.|
 |Save the team.|Team is not saved.<br>Error under the Jmeno field is displayed.|
 |||
