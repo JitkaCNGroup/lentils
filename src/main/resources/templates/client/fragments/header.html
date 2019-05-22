@@ -5,7 +5,7 @@
 <body>
 <div th:fragment="header(activeTab, parentScreen)">
     <nav class="navbar navbar-default navbar-red">
-        <a th:unless="${parentScreen} == ''"  th:href="${parentScreen}" class="btn back" type="button">
+        <a th:unless="${parentScreen} == ''"  th:href="${parentScreen}" class="btn back" role="button">
             <i class="fas fa-chevron-left text-white"></i>
         </a>
 
