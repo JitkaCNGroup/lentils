@@ -40,7 +40,7 @@
             </form>
         </div>
         <div class="col-sm-6">
-            <img th:if="${hint.imageUrl}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.imageUrl}}" />
+            <img th:if="${!#strings.isEmpty(hint.imageUrl)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.imageUrl}}" />
         </div>
     </div>
 </div>

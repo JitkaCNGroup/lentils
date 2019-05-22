@@ -19,7 +19,7 @@
                         <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
                         <span th:text="${hintTaken.hint.text}"></span>
                         <br />
-                        <img th:if="${hintTaken.hint.imageUrl}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.hint.imageUrl}}" />
+                        <img th:if="${!#strings.isEmpty(hintTaken.hint.imageUrl)}" class="img-fluid hint-image" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.hint.imageUrl}}" />
                     </p>
                     <a href="#" class="btn btn-sm btn-flat btn-remove"
                        th:onclick="return confirm('Opravdu odebrat nápovědu?')"
