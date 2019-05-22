@@ -17,7 +17,8 @@ public interface HintTakenRepository extends JpaRepository<HintTaken, HintTakenK
 
     @Query(value = "SELECT ht.* FROM hint_taken ht " +
             "LEFT JOIN hint h ON ht.hint_hint_id = h.hint_id " +
-            "WHERE ht.team_team_id = ?1 AND h.cypher_id = ?2",
+            "WHERE ht.team_team_id = ?1 AND h.cypher_id = ?2 " +
+            "ORDER BY h.value ASC",
             nativeQuery = true)
     List<HintTaken> findAllByTeamAndCypher(Long teamId, Long cypherId);
 
