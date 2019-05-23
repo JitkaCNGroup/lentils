@@ -30,7 +30,7 @@
 |Verify that the hintA text is displayed under the map.|The hintA text is present.|
 |Click on the Vybrat napovedu button.|The hint page is displayed.|
 |Verify that there is unlocked hintA displayed.|There is hintA text displayed.|
-|Verify that there are 3 locked hints displayed.|There are 2 buttons displayed:<br>- Ziskat napovedu (-10 bodu)<br>- Ziskat napovedu (-20 bodu)|
+|Verify that there are 2 locked hints displayed.|There are 2 buttons displayed:<br>- Ziskat napovedu (-10 bodu)<br>- Ziskat napovedu (-20 bodu)|
 |Navigate to the list of cyphers via the menu.|The list of cyphers is displayed.|
 |Verify that there is 1 signalization for taken hints of the cypher1.|There is lamp icon displayed for the cypher1 with count 1.|
 |Verify that the score is -5 in the header.|The score is -5 for teamA.|
