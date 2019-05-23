@@ -5,13 +5,16 @@
 
 *Preconditions*
 * The organizer user is logged in
+* No team is created
+* No cypher is created
 
 *Test Steps*
 
 |Test Step|Expected Result|
 |---------|---------------|
-|Navigate to the Prehled sifer menu.|The empty cyphers table is displayed.|
-|Navigate to the Score menu.|The empty teams table is displayed.|
+|Navigate to the Prehled sifer menu.|The empty cyphers list is displayed.|
+|Navigate to the Prehled tymu menu.|The empty teams list is displayed.|
+|Navigate to the Score menu.|The empty score table is displayed.|
 
 *Postconditions*
 * Logout the organizer user
