@@ -34,6 +34,12 @@
 1. [Organizer007 - change cypher status](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer007%20-%20change%20cypher%20status.md)
 1. [Organizer008 - take and revert hint](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer008%20-%20take%20and%20revert%20hint.md)
 1. [Organizer009 - score calculation](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer009%20-%20score%20calculation.md)
+1. [Organizer010 - view team list - game not started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer010%20-%20view%20team%20list%20-%20game%20not%20started.md)
+1. [Organizer011 - view team list and detail - game started](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer011%20-%20view%20team%20list%20and%20detail%20-%20game%20started.md)
+1. [Organizer012 - search teams in team list](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer012%20-%20search%20teams%20in%20team%20list.md)
+1. [Organizer013 - search teams in cypher detail](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer013%20-%20search%20teams%20in%20cypher%20detail.md))
+1. [Organizer014 - teams progress](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer014%20-%20teams%20progress.md)
+1. [Organizer015 - start game for all teams](https://github.com/JitkaCNGroup/lentils/blob/master/testing/organizer/Organizer015%20-%20start%20game%20for%20all%20teams.md)
 
 # Game - test cases
 
