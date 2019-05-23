@@ -18,16 +18,14 @@
 |Verify that the footer with finalplace button and time is displayed.|The footer is displayed and contains finalplace button and time.|
 |Click on the footer.|The page with final place map with location and details is displayed.|
 |Go back.<br>Click on the cypher1.|The detail of the cypher1 is displayed.|
-|Verify that the footer with finalplace button and time is displayed.|The footer is displayed and contains finalplace button and time.|
-|Click on the footer.|The page with final place map with location and details is displayed.|
-|Go back.<br>Click on the Vzdat sifru button.|Confirmation dialog is opened.|
+|Click on the Vzdat sifru button.|Confirmation dialog is opened.|
 |Confirm the dialog.|There is an information that team skipped the cypher1.<br>There is a button Zobrazit dalsi sifru present.|
+|Go back to the cypher list.|There is blue circle displayed for the cypher2.|
 |Verify that the footer with finalplace button and time is displayed.|The footer is displayed and contains finalplace button and time.|
 |Click on the footer.|The page with final place map with location and details is displayed.|
 |Go back.<br>Click on the cypher2.|The detail of the cypher2 is displayed.|
-|Enter correct codeword to the Reseni field and click on the Overit button.|There is a message displayed that cypher2 is solved.<br>There is a button Zobrazit misto vyhlaseni present.|
-|Verify that the footer with finalplace button and time is displayed.|The footer is displayed and contains finalplace button and time.|
-|Click on the button Zobrazit misto vyhlaseni.|The page with final place map with location and details is displayed.|
+|Enter correct codeword to the Reseni field and click on the Overit button.|There is a message displayed that cypher2 is solved.<br>There is a button Vyhlaseni vysledku present.|
+|Click on the Vyhlaseni vysledku button.|The page with final place map with location and details is displayed.|
 
 *Postconditions*
 * Logout the teamA
