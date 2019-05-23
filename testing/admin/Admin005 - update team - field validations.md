@@ -6,15 +6,19 @@
 *Preconditions*
 * Admin user is logged in
 * Team list is opened
-* There is at least one team created
+* There are teamA and teamB already created
 
 |Test Step|Expected Result|
 |---------|---------------|
-|Open edit mode of the already created team:<br>Click on Akce at the team row in the list and select Upravit.|The team name and number of players are filled into the form.|
+|Open edit mode of the already created teamA:<br>Click on Akce at the team row in the list and select Upravit.|The team name and number of players are filled into the form.|
 |Leave all fields empty.|All fields are empty.|
-|Save the team.|Team is not saved.<br>There are errors under the both fields displayed.|
+|Save the team.|Team is not saved.<br>There is an error displayed.|
 |||
 |Enter the text with > 50 characters to the Jmeno field.|Jmeno field contains more than 50 characters.|
+|Enter valid number to the Pocet clenu field.|Pocet clenu contains valid number.|
+|Save the team.|Team is not saved.<br>Error under the Jmeno field is displayed.|
+|||
+|Enter the text teamB to the Jmeno field.|Jmeno field contains teamB.|
 |Enter valid number to the Pocet clenu field.|Pocet clenu contains valid number.|
 |Save the team.|Team is not saved.<br>Error under the Jmeno field is displayed.|
 |||
