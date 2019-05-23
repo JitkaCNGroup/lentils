@@ -12,9 +12,9 @@
 
 |Test Step|Expected Result|
 |---------|---------------|
-|Navigate to the Score menu.|The teams table is displayed.|
-|Verify that all three teams are displayed.|The teams are displayed with the columns:<br>- Id<br>- Jmeno<br>- Skore|
-|Verify that the skore is 0 for every team.|The skore is 0 for every team.|
+|Navigate to the Score menu.|The teams list is displayed.|
+|Verify that all three teams are displayed.|The teams are displayed with the columns:<br>- Poradi<br>- Nazev<br>- Body|
+|Verify that the body is 0 for every team.|The body is 0 for every team.|
 
 *Postconditions*
 * Logout the organizer user
