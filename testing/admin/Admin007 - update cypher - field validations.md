@@ -13,7 +13,7 @@
 |---------|---------------|
 |Open edit mode of the already created cypher:<br>Click on Akce at the cypher row in the list and select Upravit.|The cypher information are filled into the cypher form.|
 |Delete all fields.|All fields are empty.|
-|Save the cypher.|Cypher is not saved.<br>There is FE empty field validation displayed.|
+|Save the cypher.|Cypher is not saved.<br>There is an error displayed.|
 |||
 |Enter a negative number to the Poradi field.|The Poradi field is not empty.|
 |Click into the map to select the coordinates.|The Souradnice field is not empty.|
@@ -40,7 +40,7 @@
 |Enter a valid number to the Poradi field.|The Poradi field is not empty.|
 |Click into the map to select the coordinates.|The Souradnice field is not empty.|
 |Enter a invalid URL to the Adresa mapy field.|The Adresa mapy contains invalid URL.|
-|Save the cypher.|Cypher is not saved.<br>There is FE validation displayed at the Adresa mapy field.|
+|Save the cypher.|Cypher is not saved.<br>There is an error displayed.|
 
 *Postconditions*
 * Logout the admin user

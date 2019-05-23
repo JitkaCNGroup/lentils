@@ -11,7 +11,7 @@
 |Test Step|Expected Result|
 |---------|---------------|
 |Leave all fields empty.|All fields are empty.|
-|Save the contact.|The final place is not saved.<br>There is an error displayed under the Jmeno field.|
+|Save the contact.|The final place is not saved.<br>There is an error displayed.|
 
 *Postconditions*
 * Logout the admin user

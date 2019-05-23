@@ -11,7 +11,7 @@
 |Test Step|Expected Result|
 |---------|---------------|
 |Leave all fields empty.|All fields are empty.|
-|Save the final place.|The final place is not saved.<br>There are errors displayed under the Jmeno a popis and Souradnice fields.|
+|Save the final place.|The final place is not saved.<br>There is an error displayed.|
 |||
 |Enter a string with > 1000 characters to the Jmeno a popis field.|Jmeno a popis field is not empty.|
 |Click into the map to select the coordinates.|The Souradnice field is not empty.|
