@@ -18,7 +18,9 @@
 |Click on the cypher1.|The detail of the cypher1 is displayed.|
 |Enter correct codeword of cypher 1 to the Reseni field and click on the Overit button.|There is a message displayed that cypher1 is solved.<br>There is a button Zobrazit dalsi sifru present.|
 |Click on the Zobrazit dalsi sifru button.|The detail of the cypher2 is displayed.|
-|Enter correct codeword of cypher 2 to the Reseni field and click on the Overit button.|There is a message displayed that cypher2 is solved.<br>There is a button Zobrazit misto vyhlaseni present.|
+|Enter correct codeword of cypher 2 to the Reseni field and click on the Overit button.|There is a message displayed that cypher2 is solved.<br>There is a button Vyhlaseni vysledku present.|
+|Click on the Vyhlaseni vysledku button.|The page with final place map with location and details is displayed.|
+|Go back to the cypher list.|There are green circles displayed for all cyphers.|
 |Verify that the footer with finalplace button and time is displayed.|The footer is displayed and contains finalplace button and time.|
 |Click on the footer.|The page with final place map with location and details is displayed.|
 
