@@ -19,10 +19,11 @@
         <h2>Stav hry</h2>
         <div class="row">
             <div class="col-sm-12">
-                <p th:text="'Týmy se nacházejí na stanovištích: ' + ${minMaxStages.getMin()} + '-' + ${minMaxStages.getMax()}"></p>
+                <p th:if="${minMaxStages == null and allTeamsStarted}">Všechny týmy již mají dokončeno!</p>
+                <p th:unless="${minMaxStages == null}" th:text="'Týmy se nacházejí na stanovištích: ' + ${minMaxStages.getMin()} + '-' + ${minMaxStages.getMax()}"></p>
             </div>
         </div>
-        <div class="row" th:if="${teamsFinished gt 0}">
+        <div class="row" th:if="${teamsFinished gt 0 and minMaxStages != null}">
             <div class="col-sm-12">
                 <p th:text="'Počet týmů, které mají doluštěno: ' + ${teamsFinished}"></p>
             </div>
