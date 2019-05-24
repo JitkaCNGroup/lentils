@@ -15,7 +15,7 @@
 |Test Step|Expected Result|
 |---------|---------------|
 |Navigate to the Prehled tymu menu.|The teams list is displayed.|
-|Verify that all three teams are displayed.|The teams are displayed with the name and Jmeno sifry.|
+|Verify that all three teams are displayed.|The teams are displayed with the name and Status of the team.|
 |Open detail of the first teamA.|The detail of the first teamA is opened.<br>All three cyphers are displayed.|
 |Verify that the status of the cypher1 is Pending.|The cypher1 has status Pending.|
 |Verify that the status of the cypher2 is Locked.|The cypher2 has status Locked.|
