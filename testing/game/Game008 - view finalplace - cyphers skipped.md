@@ -20,7 +20,9 @@
 |Confirm the dialog.|There is an information that team skipped the cypher1.<br>There is a button Zobrazit dalsi sifru present.|
 |Click on the Zobrazit dalsi sifru button.|The detail of the cypher2 is displayed.|
 |Click on the Vzdat sifru button.|Confirmation dialog is opened.|
-|Confirm the dialog.|There is an information that team skipped the cypher2.<br>There is a button Zobrazit misto vyhlaseni present.|
+|Confirm the dialog.|There is an information that team skipped the cypher2.<br>There is a button Vyhlaseni vysledku present.|
+|Click on the Vyhlaseni vysledku button.|The page with final place map with location and details is displayed.|
+|Go back to the cypher list.|There are red circles with x inside displayed for all cyphers.|
 |Verify that the footer with finalplace button and time is displayed.|The footer is displayed and contains finalplace button and time.|
 |Click on the footer.|The page with final place map with location and details is displayed.|
 
