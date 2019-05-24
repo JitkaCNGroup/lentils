@@ -9,6 +9,11 @@ public class TeamProgressPlaying implements TeamProgress {
     }
 
     @Override
+    public String getIdentifier() {
+        return "in-progress";
+    }
+
+    @Override
     public String toString() {
         return "Aktuální stage: " + actualStage;
     }

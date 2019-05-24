@@ -271,6 +271,18 @@ span.status {
     border-radius: 2px;
 }
 
+.team-status-badge-in-progress {
+    background-color: #0095ff !important;
+}
+.team-status-badge-finished {
+    color: black !important;
+    background-color: lawngreen !important;
+}
+
+.team-status-badge-not-started {
+    background-color: #757575 !important;
+}
+
 .pending span.status {
     background-color: #0095ff;
 }
