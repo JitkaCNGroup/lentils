@@ -50,15 +50,15 @@
                 <th scope="col">Id</th>
                 <th scope="col">Text</th>
                 <th scope="col">Hodnota</th>
-                <th>Akce</th>
+                <th scope="col">Akce</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="hint : ${cypher.hints}">
-                <td th:text="${hint.hintId}" align="center">hintId</td>
+                <td th:text="${hint.hintId}">hintId</td>
                 <td th:text="${hint.text}">text</td>
                 <td th:text="${hint.value}">value</td>
-                <td align="center">
+                <td>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
                         <span class="caret"></span>
                     </button>
