@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
 @Transactional
 public class FinalPlaceServiceIntegrationTest {
+    private static final String TEST_DESCRIPTION = "final description";
 
     @Autowired
     private FinalPlaceService finalPlaceService;
@@ -47,11 +47,8 @@ public class FinalPlaceServiceIntegrationTest {
         finalPlaceRepository.save(originalPlace);
         assertEquals(1, finalPlaceRepository.findAll().size());
 
-        final String placeDescription = "ABCDE";
-        final FinalPlace newPlace = new FinalPlace(
-                placeDescription,
-                new Point(8.5, 5),
-                LocalDateTime.now());
+        final String placeDescription = TEST_DESCRIPTION;
+        final FinalPlace newPlace = objectGenerator.generateFinalPlaceWithDescription(placeDescription);
         finalPlaceService.save(newPlace);
 
         final List<FinalPlace> placesAfterSave = finalPlaceRepository.findAll();
@@ -62,7 +59,7 @@ public class FinalPlaceServiceIntegrationTest {
     @Test
     public void shouldBeWithinOneHourBeforeOpeningTime() {
         LocalDateTime openingTime = LocalDateTime.now().plusMinutes(20);
-        final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
+        final FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithOpeningTime(openingTime);
         finalPlaceService.save(finalPlace);
         assertTrue(gameLogicService.passedTimeToViewFinalPlace());
     }
@@ -70,7 +67,7 @@ public class FinalPlaceServiceIntegrationTest {
     @Test
     public void shouldNotBeWithinOneHourBeforeOpeningTime() {
         LocalDateTime openingTime = LocalDateTime.now().plusMinutes(61);
-        final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
+        final FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithOpeningTime(openingTime);
         finalPlaceService.save(finalPlace);
         assertFalse(gameLogicService.passedTimeToViewFinalPlace());
     }
