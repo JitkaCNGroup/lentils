@@ -26,6 +26,10 @@ public class ObjectGenerator {
     public static final Point CYPHER_DEFAULT_LOCATION = new Point(59.9090442, 10.7423389);
     public static final int CYPHER_DEFAULT_STAGE = 1;
 
+    public static final String FINALPLACE_DESCRIPTION = "konecna stanice - krematorium";
+    public static final LocalDateTime FINALPLACE_OPENING_TIME_FUTURE = LocalDateTime.now().plusMinutes(1);
+    public static final Point FINALPLACE_LOCATION = new Point(2.123, 3.456);
+
     public static final int NUMBER_OF_TEAMS = 10;
     public static final int NUMBER_OF_CYPHERS = 5;
     public static final int NUMBER_OF_HINTS_FOR_CYPHER = 3;
@@ -113,8 +117,19 @@ public class ObjectGenerator {
     }
 
     public FinalPlace generateFinalPlace() {
-        return new FinalPlace("konecna stanice - krematorium", new Point(2.123, 3.456),
-                LocalDateTime.now());
+        return new FinalPlace(FINALPLACE_DESCRIPTION, FINALPLACE_LOCATION, FINALPLACE_OPENING_TIME_FUTURE);
+    }
+
+    public FinalPlace generateFinalPlaceWithOpeningTime(final LocalDateTime openingTime) {
+        return new FinalPlace(FINALPLACE_DESCRIPTION, FINALPLACE_LOCATION, openingTime);
+    }
+
+    public FinalPlace generateFinalPlaceWithDescription(final String description) {
+        return new FinalPlace(description, FINALPLACE_LOCATION, FINALPLACE_OPENING_TIME_FUTURE);
+    }
+
+    public FinalPlace generateFinalPlaceWithLocation(final Point location) {
+        return new FinalPlace(FINALPLACE_DESCRIPTION, location, FINALPLACE_OPENING_TIME_FUTURE);
     }
 
     public User createUser(final String username) {
