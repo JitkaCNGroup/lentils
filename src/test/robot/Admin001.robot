@@ -2,11 +2,10 @@
 Documentation               This is test to TC Admin001
 Library                     Selenium2Library
 Resource                    admin_pass.robot
+Resource                    AdminKeywords.robot
 
 
 *** Variables ***
-${Browser}              chrome
-${URL}                  https://lusteniny.cngroup.dk/
 ${jmeno}                kne01
 ${pocet_clenu}          3
 ${nove_jmeno}           kne02
@@ -14,22 +13,7 @@ ${novy_pocet_clenu}     5
 
 
 *** Keywords ***
-Open Lusteniny page
-    [Arguments]         ${URL}  ${Browser} 
-    open Browser        ${URL}  ${Browser} 
-    Maximize Browser Window
-
-Login 
-    [Arguments]          ${username}     ${password}
-    Clear Element Text   //input[@id='username']
-    input text           //input[@id='username']    ${username}
-    input text           //input[@type='password']  ${password}
-    Click button         //button[@type='submit']
-
-Open Team list
-    Click link          //a[@href="/admin/team"]
-
-Add team
+Add Team
     [Arguments]         ${jmeno}    ${pocet_clenu}
     input text          //input[@id='name']                 ${jmeno}
     input text          //input[@id='numberOfMembers']      ${pocet_clenu}
@@ -47,9 +31,8 @@ Add team
     ${_Akce_}       Get text        //tr[contains(.,'${jmeno}')]//td[6]
     ${team_info}         Create list         ${_id_}    ${_nazev_}      ${_username_}      ${_pocet_}     ${_pass_}     ${_Akce_}                   
     log to console       ${team_info}
-    sleep   5
 
-Edit number of team members
+Edit Number Of Team Members
     [Arguments]         ${jmeno}        ${pocet_clenu}      ${novy_pocet_clenu}
     [Return]            ${team_id}      ${cur_jmeno}        ${cur_pocet}
     # Save team_id
@@ -78,8 +61,7 @@ Edit number of team members
     ${team_info}         Create list         ${_id_}    ${_nazev_}      ${_username_}      ${_pocet_}     ${_pass_}     ${_Akce_}                   
     log to console       ${team_info}
 
-
-Edit team name
+Edit Team Name
     [Arguments]         ${jmeno}    ${nove_jmeno}
     [Return]            ${team_id}      ${count}
     # Save team_id
@@ -98,7 +80,7 @@ Edit team name
     Run Keyword if      "${count}" == "1"       log to console      Nice, name ${jmeno} was changed to ${nove_jmeno}. 
                         ...     ELSE            log to console      Something is wrong. Name wasn't changed succesfully.
 
-Delete team
+Delete Team
     [Arguments]     ${nove_jmeno}
     [Return]        ${team_id}      ${count}
     # Save team_id
@@ -111,37 +93,30 @@ Delete team
     Run Keyword if      "${count}" == "0"       log to console      Nice, team was deleted. 
                         ...     ELSE            log to console      Something is wrong. Team wasn't deleted.
 
-Logout
-    Click Element    //a[@href="/logout"] 
-    Handle alert
-
-Browser Shutdown
-    Close Browser  
 
 
 *** Test Cases ***
-Open page
-    Open Lusteniny page         ${URL}  ${Browser} 
-    wait until page contains    Luštěniny
+Open Lusteniny Page
+    Open Lusteniny Page         ${URL}  ${Browser} 
 
 Login
     Login   ${username}     ${password}
 
-Open Team List
-    Open Team list  
+Open List Tymy
+    Open List Tymy 
 
 Add team
-    Add team    ${jmeno}    ${pocet_clenu}
+    Add Team    ${jmeno}    ${pocet_clenu}
     wait until page contains      ${jmeno}
 
-Edit number of team members
-    Edit number of team members  ${jmeno}       ${pocet_clenu}      ${novy_pocet_clenu}
+Edit Number Of Team Members
+    Edit Number Of Team Members  ${jmeno}       ${pocet_clenu}      ${novy_pocet_clenu}
 
-Edit team name
-    Edit team name  ${jmeno}  ${nove_jmeno}
+Edit Team Name
+    Edit Team Name  ${jmeno}  ${nove_jmeno}
 
-Delete team
-    Delete team  ${nove_jmeno}
+Delete Team
+    Delete Team  ${nove_jmeno}
 
 Logout
     Logout

@@ -3,23 +3,13 @@ Documentation               This is test to TC Admin002
 Library                     Selenium2Library
 Resource                    admin_pass.robot
 Resource                    Tomas_Bata.robot
-Resource                    Admin001.robot
+Resource                    AdminKeywords.robot
 
 
 *** Variables ***
-${Browser}              chrome
-${URL}                  https://lusteniny.cngroup.dk/
+
 
 *** Keywords ***
-Open Lusteniny page
-    [Arguments]         ${URL}  ${Browser} 
-    open Browser        ${URL}  ${Browser} 
-    Maximize Browser Window
-
-
-Open Cypher list
-    Click link          //a[@href="/admin/cypher"]
-    
 Add Cypher
     [Arguments]         ${Jmeno}    ${Poradi}   ${Odpoved}  ${Falesna_odpoved}  ${Bonus_info}   ${Popis_mista}  ${Adresa}
     [Return]            ${cypher_info}
@@ -49,7 +39,6 @@ Add Cypher
     ${cypher_info}      Create list     ${cypher_id}    ${Jmeno}    ${Poradi}   ${Popis_mista}   ${Odpoved}  ${Falesna_odpoved}  ${Bonus_info}
     ${_cypher_info_}    Create list     ${_Id_}    ${_Jmeno_}      ${_Poradi_}      ${_Popis_mista_}     ${_Odpoved_}     ${_Falesna_odpoved_}     ${_Bonus_info_}        
     Run Keyword if      "${_cypher_info_}"=="${cypher_info}"        log to console      Cypher row contains all correct information.
-    sleep       5
 
 Check Detail
     [Arguments]         ${Jmeno}    ${Poradi}   ${Odpoved}  ${Falesna_odpoved}  ${Bonus_info}   ${Popis_mista}  ${Adresa}
@@ -57,7 +46,6 @@ Check Detail
     # Click Detail
     Click button    //tr[contains(.,'${Jmeno}')]//button[@type='button']
     Click Element   //a[@href="/admin/hint?cypherId=${cypher_id}"]
-    sleep   5
     # Check the information in Detail
     ${_Id_}                 Get text        //tr[contains(.,'${Jmeno}')]//td[1]
     ${_Jmeno_}              Get text        //tr[contains(.,'${Jmeno}')]//td[2]
@@ -99,9 +87,8 @@ Edit Cypher
     input text          //textarea[@id="placeDescription"]  ${Popis_mista}Edited
     input text          //input[@id="mapAddress"]           ${new_Adresa}
     Click button        //button[@type='submit']
-    sleep   5
     
-Add hint
+Add Hint
     [Arguments]     ${Jmeno}
     [Return]        ${cypher_id}
     # Save cypher_id
@@ -114,7 +101,6 @@ Add hint
     input text      //textarea[@id="text"]      ${hint1[0]}
     input text      //input[@id="value"]        ${hint1[1]}
     Click button    //button[@type="submit"]  
-    sleep   5
     # Add hint 2
     Click Element   //a[@href="/admin/hint/add?cypherId=${cypher_id}"]
     input text      //textarea[@id="text"]      ${hint2[0]}
@@ -127,7 +113,6 @@ Add hint
     Click button    //button[@type="submit"]
     # Go back to Cypher list page
     Click Element           //a[@href="/admin/cypher"]
-    sleep   5
 
 Delete Cypher
     [Arguments]     ${Jmeno}
@@ -141,41 +126,29 @@ Delete Cypher
     ${count}        Get Element count  //tr[contains(.,'${Jmeno}')]
     Run Keyword if      "${count}" == "0"       log to console      Nice, team was deleted. 
                         ...     ELSE            log to console      Something is wrong. Team wasn't deleted.
-    sleep   5
-
-
-Logout
-    Click Element    //a[@href='/logout'] 
-    Handle Alert
-
-    sleep   5
-
-Browser Shutdown
-    Close Browser 
 
 
 *** Test Cases ***
-Open page
-    Open Lusteniny page         ${URL}  ${Browser} 
-    wait until page contains    Luštěniny
+Open Lusteniny Page
+    Open Lusteniny Page         ${URL}  ${Browser} 
 
 Login
     Login   ${username}     ${password}
 
-Open Cypher list
-    Open Cypher list
+Open List Sifry
+    Open List Sifry
 
 Add Cypher
     Add Cypher  ${Jmeno}    ${Poradi}   ${Odpoved}  ${Falesna_odpoved}  ${Bonus_info}   ${Popis_mista}  ${Adresa}
 
-Check Detail page
+Check Detail
     Check Detail  ${Jmeno}    ${Poradi}   ${Odpoved}  ${Falesna_odpoved}  ${Bonus_info}   ${Popis_mista}  ${Adresa}
 
 Edit Cypher
     Edit Cypher  ${Jmeno}    ${Poradi}   ${Odpoved}  ${Falesna_odpoved}  ${Bonus_info}   ${Popis_mista}  ${Adresa}  ${new_Adresa}
 
-Add hint
-    Add hint  ${Jmeno}
+Add Hint
+    Add Hint  ${Jmeno}
 
 Delete cypher
     Delete Cypher  ${Jmeno}
