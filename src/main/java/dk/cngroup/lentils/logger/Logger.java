@@ -113,8 +113,9 @@ public class Logger {
      * ORGANIZER METHODS.
      */
     @Around("execution(* dk.cngroup.lentils.controller.ProgressController.changeCypherStatus(..))" +
-            "&& args(cypherId,teamId,newStatus,..)")
+            "&& args(searchString,cypherId,teamId,newStatus,..)")
     public String changeCypherStatus(final ProceedingJoinPoint joinPoint,
+                                     final String searchString,
                                      final Long cypherId,
                                      final Long teamId,
                                      final String newStatus) throws Throwable {
