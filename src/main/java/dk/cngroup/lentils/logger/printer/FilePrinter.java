@@ -9,7 +9,7 @@ import java.io.*;
 @Primary
 public class FilePrinter extends OutputPrinter {
 
-    public static final String LOG_FILE = "lentils.log";
+    public static final String LOG_FILE = "/var/log/lentils/lentils.log";
 
     @Override
     public void initOutput() {
