@@ -42,3 +42,4 @@ gradle-app.setting
 game.sql
 
 lentils.log
+src/test/robot/chromedriver.exe
