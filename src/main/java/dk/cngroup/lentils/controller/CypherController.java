@@ -1,17 +1,17 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.formEntity.CypherFormObject;
 import dk.cngroup.lentils.service.CypherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
 
@@ -22,7 +22,8 @@ public class CypherController {
     private static final String VIEW_CYPHER_LIST = "cypher/list";
     private static final String VIEW_CYPHER_DETAIL = "cypher/form";
     private static final String REDIRECT_CYPHER_LIST = "redirect:/admin/cypher/";
-    private static final Point DEFAULT_LOCATION = new Point(59.9090442, 10.7423389);
+    private static final String HEADING_ADD_CYPHER = "Nová šifra";
+    private static final String HEADING_EDIT_CYPHER = "Upravit šifru";
 
     private CypherService cypherService;
 
@@ -39,30 +40,53 @@ public class CypherController {
 
     @GetMapping(value = "/add")
     public String newCypher(final Model model) {
-        Cypher cypher = new Cypher();
-        model.addAttribute("heading", "Nová šifra");
-        model.addAttribute("cypher", cypher);
+        model.addAttribute("heading", HEADING_ADD_CYPHER);
+        model.addAttribute("command", new CypherFormObject());
         return VIEW_CYPHER_DETAIL;
+    }
+
+    @PostMapping(value = "/add")
+    public String saveNewCypher(@Valid @ModelAttribute("command") final CypherFormObject command,
+                                final BindingResult bindingResult,
+                                final Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("heading", HEADING_ADD_CYPHER);
+            return VIEW_CYPHER_DETAIL;
+        }
+
+        final Cypher cypher = new Cypher();
+        CypherFormObject.toEntity(cypher, command);
+
+        cypherService.save(cypher);
+
+        return REDIRECT_CYPHER_LIST;
     }
 
     @GetMapping(value = "/update/{cypherId}")
-    public String updateCypher(@PathVariable("cypherId") final Long cypherId, final Model model) {
+    public String updateCypherForm(@PathVariable("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
-        model.addAttribute("heading", "Upravit šifru");
-        model.addAttribute(cypher);
+        final CypherFormObject formObject = CypherFormObject.fromEntity(cypher);
+
+        model.addAttribute("heading", HEADING_EDIT_CYPHER);
+        model.addAttribute("command", formObject);
         return VIEW_CYPHER_DETAIL;
     }
 
-    @PostMapping(value = "/save")
-    public String saveCypher(@Valid @ModelAttribute final Cypher cypher,
-                             final BindingResult bindingResult,
-                             final Model model) {
+    @PostMapping(value = "/update/{cypherId}")
+    public String updateCypher(@PathVariable("cypherId") final Long cypherId,
+                               @Valid @ModelAttribute("command") final CypherFormObject command,
+                               final BindingResult bindingResult,
+                               final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("heading", getHeading(cypher));
-            model.addAttribute("cypher", cypher);
+            model.addAttribute("heading", HEADING_EDIT_CYPHER);
             return VIEW_CYPHER_DETAIL;
         }
+
+        final Cypher cypher = cypherService.getCypher(cypherId);
+        CypherFormObject.toEntity(cypher, command);
+
         cypherService.save(cypher);
+
         return REDIRECT_CYPHER_LIST;
     }
 
@@ -70,13 +94,5 @@ public class CypherController {
     public String deleteCypher(@PathVariable("cypherId") final Long cypherId) {
         cypherService.deleteById(cypherId);
         return REDIRECT_CYPHER_LIST;
-    }
-
-    private String getHeading(final Cypher cypher) {
-        if (cypher.getCypherId() == null) {
-            return "Nová šifra";
-        } else {
-            return "Upravit šifru";
-        }
     }
 }
