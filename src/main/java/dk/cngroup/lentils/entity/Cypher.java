@@ -36,8 +36,8 @@ public class Cypher implements Serializable {
     @NotNull(message = "Souřadnice nesmí být prázdné.")
     private Point location;
 
-    @Column(name = "place_description", length = 1000)
-    @Length(max = 1000, message = "Popis místa nesmí být delší než 1000 znaků.")
+    @Column(name = "place_description", length = 2000)
+    @Length(max = 2000, message = "Popis místa nesmí být delší než 2000 znaků.")
     private String placeDescription;
 
     @Column(name = "codeword")
@@ -46,8 +46,8 @@ public class Cypher implements Serializable {
     @Column(name = "trap_codeword")
     private String trapCodeword;
 
-    @Column(name = "bonus_content", length = 1000)
-    @Length(max = 1000, message = "Bonusové informace nesmí být delší než 1000 znaků.")
+    @Column(name = "bonus_content", length = 4000)
+    @Length(max = 4000, message = "Bonusové informace nesmí být delší než 4000 znaků.")
     private String bonusContent;
 
     @Column(name = "map_address")
