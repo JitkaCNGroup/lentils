@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org" style="height:100%">
 <head th:replace="fragments/head :: head('Luštěniny - přihlášení')">
 </head>
 <body class="login-page-body">
-    <div class="container">
+    <div class="container login-form-container">
         <div class="row">
             <div class="col-sm-12">
                 <h1 class="login-form-header">Luštěniny</h1>
@@ -30,8 +30,8 @@
             </div>
         </div>
     </div>
-    <div class="login-footer">
+    <footer class="login-footer">
         <img src="../../static/img/cngroup-logo.png" th:src="@{/img/cngroup-logo.png}" alt="CN Group Zlin" />
-    </div>
+    </footer>
 </body>
 </html>

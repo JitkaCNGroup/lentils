@@ -532,11 +532,17 @@ td .btn-default {
 
 /** Login page */
 .login-page-body {
+    position: relative;
+    min-height:100%;
     background-image: url('/img/login-background-mobile-large.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
+}
+
+.login-form-container {
+    padding-bottom:150px
 }
 /* Provide different image sizes for different screens to save bandwidth*/
 @media (min-width: 576px) {
