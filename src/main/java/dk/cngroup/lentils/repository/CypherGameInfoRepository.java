@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CypherGameInfoRepository extends JpaRepository<CypherGameInfo, Long> {
     List<CypherGameInfo> findAllByTeamId(Long teamId);
+    List<CypherGameInfo> findAllByTeamIdOrderByStageAsc(Long teamId);
 }
