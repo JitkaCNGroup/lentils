@@ -176,7 +176,7 @@ public class ClientController {
         Team team = user.getTeam();
         Hint hint = hintService.getHint(id);
         hintTakenService.takeHint(team, hint);
-        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
+        return "redirect:/cypher/" + cypher.getCypherId() + "/hint";
     }
 
     @PostMapping(value = "cypher/giveUp")
