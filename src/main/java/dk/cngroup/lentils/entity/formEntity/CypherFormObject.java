@@ -25,10 +25,10 @@ public class CypherFormObject {
 
     private String trapCodeword;
 
-    @Size(max = 1000, message = "Bonusové informace nesmí být delší než 1000 znaků.")
+    @Size(max = 4000, message = "Bonusové informace nesmí být delší než 4000 znaků.")
     private String bonusContent;
 
-    @Size(max = 1000, message = "Popis místa nesmí být delší než 1000 znaků.")
+    @Size(max = 2000, message = "Popis místa nesmí být delší než 2000 znaků.")
     private String placeDescription;
 
     public String getName() {
