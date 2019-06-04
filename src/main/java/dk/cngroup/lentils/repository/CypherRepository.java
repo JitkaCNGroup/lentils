@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface CypherRepository extends JpaRepository<Cypher, Long> {
     Cypher findByStage(int stage);
-    Cypher findFirstByStageGreaterThan(int stage);
+    Cypher findFirstByStageGreaterThanOrderByStageAsc(int stage);
     List<Cypher> findAllByOrderByStageAsc();
     Cypher findFirstByOrderByStageAsc();
 }

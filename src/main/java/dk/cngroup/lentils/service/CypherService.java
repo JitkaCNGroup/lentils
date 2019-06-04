@@ -32,7 +32,7 @@ public class CypherService {
     }
 
     public Cypher getNext(final Integer stage) {
-        return cypherRepository.findFirstByStageGreaterThan(stage);
+        return cypherRepository.findFirstByStageGreaterThanOrderByStageAsc(stage);
     }
 
     public boolean checkCodeword(final Cypher cypher, final String codeword) {

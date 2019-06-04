@@ -71,6 +71,20 @@ public class CypherServiceIntegrationTest {
         assertNull(result);
     }
 
+    @Test
+    public void getNextCypherWhenCyphersHasBeenCreatedInRandomOrder() {
+        final Cypher first = getCypherWithStageNumber(1);
+        final Cypher fourth = getCypherWithStageNumber(4);
+        final Cypher third = getCypherWithStageNumber(3);
+        final Cypher second = getCypherWithStageNumber(2);
+
+
+        final Cypher result = testedService.getNext(first.getStage());
+
+        assertNotNull(result);
+        assertEquals(second.getStage(), result.getStage());
+    }
+
     /**
      * This tests #65
      * Cypher with Status record could not be deleted due to incorrect FK constrains.
