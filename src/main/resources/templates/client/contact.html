@@ -17,7 +17,7 @@
                 </li>
                 <li>
                     <i class="fas fa-envelope"></i>
-                    <span th:text="${contact.email}">email@email.com</span>
+                    <a href="#" th:href="${'mailto:' + contact.email}" th:text="${contact.email}">email@email.com</a>
                 </li>
             </ul>
             <h2>Odkazy</h2>
