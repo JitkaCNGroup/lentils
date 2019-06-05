@@ -20,8 +20,7 @@ public class Cypher implements Serializable {
     @Column(name = "cypher_id")
     private Long cypherId;
 
-    @OneToMany(cascade = {CascadeType.REMOVE})
-    @JoinColumn(name = "cypher_id")
+    @OneToMany(mappedBy = "cypher")
     private List<Hint> hints;
 
     @Column(name = "name")
