@@ -10,12 +10,12 @@ public class HintTaken {
 
     @Id
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "team_team_id")
     private Team team;
 
     @Id
-    @ManyToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne()
+    @JoinColumn(name = "hint_hint_id")
     private Hint hint;
 
     public HintTaken() {

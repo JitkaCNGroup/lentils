@@ -23,4 +23,5 @@ public interface HintTakenRepository extends JpaRepository<HintTaken, HintTakenK
     List<HintTaken> findAllByTeamAndCypher(Long teamId, Long cypherId);
 
     void deleteAllByTeamTeamId(Long teamId);
+    void deleteAllByHintHintId(Long hintId);
 }
