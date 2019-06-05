@@ -3,6 +3,7 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.HintRepository;
+import dk.cngroup.lentils.repository.HintTakenRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,6 +23,8 @@ public class HintServiceTest {
 
     @Mock
     private HintRepository hintRepository;
+    @Mock
+    private HintTakenRepository hintTakenRepository;
 
     @InjectMocks
     private HintService hintService;
