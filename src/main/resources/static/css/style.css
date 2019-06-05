@@ -4,6 +4,7 @@ html {
 
 body {
     font-family: 'Source Sans Pro', sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 h1 {
