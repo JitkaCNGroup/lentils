@@ -126,7 +126,8 @@ public class ProgressController {
         model.addAttribute("teams", progressService.getSearchedTeams(searchString));
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
         model.addAttribute("search", searchString);
-        return PROGRESS_STAGE;
+
+        return "redirect:/game/progress/stage?cypherId=" + cypherId + "&search=" + searchString;
     }
 
     @GetMapping(value = "/viewHints/{cypherId}")
