@@ -201,6 +201,7 @@ public class ClientController {
         model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
         model.addAttribute("codeword", codeword);
         model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
+        model.addAttribute("finalViewAllowed", gameLogicService.allowPlayersToViewFinalPlace(user.getTeam()));
     }
 
     private void checkTeamAllowedToViewFinalPlace(@AuthenticationPrincipal final CustomUserDetails user,
