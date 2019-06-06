@@ -25,6 +25,10 @@
                                 <button class="btn btn-primary" type="submit">Ověřit</button>
                             </div>
                         </form>
+                        <div th:if="${finalViewAllowed}">
+                            <a class="btn btn-primary" th:href="@{/finalplace}"
+                               role="button">Detail vyhlášení výsledků</button></a>
+                        </div>
                     </th:block>
 
                     <th:block th:case="'SKIPPED'">
@@ -40,7 +44,7 @@
 
                         <div th:if="${finalViewAllowed}">
                             <a class="btn btn-primary" th:href="@{/finalplace}"
-                               role="button">Vyhlášení výsledků</button></a>
+                               role="button">Detail vyhlášení výsledků</button></a>
                         </div>
                     </th:block>
 
@@ -49,15 +53,14 @@
                             Zadali jste správné heslo. Šifra byla vyluštěna!
                         </div>
 
-                        <div th:unless="${nextCypher}">
-                            <a class="btn btn-primary" th:href="@{/finalplace}"
-                               role="button">Vyhlášení výsledků </button></a>
-                        </div>
-
                         <div th:if="${nextCypher}">
                             <h2>Kam dál?</h2>
                             <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
-                               role="button">Zobrazit další šifru </a>
+                               role="button">Zobrazit další šifru</a>
+                        </div>
+                        <div th:if="${finalViewAllowed}">
+                            <a class="btn btn-primary" th:href="@{/finalplace}"
+                               role="button">Detail vyhlášení výsledků</button></a>
                         </div>
 
                         <div th:if="${cypher.bonusContent != null and cypher.bonusContent != ''}" id="bonus-info">
