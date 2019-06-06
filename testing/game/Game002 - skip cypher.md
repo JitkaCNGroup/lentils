@@ -1,4 +1,4 @@
-# Game002 - skip game
+# Game002 - skip cypher
 
 *Description*
 >this testcase verifies that the team can skip the cypher
