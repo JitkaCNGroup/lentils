@@ -11,6 +11,10 @@
             <div class="col-sm-12">
                 <h1 th:text="|${cypher.stage}. ${cypher.name}|">šifra</h1>
 
+                <span class="text-danger" th:if="${#request.getParameter('gameEnded') == 'true'}">
+                    Hra již byla ukončena.
+                </span>
+
                 <th:block th:switch="${status}">
 
                     <th:block th:case="'PENDING'">

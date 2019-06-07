@@ -173,6 +173,9 @@ public class ClientController {
     public String getHint(@PathVariable("hintId") final Long id,
                           @AuthenticationPrincipal final CustomUserDetails user,
                           final Cypher cypher) {
+        if (!gameLogicService.isGameInProgress()) {
+            return "redirect:/cypher/" + cypher.getCypherId() + "/hint?gameEnded=true";
+        }
         Team team = user.getTeam();
         Hint hint = hintService.getHint(id);
         hintTakenService.takeHint(team, hint);
@@ -181,6 +184,9 @@ public class ClientController {
 
     @PostMapping(value = "cypher/giveUp")
     public String skipCypher(final Cypher cypher, @AuthenticationPrincipal final CustomUserDetails user) {
+        if (!gameLogicService.isGameInProgress()) {
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "?gameEnded=true";
+        }
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
         if (cypherStatus.equals(CypherStatus.PENDING)) {
             statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
