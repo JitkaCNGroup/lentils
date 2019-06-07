@@ -164,6 +164,34 @@ public class StatusServiceTest {
         assertEquals(0, service.getStatusScore(status.getTeam(), status.getCypher()));
     }
 
+    @Test
+    public void restOfCyphersAreLockedIsTrueTest() {
+        List<Cypher> cyphers = new LinkedList<>();
+        Cypher cypher = generator.generateNewCypher();
+        cypher.setStage(1);
+        cyphers.add(cypher);
+        Team team = generator.generateValidTeam();
+        when (cypherRepository.findByStageGreaterThanOrderByStageAsc(1)).thenReturn(cyphers);
+        when (statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any()))
+                .thenReturn(true);
+
+        assertEquals(true, service.restOfCyphersAreLocked (team, cypher));
+    }
+
+    @Test
+    public void restOfCyphersAreLockedIsFalseTest() {
+        List<Cypher> cyphers = new LinkedList<>();
+        Cypher cypher = generator.generateNewCypher();
+        cypher.setStage(1);
+        cyphers.add(cypher);
+        Team team = generator.generateValidTeam();
+        when (cypherRepository.findByStageGreaterThanOrderByStageAsc(1)).thenReturn(cyphers);
+        when (statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any()))
+                .thenReturn(false);
+
+        assertEquals(false, service.restOfCyphersAreLocked (team, cypher));
+    }
+
     private List<Status> fillTeamCypherAndStatusTables() {
         List<Team> teams = generator.generateTeamList();
         when(teamRepository.saveAll(teams)).thenReturn(teams);
