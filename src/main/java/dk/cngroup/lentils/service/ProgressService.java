@@ -122,23 +122,13 @@ public class ProgressService {
                 .anyMatch(status -> status.getCypherStatus() == CypherStatus.PENDING);
     }
 
-    private boolean anyTeamHasCypherPending(final List<Team> teams) {
-        return teams.stream()
-                .anyMatch(team -> hasCypherPending(team));
-    }
-
     private int getStageOfPendingCypherForTeam(final Team team) {
-        List<Status> statuses = statusService.getAllByTeam(team);
+        List<Status> statuses = statusService.getAllByTeamOrderByStage(team);
         Status statusPending = statuses.stream()
                 .filter(status -> status.getCypherStatus() == CypherStatus.PENDING)
                 .findFirst()
                 .get();
         return statusPending.getCypher().getStage();
-    }
-
-    public List<TeamProgressWithTeam> getAllTeamsWithTeamProgress() {
-        List<Team> teams = teamService.getAll();
-        return getTeamProgressWithTeams(teams);
     }
 
     public List<TeamProgressWithTeam> getSearchedTeamsWithTeamProgress(final String searchString) {

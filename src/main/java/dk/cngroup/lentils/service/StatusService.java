@@ -5,6 +5,7 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.NextCypherNotFoundException;
+import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,14 @@ import java.util.List;
 public class StatusService {
 
     private final StatusRepository statusRepository;
+    private final CypherRepository cypherRepository;
     private CypherService cypherService;
 
     @Autowired
-    public StatusService(final StatusRepository statusRepository) {
+    public StatusService(final StatusRepository statusRepository,
+                         final CypherRepository cypherRepository) {
         this.statusRepository = statusRepository;
+        this.cypherRepository = cypherRepository;
     }
 
     @Autowired
@@ -29,13 +33,24 @@ public class StatusService {
 
     public void markCypher(final Cypher cypher, final Team team, final CypherStatus cypherStatus) {
         updateStatus(cypher, team, cypherStatus);
-        try {
-            updateStatus(cypherService.getNext(cypher.getStage()),
-                    team,
-                    cypherStatus.getNextCypherStatus());
-        } catch (NextCypherNotFoundException | IllegalStateException e) {
-            // status of the last cypher has been changed -> there is no next cypher
+        if (restOfCyphersAreLocked(team, cypher)) {
+            try {
+                updateStatus(cypherService.getNext(cypher.getStage()), team, cypherStatus.getNextCypherStatus());
+            } catch (NextCypherNotFoundException | IllegalStateException e) {
+                // status of the last cypher has been changed -> there is no next cypher
+            }
         }
+    }
+
+    public boolean restOfCyphersAreLocked(final Team team, final Cypher cypher) {
+        List<Cypher> cypherList = cypherRepository.findByStageGreaterThanOrderByStageAsc(cypher.getStage());
+        for (Cypher greaterCypher: cypherList) {
+            if (!statusRepository.existsStatusByCypherAndTeamAndCypherStatus(
+                    greaterCypher, team, CypherStatus.LOCKED)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<Status> getAll() {
@@ -74,6 +89,10 @@ public class StatusService {
         return statusRepository.findByTeam(team);
     }
 
+    public List<Status> getAllByTeamOrderByStage(final Team team) {
+        return statusRepository.findByTeamOrderByCypherStageAsc(team);
+    }
+
     private void updateStatus(final Cypher cypher,
                               final Team team,
                               final CypherStatus cypherStatus) {
@@ -96,7 +115,7 @@ public class StatusService {
     }
 
     public List<Status> getPendingCyphers(final Team team) {
-        return statusRepository.findByTeamAndCypherStatus(team, CypherStatus.PENDING);
+        return statusRepository.findByTeamAndCypherStatusOrderByCypherStageAsc(team, CypherStatus.PENDING);
     }
 
     public void deleteAllByCypherId(final Long cypherId) {
