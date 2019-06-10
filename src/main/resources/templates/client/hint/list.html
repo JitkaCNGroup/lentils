@@ -11,6 +11,10 @@
             <div class="col-sm-12">
                 <h1>Nápověda</h1>
 
+                <span class="text-danger" th:if="${#request.getParameter('gameEnded') == 'true'}">
+                    Hra již byla ukončena.
+                </span>
+
                 <h2>Odemknuté nápovědy</h2>
 
                 <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
