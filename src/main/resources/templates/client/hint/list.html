@@ -19,8 +19,8 @@
 
                 <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
                     <div th:each="hintTaken : ${hintsTaken}">
-                        <p>
-                            <span class="hint-label" th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
+                        <p class="hint-text">
+                            <span th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
                             <span th:text="${hintTaken.hint.text}"></span>
                         </p>
                     </div>
