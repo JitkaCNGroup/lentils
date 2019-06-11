@@ -229,8 +229,10 @@ nav .back {
     color:deepskyblue;
 }
 
-.hint-label {
+.hint-text {
     font-weight: 600;
+    font-size: 1rem;
+    color: black;
 }
 
 .tag {
