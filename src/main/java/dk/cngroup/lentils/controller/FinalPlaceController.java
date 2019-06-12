@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/admin/finalplace")
@@ -29,6 +31,9 @@ public class FinalPlaceController {
     @GetMapping(value = "/")
     public String finalPlace(final Model model) {
         model.addAttribute("finalPlace", finalPlaceService.getFinalPlace());
+        model.addAttribute(
+                "serverTime",
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         return VIEW_FINALPLACE_FORM;
     }
 
