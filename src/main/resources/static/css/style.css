@@ -602,6 +602,10 @@ td .btn-default {
     z-index: -1;
 }
 
+.login-footer img {
+    width: 10rem;
+}
+
 ul.contact {
     list-style: none;
     padding: 0px;
