@@ -3,7 +3,6 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.*;
-import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.repository.*;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.ObjectGenerator;
@@ -11,32 +10,26 @@ import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG;
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 @Transactional
-public class ClientControllerVerifyCodewordIntegrationTest {
-    public static final String CORRECT_CODEWORD = "topgun";
-    public static final String FALSE_CODEWORD = "firefly";
+public class ClientControllerSkipCypherIntegrationTest {
+    private static final String CORRECT_CODEWORD = "topgun";
+    private static final String FALSE_CODEWORD = "firefly";
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
     private static final String HINT_NAME = "abcd";
 
@@ -72,68 +65,38 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     }
 
     @Test
-    public void testCheckCorrectCodeword() {
+    public void testSkipCypherCorrectly() {
         setupThatGameHasNotEnded();
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codeword);
+        final String returnValue = executeTestedMethod();
 
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
+    }
+
+    @Test
+    public void testSkipCypherForNonPendingStatus() {
+        setupThatGameHasNotEnded();
+        createCypherStatus(cypher, team, CypherStatus.SOLVED);
+
+        final String returnValue = executeTestedMethod();
+
+        AssertionUtils.assertValueIsRedirection(returnValue);
+        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        assertNotEquals(CypherStatus.SKIPPED, status.getCypherStatus());
         assertEquals(CypherStatus.SOLVED, status.getCypherStatus());
     }
 
     @Test
-    public void testIncorrectCodeword() {
-        setupThatGameHasNotEnded();
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD + "_wrong");
+    public void testSkipCypherAfterGameHasEnded() {
+        setupThatGameHasAlreadyEnded();
 
-        final String returnValue = executeTestedMethod(codeword);
-
-        AssertionUtils.assertValueIsNotRedirection(returnValue);
-        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        assertEquals(CypherStatus.PENDING, status.getCypherStatus());
-    }
-
-    @Test
-    public void testFalseCodeword() {
-        setupThatGameHasNotEnded();
-        final Codeword codeword = createCodewordFormObject(FALSE_CODEWORD);
-
-        final String returnValue = executeTestedMethod(codeword);
+        String returnValue = executeTestedMethod();
 
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        assertEquals(CypherStatus.PENDING, status.getCypherStatus());
-        assertTrue(returnValue.contains("lets-play-a-game"));
-    }
-
-    @Test
-    public void testCheckCodewordAfterGameHasEnded() {
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
-        setupThatGameHasAlreadyEnded();
-        ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
-
-        String returnValue = executeTestedMethod(codeword);
-
-        verify(result).addError(argument.capture());
-        assertEquals("guess", argument.getValue().getField());
-        assertEquals(GAME_ENDED_ERROR_MSG, argument.getValue().getDefaultMessage());
-        AssertionUtils.assertValueIsNotRedirection(returnValue);
-    }
-
-    @Test
-    public void testCheckCodewordForNonPendingStatus() {
-        setupThatGameHasNotEnded();
-        createCypherStatus(cypher, team, CypherStatus.SKIPPED);
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
-
-        final String returnValue = executeTestedMethod(codeword);
-
-        AssertionUtils.assertValueIsNotRedirection(returnValue);
-        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
-        assertNotEquals(CypherStatus.SOLVED, status.getCypherStatus());
-        assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
+        assertNotEquals(CypherStatus.SKIPPED, status.getCypherStatus());
     }
 
     private void createTestCypher() {
@@ -169,20 +132,8 @@ public class ClientControllerVerifyCodewordIntegrationTest {
         return new CustomUserDetails(user);
     }
 
-    private String executeTestedMethod(final Codeword withCodeword) {
-        return testedController.verifyCodeword(
-                cypher.getCypherId(),
-                withCodeword,
-                getUserDetailsMock(),
-                result,
-                mock(Model.class));
-    }
-
-    private Codeword createCodewordFormObject(final String guess) {
-        final Codeword  codeword = new Codeword();
-        codeword.setGuess(guess);
-
-        return codeword;
+    private String executeTestedMethod() {
+        return testedController.skipCypher(cypher, getUserDetailsMock());
     }
 
     private void setupThatGameHasNotEnded() {
