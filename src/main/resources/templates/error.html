@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org" style="height:100%">
+<head th:replace="fragments/head :: head('Luštěniny - chyba')">
+</head>
+<body class="login-page-body">
+<div class="container login-form-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="login-form-header">Chyba, tady nic nenajdeš...</h2>
+            <a href="#" class="btn btn-primary" th:href="@{/successfulLogin}">Domů</a>
+        </div>
+    </div>
+</div>
+<footer class="login-footer">
+    <img src="../../static/img/logo_white_rgb.svg" th:src="@{/img/logo_white_rgb.svg}" alt="CN Group Zlin" />
+</footer>
+</body>
+</html>
