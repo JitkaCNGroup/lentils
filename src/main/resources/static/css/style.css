@@ -493,22 +493,21 @@ td .btn-default {
     width: 100%;
 }
 
-.accordion {
-    margin-bottom: 8px;
+.cypher-codeword-accordion {
+    margin-bottom: 15px;
 }
 
-.card-header {
-    background-color: white;
-    text-align: center;
-    font-size: 1rem;
-    padding: 0.25rem;
+/** Note: This is a hotfix for style: .container .row .btn */
+.accordion-header-btn {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
+/** End of hotfix**/
 
-.card-header:hover {
-    cursor: pointer;
-}
-
-#collapseOne {
+.collapse-sm-content {
     text-align: center;
     font-size: 1rem;
     padding: 0.25rem;
