@@ -8,15 +8,18 @@
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <h1 th:text="${cypher.name}"></h1>
-            <div class="accordion" id="codewordAccordion">
+            <div class="cypher-codeword-accordion" id="codewordAccordion">
                 <div class="card">
-                    <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Zobrazit řešení šifry
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link accordion-header-btn" data-toggle="collapse" data-target="#cypherCodewordPanel" aria-expanded="false" aria-controls="collapseOne">
+                                Zobrazit řešení šifry
+                            </button>
+                        </h5>
                     </div>
-                    <div th:text="${cypher.codeword}" id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#codewordAccordion">
+                    <div id="cypherCodewordPanel" class="collapse" aria-labelledby="headingOne" data-parent="#codewordAccordion">
+                        <div class="card-body collapse-sm-content" th:text="${cypher.codeword}">Secret</div>
                     </div>
-                </div>
-                <div class="card">
                 </div>
             </div>
         </div>
