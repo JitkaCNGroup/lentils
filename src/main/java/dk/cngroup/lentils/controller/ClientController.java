@@ -140,6 +140,11 @@ public class ClientController {
             return CLIENT_VIEW_CYPHER_DETAIL;
         }
 
+        if (status != CypherStatus.PENDING) {
+            setDetailModelAttributes(model, user, cypher, status, codeword);
+            return CLIENT_VIEW_CYPHER_DETAIL;
+        }
+
         if (cypherService.checkCodeword(cypher, codeword.getGuess())) {
             statusService.markCypher(cypher, user.getTeam(), CypherStatus.SOLVED);
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
@@ -176,6 +181,12 @@ public class ClientController {
         if (!gameLogicService.isGameInProgress()) {
             return "redirect:/cypher/" + cypher.getCypherId() + "/hint?gameEnded=true";
         }
+
+        CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+        if (cypherStatus != (CypherStatus.PENDING)) {
+            return "redirect:/cypher/" + cypher.getCypherId() + "/hint?wrongStatus=true";
+        }
+
         Team team = user.getTeam();
         Hint hint = hintService.getHint(id);
         hintTakenService.takeHint(team, hint);
@@ -187,10 +198,13 @@ public class ClientController {
         if (!gameLogicService.isGameInProgress()) {
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "?gameEnded=true";
         }
+
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
-        if (cypherStatus.equals(CypherStatus.PENDING)) {
-            statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
+        if (cypherStatus != (CypherStatus.PENDING)) {
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "?wrongStatus=true";
         }
+
+        statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
         return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
     }
 

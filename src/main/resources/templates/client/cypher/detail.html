@@ -14,6 +14,9 @@
                 <span class="text-danger" th:if="${#request.getParameter('gameEnded') == 'true'}">
                     Hra již byla ukončena.
                 </span>
+                <span class="text-danger" th:if="${#request.getParameter('wrongStatus') == 'true'}">
+                    Šifra není aktivní.
+                </span>
 
                 <th:block th:switch="${status}">
 
