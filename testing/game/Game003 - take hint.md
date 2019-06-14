@@ -26,7 +26,7 @@
 |Click on Ziskat napovedu (-5 bodu).|The confirmation dialog is displayed.|
 |Decline the confirmation dialog.|The hint page is displayed.<br>No hint is taken.|
 |Click on Ziskat napovedu (-5 bodu).|The confirmation dialog is displayed.|
-|Confirm the dialog.|The dialog is closed.<br>The hintA is taken.<br>The cypher detail is displayed.|
+|Confirm the dialog.|The dialog is closed.<br>The hintA is taken.<br>~~The cypher detail is displayed~~.<br>Go to cypher detail page|
 |Verify that the hintA text is displayed under the map.|The hintA text is present.|
 |Click on the Vybrat napovedu button.|The hint page is displayed.|
 |Verify that there is unlocked hintA displayed.|There is hintA text displayed.|
