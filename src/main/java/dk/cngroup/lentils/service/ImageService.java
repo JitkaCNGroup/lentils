@@ -1,58 +1,114 @@
 package dk.cngroup.lentils.service;
 
+import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.Image;
+import dk.cngroup.lentils.entity.formEntity.HintFormObject;
+import dk.cngroup.lentils.exception.ImageFileNotFoundException;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
+import dk.cngroup.lentils.repository.ImageRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
-import java.awt.image.BufferedImage;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Service
 public class ImageService {
 
-    public static final String IMAGE_DIRECTORY = "\\images\\";
+    @Value("${image-directory}")
+    private String imageDirectory;
 
-    public static File chooseFile() {
-        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        jfc.setDialogTitle("Select an image");
-        jfc.setAcceptAllFileFilterUsed(false);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "PNG, JPG, JPEG, BMP and GIF images", "png", "jpg", "jpeg", "bmp", "gif");
-        jfc.addChoosableFileFilter(filter);
+    private final ImageRepository imageRepository;
 
-        int returnValue = jfc.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            return jfc.getSelectedFile();
-        }
-        return null;
+    public ImageService(final ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
     }
 
-    public static void readAndSaveImageFile(final File file) {
-        BufferedImage image = null;
+    public Image save(final Image image) {
+        return imageRepository.save(image);
+    }
+
+    public MultipartFile getFile(final String stringPath) {
+        File file = new File(stringPath);
+        Path path = Paths.get(stringPath);
+        String name = file.getName();
+        byte[] content = null;
         try {
-            image = ImageIO.read(file);
-        } catch (IOException e) {
-            System.err.println("Picture file cannot be open. " + e.getMessage());
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
         }
-        String fileName = file.getName();
-        String pathToSave = getDirectory() + fileName;
-        String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        MultipartFile result = new MockMultipartFile(name,
+                name, "image", content);
+        return result;
+    }
+
+    public String getFilePath(final MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new ImageFileNotFoundException();
+        }
+        String fileName = file.getOriginalFilename();
+        return getDirectory() + fileName;
+    }
+
+    public void saveImageFile(final MultipartFile file) {
+        String pathToSave = getFilePath(file);
+        File dest = new File(pathToSave);
         try {
-            ImageIO.write(image, fileExtension, new File(pathToSave));
+            file.transferTo(dest);
         } catch (IOException e) {
-            System.err.println("Picture file cannot be saved. " + e.getMessage());
+               System.err.println("Picture file cannot be saved. " + e.getMessage());
         }
     }
 
-    private static String getDirectory() {
-        String newDirectory = System.getProperty("user.dir") + IMAGE_DIRECTORY;
+    public String getFileName(final HintFormObject formObject) {
+         if (isFilePresentInHintForm(formObject)) {
+            return formObject.getImage().getOriginalFilename();
+        }
+        return "";
+    }
+
+    public boolean isFilePresentInHintForm(final HintFormObject formObject) {
+        MultipartFile file = formObject.getImage();
+        if (file.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isFilePresentInHintEntity(final Hint hint) {
+        Optional<Image> file = Optional.ofNullable(hint.getImage());
+        if (file.isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
+    private String getDirectory() {
+        String newDirectory = System.getProperty("user.dir") + imageDirectory;
         File newDirectoryDir = new File(newDirectory);
         if (!newDirectoryDir.exists()) {
-            newDirectoryDir.mkdir();
-        }
+            newDirectoryDir.mkdirs();
+            }
         return newDirectory;
+    }
+
+    @Transactional
+    public void deleteById(final Long id) {
+        imageRepository.deleteById(id);
+    }
+
+    public Image getImage(final Long imageId) {
+        Optional<Image> image = imageRepository.findById(imageId);
+        if (image.isPresent()) {
+            return image.get();
+        }
+        throw new ResourceNotFoundException(Image.class.getSimpleName(), imageId);
     }
 }

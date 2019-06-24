@@ -12,7 +12,12 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <form action="#" th:object="${hint}" method="post">
+<!--            <form action="#" th:object="${hint}" method="post">-->
+            <form action="#" th:object="${formObject}" enctype="multipart/form-data" method="post">
+                <div class="form-group">
+                    <label for="cypherId">Cypher ID</label>
+                    <input id="cypherId" type="number" class="form-control" th:field="*{cypher.cypherId}" readonly/>
+                </div>
                 <div class="form-group">
                     <label for="text">Text</label>
                     <textarea id="text" class="form-control" th:field="*{text}"/>
@@ -24,6 +29,14 @@
                     <p class="error" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Image URL error.</p>
                 </div>
                 <div class="form-group">
+                    <div>Soubor s obrázkem</div>
+                    <div class="form-control" th:text="${filename}">Image</div>
+                </div>
+                <div class="form-group">
+                    <input id="image" class="btn btn-primary" type="file" th:field="*{image}" accept="image/*"/>
+                    <p class="error" th:if="${#fields.hasErrors('image')}" th:errors="*{image}">Image error.</p>
+                </div>
+                <div class="form-group">
                     <label for="value">Hodnota</label>
                     <input id="value" class="form-control" type="number" th:field="*{value}"/>
                     <p class="error" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Value error.</p>
@@ -32,7 +45,7 @@
             </form>
         </div>
         <div class="col-sm-6">
-            <img th:if="${!#strings.isEmpty(hint.imageUrl)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.imageUrl}}" />
+            <img th:if="${!#strings.isEmpty(formObject.imageUrl)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${formObject.imageUrl}}" />
         </div>
     </div>
 </div>

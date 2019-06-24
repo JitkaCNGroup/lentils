@@ -34,6 +34,10 @@ public class Hint implements Serializable {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     @Column(name = "value")
     @Min(value = 1, message = "Hodnota musí být vetší než 0.")
     private int value;
@@ -87,22 +91,20 @@ public class Hint implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(final Image image) {
+        this.image = image;
+    }
+
     public int getValue() {
         return value;
     }
 
     public void setValue(final int value) {
         this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Hint{" +
-                "hintId=" + hintId +
-                ", cypherId=" + cypher.getCypherId() +
-                ", text='" + text + '\'' +
-                ", value=" + value +
-                '}';
     }
 
     @Override
