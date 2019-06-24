@@ -16,10 +16,12 @@ import java.util.Optional;
 public class CypherService {
     private final CypherRepository cypherRepository;
     private StatusService statusService;
+    private HintService hintService;
 
     @Autowired
-    public void setStatusService(final StatusService statusService) {
+    public void setStatusService(final StatusService statusService, final HintService hintService) {
         this.statusService = statusService;
+        this.hintService = hintService;
     }
 
     @Autowired
@@ -76,6 +78,8 @@ public class CypherService {
 
     @Transactional
     public void deleteById(final Long id) {
+        getCypher(id).getHints().stream()
+                .forEach(hint -> hintService.deleteById(hint.getHintId()));
         statusService.deleteAllByCypherId(id);
         cypherRepository.deleteById(id);
     }
