@@ -19,8 +19,12 @@ public class CypherService {
     private HintService hintService;
 
     @Autowired
-    public void setStatusService(final StatusService statusService, final HintService hintService) {
+    public void setStatusService(final StatusService statusService) {
         this.statusService = statusService;
+    }
+
+    @Autowired
+    public void setHintService(final HintService hintService) {
         this.hintService = hintService;
     }
 
