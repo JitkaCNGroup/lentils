@@ -2,15 +2,20 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.view.TeamScoreDetail;
+import dk.cngroup.lentils.service.PdfExportService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Controller
@@ -22,12 +27,15 @@ public class ScoreController {
 
     private final TeamService teamService;
     private final ScoreService scoreService;
+    private final PdfExportService exportService;
 
     @Autowired
     public ScoreController(final TeamService teamService,
-                           final ScoreService scoreService) {
+                           final ScoreService scoreService,
+                           final PdfExportService exportService) {
         this.teamService = teamService;
         this.scoreService = scoreService;
+        this.exportService = exportService;
     }
 
     @GetMapping
@@ -44,5 +52,14 @@ public class ScoreController {
         model.addAttribute("team", team);
         model.addAttribute("teamWithDetailScores", teamScoreDetails);
         return SCORE_LIST_DETAIL;
+    }
+
+    @GetMapping(value = "/export", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> exportScores() {
+        ByteArrayInputStream bis = exportService.exportScoresToPdf();
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
     }
 }
