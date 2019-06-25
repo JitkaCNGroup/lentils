@@ -23,6 +23,8 @@ import java.util.stream.Stream;
 @Service
 public class PdfExportService {
     private static final int NUMBER_OF_TABLE_COLUMNS = 3;
+    private static final int PARAGRAPH_FONT_SIZE = 35;
+    private static final int SPACING_AFTER_PARAGRAPH = 20;
 
     private final ScoreService scoreService;
 
@@ -49,7 +51,7 @@ public class PdfExportService {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    private void addHeaderParagraphToDocument(Document document) {
+    private void addHeaderParagraphToDocument(final Document document) {
         try {
             document.add(getHeaderParagraph());
         } catch (DocumentException e) {
@@ -58,14 +60,14 @@ public class PdfExportService {
     }
 
     private Paragraph getHeaderParagraph() {
-        Font font = FontFactory.getFont(FontFactory.COURIER, 35, BaseColor.BLACK);
+        Font font = FontFactory.getFont(FontFactory.COURIER, PARAGRAPH_FONT_SIZE, BaseColor.BLACK);
         Paragraph p = new Paragraph("Výsledné skóre", font);
         p.setAlignment(Element.ALIGN_CENTER);
-        p.setSpacingAfter(20);
+        p.setSpacingAfter(SPACING_AFTER_PARAGRAPH);
         return p;
     }
 
-    private void addTableToDocument(Document document) {
+    private void addTableToDocument(final Document document) {
         PdfPTable table = new PdfPTable(NUMBER_OF_TABLE_COLUMNS);
         addTableHeader(table);
         addRows(table);
@@ -76,7 +78,7 @@ public class PdfExportService {
         }
     }
 
-    private void addTableHeader(PdfPTable table) {
+    private void addTableHeader(final PdfPTable table) {
         Stream.of("Poradí", "Název týmu", "Body")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
@@ -88,11 +90,10 @@ public class PdfExportService {
                 });
     }
 
-    private void addRows(PdfPTable table) {
+    private void addRows(final PdfPTable table) {
         List<TeamScore> teamsWithScores = scoreService.getAllTeamsWithScores();
         teamsWithScores.stream()
-                .forEach(teamScore ->
-                {
+                .forEach(teamScore -> {
                     table.addCell(teamScore.getRank().toString());
                     table.addCell(teamScore.getTeam().getName());
                     table.addCell(String.valueOf(teamScore.getScore()));
