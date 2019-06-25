@@ -6,6 +6,7 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.repository.CypherRepository;
+import dk.cngroup.lentils.repository.HintRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
 import dk.cngroup.lentils.repository.TeamRepository;
 import dk.cngroup.lentils.repository.UserRepository;
@@ -13,11 +14,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, ObjectGenerator.class})
@@ -34,6 +36,8 @@ public class CypherServiceIntegrationTest {
     private UserRepository userRepository;
     @Autowired
     private StatusRepository statusRepository;
+    @Autowired
+    private HintRepository hintRepository;
 
     final ObjectGenerator objectGenerator = new ObjectGenerator();
 
@@ -98,6 +102,7 @@ public class CypherServiceIntegrationTest {
         status.setCypher(cypher);
         status.setTeam(team);
 
+        cypher.setHints(hintRepository.saveAll(objectGenerator.generateHintsForCypher(cypher)));
         teamRepository.saveAndFlush(team);
         statusRepository.saveAndFlush(status);
 
@@ -105,11 +110,13 @@ public class CypherServiceIntegrationTest {
         final long statusCount = statusRepository.count();
         assertEquals(1, cypherCount);
         assertEquals(1, statusRepository.count());
+        assertEquals(3, hintRepository.count());
 
         testedService.deleteById(cypher.getCypherId());
 
         assertEquals(cypherCount - 1, cypherRepository.count());
         assertEquals(statusCount - 1, statusRepository.count());
+        assertEquals(0, hintRepository.count());
     }
 
     private Cypher getCypherWithStageNumber(final int stageNumber) {
