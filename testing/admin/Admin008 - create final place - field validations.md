@@ -1,4 +1,4 @@
-# Admin008 - create final place - field validations
+# Admin008 - ~~create~~  edit final place - field validations
 
 *Description*
 >This test case verifies the field validations of the final place form
