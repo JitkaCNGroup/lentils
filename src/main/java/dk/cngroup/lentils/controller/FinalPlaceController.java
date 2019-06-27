@@ -41,6 +41,7 @@ public class FinalPlaceController {
     public String saveFinalPlace(@Valid @ModelAttribute final FinalPlace finalPlace,
                                  final BindingResult bindingResult,
                                  final Model model) {
+        finalPlaceService.checkFinishTimeBeforeResultsTime(bindingResult, finalPlace);
         if (bindingResult.hasErrors()) {
             model.addAttribute("finalPlace", finalPlace);
             return VIEW_FINALPLACE_FORM;

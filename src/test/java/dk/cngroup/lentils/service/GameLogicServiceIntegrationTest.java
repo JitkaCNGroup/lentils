@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = LentilsApplication.class)
 @Transactional
 public class GameLogicServiceIntegrationTest {
+    private static final int TEST_FINALPLACE_ACCESS_TIME = 60;
 
     @Autowired
     private TeamService teamService;
@@ -114,8 +115,9 @@ public class GameLogicServiceIntegrationTest {
     }
 
     private void setFinalPlaceTime(final Long plusMinutes) {
-        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(plusMinutes);
-        final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), openingTime);
+        LocalDateTime finishTime = LocalDateTime.now().plusMinutes(plusMinutes);
+        LocalDateTime resultsTime = LocalDateTime.now().plusMinutes(plusMinutes + 15);
+        final FinalPlace finalPlace = new FinalPlace("desc", new Point(8.5, 5), finishTime, resultsTime, TEST_FINALPLACE_ACCESS_TIME);
         finalPlaceService.save(finalPlace);
     }
 }

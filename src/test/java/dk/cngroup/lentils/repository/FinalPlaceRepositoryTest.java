@@ -51,26 +51,38 @@ public class FinalPlaceRepositoryTest {
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void finalPlaceWithEmptyDescriptionTest() {
-        FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithDescription(TEST_EMPTY_DESCRIPTION);
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setDescription(TEST_EMPTY_DESCRIPTION);
         repository.saveAndFlush(finalPlace);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void finalPlaceWithTooLongDescriptionTest() {
-        FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithDescription(TEST_TOO_LONG_DESCRIPTION);
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setDescription(TEST_TOO_LONG_DESCRIPTION);
         repository.saveAndFlush(finalPlace);
     }
 
     @Test(expected = javax.validation.ConstraintViolationException.class)
     public void finalPlaceWithEmptyLocationTest() {
-        FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithLocation(null);
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setLocation(null);
         repository.saveAndFlush(finalPlace);
     }
 
     @Test(expected = java.time.format.DateTimeParseException.class)
-    public void finalPlaceWithTimeInInvalidFormatTest() {
-        LocalDateTime openingTime = LocalDateTime.parse(TEST_INVALID_FORMAT);
-        FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithOpeningTime(openingTime);
+    public void finalPlaceWithFinishTimeInInvalidFormatTest() {
+        LocalDateTime finishTime = LocalDateTime.parse(TEST_INVALID_FORMAT);
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setFinishTime(finishTime);
+        repository.saveAndFlush(finalPlace);
+    }
+
+    @Test(expected = java.time.format.DateTimeParseException.class)
+    public void finalPlaceWithResultsTimeInInvalidFormatTest() {
+        LocalDateTime resultsTime = LocalDateTime.parse(TEST_INVALID_FORMAT);
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setResultsTime(resultsTime);
         repository.saveAndFlush(finalPlace);
     }
 

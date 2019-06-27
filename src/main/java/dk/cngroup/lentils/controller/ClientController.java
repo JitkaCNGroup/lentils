@@ -228,7 +228,7 @@ public class ClientController {
                                                   final Model model) {
         if (gameLogicService.allowPlayersToViewFinalPlace(user.getTeam())) {
             model.addAttribute("finalViewAllowed", true);
-            model.addAttribute("openingTime", gameLogicService.getFinalPlaceOpeningTime());
+            model.addAttribute("resultsTime", gameLogicService.getFinalPlaceResultsTime());
         }
     }
 }
