@@ -20,7 +20,7 @@ import java.util.List;
 
 import static dk.cngroup.lentils.service.ObjectGenerator.NUMBER_OF_CYPHERS;
 import static dk.cngroup.lentils.service.ObjectGenerator.NUMBER_OF_TEAMS;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -190,6 +190,22 @@ public class StatusServiceTest {
                 .thenReturn(false);
 
         assertEquals(false, service.restOfCyphersAreLocked (team, cypher));
+    }
+
+    @Test
+    public void testPresenceOfTeamAtCypherWIthPendingStatusIsTrue() {
+        Status status = generateOneTeamCypherAndStatusRow("PENDING");
+        when(statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any())).thenReturn(true);
+
+        assertTrue(service.isPresentTeamAtCypherWithStatus(status.getTeam(), status.getCypher(), CypherStatus.PENDING));
+    }
+
+    @Test
+    public void testPresenceOfTeamAtCypherWIthPendingStatusIsFalse() {
+        Status status = generateOneTeamCypherAndStatusRow("SKIPPED");
+        when(statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any())).thenReturn(false);
+
+        assertFalse(service.isPresentTeamAtCypherWithStatus(status.getTeam(), status.getCypher(), CypherStatus.PENDING));
     }
 
     private List<Status> fillTeamCypherAndStatusTables() {

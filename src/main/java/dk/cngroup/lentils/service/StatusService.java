@@ -69,6 +69,13 @@ public class StatusService {
         return getStatusByTeamAndCypher(team, cypher).getCypherStatus();
     }
 
+    public Boolean isPresentTeamAtCypherWithStatus(
+            final Team team,
+            final Cypher cypher,
+            final CypherStatus cypherStatus) {
+        return statusRepository.existsStatusByCypherAndTeamAndCypherStatus(cypher, team, cypherStatus);
+    }
+
     public void initializeStatusForTeamAndCypher(final Cypher cypher, final Team team) {
         Status status = new Status();
         status.setCypher(cypher);
