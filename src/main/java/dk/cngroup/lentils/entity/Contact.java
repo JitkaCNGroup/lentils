@@ -25,6 +25,7 @@ public class Contact {
     private String name;
 
     @Column(name = "phone_number")
+    @NotEmpty(message = "Telefonní číslo nesmí být prázdné.")
     private String phoneNumber;
 
     @Column(name = "web_pages")
