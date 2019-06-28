@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head('Nápověda')">
+<head th:replace="fragments/head :: head('Detail šifry')">
 </head>
 <body>
 <div th:insert="fragments/header :: header(cypher)"></div>
@@ -19,6 +19,7 @@
                     <th scope="col">Falešná odpověď</th>
                     <th scope="col">Bonus</th>
                     <th scope="col">Mapa</th>
+                    <th scope="col">Akce</th>
 
                 </tr>
             </thead>
@@ -34,6 +35,9 @@
                     <td th:text="${cypher.bonusContent}">Bonus</td>
                     <td>
                         <a href="#" th:href="@{${cypher.mapAddress}}" target="_blank" class="btn btn-secondary">Mapa</a>
+                    </td>
+                    <td>
+                        <a href="#" th:href="@{/admin/cypher/update/{cypherId}(cypherId=${cypher.cypherId})}" class="btn btn-primary">Upravit</a>
                     </td>
                 </tr>
             </tbody>
