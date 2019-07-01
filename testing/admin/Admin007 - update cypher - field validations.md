@@ -28,13 +28,13 @@
 |Enter a valid number to the Poradi field.|The Poradi field is not empty.|
 |Click into the map to select the coordinates.|The Souradnice field is not empty.|
 |Enter a valid URL to the Adresa mapy field.|The Adresa mapy contains valid URL.|
-|Enter a string with > 1000 characters to the Bonusove informace field.|Bonusove informace field is not empty.|
+|Enter a string with > 4000 characters to the Bonusove informace field.|Bonusove informace field is not empty.|
 |Save the cypher.|Cypher is not saved.<br>There is error displayed under the Bonusove informace field.|
 |||
 |Enter a valid number to the Poradi field.|The Poradi field is not empty.|
 |Click into the map to select the coordinates.|The Souradnice field is not empty.|
 |Enter a valid URL to the Adresa mapy field.|The Adresa mapy contains valid URL.|
-|Enter a string with > 1000 characters to the Popis mista field.|Popis mista field is not empty.|
+|Enter a string with > 2000 characters to the Popis mista field.|Popis mista field is not empty.|
 |Save the cypher.|Cypher is not saved.<br>There is error displayed under the Popis mista field.|
 |||
 |Enter a valid number to the Poradi field.|The Poradi field is not empty.|
