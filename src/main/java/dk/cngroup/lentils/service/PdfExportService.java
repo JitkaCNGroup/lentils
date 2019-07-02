@@ -33,7 +33,7 @@ public class PdfExportService {
         this.scoreService = scoreService;
     }
 
-    public ByteArrayInputStream exportScoresToPdf() throws DocumentException{
+    public ByteArrayInputStream exportScoresToPdf() throws DocumentException {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -49,7 +49,7 @@ public class PdfExportService {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    private void addHeaderParagraphToDocument(final Document document) throws DocumentException{
+    private void addHeaderParagraphToDocument(final Document document) throws DocumentException {
             document.add(getHeaderParagraph());
     }
 
@@ -61,7 +61,7 @@ public class PdfExportService {
         return p;
     }
 
-    private void addTableToDocument(final Document document) throws DocumentException{
+    private void addTableToDocument(final Document document) throws DocumentException {
         PdfPTable table = new PdfPTable(NUMBER_OF_TABLE_COLUMNS);
         addTableHeader(table);
         addRows(table);
