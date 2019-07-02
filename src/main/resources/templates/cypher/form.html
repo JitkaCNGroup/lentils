@@ -14,8 +14,9 @@
             <div class="col-sm-6">
                 <form action="#" th:object="${command}" method="post">
                     <div class="form-group">
-                        <label for="name">Jméno</label>
+                        <label for="name" class="input-value-required">Jméno</label>
                         <input id="name" class="form-control" th:field="*{name}"/>
+                        <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error.</p>
                     </div>
                     <div class="form-group">
                         <label for="stage" class="input-value-required">Pořadí</label>

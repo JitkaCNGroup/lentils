@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class CypherFormObject {
+    @NotEmpty(message = "Jméno nesmí být prázdné.")
     private String name;
 
     @NotNull(message = "Pořadí nesmí být prázdné.")
