@@ -86,6 +86,20 @@ public class FinalPlaceRepositoryTest {
         repository.saveAndFlush(finalPlace);
     }
 
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void finalPlaceWithNegativeAccessTimeTest() {
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setAccessTime(-10);
+        repository.saveAndFlush(finalPlace);
+    }
+
+    @Test(expected = javax.validation.ConstraintViolationException.class)
+    public void finalPlaceWithNullAccessTimeTest() {
+        FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setAccessTime(null);
+        repository.saveAndFlush(finalPlace);
+    }
+
     private FinalPlace getAnySaved() {
         return repository.save(objectGenerator.generateFinalPlace());
     }

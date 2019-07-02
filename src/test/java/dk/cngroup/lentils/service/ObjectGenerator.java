@@ -30,6 +30,7 @@ public class ObjectGenerator {
     public static final LocalDateTime FINALPLACE_FINISH_TIME_FUTURE = LocalDateTime.now().plusMinutes(1);
     public static final LocalDateTime FINALPLACE_RESULTS_TIME_FUTURE = LocalDateTime.now().plusMinutes(16);
     public static final Point FINALPLACE_LOCATION = new Point(2.123, 3.456);
+    public static final Integer FINALPLACE_ACCESS_TIME = 60;
 
     public static final int NUMBER_OF_TEAMS = 10;
     public static final int NUMBER_OF_CYPHERS = 5;
@@ -118,7 +119,7 @@ public class ObjectGenerator {
     }
 
     public FinalPlace generateFinalPlace() {
-        return new FinalPlace(FINALPLACE_DESCRIPTION, FINALPLACE_LOCATION, FINALPLACE_FINISH_TIME_FUTURE, FINALPLACE_RESULTS_TIME_FUTURE, 60);
+        return new FinalPlace(FINALPLACE_DESCRIPTION, FINALPLACE_LOCATION, FINALPLACE_FINISH_TIME_FUTURE, FINALPLACE_RESULTS_TIME_FUTURE, FINALPLACE_ACCESS_TIME);
     }
 
     public User createUser(final String username) {
