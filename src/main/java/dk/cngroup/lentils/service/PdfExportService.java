@@ -33,30 +33,24 @@ public class PdfExportService {
         this.scoreService = scoreService;
     }
 
-    public ByteArrayInputStream exportScoresToPdf() {
+    public ByteArrayInputStream exportScoresToPdf() throws DocumentException{
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
             PdfWriter.getInstance(document, out);
+            document.open();
+            addHeaderParagraphToDocument(document);
+            addTableToDocument(document);
+            document.close();
         } catch (DocumentException e) {
-            e.printStackTrace();
+            throw e;
         }
-
-        document.open();
-        addHeaderParagraphToDocument(document);
-        addTableToDocument(document);
-        document.close();
-
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    private void addHeaderParagraphToDocument(final Document document) {
-        try {
+    private void addHeaderParagraphToDocument(final Document document) throws DocumentException{
             document.add(getHeaderParagraph());
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
     }
 
     private Paragraph getHeaderParagraph() {
@@ -67,15 +61,11 @@ public class PdfExportService {
         return p;
     }
 
-    private void addTableToDocument(final Document document) {
+    private void addTableToDocument(final Document document) throws DocumentException{
         PdfPTable table = new PdfPTable(NUMBER_OF_TABLE_COLUMNS);
         addTableHeader(table);
         addRows(table);
-        try {
-            document.add(table);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
+        document.add(table);
     }
 
     private void addTableHeader(final PdfPTable table) {

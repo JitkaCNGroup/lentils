@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.controller;
 
+import com.itextpdf.text.DocumentException;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.entity.view.TeamScoreDetail;
 import dk.cngroup.lentils.service.PdfExportService;
@@ -55,7 +56,7 @@ public class ScoreController {
     }
 
     @GetMapping(value = "/export", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> exportScores() {
+    public ResponseEntity<InputStreamResource> exportScores() throws DocumentException {
         ByteArrayInputStream bis = exportService.exportScoresToPdf();
         return ResponseEntity
                 .ok()
