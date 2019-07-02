@@ -12,6 +12,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import dk.cngroup.lentils.entity.view.TeamScore;
+import dk.cngroup.lentils.exception.ExportToPdfFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,19 +34,22 @@ public class PdfExportService {
         this.scoreService = scoreService;
     }
 
-    public ByteArrayInputStream exportScoresToPdf() throws DocumentException {
+    public ByteArrayInputStream getScoresStream() {
+        try {
+            return exportScoresToPdf();
+        } catch (DocumentException e) {
+            throw new ExportToPdfFailedException();
+        }
+    }
+
+    private ByteArrayInputStream exportScoresToPdf() throws DocumentException {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        try {
-            PdfWriter.getInstance(document, out);
-            document.open();
-            addHeaderParagraphToDocument(document);
-            addTableToDocument(document);
-            document.close();
-        } catch (DocumentException e) {
-            throw e;
-        }
+        PdfWriter.getInstance(document, out);
+        document.open();
+        addHeaderParagraphToDocument(document);
+        addTableToDocument(document);
+        document.close();
         return new ByteArrayInputStream(out.toByteArray());
     }
 
