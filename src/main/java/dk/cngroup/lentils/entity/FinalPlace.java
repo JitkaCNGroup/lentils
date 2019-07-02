@@ -27,21 +27,37 @@ public class FinalPlace {
     @NotNull(message = "Souřadnice nesmí být prázdné.")
     private Point location;
 
-    @Column(name = "opening_time")
+    @Column(name = "results_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime openingTime;
+    private LocalDateTime resultsTime;
+
+    @Column(name = "access_time")
+//    @NotNull(message = "Zpřístupnění nesmi být prázdné.")
+//    @Min(value = 0, message = "Zpřístupnění nesmí být záporné.")
+//    po odkomentovani odstranit hodnotu 1
+    private Integer accessTime = 1;
+
+    @Column(name = "finish_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime finishTime;
 
     public FinalPlace() {
     }
 
-    public FinalPlace(final String description, final Point location, final LocalDateTime openingTime) {
+    public FinalPlace(final String description,
+                      final Point location,
+                      final LocalDateTime finishTime,
+                      final LocalDateTime resultsTime,
+                      final Integer accessTime) {
         this.description = description;
         this.location = location;
-        this.openingTime = openingTime;
+        this.finishTime = finishTime;
+        this.resultsTime = resultsTime;
+        this.accessTime = accessTime;
     }
 
-    public LocalTime getOpeningTimeOnly() {
-        return openingTime.toLocalTime();
+    public LocalTime getResultsTimeOnly() {
+        return resultsTime.toLocalTime();
     }
 
     public Long getFinalPlaceId() {
@@ -60,14 +76,6 @@ public class FinalPlace {
         this.description = description;
     }
 
-    public LocalDateTime getOpeningTime() {
-        return openingTime;
-    }
-
-    public void setOpeningTime(final LocalDateTime openingTime) {
-        this.openingTime = openingTime;
-    }
-
     public Point getLocation() {
         return location;
     }
@@ -76,13 +84,39 @@ public class FinalPlace {
         this.location = location;
     }
 
+    public LocalDateTime getResultsTime() {
+        return resultsTime;
+    }
+
+    public void setResultsTime(final LocalDateTime resultsTime) {
+        this.resultsTime = resultsTime;
+    }
+
+    public LocalDateTime getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(final LocalDateTime finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Integer getAccessTime() {
+        return accessTime;
+    }
+
+    public void setAccessTime(final Integer accessTime) {
+        this.accessTime = accessTime;
+    }
+
     @Override
     public String toString() {
         return "FinalPlace{" +
                 "finalPlaceId=" + finalPlaceId +
                 ", description='" + description + '\'' +
                 ", location=" + location +
-                ", openingTime=" + openingTime +
+                ", resultsTime=" + resultsTime +
+                ", finishTime=" + finishTime +
+                ", accessTime=" + accessTime +
                 '}';
     }
 
@@ -98,11 +132,13 @@ public class FinalPlace {
         return Objects.equals(finalPlaceId, that.finalPlaceId) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(location, that.location) &&
-                Objects.equals(openingTime, that.openingTime);
+                Objects.equals(resultsTime, that.resultsTime) &&
+                Objects.equals(finishTime, that.finishTime) &&
+                Objects.equals(accessTime, that.accessTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(finalPlaceId, description, location, openingTime);
+        return Objects.hash(finalPlaceId, description, location, resultsTime, finishTime, accessTime);
     }
 }

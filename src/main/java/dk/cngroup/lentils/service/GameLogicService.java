@@ -34,7 +34,7 @@ public class GameLogicService {
     public boolean isGameInProgress() {
         final FinalPlace finalPlace = finalPlaceService.getFinalPlace();
 
-        return finalPlace.getOpeningTime() != null && finalPlace.getOpeningTime().isAfter(LocalDateTime.now());
+        return finalPlace.getFinishTime() != null && finalPlace.getFinishTime().isAfter(LocalDateTime.now());
     }
 
     public boolean allowPlayersToViewFinalPlace(final Team team) {
@@ -49,16 +49,18 @@ public class GameLogicService {
 
     public boolean passedTimeToViewFinalPlace() {
         try {
-            LocalDateTime finalPlaceOpeningTime = finalPlaceService.getFinalPlace().getOpeningTime();
-            return finalPlaceOpeningTime.isBefore(LocalDateTime.now().plusHours(1));
+            LocalDateTime finalPlaceFinishTime = finalPlaceService.getFinalPlace().getFinishTime();
+            int accessMinutes = finalPlaceService.getFinalPlace().getAccessTime();
+
+            return finalPlaceFinishTime.isBefore(LocalDateTime.now().plusMinutes(accessMinutes));
         } catch (Exception e) {
             return false;
         }
     }
 
-    public LocalTime getFinalPlaceOpeningTime() {
+    public LocalTime getFinalPlaceResultsTime() {
         FinalPlace finalPlace = finalPlaceService.getFinalPlace();
-        return finalPlace.getOpeningTime().toLocalTime();
+        return finalPlace.getResultsTime().toLocalTime();
     }
 
     public void initializeGameForTeam(final Team team) {

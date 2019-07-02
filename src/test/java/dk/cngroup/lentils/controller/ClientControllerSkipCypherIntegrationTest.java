@@ -32,6 +32,7 @@ public class ClientControllerSkipCypherIntegrationTest {
     private static final String FALSE_CODEWORD = "firefly";
     private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
     private static final String HINT_NAME = "abcd";
+    private static final int TEST_FINALPLACE_ACCESS_TIME = 60;
 
     @Autowired
     private ClientController testedController;
@@ -152,7 +153,8 @@ public class ClientControllerSkipCypherIntegrationTest {
         final FinalPlace finalPlace = new FinalPlace();
         finalPlace.setLocation(TEST_LOCATION);
         finalPlace.setDescription("description");
-        finalPlace.setOpeningTime(time);
+        finalPlace.setFinishTime(time);
+        finalPlace.setAccessTime(TEST_FINALPLACE_ACCESS_TIME);
         finalPlaceRepository.save(finalPlace);
     }
 }

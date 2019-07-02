@@ -48,7 +48,8 @@ public class FinalPlaceServiceIntegrationTest {
         assertEquals(1, finalPlaceRepository.findAll().size());
 
         final String placeDescription = TEST_DESCRIPTION;
-        final FinalPlace newPlace = objectGenerator.generateFinalPlaceWithDescription(placeDescription);
+        final FinalPlace newPlace = objectGenerator.generateFinalPlace();
+        newPlace.setDescription(placeDescription);
         finalPlaceService.save(newPlace);
 
         final List<FinalPlace> placesAfterSave = finalPlaceRepository.findAll();
@@ -57,18 +58,52 @@ public class FinalPlaceServiceIntegrationTest {
     }
 
     @Test
-    public void shouldBeWithinOneHourBeforeOpeningTime() {
-        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(20);
-        final FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithOpeningTime(openingTime);
+    public void shouldBeWithinConfiguredMinutesBeforeFinishTime() {
+        LocalDateTime finishTime = LocalDateTime.now().plusMinutes(20);
+        final FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setFinishTime(finishTime);
+        finalPlace.setAccessTime(30);
         finalPlaceService.save(finalPlace);
+
         assertTrue(gameLogicService.passedTimeToViewFinalPlace());
     }
 
     @Test
-    public void shouldNotBeWithinOneHourBeforeOpeningTime() {
-        LocalDateTime openingTime = LocalDateTime.now().plusMinutes(61);
-        final FinalPlace finalPlace = objectGenerator.generateFinalPlaceWithOpeningTime(openingTime);
+    public void shouldNotBeWithinConfiguredMinutesBeforeFinishTime() {
+        LocalDateTime finishTime = LocalDateTime.now().plusMinutes(31);
+        final FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setFinishTime(finishTime);
+        finalPlace.setAccessTime(30);
         finalPlaceService.save(finalPlace);
+
         assertFalse(gameLogicService.passedTimeToViewFinalPlace());
+    }
+
+    @Test
+    public void isFinishTimeBeforeResultsTime() {
+        LocalDateTime finishTime = LocalDateTime.now().plusMinutes(10);
+        LocalDateTime resultsTime = LocalDateTime.now().plusMinutes(20);
+        int accessMinutes = 60;
+
+        final FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setFinishTime(finishTime);
+        finalPlace.setResultsTime(resultsTime);
+        finalPlace.setAccessTime(accessMinutes);
+
+        assertTrue(finalPlaceService.isFinishTimeBeforeResultsTime(finalPlace));
+    }
+
+    @Test
+    public void isFinishTimeAfterResultsTime() {
+        LocalDateTime finishTime = LocalDateTime.now().plusMinutes(10);
+        LocalDateTime resultsTime = LocalDateTime.now().plusMinutes(1);
+        int accessMinutes = 60;
+
+        final FinalPlace finalPlace = objectGenerator.generateFinalPlace();
+        finalPlace.setFinishTime(finishTime);
+        finalPlace.setResultsTime(resultsTime);
+        finalPlace.setAccessTime(accessMinutes);
+
+        assertFalse(finalPlaceService.isFinishTimeBeforeResultsTime(finalPlace));
     }
 }
