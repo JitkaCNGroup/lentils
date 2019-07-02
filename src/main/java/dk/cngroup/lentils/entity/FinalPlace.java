@@ -4,6 +4,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -32,10 +33,9 @@ public class FinalPlace {
     private LocalDateTime resultsTime;
 
     @Column(name = "access_time")
-//    @NotNull(message = "Zpřístupnění nesmi být prázdné.")
-//    @Min(value = 0, message = "Zpřístupnění nesmí být záporné.")
-//    po odkomentovani odstranit hodnotu 1
-    private Integer accessTime = 1;
+    @NotNull(message = "Zpřístupnění nesmí být prázdné.")
+    @Min(value = 0, message = "Zpřístupnění nesmí být záporné.")
+    private Integer accessTime;
 
     @Column(name = "finish_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")

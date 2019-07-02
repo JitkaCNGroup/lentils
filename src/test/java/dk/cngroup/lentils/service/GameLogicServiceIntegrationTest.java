@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = LentilsApplication.class)
 @Transactional
 public class GameLogicServiceIntegrationTest {
-    private static final int TEST_FINALPLACE_ACCESS_TIME = 60;
+    private static final Integer TEST_FINALPLACE_ACCESS_TIME = 60;
 
     @Autowired
     private TeamService teamService;
