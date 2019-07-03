@@ -1,12 +1,12 @@
 package dk.cngroup.lentils.entity.formEntity;
 
-import dk.cngroup.lentils.entity.Cypher;
 import org.springframework.data.geo.Point;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class CypherFormObject {
     @NotEmpty(message = "Jméno nesmí být prázdné.")
@@ -31,6 +31,8 @@ public class CypherFormObject {
 
     @Size(max = 2000, message = "Popis místa nesmí být delší než 2000 znaků.")
     private String placeDescription;
+
+    private List<Long> organizers;
 
     public String getName() {
         return name;
@@ -96,30 +98,11 @@ public class CypherFormObject {
         this.placeDescription = placeDescription;
     }
 
-    public static CypherFormObject fromEntity(final Cypher cypher) {
-        final CypherFormObject formObject = new CypherFormObject();
-
-        formObject.setName(cypher.getName());
-        formObject.setStage(cypher.getStage());
-        formObject.setLocation(cypher.getLocation());
-        formObject.setMapAddress(cypher.getMapAddress());
-        formObject.setCodeword(cypher.getCodeword());
-        formObject.setTrapCodeword(cypher.getTrapCodeword());
-        formObject.setBonusContent(cypher.getBonusContent());
-        formObject.setPlaceDescription(cypher.getPlaceDescription());
-
-        return formObject;
+    public List<Long> getOrganizers() {
+        return organizers;
     }
 
-    public static void toEntity(final Cypher cypher, final CypherFormObject command) {
-        cypher.setName(command.getName());
-        cypher.setName(command.getName());
-        cypher.setStage(command.getStage());
-        cypher.setLocation(command.getLocation());
-        cypher.setMapAddress(command.getMapAddress());
-        cypher.setCodeword(command.getCodeword());
-        cypher.setTrapCodeword(command.getTrapCodeword());
-        cypher.setBonusContent(command.getBonusContent());
-        cypher.setPlaceDescription(command.getPlaceDescription());
+    public void setOrganizers(final List<Long> organizers) {
+        this.organizers = organizers;
     }
 }

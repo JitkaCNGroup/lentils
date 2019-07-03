@@ -3,6 +3,10 @@ package dk.cngroup.lentils.repository;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.Role;
+import dk.cngroup.lentils.entity.User;
+import dk.cngroup.lentils.service.ObjectGenerator;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,6 +28,18 @@ import static org.junit.Assert.assertEquals;
 public class CypherRepositoryIntegrationTest {
     @Autowired
     private CypherRepository cypherRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ObjectGenerator objectGenerator;
+
+    @Before
+    public void setUp() {
+        cypherRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     public void findFirstByStageTest() {
@@ -35,5 +56,49 @@ public class CypherRepositoryIntegrationTest {
         cypherRepository.save(cypher1);
 
         assertEquals(cypher1, cypherRepository.findFirstByOrderByStageAsc());
+    }
+
+    @Test
+    public void deleteCypherWithOneAssignedOrganizerTest() {
+        Cypher cypher = objectGenerator.generateValidCypher();
+        User user = userRepository.save(createUser("name", "pwd", "ORGANIZER"));
+        List<User> organizers = new ArrayList<>();
+        organizers.add(user);
+        cypher.setOrganizers(organizers);
+        cypherRepository.save(cypher);
+
+        assertEquals(1, cypherRepository.count());
+        assertEquals(1, userRepository.count());
+        cypherRepository.delete(cypher);
+        assertEquals(0, cypherRepository.count());
+        assertEquals(1, userRepository.count());
+    }
+
+    @Test
+    public void deleteCypherWithTwoAssignedOrganizersTest() {
+        Cypher cypher = objectGenerator.generateValidCypher();
+        User user = userRepository.save(createUser("name", "pwd", "ORGANIZER"));
+        User user2 = userRepository.save(createUser("name2", "pwd2", "ORGANIZER"));
+        List<User> organizers = new ArrayList<>();
+        organizers.add(user);
+        organizers.add(user2);
+        cypher.setOrganizers(organizers);
+        cypherRepository.save(cypher);
+
+        assertEquals(1, cypherRepository.count());
+        assertEquals(2, userRepository.count());
+        cypherRepository.delete(cypher);
+        assertEquals(0, cypherRepository.count());
+        assertEquals(2, userRepository.count());
+    }
+
+    private User createUser(String username, String password, String role) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByRole(role));
+        user.setRoles(roles);
+        return user;
     }
 }

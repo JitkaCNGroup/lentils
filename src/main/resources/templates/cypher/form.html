@@ -52,6 +52,15 @@
                         <textarea id="placeDescription" class="form-control" th:field="*{placeDescription}"/>
                         <p class="error" th:if="${#fields.hasErrors('placeDescription')}" th:errors="*{placeDescription}">Place Description error.</p>
                     </div>
+                    <div class="form-group">
+                        <label for="organizer">Přiřazený organizátor</label>
+                        <select id="organizer" class="form-control" th:field="*{organizers}">
+                            <option th:value="null"> Bez organizátora
+                            </option>
+                            <option th:each="o : ${allOrganizers}" th:value="${o.userId}" th:text="${o.username}">
+                            </option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">Uložit</button>
                 </form>
             </div>

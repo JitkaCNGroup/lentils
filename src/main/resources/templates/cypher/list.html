@@ -19,6 +19,7 @@
                 <th scope="col">Odpověď</th>
                 <th scope="col">Falešná odpověď</th>
                 <th scope="col">Bonus</th>
+                <th scope="col">Organizátor</th>
                 <th scope="col">Akce</th>
             </tr>
             <tr th:if="${cyphers.empty}">
@@ -35,6 +36,12 @@
                 <td th:text="${cypher.codeword}">codove slovo</td>
                 <td th:text="${cypher.trapCodeword}">Past</td>
                 <td th:text="${#strings.abbreviate(cypher.bonusContent,50)}">Bonus</td>
+                <td>
+                    <th:block th:unless="${cypher.organizers == null}"
+                              th:each="o, iterStat : ${cypher.organizers}"
+                              th:text="!${iterStat.last} ? ${o.username} + ', ' : ${o.username}">Organizator
+                    </th:block>
+                </td>
                 <td>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
                         <span class="caret"></span>
