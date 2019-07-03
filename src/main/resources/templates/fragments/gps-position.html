@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GPS Fragment</title>
+</head>
+<body>
+    <span th:fragment="gps(point)">
+        GPS: <span th:text="${#numbers.formatDecimal(point.getY(), 0, 6)}">Y</span>, <span th:text="${#numbers.formatDecimal(point.getX(), 0, 6)}">X</span>
+    </span>
+</body>
+</html>
