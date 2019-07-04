@@ -30,7 +30,7 @@
                 <td th:text="${cypher.cypherId}">cypherId</td>
                 <td th:text="${cypher.name}">Jmeno</td>
                 <td th:text="${cypher.stage}">Cislo</td>
-                <td th:text="${cypher.location}">X, Y</td>
+                <td><span th:replace="fragments/gps-position :: gps(${cypher.location})"></span></td>
                 <td th:text="${#strings.abbreviate(cypher.placeDescription,50)}">Popis mista</td>
                 <td th:text="${cypher.codeword}">codove slovo</td>
                 <td th:text="${cypher.trapCodeword}">Past</td>
