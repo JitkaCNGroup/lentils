@@ -41,10 +41,10 @@ public class RankServiceTest {
 
         List<ScoreItem> actual = rankService.computeRank(scoreItems);
 
-        assertEquals(actual.get(0).getRank().getFromPlace(), 1);
-        assertEquals(actual.get(1).getRank().getFromPlace(), 2);
-        assertEquals(actual.get(2).getRank().getFromPlace(), 3);
-        assertEquals(actual.get(3).getRank().getFromPlace(), 4);
+        assertEquals(1, actual.get(0).getRank().getFromPlace());
+        assertEquals(2, actual.get(1).getRank().getFromPlace());
+        assertEquals(3, actual.get(2).getRank().getFromPlace());
+        assertEquals(4, actual.get(3).getRank().getFromPlace());
     }
 
     @Test
@@ -59,15 +59,15 @@ public class RankServiceTest {
 
         List<ScoreItem> actual = rankService.computeRank(scoreItems);
 
-        assertEquals(actual.get(0).getRank().getFromPlace(), 1);
-        assertEquals(actual.get(0).getRank().getToPlace(), 2);
-        assertEquals(actual.get(1).getRank().getFromPlace(), 1);
-        assertEquals(actual.get(1).getRank().getToPlace(), 2);
-        assertEquals(actual.get(2).getRank().getFromPlace(), 3);
-        assertEquals(actual.get(3).getRank().getFromPlace(), 4);
-        assertEquals(actual.get(3).getRank().getToPlace(), 5);
-        assertEquals(actual.get(4).getRank().getFromPlace(), 4);
-        assertEquals(actual.get(4).getRank().getToPlace(), 5);
-        assertEquals(actual.get(5).getRank().getFromPlace(), 6);
+        assertEquals(1, actual.get(0).getRank().getFromPlace());
+        assertEquals(2, actual.get(0).getRank().getToPlace());
+        assertEquals(1, actual.get(1).getRank().getFromPlace());
+        assertEquals(2, actual.get(1).getRank().getToPlace());
+        assertEquals(3, actual.get(2).getRank().getFromPlace());
+        assertEquals(4, actual.get(3).getRank().getFromPlace());
+        assertEquals(5, actual.get(3).getRank().getToPlace());
+        assertEquals(4, actual.get(4).getRank().getFromPlace());
+        assertEquals(5, actual.get(4).getRank().getToPlace());
+        assertEquals(6, actual.get(5).getRank().getFromPlace());
     }
 }
