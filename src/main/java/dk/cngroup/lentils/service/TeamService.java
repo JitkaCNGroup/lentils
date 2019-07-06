@@ -33,6 +33,7 @@ public class TeamService {
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
     private final UserRepository userRepository;
+    private final Random random;
 
     @Autowired
     public TeamService(final TeamRepository teamRepository,
@@ -47,6 +48,8 @@ public class TeamService {
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
         this.userRepository = userRepository;
+
+        random = new Random();
     }
 
     public Team update(final Team team) {
@@ -111,10 +114,9 @@ public class TeamService {
 
     private String getPIN(final int len) {
         String numbers = PIN_CHARACTERS;
-        Random rnd = new Random();
         char[] pin = new char[len];
         for (int i = 0; i < len; i++) {
-            pin[i] = numbers.charAt(rnd.nextInt(numbers.length()));
+            pin[i] = numbers.charAt(random.nextInt(numbers.length()));
         }
         return String.copyValueOf(pin);
     }
