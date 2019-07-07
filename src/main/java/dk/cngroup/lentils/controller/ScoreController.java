@@ -23,7 +23,6 @@ import java.util.List;
 public class ScoreController {
     private static final String SCORE_LIST = "score/list";
     private static final String SCORE_LIST_DETAIL = "score/team";
-    private static final String ERROR = "error/error";
 
     private final TeamService teamService;
     private final ScoreService scoreService;
