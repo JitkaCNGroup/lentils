@@ -71,8 +71,8 @@ public class ProgressServiceTest {
         Map<Long, CypherStatus> result = progressService.getTeamsStatuses(cypher);
 
         assertEquals(2, result.size());
-        assertEquals(result.get(team1.getTeamId()), CypherStatus.PENDING);
-        assertEquals(result.get(team2.getTeamId()), CypherStatus.SOLVED);
+        assertEquals(CypherStatus.PENDING, result.get(team1.getTeamId()));
+        assertEquals(CypherStatus.SOLVED, result.get(team2.getTeamId()));
 
     }
 
@@ -137,8 +137,8 @@ public class ProgressServiceTest {
         Map<Long, CypherStatus> result = progressService.getCyphersStatuses(team);
 
         assertEquals(2, result.size());
-        assertEquals(result.get(cypher1.getCypherId()), CypherStatus.PENDING);
-        assertEquals(result.get(cypher2.getCypherId()), CypherStatus.SOLVED);
+        assertEquals(CypherStatus.PENDING, result.get(cypher1.getCypherId()));
+        assertEquals(CypherStatus.SOLVED, result.get(cypher2.getCypherId()));
     }
 
     @Test
