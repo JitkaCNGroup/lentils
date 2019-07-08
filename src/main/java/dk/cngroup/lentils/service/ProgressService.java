@@ -97,24 +97,22 @@ public class ProgressService {
         List<Integer> stages = teamsWithCypherPending.stream()
                 .map(this::getStageOfPendingCypherForTeam)
                 .collect(Collectors.toList());
-        StageRangeOfTeams stageRangeOfTeams = new StageRangeOfTeams(Collections.min(stages),
-                Collections.max(stages));
-        return stageRangeOfTeams;
+
+        return new StageRangeOfTeams(Collections.min(stages), Collections.max(stages));
     }
 
     public int getNumberOfFinishedTeams() {
         List<Team> teams = teamService.getAll();
-        int numberOfFinishedTeams = (int) teams.stream()
+
+        return (int) teams.stream()
                 .filter(team -> gameLogicService.passedAllCyphers(team))
                 .count();
-        return numberOfFinishedTeams;
     }
 
     public List<Team> getTeamsWithPendingCypher(final List<Team> teams) {
-        List<Team> teamsWithCypherPending = teams.stream()
+        return teams.stream()
                 .filter(team -> hasCypherPending(team))
                 .collect(Collectors.toList());
-        return teamsWithCypherPending;
     }
 
     private boolean hasCypherPending(final Team team) {
