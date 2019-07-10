@@ -102,12 +102,31 @@ public class ProgressController {
     @GetMapping(value = "/stage")
     public String stageProgress(final @RequestParam("cypherId") Long cypherId,
                                 final @RequestParam(value = "search", required = false) String searchString,
+                                final @RequestParam(
+                                        value = "viewOtherTeams",
+                                        required = false,
+                                        defaultValue = "false") Boolean viewOtherTeams,
                                 final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
+
         model.addAttribute("cypher", cypher);
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
         model.addAttribute("search", searchString);
-        model.addAttribute("teams", progressService.getSearchedTeams(searchString));
+        model.addAttribute("pendingTeams",
+                progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher(
+                        searchString,
+                        cypher,
+                        CypherStatus.PENDING,
+                        true));
+        if (viewOtherTeams) {
+            model.addAttribute("otherTeams",
+                    progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher(
+                            searchString,
+                            cypher,
+                            CypherStatus.PENDING,
+                            false));
+            model.addAttribute("viewOtherTeams", true);
+        }
         return PROGRESS_STAGE;
     }
 

@@ -115,6 +115,17 @@ public class ProgressService {
                 .collect(Collectors.toList());
     }
 
+    public List<Team> getSearchedTeamsWithSpecificStatusAtSpecificCypher(
+            final String searchName,
+            final Cypher cypher,
+            final CypherStatus cypherStatus,
+            final Boolean withCypherStatus) {
+
+        List<Status> statuses = statusService
+                .getStatusesOfSearchedTeamsAtCypherWithStatus(searchName, cypher, cypherStatus, withCypherStatus);
+        return statuses.stream().map(Status::getTeam).collect(Collectors.toList());
+    }
+
     private boolean hasCypherPending(final Team team) {
         return statusService.getAllByTeam(team).stream()
                 .anyMatch(status -> status.getCypherStatus() == CypherStatus.PENDING);
