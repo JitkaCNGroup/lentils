@@ -42,6 +42,18 @@ public class ClientController {
     private static final String FORM_OBJECT_NAME = "codeword";
     private static final String GUESS_FIELD_NAME = "guess";
 
+    private static final String TEMPLATE_ATTR_CYPHER = "cypher";
+    private static final String TEMPLATE_ATTR_CYPHER_GAME_INFOS = "cypherGameInfos";
+    private static final String TEMPLATE_ATTR_FINAL_VIEW_ALLOWED = "finalViewAllowed";
+    private static final String TEMPLATE_ATTR_GAME_STARTED = "gameStarted";
+    private static final String TEMPLATE_ATTR_HINTS_NOT_TAKEN = "hintsNotTaken";
+    private static final String TEMPLATE_ATTR_HINTS_TAKEN = "hintsTaken";
+    private static final String TEMPLATE_ATTR_NEXT_CYPHER = "nextCypher";
+    private static final String TEMPLATE_ATTR_RESULTS_TIME = "resultsTime";
+    private static final String TEMPLATE_ATTR_SCORE = "score";
+    private static final String TEMPLATE_ATTR_STATUS = "status";
+    private static final String TEMPLATE_ATTR_TEAM = "team";
+
     private final CypherService cypherService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
@@ -71,16 +83,16 @@ public class ClientController {
     public String clientWelcomePage(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
         List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
         if (!cyphers.isEmpty() && statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
-            model.addAttribute("gameStarted", true);
-            model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
-            model.addAttribute("cypherGameInfos",
+            model.addAttribute(TEMPLATE_ATTR_GAME_STARTED, true);
+            model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
+            model.addAttribute(TEMPLATE_ATTR_CYPHER_GAME_INFOS,
                     cypherGameInfoService.getAllByTeamIdAndStatusIsNotLocked(user.getTeam().getTeamId()));
             checkTeamAllowedToViewFinalPlace(user, model);
         } else {
-            model.addAttribute("gameStarted", false);
-            model.addAttribute("finalViewAllowed", false);
+            model.addAttribute(TEMPLATE_ATTR_GAME_STARTED, false);
+            model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED, false);
         }
-        model.addAttribute("team", user.getTeam());
+        model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         return CLIENT_VIEW_CYPHER_LIST;
     }
 
@@ -115,11 +127,12 @@ public class ClientController {
             throw new ResourceNotFoundException("locked cypher", id);
         }
 
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("hintsNotTaken", hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
+        model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
+        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_HINTS_NOT_TAKEN,
+                hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
         return CLIENT_VIEW_HINT_LIST;
     }
 
@@ -168,9 +181,9 @@ public class ClientController {
     public String trapScreen(@PathVariable("id") final Long id,
                              @AuthenticationPrincipal final CustomUserDetails user,
                              final Model model) {
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
-        model.addAttribute("cypher", cypherService.getCypher(id));
+        model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
+        model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypherService.getCypher(id));
         return CLIENT_TRAP_SCREEN;
     }
 
@@ -179,18 +192,18 @@ public class ClientController {
                           @AuthenticationPrincipal final CustomUserDetails user,
                           final Cypher cypher) {
         if (!gameLogicService.isGameInProgress()) {
-            return "redirect:/cypher/" + cypher.getCypherId() + "/hint?gameEnded=true";
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "/hint?gameEnded=true";
         }
 
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
         if (cypherStatus != (CypherStatus.PENDING)) {
-            return "redirect:/cypher/" + cypher.getCypherId() + "/hint?wrongStatus=true";
+            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "/hint?wrongStatus=true";
         }
 
         Team team = user.getTeam();
         Hint hint = hintService.getHint(id);
         hintTakenService.takeHint(team, hint);
-        return "redirect:/cypher/" + cypher.getCypherId() + "/hint";
+        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "/hint";
     }
 
     @PostMapping(value = "cypher/giveUp")
@@ -214,21 +227,22 @@ public class ClientController {
             final Cypher cypher,
             final CypherStatus status,
             final Codeword codeword) {
-        model.addAttribute("team", user.getTeam());
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("status", status.name());
-        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute("nextCypher", cypherService.getNext(cypher.getStage()));
-        model.addAttribute("codeword", codeword);
-        model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
-        model.addAttribute("finalViewAllowed", gameLogicService.allowPlayersToViewFinalPlace(user.getTeam()));
+        model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
+        model.addAttribute(TEMPLATE_ATTR_STATUS, status.name());
+        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_NEXT_CYPHER, cypherService.getNext(cypher.getStage()));
+        model.addAttribute(FORM_OBJECT_NAME, codeword);
+        model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
+        model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED,
+                gameLogicService.allowPlayersToViewFinalPlace(user.getTeam()));
     }
 
     private void checkTeamAllowedToViewFinalPlace(@AuthenticationPrincipal final CustomUserDetails user,
                                                   final Model model) {
         if (gameLogicService.allowPlayersToViewFinalPlace(user.getTeam())) {
-            model.addAttribute("finalViewAllowed", true);
-            model.addAttribute("resultsTime", gameLogicService.getFinalPlaceResultsTime());
+            model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED, true);
+            model.addAttribute(TEMPLATE_ATTR_RESULTS_TIME, gameLogicService.getFinalPlaceResultsTime());
         }
     }
 }
