@@ -27,7 +27,7 @@ public class ContactService {
 
     public Contact getContact() {
         List<Contact> contacts = contactRepository.findAll();
-        if (contacts.size() == 0) {
+        if (contacts.isEmpty()) {
             return new Contact();
         } else if (contacts.size() == 1) {
             return contacts.get(0);
