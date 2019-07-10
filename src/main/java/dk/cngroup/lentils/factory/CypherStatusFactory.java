@@ -2,7 +2,11 @@ package dk.cngroup.lentils.factory;
 
 import dk.cngroup.lentils.entity.CypherStatus;
 
-public class CypherStatusFactory {
+public final class CypherStatusFactory {
+
+    private CypherStatusFactory() {
+        throw new IllegalStateException("Static factory cannot be instantiated");
+    }
 
     public static CypherStatus create(final String newStatus) {
         switch (newStatus) {
