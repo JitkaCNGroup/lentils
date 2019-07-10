@@ -115,26 +115,15 @@ public class ProgressService {
                 .collect(Collectors.toList());
     }
 
-    public List<Team> getTeamsWithSpecificStatusAtSpecificCypher(
-            final List<Team> teams,
+    public List<Team> getSearchedTeamsWithSpecificStatusAtSpecificCypher(
+            final String searchName,
             final Cypher cypher,
-            final CypherStatus cypherStatus) {
+            final CypherStatus cypherStatus,
+            final Boolean withCypherStatus) {
 
-        List<Team> filteredTeams = teams.stream()
-                .filter(team -> statusService.isPresentTeamAtCypherWithStatus(team, cypher, cypherStatus))
-                .collect(Collectors.toList());
-        return filteredTeams;
-    }
-
-    public List<Team> getTeamsExceptSpecificStatusAtSpecificCypher(
-            final List<Team> teams,
-            final Cypher cypher,
-            final CypherStatus cypherStatus) {
-
-        List<Team> filteredTeams = teams.stream()
-                .filter(team -> !statusService.isPresentTeamAtCypherWithStatus(team, cypher, cypherStatus))
-                .collect(Collectors.toList());
-        return filteredTeams;
+        List<Status> statuses = statusService
+                .getStatusesOfSearchedTeamsAtCypherWithStatus(searchName, cypher, cypherStatus, withCypherStatus);
+        return statuses.stream().map(Status::getTeam).collect(Collectors.toList());
     }
 
     private boolean hasCypherPending(final Team team) {

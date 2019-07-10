@@ -7,7 +7,9 @@ import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.NextCypherNotFoundException;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.repository.StatusRepository;
+import dk.cngroup.lentils.repository.StatusRepositorySpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,13 +71,6 @@ public class StatusService {
         return getStatusByTeamAndCypher(team, cypher).getCypherStatus();
     }
 
-    public Boolean isPresentTeamAtCypherWithStatus(
-            final Team team,
-            final Cypher cypher,
-            final CypherStatus cypherStatus) {
-        return statusRepository.existsStatusByCypherAndTeamAndCypherStatus(cypher, team, cypherStatus);
-    }
-
     public void initializeStatusForTeamAndCypher(final Cypher cypher, final Team team) {
         Status status = new Status();
         status.setCypher(cypher);
@@ -123,6 +118,27 @@ public class StatusService {
 
     public List<Status> getPendingCyphers(final Team team) {
         return statusRepository.findByTeamAndCypherStatusOrderByCypherStageAsc(team, CypherStatus.PENDING);
+    }
+
+    public List<Status> getStatusesOfSearchedTeamsAtCypherWithStatus(final String searchName,
+                                                                     final Cypher cypher,
+                                                                     final CypherStatus cypherStatus,
+                                                                     final Boolean withCypherStatus) {
+
+        Specification<Status> hasTeamNameSpec = StatusRepositorySpec.hasTeamName(searchName);
+        Specification<Status> hasCypherSpec = StatusRepositorySpec.hasCypher(cypher);
+
+        if (withCypherStatus) {
+            return statusRepository.findAll(Specification
+                    .where(hasTeamNameSpec)
+                    .and(hasCypherSpec)
+                    .and(StatusRepositorySpec.hasCypherStatus(cypherStatus)));
+        } else {
+            return statusRepository.findAll(Specification
+                    .where(hasTeamNameSpec)
+                    .and(hasCypherSpec)
+                    .and(StatusRepositorySpec.hasNotCypherStatus(cypherStatus)));
+        }
     }
 
     public void deleteAllByCypherId(final Long cypherId) {

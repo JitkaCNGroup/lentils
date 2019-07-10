@@ -160,9 +160,7 @@ public class ProgressServiceIntegrationTest {
         statusService.markCypher(cypher1, team3, CypherStatus.SKIPPED);
         statusService.markCypher(cypher1, team4, CypherStatus.SOLVED);
 
-        List<Team> teams = teamRepository.findAll();
-
-        assertEquals(1, progressService.getTeamsWithSpecificStatusAtSpecificCypher(teams, cypher1, CypherStatus.PENDING).size());
+        assertEquals(1, progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher("", cypher1, CypherStatus.PENDING, true).size());
     }
 
     @Test
@@ -180,8 +178,42 @@ public class ProgressServiceIntegrationTest {
         statusService.markCypher(cypher1, team3, CypherStatus.SKIPPED);
         statusService.markCypher(cypher1, team4, CypherStatus.SOLVED);
 
-        List<Team> teams = teamRepository.findAll();
+        assertEquals(3, progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher("", cypher1, CypherStatus.PENDING, false).size());
+    }
 
-        assertEquals(3, progressService.getTeamsExceptSpecificStatusAtSpecificCypher(teams, cypher1, CypherStatus.PENDING).size());
+    @Test
+    public void testGetSearchedTeamsExceptPendingStatusAtFirstCypher() {
+        Cypher cypher1 = cypherService.save(generator.generateValidCypher());
+        Team team1 = teamRepository.save(generator.generateTeamWithNameAndPin("team1", "1111"));
+        Team team2 = teamRepository.save(generator.generateTeamWithNameAndPin("team2", "2222"));
+        Team team3 = teamRepository.save(generator.generateTeamWithNameAndPin("group3", "3333"));
+        Team team4 = teamRepository.save(generator.generateTeamWithNameAndPin("group4", "4444"));
+
+        gameLogicService.initializeGameForAllTeams();
+
+        statusService.markCypher(cypher1, team1, CypherStatus.LOCKED);
+        statusService.markCypher(cypher1, team2, CypherStatus.LOCKED);
+        statusService.markCypher(cypher1, team3, CypherStatus.SKIPPED);
+        statusService.markCypher(cypher1, team4, CypherStatus.SOLVED);
+
+        assertEquals(2, progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher("team", cypher1, CypherStatus.PENDING, false).size());
+    }
+
+    @Test
+    public void testGetSearchedTeamsWithPendingStatusAtFirstCypher() {
+        Cypher cypher1 = cypherService.save(generator.generateValidCypher());
+        Team team1 = teamRepository.save(generator.generateTeamWithNameAndPin("team1", "1111"));
+        Team team2 = teamRepository.save(generator.generateTeamWithNameAndPin("team2", "2222"));
+        Team team3 = teamRepository.save(generator.generateTeamWithNameAndPin("group3", "3333"));
+        Team team4 = teamRepository.save(generator.generateTeamWithNameAndPin("group4", "4444"));
+
+        gameLogicService.initializeGameForAllTeams();
+
+        statusService.markCypher(cypher1, team1, CypherStatus.LOCKED);
+        statusService.markCypher(cypher1, team2, CypherStatus.LOCKED);
+        statusService.markCypher(cypher1, team3, CypherStatus.SKIPPED);
+        statusService.markCypher(cypher1, team4, CypherStatus.SOLVED);
+
+        assertEquals(2, progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher("group", cypher1, CypherStatus.PENDING, false).size());
     }
 }

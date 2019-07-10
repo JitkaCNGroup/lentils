@@ -108,22 +108,23 @@ public class ProgressController {
                                         defaultValue = "false") Boolean viewOtherTeams,
                                 final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
-        List<Team> searchedTeams = progressService.getSearchedTeams(searchString);
 
         model.addAttribute("cypher", cypher);
         model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
         model.addAttribute("search", searchString);
         model.addAttribute("pendingTeams",
-                progressService.getTeamsWithSpecificStatusAtSpecificCypher(
-                        searchedTeams,
+                progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher(
+                        searchString,
                         cypher,
-                        CypherStatus.PENDING));
+                        CypherStatus.PENDING,
+                        true));
         if (viewOtherTeams) {
             model.addAttribute("otherTeams",
-                    progressService.getTeamsExceptSpecificStatusAtSpecificCypher(
-                            searchedTeams,
+                    progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher(
+                            searchString,
                             cypher,
-                            CypherStatus.PENDING));
+                            CypherStatus.PENDING,
+                            false));
             model.addAttribute("viewOtherTeams", true);
         }
         return PROGRESS_STAGE;

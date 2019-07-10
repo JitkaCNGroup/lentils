@@ -192,22 +192,6 @@ public class StatusServiceTest {
         assertEquals(false, service.restOfCyphersAreLocked (team, cypher));
     }
 
-    @Test
-    public void testPresenceOfTeamAtCypherWIthPendingStatusIsTrue() {
-        Status status = generateOneTeamCypherAndStatusRow("PENDING");
-        when(statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any())).thenReturn(true);
-
-        assertTrue(service.isPresentTeamAtCypherWithStatus(status.getTeam(), status.getCypher(), CypherStatus.PENDING));
-    }
-
-    @Test
-    public void testPresenceOfTeamAtCypherWIthPendingStatusIsFalse() {
-        Status status = generateOneTeamCypherAndStatusRow("SKIPPED");
-        when(statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any())).thenReturn(false);
-
-        assertFalse(service.isPresentTeamAtCypherWithStatus(status.getTeam(), status.getCypher(), CypherStatus.PENDING));
-    }
-
     private List<Status> fillTeamCypherAndStatusTables() {
         List<Team> teams = generator.generateTeamList();
         when(teamRepository.saveAll(teams)).thenReturn(teams);
