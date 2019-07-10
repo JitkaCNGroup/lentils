@@ -52,9 +52,7 @@ public class HintTakenService {
     }
 
     public List<HintTaken> getAllByTeamAndCypher(final Team team, final Cypher cypher) {
-    List<HintTaken> hintsTakenByTeamAndCypher = hintTakenRepository.findAllByTeamAndCypher(team.getTeamId(),
-            cypher.getCypherId());
-        return hintsTakenByTeamAndCypher;
+        return hintTakenRepository.findAllByTeamAndCypher(team.getTeamId(), cypher.getCypherId());
     }
 
     public List<HintTaken> getAll() {
