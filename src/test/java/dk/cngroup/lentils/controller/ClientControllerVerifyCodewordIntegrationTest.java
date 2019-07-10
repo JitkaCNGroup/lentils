@@ -2,27 +2,21 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
-import dk.cngroup.lentils.entity.*;
+import dk.cngroup.lentils.entity.CypherStatus;
+import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.formEntity.Codeword;
-import dk.cngroup.lentils.repository.*;
-import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
 
 import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG;
 import static junit.framework.TestCase.assertTrue;
@@ -34,77 +28,51 @@ import static org.mockito.Mockito.verify;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 @Transactional
-public class ClientControllerVerifyCodewordIntegrationTest {
-    public static final String CORRECT_CODEWORD = "topgun";
-    public static final String FALSE_CODEWORD = "firefly";
-    private static final Point TEST_LOCATION = new Point(59.9090442, 10.7423389);
-    private static final String HINT_NAME = "abcd";
-    private static final int TEST_FINALPLACE_ACCESS_TIME = 60;
-
-    @Autowired
-    private ClientController testedController;
-    @Autowired
-    private CypherRepository cypherRepository;
-    @Autowired
-    private HintRepository hintRepository;
-    @Autowired
-    private TeamRepository teamRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private StatusRepository statusRepository;
-    @Autowired
-    private FinalPlaceRepository finalPlaceRepository;
-    @Autowired
-    private ObjectGenerator generator;
+public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClientControllerTest {
 
     private BindingResult result;
-    private Cypher cypher;
-    private Team team;
-    private User user;
 
     @Before
     public void setup() {
-        result = mock(BindingResult.class);
+        setupSharedFixture();
 
-        createTestCypher();
-        createTestTeamAndUser();
-        createCypherStatus(cypher, team, CypherStatus.PENDING);
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
+        result = mock(BindingResult.class);
     }
 
     @Test
     public void testCheckCorrectCodeword() {
-        setupThatGameHasNotEnded();
+        setThatGameHasNotEnded();
         final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
 
         final String returnValue = executeTestedMethod(codeword);
 
         AssertionUtils.assertValueIsRedirection(returnValue);
-        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
         assertEquals(CypherStatus.SOLVED, status.getCypherStatus());
     }
 
     @Test
     public void testIncorrectCodeword() {
-        setupThatGameHasNotEnded();
+        setThatGameHasNotEnded();
         final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD + "_wrong");
 
         final String returnValue = executeTestedMethod(codeword);
 
         AssertionUtils.assertValueIsNotRedirection(returnValue);
-        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
         assertEquals(CypherStatus.PENDING, status.getCypherStatus());
     }
 
     @Test
     public void testFalseCodeword() {
-        setupThatGameHasNotEnded();
+        setThatGameHasNotEnded();
         final Codeword codeword = createCodewordFormObject(FALSE_CODEWORD);
 
         final String returnValue = executeTestedMethod(codeword);
 
         AssertionUtils.assertValueIsRedirection(returnValue);
-        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
         assertEquals(CypherStatus.PENDING, status.getCypherStatus());
         assertTrue(returnValue.contains("lets-play-a-game"));
     }
@@ -112,7 +80,7 @@ public class ClientControllerVerifyCodewordIntegrationTest {
     @Test
     public void testCheckCodewordAfterGameHasEnded() {
         final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
-        setupThatGameHasAlreadyEnded();
+        setThatGameHasAlreadyEnded();
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
         String returnValue = executeTestedMethod(codeword);
@@ -125,54 +93,21 @@ public class ClientControllerVerifyCodewordIntegrationTest {
 
     @Test
     public void testCheckCodewordForNonPendingStatus() {
-        setupThatGameHasNotEnded();
-        createCypherStatus(cypher, team, CypherStatus.SKIPPED);
+        setThatGameHasNotEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.SKIPPED, getFixtureTeam());
         final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
 
         final String returnValue = executeTestedMethod(codeword);
 
         AssertionUtils.assertValueIsNotRedirection(returnValue);
-        final Status status = statusRepository.findByTeamAndCypher(team, cypher);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
         assertNotEquals(CypherStatus.SOLVED, status.getCypherStatus());
         assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
     }
 
-    private void createTestCypher() {
-        Hint hint = new Hint(HINT_NAME, 5, cypher);
-        hintRepository.save(hint);
-        cypher = generator.generateValidCypher();
-        cypher.setCodeword(CORRECT_CODEWORD);
-        cypher.setTrapCodeword(FALSE_CODEWORD);
-        cypher.setHints(Collections.singletonList(hint));
-        cypherRepository.save(cypher);
-    }
-
-    private void createTestTeamAndUser() {
-        team = generator.generateValidTeam();
-        teamRepository.save(team);
-
-        user = new User();
-        user.setUsername("johnny");
-        user.setPassword("dummy");
-        user.setTeam(team);
-        userRepository.save(user);
-    }
-
-    private void createCypherStatus(final Cypher cypher, final Team team, final CypherStatus value) {
-        final Status status = new Status();
-        status.setCypherStatus(value);
-        status.setCypher(cypher);
-        status.setTeam(team);
-        statusRepository.save(status);
-    }
-
-    private CustomUserDetails getUserDetailsMock() {
-        return new CustomUserDetails(user);
-    }
-
     private String executeTestedMethod(final Codeword withCodeword) {
         return testedController.verifyCodeword(
-                cypher.getCypherId(),
+                getFixtureCypher().getCypherId(),
                 withCodeword,
                 getUserDetailsMock(),
                 result,
@@ -184,26 +119,5 @@ public class ClientControllerVerifyCodewordIntegrationTest {
         codeword.setGuess(guess);
 
         return codeword;
-    }
-
-    private void setupThatGameHasNotEnded() {
-        final LocalDateTime time = LocalDateTime.now();
-
-        createFinalPlace(time.plusHours(5));
-    }
-
-    private void setupThatGameHasAlreadyEnded() {
-        final LocalDateTime time = LocalDateTime.now();
-
-        createFinalPlace(time.minusHours(2));
-    }
-
-    private void createFinalPlace(LocalDateTime time) {
-        final FinalPlace finalPlace = new FinalPlace();
-        finalPlace.setLocation(TEST_LOCATION);
-        finalPlace.setDescription("description");
-        finalPlace.setFinishTime(time);
-        finalPlace.setAccessTime(TEST_FINALPLACE_ACCESS_TIME);
-        finalPlaceRepository.save(finalPlace);
     }
 }
