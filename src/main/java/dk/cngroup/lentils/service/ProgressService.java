@@ -43,18 +43,20 @@ public class ProgressService {
     public Map<Long, CypherStatus> getTeamsStatuses(final Cypher cypher) {
         List<Status> statuses = statusService.getAllByCypher(cypher);
         Map<Long, CypherStatus> teamsStatuses = new HashMap<>();
-        statuses.forEach(status -> {
-            teamsStatuses.put(status.getTeam().getTeamId(), status.getCypherStatus());
-        });
+        statuses.forEach(status -> teamsStatuses.put(
+                status.getTeam().getTeamId(),
+                status.getCypherStatus()
+        ));
         return teamsStatuses;
     }
 
     public Map<Long, CypherStatus> getCyphersStatuses(final Team team) {
         List<Status> statuses = statusService.getAllByTeam(team);
         Map<Long, CypherStatus> cypherStatuses = new HashMap<>();
-        statuses.forEach(status -> {
-            cypherStatuses.put(status.getCypher().getCypherId(), status.getCypherStatus());
-        });
+        statuses.forEach(status -> cypherStatuses.put(
+                status.getCypher().getCypherId(),
+                status.getCypherStatus()
+        ));
         return cypherStatuses;
     }
 
@@ -62,13 +64,11 @@ public class ProgressService {
         List<Hint> hints = cypher.getHints();
         List<HintTaken> takenHints = hintTakenService.getTakenHintsOfTeam(team);
         Map<Long, String> takenHintsMap = new HashMap<>();
-        hints.forEach(hint -> {
-            takenHints.forEach(hintTaken -> {
-                if (hintTaken.getHint() == hint) {
-                    takenHintsMap.put(hint.getHintId(), hint.getText());
-                }
-            });
-        });
+        hints.forEach(hint -> takenHints.forEach(hintTaken -> {
+            if (hintTaken.getHint() == hint) {
+                takenHintsMap.put(hint.getHintId(), hint.getText());
+            }
+        }));
         return takenHintsMap;
     }
 
