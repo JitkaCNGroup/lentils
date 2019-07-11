@@ -1,7 +1,7 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.formEntity.CypherFormObject;
+import dk.cngroup.lentils.entity.formentity.CypherFormObject;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.UserService;
 import dk.cngroup.lentils.service.convertors.CypherFormConverter;

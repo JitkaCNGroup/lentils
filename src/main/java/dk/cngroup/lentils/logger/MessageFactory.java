@@ -1,7 +1,7 @@
 package dk.cngroup.lentils.logger;
 
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.entity.formentity.Codeword;
 import dk.cngroup.lentils.logger.change.StatusChange;
 import dk.cngroup.lentils.security.CustomUserDetails;
 

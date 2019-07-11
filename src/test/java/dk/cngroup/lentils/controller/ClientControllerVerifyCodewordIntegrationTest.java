@@ -4,7 +4,7 @@ import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
-import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.entity.formentity.Codeword;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.entity.formEntity;
+package dk.cngroup.lentils.entity.formentity;
 
 public class Codeword {
 

@@ -2,7 +2,7 @@ package dk.cngroup.lentils.service.convertors;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.User;
-import dk.cngroup.lentils.entity.formEntity.CypherFormObject;
+import dk.cngroup.lentils.entity.formentity.CypherFormObject;
 import dk.cngroup.lentils.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

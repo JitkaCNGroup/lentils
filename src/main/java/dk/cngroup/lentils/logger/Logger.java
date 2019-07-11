@@ -5,7 +5,7 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.formEntity.Codeword;
+import dk.cngroup.lentils.entity.formentity.Codeword;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.logger.change.RevertHintChange;
 import dk.cngroup.lentils.logger.change.StatusChange;
