@@ -4,6 +4,7 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.HintTaken;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeamScoreDetail {
     private final Cypher cypher;
@@ -46,14 +47,9 @@ public class TeamScoreDetail {
 
     @Override
     public String toString() {
-        String string = "";
-        for (HintTaken hintTaken: hintsTaken) {
-            string = string + hintTaken.getHint().getHintId() + ", ";
-        }
-        if (string.endsWith(", ")) {
-            string = string.substring(0, string.length() - 2);
-        }
-        return string;
+        return hintsTaken.stream()
+                .map(hintTaken -> hintTaken.getHint().getHintId().toString())
+                .collect(Collectors.joining(", "));
     }
 }
 
