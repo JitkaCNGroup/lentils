@@ -10,7 +10,11 @@ import dk.cngroup.lentils.service.StatusService;
 
 import java.util.List;
 
-public class TeamProgressFactory {
+public final class TeamProgressFactory {
+
+    private TeamProgressFactory() {
+        throw new IllegalStateException("Static factory cannot be instantiated");
+    }
 
     public static TeamProgress create(final Team team, final StatusService statusService) {
         if (statusService.getAllByTeam(team).isEmpty()) {
