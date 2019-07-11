@@ -11,7 +11,7 @@ import java.util.List;
 public class RankService {
 
     public <T extends ScoreItem> List<T> computeRank(final List<T> items) {
-        List<ScoreItem> sameScoreItems = new ArrayList();
+        List<ScoreItem> sameScoreItems = new ArrayList<>();
         int fromPlace = 1;
         for (int i = 0; i < items.size(); i++) {
             if (sameScoreItems.isEmpty()) {
