@@ -10,10 +10,10 @@ public final class UsernameUtils {
 
     public static String generateUsername(final String oldUsername) {
         final int allowedWords = 4;
-        String newUsername = replaceCzechSpecialCharacters(oldUsername)
+
+        return replaceCzechSpecialCharacters(oldUsername)
                 .toLowerCase()
                 .replaceAll("^((?:\\W*\\w+){" + allowedWords + "}).*$", "$1")
                 .replace(" ", "_");
-        return newUsername;
     }
 }
