@@ -1,14 +1,16 @@
 package dk.cngroup.lentils.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Column;
 
 @Entity
 @Table(name = "role")
 public class Role {
+
+    public static final String ORGANIZER = "ORGANIZER";
 
     @Id
     @GeneratedValue

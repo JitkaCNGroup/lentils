@@ -3,6 +3,8 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.formEntity.CypherFormObject;
 import dk.cngroup.lentils.service.CypherService;
+import dk.cngroup.lentils.service.UserService;
+import dk.cngroup.lentils.service.convertors.CypherFormConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +28,16 @@ public class CypherController {
     private static final String HEADING_EDIT_CYPHER = "Upravit šifru";
 
     private CypherService cypherService;
+    private UserService userService;
+    private CypherFormConverter cypherFormConverter;
 
     @Autowired
-    public CypherController(final CypherService cypherService) {
+    public CypherController(final CypherService cypherService,
+                            final UserService userService,
+                            final CypherFormConverter cypherFormConverter) {
         this.cypherService = cypherService;
+        this.userService = userService;
+        this.cypherFormConverter = cypherFormConverter;
     }
 
     @GetMapping
@@ -42,6 +50,7 @@ public class CypherController {
     public String newCypher(final Model model) {
         model.addAttribute("heading", HEADING_ADD_CYPHER);
         model.addAttribute("command", new CypherFormObject());
+        model.addAttribute("allOrganizers", userService.getOrganizers());
         return VIEW_CYPHER_DETAIL;
     }
 
@@ -55,8 +64,7 @@ public class CypherController {
         }
 
         final Cypher cypher = new Cypher();
-        CypherFormObject.toEntity(cypher, command);
-
+        cypherFormConverter.toEntity(command, cypher);
         cypherService.save(cypher);
 
         return REDIRECT_CYPHER_LIST;
@@ -65,10 +73,11 @@ public class CypherController {
     @GetMapping(value = "/update/{cypherId}")
     public String updateCypherForm(@PathVariable("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
-        final CypherFormObject formObject = CypherFormObject.fromEntity(cypher);
+        final CypherFormObject formObject = cypherFormConverter.fromEntity(cypher);
 
         model.addAttribute("heading", HEADING_EDIT_CYPHER);
         model.addAttribute("command", formObject);
+        model.addAttribute("allOrganizers", userService.getOrganizers());
         return VIEW_CYPHER_DETAIL;
     }
 
@@ -83,8 +92,7 @@ public class CypherController {
         }
 
         final Cypher cypher = cypherService.getCypher(cypherId);
-        CypherFormObject.toEntity(cypher, command);
-
+        cypherFormConverter.toEntity(command, cypher);
         cypherService.save(cypher);
 
         return REDIRECT_CYPHER_LIST;

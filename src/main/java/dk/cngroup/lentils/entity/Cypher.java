@@ -53,6 +53,13 @@ public class Cypher implements Serializable {
     @NotEmpty(message = "Adresa mapy nesmí být prázdná.")
     private String mapAddress;
 
+    @OrderBy("username")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "cypher_organizers",
+            joinColumns = @JoinColumn(name = "cypher_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> organizers;
+
     public Cypher() {
     }
 
@@ -188,6 +195,14 @@ public class Cypher implements Serializable {
         this.placeDescription = placeDescription;
     }
 
+    public List<User> getOrganizers() {
+        return organizers;
+    }
+
+    public void setOrganizers(final List<User> organizer) {
+        this.organizers = organizer;
+    }
+
     @Override
     public String toString() {
         return "Cypher{" +
@@ -196,7 +211,12 @@ public class Cypher implements Serializable {
                 ", name='" + name + '\'' +
                 ", stage=" + stage +
                 ", location=" + location +
+                ", placeDescription='" + placeDescription + '\'' +
                 ", codeword='" + codeword + '\'' +
+                ", trapCodeword='" + trapCodeword + '\'' +
+                ", bonusContent='" + bonusContent + '\'' +
+                ", mapAddress='" + mapAddress + '\'' +
+                ", organizer=" + organizers +
                 '}';
     }
 
@@ -205,7 +225,7 @@ public class Cypher implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Cypher)) {
             return false;
         }
         Cypher cypher = (Cypher) o;
@@ -214,12 +234,26 @@ public class Cypher implements Serializable {
                 Objects.equals(hints, cypher.hints) &&
                 Objects.equals(name, cypher.name) &&
                 Objects.equals(location, cypher.location) &&
-                Objects.equals(codeword, cypher.codeword);
+                Objects.equals(placeDescription, cypher.placeDescription) &&
+                Objects.equals(codeword, cypher.codeword) &&
+                Objects.equals(trapCodeword, cypher.trapCodeword) &&
+                Objects.equals(bonusContent, cypher.bonusContent) &&
+                Objects.equals(mapAddress, cypher.mapAddress) &&
+                Objects.equals(organizers, cypher.organizers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cypherId, hints, name, stage, location, codeword);
+        return Objects.hash(cypherId,
+                hints,
+                name,
+                stage,
+                location,
+                placeDescription,
+                codeword,
+                trapCodeword,
+                bonusContent,
+                mapAddress,
+                organizers);
     }
-
 }
