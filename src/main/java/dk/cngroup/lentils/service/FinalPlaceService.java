@@ -33,7 +33,7 @@ public class FinalPlaceService {
 
     public FinalPlace getFinalPlace() {
         List<FinalPlace> finalPlaces = finalPlaceRepository.findAll();
-        if (finalPlaces.size() == 0) {
+        if (finalPlaces.isEmpty()) {
             return new FinalPlace();
         } else if (finalPlaces.size() == 1) {
             return finalPlaces.get(0);

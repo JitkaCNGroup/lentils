@@ -44,7 +44,7 @@ public class GameLogicService {
     public boolean passedAllCyphers(final Team team) {
         List<Status> statusesOfTeam = statusService.getAllByTeam(team);
         return (!existsStatusForTeam(team, CypherStatus.PENDING) &&
-                (!existsStatusForTeam(team, CypherStatus.LOCKED) && statusesOfTeam.size() > 0));
+                (!existsStatusForTeam(team, CypherStatus.LOCKED) && !statusesOfTeam.isEmpty()));
     }
 
     public boolean passedTimeToViewFinalPlace() {
