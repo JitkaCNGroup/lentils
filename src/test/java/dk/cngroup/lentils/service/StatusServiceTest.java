@@ -77,7 +77,8 @@ public class StatusServiceTest {
         when(statusRepository.findByTeamAndCypher(any(), any())).thenReturn(statusEntity);
         when(cypherService.getNext(any())).thenThrow(new NextCypherNotFoundException());
 
-        service.markCypher(new Cypher(1), new Team(), CypherStatus.SOLVED);
+        final Cypher cypher = generator.generateValidCypher();
+        service.markCypher(cypher, new Team(), CypherStatus.SOLVED);
 
         assertEquals(CypherStatus.SOLVED, statusEntity.getCypherStatus());
         verify(statusRepository).save(statusEntity);

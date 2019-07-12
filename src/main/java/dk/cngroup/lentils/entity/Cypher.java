@@ -69,10 +69,6 @@ public class Cypher implements Serializable {
         this.mapAddress = mapAddress;
     }
 
-    public Cypher(final int stage) {
-        this.stage = stage;
-    }
-
     public Cypher(final String name,
                   final int stage,
                   final Point location,
