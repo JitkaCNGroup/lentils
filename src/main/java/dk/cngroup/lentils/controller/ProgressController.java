@@ -38,6 +38,23 @@ public class ProgressController {
     private static final String HINT_LIST = "progress/getHintList";
     private static final String REDIRECT_HINT_LIST = "redirect:/game/progress/viewHints/";
 
+    private static final String TEMPLATE_ATTR_CYPHER = "cypher";
+    private static final String TEMPLATE_ATTR_CYPHERS = "cyphers";
+    private static final String TEMPLATE_ATTR_CYPHERS_STATUSES = "cyphersStatuses";
+    private static final String TEMPLATE_ATTR_SEARCH = "search";
+    private static final String TEMPLATE_ATTR_TEAM = "team";
+    private static final String TEMPLATE_ATTR_TEAMS = "teams";
+    private static final String TEMPLATE_ATTR_TEAMS_PROGRESS = "teamsProgress";
+    private static final String TEMPLATE_ATTR_TEAMS_STATUSES = "teamsStatuses";
+    private static final String TEMPLATE_ATTR_TEAMS_FINISHED = "teamsFinished";
+    private static final String TEMPLATE_ATTR_PENDING_TEAMS = "pendingTeams";
+    private static final String TEMPLATE_ATTR_OTHER_TEAMS = "otherTeams";
+    private static final String TEMPLATE_ATTR_ALL_TEAMS_STARTED = "allTeamsStarted";
+    private static final String TEMPLATE_ATTR_VIEW_OTHER_TEAMS = "viewOtherTeams";
+    private static final String TEMPLATE_ATTR_MIN_MAX_STAGES = "minMaxStages";
+    private static final String TEMPLATE_ATTR_VIEW_HINTS_TAKEN = "hintsTaken";
+    private static final String TEMPLATE_ATTR_VIEW_HINTS_NOT_TAKEN = "hintsNotTaken";
+
     private final TeamService teamService;
     private final CypherService cypherService;
     private final ProgressService progressService;
@@ -65,7 +82,7 @@ public class ProgressController {
 
     @GetMapping
     public String listProgress(final Model model) {
-        model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
+        model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllCyphersOrderByStageAsc());
         return PROGRESS_LIST;
     }
 
@@ -73,14 +90,14 @@ public class ProgressController {
     public String listTeams(final @RequestParam(value = "search", required = false) String searchString,
                             final Model model) {
         List<Team> allTeams = teamService.getAll();
-        model.addAttribute("allTeamsStarted", progressService.isGameStartedForAllTeams());
-        model.addAttribute("search", searchString);
+        model.addAttribute(TEMPLATE_ATTR_ALL_TEAMS_STARTED, progressService.isGameStartedForAllTeams());
+        model.addAttribute(TEMPLATE_ATTR_SEARCH, searchString);
         if (!progressService.getTeamsWithPendingCypher(allTeams).isEmpty()) {
-            model.addAttribute("minMaxStages", progressService.getCurrentStageRangeOfAllTeams());
+            model.addAttribute(TEMPLATE_ATTR_MIN_MAX_STAGES, progressService.getCurrentStageRangeOfAllTeams());
         }
-        model.addAttribute("teamsFinished", progressService.getNumberOfFinishedTeams());
+        model.addAttribute(TEMPLATE_ATTR_TEAMS_FINISHED, progressService.getNumberOfFinishedTeams());
         List<TeamProgressWithTeam> teamsProgres = progressService.getSearchedTeamsWithTeamProgress(searchString);
-        model.addAttribute("teamsProgress", teamsProgres);
+        model.addAttribute(TEMPLATE_ATTR_TEAMS_PROGRESS, teamsProgres);
         return TEAM_LIST;
     }
 
@@ -93,9 +110,9 @@ public class ProgressController {
     @GetMapping(value = "/teamDetail")
     public String teamProgress(final @RequestParam("teamId") Long teamId, final Model model) {
         Team team = teamService.getTeam(teamId);
-        model.addAttribute("team", team);
-        model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
-        model.addAttribute("cyphersStatuses", progressService.getCyphersStatuses(team));
+        model.addAttribute(TEMPLATE_ATTR_TEAM, team);
+        model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllCyphersOrderByStageAsc());
+        model.addAttribute(TEMPLATE_ATTR_CYPHERS_STATUSES, progressService.getCyphersStatuses(team));
         return TEAM_DETAIL;
     }
 
@@ -109,23 +126,23 @@ public class ProgressController {
                                 final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
 
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
-        model.addAttribute("search", searchString);
-        model.addAttribute("pendingTeams",
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
+        model.addAttribute(TEMPLATE_ATTR_TEAMS_STATUSES, progressService.getTeamsStatuses(cypher));
+        model.addAttribute(TEMPLATE_ATTR_SEARCH, searchString);
+        model.addAttribute(TEMPLATE_ATTR_PENDING_TEAMS,
                 progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher(
                         searchString,
                         cypher,
                         CypherStatus.PENDING,
                         true));
         if (viewOtherTeams) {
-            model.addAttribute("otherTeams",
+            model.addAttribute(TEMPLATE_ATTR_OTHER_TEAMS,
                     progressService.getSearchedTeamsWithSpecificStatusAtSpecificCypher(
                             searchString,
                             cypher,
                             CypherStatus.PENDING,
                             false));
-            model.addAttribute("viewOtherTeams", true);
+            model.addAttribute(TEMPLATE_ATTR_VIEW_OTHER_TEAMS, true);
         }
         return PROGRESS_STAGE;
     }
@@ -141,10 +158,10 @@ public class ProgressController {
         CypherStatus cypherStatus = CypherStatusFactory.create(newStatus);
         statusService.markCypher(cypher, team, cypherStatus);
 
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("teams", progressService.getSearchedTeams(searchString));
-        model.addAttribute("teamsStatuses", progressService.getTeamsStatuses(cypher));
-        model.addAttribute("search", searchString);
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
+        model.addAttribute(TEMPLATE_ATTR_TEAMS, progressService.getSearchedTeams(searchString));
+        model.addAttribute(TEMPLATE_ATTR_TEAMS_STATUSES, progressService.getTeamsStatuses(cypher));
+        model.addAttribute(TEMPLATE_ATTR_SEARCH, searchString);
 
         return "redirect:/game/progress/stage?cypherId=" + cypherId + "&search=" + searchString;
     }
@@ -155,10 +172,10 @@ public class ProgressController {
                                       final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         Team team = teamService.getTeam(teamId);
-        model.addAttribute("cypher", cypher);
-        model.addAttribute("team", team);
-        model.addAttribute("hintsTaken", hintTakenService.getAllByTeamAndCypher(team, cypher));
-        model.addAttribute("hintsNotTaken", hintService.getAllNotTakenByTeamAndCypher(team, cypher));
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
+        model.addAttribute(TEMPLATE_ATTR_TEAM, team);
+        model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(team, cypher));
+        model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_NOT_TAKEN, hintService.getAllNotTakenByTeamAndCypher(team, cypher));
         return HINT_LIST;
     }
 
