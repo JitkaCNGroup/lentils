@@ -5,7 +5,12 @@ import dk.cngroup.lentils.entity.Hint;
 
 import static dk.cngroup.lentils.entity.CypherStatus.SOLVED;
 
-public class LoggerUtils {
+public final class LoggerUtils {
+
+    private LoggerUtils() {
+        throw new IllegalStateException("Utility class cannot be instantiated");
+    }
+
     public static int getTakeHintPoints(final Hint hint, final boolean success) {
         return getHintPoints(hint, success, -1);
     }

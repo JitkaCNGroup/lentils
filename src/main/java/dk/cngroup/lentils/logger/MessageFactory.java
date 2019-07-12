@@ -13,7 +13,12 @@ import static dk.cngroup.lentils.logger.Action.VERIFY_CODEWORD;
 import static dk.cngroup.lentils.logger.Author.ORGANIZER;
 import static dk.cngroup.lentils.logger.Author.TEAM;
 
-public class MessageFactory {
+public final class MessageFactory {
+
+    private MessageFactory() {
+        throw new IllegalStateException("Static factory cannot be instantiated");
+    }
+
     public static Message<Codeword> createVerifyCodeword(final CustomUserDetails user,
                                                          final Codeword codeword,
                                                          final int points,
