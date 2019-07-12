@@ -6,8 +6,8 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.view.StageRangeOfTeams;
 import dk.cngroup.lentils.entity.TeamProgressWithTeam;
+import dk.cngroup.lentils.entity.view.StageRangeOfTeams;
 import dk.cngroup.lentils.factory.TeamProgressFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -105,13 +105,13 @@ public class ProgressService {
         List<Team> teams = teamService.getAll();
 
         return (int) teams.stream()
-                .filter(team -> gameLogicService.passedAllCyphers(team))
+                .filter(gameLogicService::passedAllCyphers)
                 .count();
     }
 
     public List<Team> getTeamsWithPendingCypher(final List<Team> teams) {
         return teams.stream()
-                .filter(team -> hasCypherPending(team))
+                .filter(this::hasCypherPending)
                 .collect(Collectors.toList());
     }
 

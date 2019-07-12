@@ -66,15 +66,14 @@ public class GameLogicService {
     public void initializeGameForTeam(final Team team) {
         List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
         if (!statusService.isStatusInDbByCypherAndTeam(cypherService.getFirstOrderByStageAsc(), team)) {
-            cyphers.forEach(cypher -> {
-                statusService.initializeStatusForTeamAndCypher(cypher, team);
-            });
+            cyphers.forEach(cypher ->
+                statusService.initializeStatusForTeamAndCypher(cypher, team));
             statusService.markCypher(cypherService.getFirstOrderByStageAsc(), team, CypherStatus.PENDING);
         }
     }
 
     public void initializeGameForAllTeams() {
-        teamService.getAll().forEach(team -> initializeGameForTeam(team));
+        teamService.getAll().forEach(this::initializeGameForTeam);
     }
 
     private boolean existsStatusForTeam(final Team team, final CypherStatus cypherStatus) {
