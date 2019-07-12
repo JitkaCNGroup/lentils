@@ -5,7 +5,11 @@ import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import org.springframework.data.jpa.domain.Specification;
 
-public class StatusRepositorySpec {
+public final class StatusRepositorySpec {
+
+    private StatusRepositorySpec() {
+        throw new IllegalStateException("Static factory cannot be instantiated");
+    }
 
     public static Specification<Status> hasCypher(final Cypher cypher) {
         if (cypher != null) {
