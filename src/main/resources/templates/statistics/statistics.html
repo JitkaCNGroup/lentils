@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Statistiky')">
+</head>
+<body>
+<div th:insert="fragments/organizerHeader :: header(statistics)"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5">
+            <a href="#" th:href="@{/game/statistics/cyphersBySolvedCount}" class="btn btn-primary"><b>Seřadit šifry podle týmů, kteří vyřešili</b></a>
+            <a href="#" th:href="@{/game/statistics/cyphersBySkippedCount}" class="btn btn-primary"><b>Seřadit šifry podle týmů, kteří přeskočili</b></a>
+            <a href="#" th:href="@{/game/statistics/cyphersByCountOfHintsTaken}" class="btn btn-primary"><b>Seřadit šifry podle počtu použitých nápověd</b></a>
+            <a href="#" th:href="@{/game/statistics/cyphersByPointsOfHintsTaken}" class="btn btn-primary"><b>Seřadit šifry podle bodů za nápovědy</b></a>
+        </div>
+        <div class="col-sm-5">
+            <a href="#" th:href="@{/game/statistics/teamsBySolvedCyphers}" class="btn btn-primary"><b>Seřadit týmy podle vyřešených šifer</b></a>
+            <a href="#" th:href="@{/game/statistics/teamsBySkippedCyphers}" class="btn btn-primary"><b>Seřadit týmy podle přeskočených šifer</b></a>
+            <a href="#" th:href="@{/game/statistics/teamsByCountOfHintsTaken}" class="btn btn-primary"><b>Seřadit týmy podle počtu použitých nápověd</b></a>
+            <a href="#" th:href="@{/game/statistics/teamsByPointsOfHintsTaken}" class="btn btn-primary"><b>Seřadit týmy podle bodů za použité nápovědy</b></a>
+        </div>
+    </div>
+
+    <div th:if="${header} != null" class="row">
+        <div class="col-sm-12">
+            <h2 th:text="${header}">statistiky</h2>
+            <p th:text="${sortByLabel}">Řazení</p>
+        </div>
+    </div>
+    <div th:each="element : ${statisticsMap}" class="row">
+        <div class="col-sm-12">
+            <p>
+                <span th:text="${element.key.name}" class="name"></span>
+                <span th:text="${statisticsMap.get(element.key)}"></span>
+            </p>
+        </div>
+    </div>
+</div>
+<div th:insert="fragments/externalScripts :: externalScripts"></div>
+</body>
+</html>

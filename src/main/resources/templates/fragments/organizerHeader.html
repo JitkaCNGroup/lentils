@@ -22,6 +22,9 @@
                     <li class="nav-item" th:class="${activeTab == 'score'}? 'active' : null">
                         <a class="nav-link" href="/game/score">Skóre</a>
                     </li>
+                    <li class="nav-item" th:class="${activeTab == 'statistics'}? 'active' : null">
+                        <a class="nav-link" href="/game/statistics/cyphersBySolvedCount">Statistiky</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout" th:onclick="return confirm('Opravdu se chcete odhlásit?')">Odhlásit se</a>
                     </li>
