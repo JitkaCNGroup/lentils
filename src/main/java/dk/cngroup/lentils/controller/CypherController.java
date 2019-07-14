@@ -27,9 +27,14 @@ public class CypherController {
     private static final String HEADING_ADD_CYPHER = "Nová šifra";
     private static final String HEADING_EDIT_CYPHER = "Upravit šifru";
 
-    private CypherService cypherService;
-    private UserService userService;
-    private CypherFormConverter cypherFormConverter;
+    private static final String TEMPLATE_ATTR_HEADING = "heading";
+    private static final String TEMPLATE_ATTR_CYPHERS = "cyphers";
+    private static final String TEMPLATE_ATTR_COMMAND = "command";
+    private static final String TEMPLATE_ATTR_ALL_ORGANIZERS = "allOrganizers";
+
+    private final CypherService cypherService;
+    private final UserService userService;
+    private final CypherFormConverter cypherFormConverter;
 
     @Autowired
     public CypherController(final CypherService cypherService,
@@ -42,24 +47,24 @@ public class CypherController {
 
     @GetMapping
     public String cyphers(final Model model) {
-        model.addAttribute("cyphers", cypherService.getAllCyphersOrderByStageAsc());
+        model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllCyphersOrderByStageAsc());
         return VIEW_CYPHER_LIST;
     }
 
     @GetMapping(value = "/add")
     public String newCypher(final Model model) {
-        model.addAttribute("heading", HEADING_ADD_CYPHER);
-        model.addAttribute("command", new CypherFormObject());
-        model.addAttribute("allOrganizers", userService.getOrganizers());
+        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
+        model.addAttribute(TEMPLATE_ATTR_COMMAND, new CypherFormObject());
+        model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
         return VIEW_CYPHER_DETAIL;
     }
 
     @PostMapping(value = "/add")
-    public String saveNewCypher(@Valid @ModelAttribute("command") final CypherFormObject command,
+    public String saveNewCypher(@Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final CypherFormObject command,
                                 final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("heading", HEADING_ADD_CYPHER);
+            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
             return VIEW_CYPHER_DETAIL;
         }
 
@@ -75,19 +80,19 @@ public class CypherController {
         Cypher cypher = cypherService.getCypher(cypherId);
         final CypherFormObject formObject = cypherFormConverter.fromEntity(cypher);
 
-        model.addAttribute("heading", HEADING_EDIT_CYPHER);
-        model.addAttribute("command", formObject);
-        model.addAttribute("allOrganizers", userService.getOrganizers());
+        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
+        model.addAttribute(TEMPLATE_ATTR_COMMAND, formObject);
+        model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
         return VIEW_CYPHER_DETAIL;
     }
 
     @PostMapping(value = "/update/{cypherId}")
     public String updateCypher(@PathVariable("cypherId") final Long cypherId,
-                               @Valid @ModelAttribute("command") final CypherFormObject command,
+                               @Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final CypherFormObject command,
                                final BindingResult bindingResult,
                                final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("heading", HEADING_EDIT_CYPHER);
+            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
             return VIEW_CYPHER_DETAIL;
         }
 
