@@ -20,7 +20,7 @@ public class RoleService {
 
     public Set<Role> setRole(final String role) {
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByRole(role));
+        roles.add(roleRepository.findByName(role));
         return roles;
     }
 }

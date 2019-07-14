@@ -18,7 +18,7 @@ public class Role {
     private Long roleId;
 
     @Column(name = "role")
-    private String role;
+    private String name;
 
     public Long getRoleId() {
         return roleId;
@@ -28,11 +28,11 @@ public class Role {
         this.roleId = roleId;
     }
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
-    public void setRole(final String role) {
-        this.role = role;
+    public void setName(final String name) {
+        this.name = name;
     }
 }
