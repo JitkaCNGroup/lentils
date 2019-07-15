@@ -37,8 +37,7 @@ public class TeamController {
 
     @GetMapping
     public String addTeam(final Model model) {
-        List<TeamDTO> dtos = teamConverter.getDtosListFromAllTeams();
-        fillModelAttributes(model, dtos, new TeamDTO(), ACTION_TEAM_SAVE);
+        fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
         return VIEW_PATH;
     }
 
@@ -48,10 +47,9 @@ public class TeamController {
             final Model model) {
         Team team = new Team();
         teamConverter.toEntity(dto, team);
-        List<TeamDTO> dtos = teamConverter.getDtosListFromAllTeams();
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, dtos, dto, ACTION_TEAM_SAVE);
+            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
             return VIEW_PATH;
         }
         teamService.save(team);
@@ -60,10 +58,9 @@ public class TeamController {
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable("id") final Long id, final Model model) {
-        List<TeamDTO> dtos = teamConverter.getDtosListFromAllTeams();
         fillModelAttributes(model,
-                dtos,
-                teamConverter.fromEntity(teamService.getTeam(id)),
+                teamService.getAll(),
+                teamService.getTeam(id),
                 ACTION_TEAM_UPDATE + id);
         return VIEW_PATH;
     }
@@ -73,12 +70,11 @@ public class TeamController {
             @Valid final TeamDTO dto,
             final BindingResult bindingResult,
             final Model model) {
-        List<TeamDTO> dtos = teamConverter.getDtosListFromAllTeams();
-        Team team = new Team();
+        Team team = teamService.getTeam(id);
         teamConverter.toEntity(dto, team);
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, dtos, dto, ACTION_TEAM_UPDATE + id);
+            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_UPDATE + id);
             return VIEW_PATH;
         }
         teamService.update(team);
@@ -93,8 +89,8 @@ public class TeamController {
 
     private void fillModelAttributes(
             final Model model,
-            final List<TeamDTO> teams,
-            final TeamDTO team,
+            final List<Team> teams,
+            final Team team,
             final String action
     ) {
         model.addAttribute("teams", teams);
