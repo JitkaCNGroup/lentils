@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -133,11 +134,15 @@ public class ProgressService {
 
     private int getStageOfPendingCypherForTeam(final Team team) {
         List<Status> statuses = statusService.getAllByTeamOrderByStage(team);
-        Status statusPending = statuses.stream()
+        Optional<Status> statusPending = statuses.stream()
                 .filter(status -> status.getCypherStatus() == CypherStatus.PENDING)
-                .findFirst()
-                .get();
-        return statusPending.getCypher().getStage();
+                .findFirst();
+
+        if (!statusPending.isPresent()) {
+            throw new IllegalStateException("Team must have a pending cypher");
+        }
+
+        return statusPending.get().getCypher().getStage();
     }
 
     public List<TeamProgressWithTeam> getSearchedTeamsWithTeamProgress(final String searchString) {
