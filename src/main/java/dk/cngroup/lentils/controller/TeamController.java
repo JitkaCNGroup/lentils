@@ -37,19 +37,19 @@ public class TeamController {
 
     @GetMapping
     public String addTeam(final Model model) {
-        fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
+        fillModelAttributes(model, teamService.getAll(), new TeamDTO(), ACTION_TEAM_SAVE);
         return VIEW_PATH;
     }
 
     @PostMapping(value = "/add")
-    public String addTeam(@ModelAttribute @Valid final TeamDTO dto,
+    public String addTeam(@Valid @ModelAttribute("team") final TeamDTO dto,
             final BindingResult bindingResult,
             final Model model) {
         Team team = new Team();
         teamConverter.toEntity(dto, team);
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
+            fillModelAttributes(model, teamService.getAll(), dto, ACTION_TEAM_SAVE);
             return VIEW_PATH;
         }
         teamService.save(team);
@@ -60,21 +60,21 @@ public class TeamController {
     public String update(@PathVariable("id") final Long id, final Model model) {
         fillModelAttributes(model,
                 teamService.getAll(),
-                teamService.getTeam(id),
+                teamConverter.fromEntity(teamService.getTeam(id)),
                 ACTION_TEAM_UPDATE + id);
         return VIEW_PATH;
     }
 
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") final Long id,
-            @Valid final TeamDTO dto,
+            @Valid @ModelAttribute("team") final TeamDTO dto,
             final BindingResult bindingResult,
             final Model model) {
         Team team = teamService.getTeam(id);
         teamConverter.toEntity(dto, team);
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_UPDATE + id);
+            fillModelAttributes(model, teamService.getAll(), dto, ACTION_TEAM_UPDATE + id);
             return VIEW_PATH;
         }
         teamService.update(team);
@@ -90,7 +90,7 @@ public class TeamController {
     private void fillModelAttributes(
             final Model model,
             final List<Team> teams,
-            final Team team,
+            final TeamDTO team,
             final String action
     ) {
         model.addAttribute("teams", teams);

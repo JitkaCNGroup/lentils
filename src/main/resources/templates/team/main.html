@@ -9,7 +9,6 @@
         <div class="col-sm-6">
             <h2>Tým</h2>
             <form action="#" th:action="${action}" th:object="${team}" method="post">
-                <input type="hidden" th:field="*{teamId}"/>
                 <div class="form-group">
                     <label for="name" class="input-value-required">Jméno</label>
                     <input id="name" class="form-control" type="text" th:field="*{name}" required/>
