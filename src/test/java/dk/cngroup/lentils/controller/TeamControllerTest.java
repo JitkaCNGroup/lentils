@@ -2,7 +2,7 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.formEntity.TeamDTO;
 import dk.cngroup.lentils.service.TeamService;
-import dk.cngroup.lentils.service.convertors.TeamConverter;
+import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class TeamControllerTest {
     @Mock
     private TeamService teamService;
     @Mock
-    private TeamConverter teamConverter;
+    private ObjectMapper objectMapper;
 
     private BindingResult bindingResultMock;
     private Model modelMock;
