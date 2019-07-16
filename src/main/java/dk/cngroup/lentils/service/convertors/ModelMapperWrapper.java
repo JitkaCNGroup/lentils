@@ -13,7 +13,7 @@ public class ModelMapperWrapper implements ObjectMapper {
     }
 
     @Override
-    public <T>T map(final Object source, final Class<T>destinationClassName) {
+    public <T> T map(final Object source, final Class<T> destinationClassName) {
         return modelMapper.map(source, destinationClassName);
     }
 }
