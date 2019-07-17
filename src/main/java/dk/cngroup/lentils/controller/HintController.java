@@ -3,7 +3,7 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.dto.HintFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.entity.formEntity.HintFormObject;
+import dk.cngroup.lentils.dto.HintFormDTO;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.convertors.ModelMapperWrapper;
@@ -34,6 +34,8 @@ public class HintController {
     private static final String TEMPLATE_ATTR_CYPHER = "cypher";
     private static final String TEMPLATE_ATTR_FORM_OBJECT = "formObject";
     private static final String TEMPLATE_ATTR_HEADING = "heading";
+    private static final String TEMPLATE_ATTR_FILENAME = "filename";
+    private static final String TEMPLATE_ATTR_FILEID = "fileId";
 
     private final CypherService cypherService;
     private final HintService hintService;
@@ -76,38 +78,35 @@ public class HintController {
         model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
 
         Hint hint = hintService.getHint(hintId);
-        final HintFormObject formObject = hintFormConverter.fromEntity(hint);
-        String filename = "";
-        if (imageService.isFilePresentInHintEntity(hint)) {
-            filename = imageService.getFileName(formObject);
-        }
+        final HintFormDTO formObject = hintFormConverter.fromEntity(hint);
+        String filename = imageService.getFileNameFromEntity(hint);
+        Long imageId = imageService.getFileIdFromEntity(hint);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
         model.addAttribute(TEMPLATE_ATTR_FORM_OBJECT, formObject);
-        model.addAttribute("filename", filename);
+        model.addAttribute(TEMPLATE_ATTR_FILENAME, filename);
+        model.addAttribute(TEMPLATE_ATTR_FILEID, imageId);
+        System.out.println("cesta k souboru - filename: " + filename);
+        System.out.println("cesta k souboru - formObject: " + formObject.getImage().getOriginalFilename());
+        System.out.println("file Id: " + imageId);
        return VIEW_ADMIN_HINT_DETAIL;
     }
 
     @PostMapping(value = "/update/{hintId}")
     public String updateHint(@PathVariable("hintId") final Long hintId,
-                       @Valid @ModelAttribute final HintFormObject formObject,
 	//				   @Valid @ModelAttribute(TEMPLATE_ATTR_HINT) final HintFormDTO hintFormDto,
+                       @Valid @ModelAttribute final HintFormDTO formObject,
                        final BindingResult bindingResult,
                        final Model model) {
         Hint hint = hintService.getHint(hintId);
-        if (imageService.isFilePresentInHintEntity(hint)
-                && (!imageService.isFilePresentInHintForm(formObject))) {
-            formObject.setImage(imageService.getFile(hint.getImage().getPath()));
-        }
+        imageService.setImageToFormObject(hint, formObject);
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
             model.addAttribute(TEMPLATE_ATTR_FORM_OBJECT, formObject);
 	//		model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-            model.addAttribute("filename", imageService.getFileName(formObject));
+            model.addAttribute(TEMPLATE_ATTR_FILENAME, imageService.getFileName(hint, formObject));
             return VIEW_ADMIN_HINT_DETAIL;
         }
-        if (imageService.isFilePresentInHintForm(formObject)) {
-            imageService.saveImageFile(formObject.getImage());
-        }
+        imageService.saveImageFile(formObject);
         hintFormConverter.toEntity(formObject, hint);
         Hint hint1 = hintService.save(hint);
 	//	Hint hint = hintService.getHint(hintId);
@@ -124,15 +123,15 @@ public class HintController {
 	//	HintFormDTO hintFormDto = mapper.map(cypherService.addHint(cypherId), HintFormDTO.class);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
         model.addAttribute(TEMPLATE_ATTR_FORM_OBJECT, formObject);
-	//	model.addAttribute(TEMPLATE_ATTR_HINT, new hintFormDto());
-        model.addAttribute("filename", "");
+	//	model.addAttribute(TEMPLATE_ATTR_HINT, new hintFormDto);
+        model.addAttribute(TEMPLATE_ATTR_FILENAME, "");
         return VIEW_ADMIN_HINT_DETAIL;
     }
 
     @PostMapping(value = "/add")
     //public String saveNewHint(@Valid @ModelAttribute(TEMPLATE_ATTR_HINT) final HintFormDTO hintFormDto,
 	//					@RequestParam("cypherId") final Long cypherId,
-    public String saveNewHint(@Valid @ModelAttribute final HintFormObject formObject,
+    public String saveNewHint(@Valid @ModelAttribute final HintFormDTO formObject,
                        final BindingResult bindingResult,
                        final Model model) {
         final Hint hint = new Hint();
@@ -140,12 +139,10 @@ public class HintController {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
             model.addAttribute(TEMPLATE_ATTR_FORM_OBJECT, formObject);
 		//	model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-            model.addAttribute("filename", imageService.getFileName(formObject));
+            model.addAttribute(TEMPLATE_ATTR_FILENAME, imageService.getFileNamefromFormObject(formObject));
             return VIEW_ADMIN_HINT_DETAIL;
         }
-        if (imageService.isFilePresentInHintForm(formObject)) {
-            imageService.saveImageFile(formObject.getImage());
-        }
+        imageService.saveImageFile(formObject);
         hintFormConverter.toEntity(formObject, hint);
         Hint hint1 = hintService.save(hint);
         return REDIRECT_ADMIN_HINT_LIST + "?cypherId=" + hint1.getCypherId();

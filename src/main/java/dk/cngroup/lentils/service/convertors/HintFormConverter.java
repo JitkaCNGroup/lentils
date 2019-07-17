@@ -2,7 +2,7 @@ package dk.cngroup.lentils.service.convertors;
 
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Image;
-import dk.cngroup.lentils.entity.formEntity.HintFormObject;
+import dk.cngroup.lentils.dto.HintFormDTO;
 import dk.cngroup.lentils.service.ImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,8 @@ public class HintFormConverter {
         this.imageService = imageService;
     }
 
-
-    public HintFormObject fromEntity(final Hint hint) {
-        HintFormObject formObject = modelMapper.map(hint, HintFormObject.class);
+    public HintFormDTO fromEntity(final Hint hint) {
+        HintFormDTO formObject = modelMapper.map(hint, HintFormDTO.class);
         Optional<Image> hintImage = Optional.ofNullable(hint.getImage());
         if (hintImage.isPresent()) {
             formObject.setImage(imageService.getFile(hint.getImage().getPath()));
@@ -33,11 +32,8 @@ public class HintFormConverter {
         return formObject;
     }
 
-    public void toEntity(final HintFormObject formObject, final Hint hint) {
+    public void toEntity(final HintFormDTO formObject, final Hint hint) {
         modelMapper.map(formObject, hint);
-        if (imageService.isFilePresentInHintForm(formObject)) {
-            Image newImage = new Image(imageService.getFilePath(formObject.getImage()));
-            hint.setImage(newImage);
-        }
+        imageService.setImageToHint(formObject, hint);
     }
 }

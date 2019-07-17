@@ -108,6 +108,16 @@ public class Hint implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Hint{" +
+                "hintId=" + hintId +
+                ", cypherId=" + cypher.getCypherId() +
+                ", text='" + text + '\'' +
+                ", value=" + value +
+                '}';
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
