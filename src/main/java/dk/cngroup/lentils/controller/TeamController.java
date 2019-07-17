@@ -90,11 +90,11 @@ public class TeamController {
     private void fillModelAttributes(
             final Model model,
             final List<Team> teams,
-            final TeamDTO team,
+            final TeamDTO teamDto,
             final String action
     ) {
         model.addAttribute("teams", teams);
-        model.addAttribute("team", team);
+        model.addAttribute("teamDto", teamDto);
         model.addAttribute("action", action);
     }
 }

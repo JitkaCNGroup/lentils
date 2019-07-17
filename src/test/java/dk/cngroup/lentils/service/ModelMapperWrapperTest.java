@@ -9,8 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class ModelMapperWrapperTest {
-
-
+    
     @Test
     public void testConvertTeamToDTO() {
         ObjectMapper modelMapper = new ModelMapperWrapper();
