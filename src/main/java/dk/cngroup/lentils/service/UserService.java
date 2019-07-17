@@ -20,10 +20,10 @@ public class UserService {
     }
 
     public List<User> getOrganizers() {
-        return userRepository.findAllByRolesRoleOrderByUsername("ORGANIZER");
+        return userRepository.findAllByRolesNameOrderByUsername("ORGANIZER");
     }
 
     public List<User> getOrganizersByIds(final List<Long> organizerIds) {
-        return userRepository.findAllByUserIdInAndRolesRole(organizerIds, Role.ORGANIZER);
+        return userRepository.findAllByUserIdInAndRolesName(organizerIds, Role.ORGANIZER);
     }
 }

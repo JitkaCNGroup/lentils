@@ -41,7 +41,7 @@ public class CustomUserDetailsTest {
     public void testRolesCanBeRetrieved() {
         final User user = new User();
         final Role role = new Role();
-        role.setRole(ROLE_NAME);
+        role.setName(ROLE_NAME);
         user.setRoles(Collections.singleton(role));
         final CustomUserDetails details = createUserDetails(user);
 

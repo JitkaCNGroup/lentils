@@ -75,7 +75,7 @@ public class UserServiceIntegrationTest {
         user.setUsername(username);
         user.setPassword(password);
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByRole(role));
+        roles.add(roleRepository.findByName(role));
         user.setRoles(roles);
         return user;
     }
