@@ -1,16 +1,18 @@
 package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.formEntity.TeamDTO;
 import dk.cngroup.lentils.service.TeamService;
+import dk.cngroup.lentils.service.convertors.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,24 +26,30 @@ public class TeamController {
     private static final String ACTION_TEAM_UPDATE = "/admin/team/update/";
 
     private final TeamService teamService;
+    private final ObjectMapper mapper;
 
-    public TeamController(final TeamService teamService) {
+    @Autowired
+    public TeamController(final TeamService teamService,
+                          final ObjectMapper mapper) {
         this.teamService = teamService;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public String addTeam(final Model model) {
-        fillModelAttributes(model, teamService.getAll(), new Team(), ACTION_TEAM_SAVE);
+        fillModelAttributes(model, teamService.getAll(), new TeamDTO(), ACTION_TEAM_SAVE);
         return VIEW_PATH;
     }
 
     @PostMapping(value = "/add")
-    public String addTeam(@ModelAttribute @Valid final Team team,
+    public String addTeam(@Valid @ModelAttribute("team") final TeamDTO teamDto,
             final BindingResult bindingResult,
             final Model model) {
+        Team team = new Team();
+        mapper.map(teamDto, team);
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_SAVE);
+            fillModelAttributes(model, teamService.getAll(), teamDto, ACTION_TEAM_SAVE);
             return VIEW_PATH;
         }
         teamService.save(team);
@@ -50,18 +58,23 @@ public class TeamController {
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable("id") final Long id, final Model model) {
-        fillModelAttributes(model, teamService.getAll(), teamService.getTeam(id), ACTION_TEAM_UPDATE + id);
+        fillModelAttributes(model,
+                teamService.getAll(),
+                mapper.map(teamService.getTeam(id), TeamDTO.class),
+                ACTION_TEAM_UPDATE + id);
         return VIEW_PATH;
     }
 
     @PostMapping("/update/{id}")
     public String update(@PathVariable("id") final Long id,
-            @Valid final Team team,
+            @Valid @ModelAttribute("team") final TeamDTO teamDto,
             final BindingResult bindingResult,
             final Model model) {
+        Team team = teamService.getTeam(id);
+        mapper.map(teamDto, team);
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
-            fillModelAttributes(model, teamService.getAll(), team, ACTION_TEAM_UPDATE + id);
+            fillModelAttributes(model, teamService.getAll(), teamDto, ACTION_TEAM_UPDATE + id);
             return VIEW_PATH;
         }
         teamService.update(team);
@@ -77,11 +90,11 @@ public class TeamController {
     private void fillModelAttributes(
             final Model model,
             final List<Team> teams,
-            final Team team,
+            final TeamDTO teamDto,
             final String action
     ) {
         model.addAttribute("teams", teams);
-        model.addAttribute("team", team);
+        model.addAttribute("teamDto", teamDto);
         model.addAttribute("action", action);
     }
 }

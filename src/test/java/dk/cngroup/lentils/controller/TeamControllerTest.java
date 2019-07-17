@@ -1,7 +1,8 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.formEntity.TeamDTO;
 import dk.cngroup.lentils.service.TeamService;
+import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +21,8 @@ public class TeamControllerTest {
 
     @Mock
     private TeamService teamService;
+    @Mock
+    private ObjectMapper objectMapper;
 
     private BindingResult bindingResultMock;
     private Model modelMock;
@@ -37,7 +39,7 @@ public class TeamControllerTest {
     public void testAddTeam_shouldNotRedirectOnError() {
         when(bindingResultMock.hasErrors()).thenReturn(true);
 
-        final String result = testedController.addTeam(new Team(), bindingResultMock, modelMock);
+        final String result = testedController.addTeam(new TeamDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsNotRedirection(result);
     }
@@ -46,7 +48,7 @@ public class TeamControllerTest {
     public void testAddTeam_shouldRedirectOnSuccess() {
         when(bindingResultMock.hasErrors()).thenReturn(false);
 
-        final String result = testedController.addTeam(new Team(), bindingResultMock, modelMock);
+        final String result = testedController.addTeam(new TeamDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsRedirection(result);
     }
@@ -56,7 +58,7 @@ public class TeamControllerTest {
     public void testUpdateTeam_shouldNotRedirectOnError() {
         when(bindingResultMock.hasErrors()).thenReturn(true);
 
-        final String result = testedController.update(1L, new Team(), bindingResultMock, modelMock);
+        final String result = testedController.update(1L, new TeamDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsNotRedirection(result);
     }
@@ -65,7 +67,7 @@ public class TeamControllerTest {
     public void testUpdateTeam_shouldRedirectOnSuccess() {
         when(bindingResultMock.hasErrors()).thenReturn(false);
 
-        final String result = testedController.update(1L, new Team(), bindingResultMock, modelMock);
+        final String result = testedController.update(1L, new TeamDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsRedirection(result);
     }
