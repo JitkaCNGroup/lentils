@@ -22,7 +22,7 @@
 
                     <th:block th:case="'PENDING'">
                         <h2>Řešení</h2>
-                        <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codewordDto}" method="post">
+                        <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codewordFormDto}" method="post">
                             <div class="form-group">
                                 <!--<label for="guess">Řešení</label>-->
                                 <input id="guess" type="text" th:field="*{guess}" class="form-control" required />

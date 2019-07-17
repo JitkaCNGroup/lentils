@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.dto;
 
-public class CodewordDTO {
+public class CodewordFormDTO {
 
     private String guess;
 
