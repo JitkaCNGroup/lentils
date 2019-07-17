@@ -2,9 +2,9 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
+import dk.cngroup.lentils.dto.CodewordFormDTO;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
-import dk.cngroup.lentils.entity.formEntity.Codeword;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
@@ -43,9 +43,9 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
     @Test
     public void testCheckCorrectCodeword() {
         setThatGameHasNotEnded();
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codeword);
+        final String returnValue = executeTestedMethod(codewordFormDto);
 
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -55,9 +55,9 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
     @Test
     public void testIncorrectCodeword() {
         setThatGameHasNotEnded();
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD + "_wrong");
+        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD + "_wrong");
 
-        final String returnValue = executeTestedMethod(codeword);
+        final String returnValue = executeTestedMethod(codewordFormDto);
 
         AssertionUtils.assertValueIsNotRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -67,9 +67,9 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
     @Test
     public void testFalseCodeword() {
         setThatGameHasNotEnded();
-        final Codeword codeword = createCodewordFormObject(FALSE_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormObject(FALSE_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codeword);
+        final String returnValue = executeTestedMethod(codewordFormDto);
 
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -79,11 +79,11 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
 
     @Test
     public void testCheckCodewordAfterGameHasEnded() {
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
         setThatGameHasAlreadyEnded();
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
-        String returnValue = executeTestedMethod(codeword);
+        String returnValue = executeTestedMethod(codewordFormDto);
 
         verify(result).addError(argument.capture());
         assertEquals("guess", argument.getValue().getField());
@@ -95,9 +95,9 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
     public void testCheckCodewordForNonPendingStatus() {
         setThatGameHasNotEnded();
         setCypherStatusForTeam(getFixtureCypher(), CypherStatus.SKIPPED, getFixtureTeam());
-        final Codeword codeword = createCodewordFormObject(CORRECT_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codeword);
+        final String returnValue = executeTestedMethod(codewordFormDto);
 
         AssertionUtils.assertValueIsNotRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -105,19 +105,19 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
     }
 
-    private String executeTestedMethod(final Codeword withCodeword) {
+    private String executeTestedMethod(final CodewordFormDTO withCodewordFormDto) {
         return testedController.verifyCodeword(
                 getFixtureCypher().getCypherId(),
-                withCodeword,
+                withCodewordFormDto,
                 getUserDetailsMock(),
                 result,
                 mock(Model.class));
     }
 
-    private Codeword createCodewordFormObject(final String guess) {
-        final Codeword  codeword = new Codeword();
-        codeword.setGuess(guess);
+    private CodewordFormDTO createCodewordFormObject(final String guess) {
+        final CodewordFormDTO codewordFormDto = new CodewordFormDTO();
+        codewordFormDto.setGuess(guess);
 
-        return codeword;
+        return codewordFormDto;
     }
 }

@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.entity.formEntity;
+package dk.cngroup.lentils.dto;
 
 import org.springframework.data.geo.Point;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public class CypherFormObject {
+public class CypherFormDTO {
     @NotEmpty(message = "Jméno nesmí být prázdné.")
     private String name;
 
