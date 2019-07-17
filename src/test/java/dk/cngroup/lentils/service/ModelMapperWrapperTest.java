@@ -1,7 +1,7 @@
 package dk.cngroup.lentils.service;
 
+import dk.cngroup.lentils.dto.TeamFormDTO;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.formEntity.TeamDTO;
 import dk.cngroup.lentils.service.convertors.ModelMapperWrapper;
 import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import org.junit.Test;
@@ -16,10 +16,10 @@ public class ModelMapperWrapperTest {
         ObjectGenerator objectGenerator = new ObjectGenerator();
         Team team = objectGenerator.generateValidTeam();
 
-        TeamDTO teamDto = modelMapper.map(team, TeamDTO.class);
+        TeamFormDTO teamFormDto = modelMapper.map(team, TeamFormDTO.class);
 
-        assertTrue(teamDto.getName().equals(team.getName()));
-        assertTrue(teamDto.getNumOfMembers().equals(team.getNumOfMembers()));
+        assertTrue(teamFormDto.getName().equals(team.getName()));
+        assertTrue(teamFormDto.getNumOfMembers().equals(team.getNumOfMembers()));
     }
 
     @Test
@@ -27,13 +27,13 @@ public class ModelMapperWrapperTest {
         ObjectMapper modelMapper = new ModelMapperWrapper();
         ObjectGenerator objectGenerator = new ObjectGenerator();
         Team team = objectGenerator.generateValidTeam();
-        TeamDTO teamDto = new TeamDTO();
-        teamDto.setName("general");
-        teamDto.setNumOfMembers(8);
+        TeamFormDTO teamFormDto = new TeamFormDTO();
+        teamFormDto.setName("general");
+        teamFormDto.setNumOfMembers(8);
 
-        modelMapper.map(teamDto, team);
+        modelMapper.map(teamFormDto, team);
 
-        assertTrue(teamDto.getName().equals(team.getName()));
-        assertTrue(teamDto.getNumOfMembers().equals(team.getNumOfMembers()));
+        assertTrue(teamFormDto.getName().equals(team.getName()));
+        assertTrue(teamFormDto.getNumOfMembers().equals(team.getNumOfMembers()));
     }
 }

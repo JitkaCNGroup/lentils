@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.entity.formEntity.TeamDTO;
+import dk.cngroup.lentils.dto.TeamFormDTO;
 import dk.cngroup.lentils.service.TeamService;
 import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import dk.cngroup.lentils.utils.AssertionUtils;
@@ -39,7 +39,7 @@ public class TeamControllerTest {
     public void testAddTeam_shouldNotRedirectOnError() {
         when(bindingResultMock.hasErrors()).thenReturn(true);
 
-        final String result = testedController.addTeam(new TeamDTO(), bindingResultMock, modelMock);
+        final String result = testedController.addTeam(new TeamFormDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsNotRedirection(result);
     }
@@ -48,7 +48,7 @@ public class TeamControllerTest {
     public void testAddTeam_shouldRedirectOnSuccess() {
         when(bindingResultMock.hasErrors()).thenReturn(false);
 
-        final String result = testedController.addTeam(new TeamDTO(), bindingResultMock, modelMock);
+        final String result = testedController.addTeam(new TeamFormDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsRedirection(result);
     }
@@ -58,7 +58,7 @@ public class TeamControllerTest {
     public void testUpdateTeam_shouldNotRedirectOnError() {
         when(bindingResultMock.hasErrors()).thenReturn(true);
 
-        final String result = testedController.update(1L, new TeamDTO(), bindingResultMock, modelMock);
+        final String result = testedController.update(1L, new TeamFormDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsNotRedirection(result);
     }
@@ -67,7 +67,7 @@ public class TeamControllerTest {
     public void testUpdateTeam_shouldRedirectOnSuccess() {
         when(bindingResultMock.hasErrors()).thenReturn(false);
 
-        final String result = testedController.update(1L, new TeamDTO(), bindingResultMock, modelMock);
+        final String result = testedController.update(1L, new TeamFormDTO(), bindingResultMock, modelMock);
 
         AssertionUtils.assertValueIsRedirection(result);
     }
