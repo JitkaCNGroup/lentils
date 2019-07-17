@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.entity.formEntity;
+package dk.cngroup.lentils.dto;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class TeamDTO {
+public class TeamFormDTO {
     @NotEmpty(message = "Jméno nesmí být prázdné.")
     @Length(max = 50, message = "Jméno nesmí být delší než 50 znaků.")
     private String name;
