@@ -1,7 +1,7 @@
 package dk.cngroup.lentils.logger;
 
+import dk.cngroup.lentils.dto.CodewordDTO;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.formentity.Codeword;
 import dk.cngroup.lentils.logger.change.StatusChange;
 import dk.cngroup.lentils.security.CustomUserDetails;
 
@@ -19,11 +19,11 @@ public final class MessageFactory {
         throw new IllegalStateException("Static factory cannot be instantiated");
     }
 
-    public static Message<Codeword> createVerifyCodeword(final CustomUserDetails user,
-                                                         final Codeword codeword,
+    public static Message<CodewordDTO> createVerifyCodeword(final CustomUserDetails user,
+                                                         final CodewordDTO codewordDto,
                                                          final int points,
                                                          final int score) {
-        return createTeamMessage(VERIFY_CODEWORD, user.getTeam(), codeword, points, score);
+        return createTeamMessage(VERIFY_CODEWORD, user.getTeam(), codewordDto, points, score);
     }
 
     public static Message<Long> createTakeHint(final CustomUserDetails user,

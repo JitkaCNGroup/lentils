@@ -1,7 +1,7 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.dto.CypherFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.formentity.CypherFormObject;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.UserService;
 import dk.cngroup.lentils.service.convertors.CypherFormConverter;
@@ -54,13 +54,14 @@ public class CypherController {
     @GetMapping(value = "/add")
     public String newCypher(final Model model) {
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
-        model.addAttribute(TEMPLATE_ATTR_COMMAND, new CypherFormObject());
+        model.addAttribute(TEMPLATE_ATTR_COMMAND, new CypherFormDTO());
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
         return VIEW_CYPHER_DETAIL;
     }
 
     @PostMapping(value = "/add")
-    public String saveNewCypher(@Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final CypherFormObject command,
+
+    public String saveNewCypher(@Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final CypherFormDTO command,
                                 final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
@@ -78,17 +79,16 @@ public class CypherController {
     @GetMapping(value = "/update/{cypherId}")
     public String updateCypherForm(@PathVariable("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
-        final CypherFormObject formObject = cypherFormConverter.fromEntity(cypher);
-
+        final CypherFormDTO cypherFormDto = cypherFormConverter.fromEntity(cypher);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
-        model.addAttribute(TEMPLATE_ATTR_COMMAND, formObject);
+        model.addAttribute(TEMPLATE_ATTR_COMMAND, cypherFormDto);
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
         return VIEW_CYPHER_DETAIL;
     }
 
     @PostMapping(value = "/update/{cypherId}")
     public String updateCypher(@PathVariable("cypherId") final Long cypherId,
-                               @Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final CypherFormObject command,
+                               @Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final CypherFormDTO command,
                                final BindingResult bindingResult,
                                final Model model) {
         if (bindingResult.hasErrors()) {

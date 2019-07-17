@@ -1,6 +1,6 @@
-package dk.cngroup.lentils.entity.formentity;
+package dk.cngroup.lentils.dto;
 
-public class Codeword {
+public class CodewordDTO {
 
     private String guess;
 

@@ -1,11 +1,11 @@
 package dk.cngroup.lentils.logger;
 
+import dk.cngroup.lentils.dto.CodewordDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.formentity.Codeword;
 import dk.cngroup.lentils.factory.CypherStatusFactory;
 import dk.cngroup.lentils.logger.change.RevertHintChange;
 import dk.cngroup.lentils.logger.change.StatusChange;
@@ -69,17 +69,17 @@ public class Logger {
      * CLIENT METHODS.
      */
     @Around("execution(* dk.cngroup.lentils.controller.ClientController.verifyCodeword(..))" +
-            "&& args(cypherId,codeword,user,..)")
+            "&& args(cypherId,codewordDto,user,..)")
     public Object verifyCodeword(final ProceedingJoinPoint joinPoint,
                                  final Long cypherId,
-                                 final Codeword codeword,
+                                 final CodewordDTO codewordDto,
                                  final CustomUserDetails user) throws Throwable {
         String result = (String) joinPoint.proceed(joinPoint.getArgs());
 
         int points = getVerifyCodewordPoints(result);
         int score = scoreService.getScoreByTeam(user.getTeam());
 
-        Message<Codeword> message = MessageFactory.createVerifyCodeword(user, codeword, points, score);
+        Message<CodewordDTO> message = MessageFactory.createVerifyCodeword(user, codewordDto, points, score);
         printer.println(message);
 
         return result;

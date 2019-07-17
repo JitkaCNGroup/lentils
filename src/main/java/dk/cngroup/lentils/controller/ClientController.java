@@ -1,10 +1,10 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.dto.CodewordDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Team;
-import dk.cngroup.lentils.entity.formentity.Codeword;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
@@ -111,8 +111,8 @@ public class ClientController {
         if (status.equals(CypherStatus.LOCKED)) {
             throw new ResourceNotFoundException("locked cypher", id);
         }
-        Codeword codeword = new Codeword();
-        setDetailModelAttributes(model, user, cypher, status, codeword);
+        CodewordDTO codewordDto = new CodewordDTO();
+        setDetailModelAttributes(model, user, cypher, status, codewordDto);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -138,7 +138,7 @@ public class ClientController {
 
     @PostMapping(value = "cypher/verify/{id}")
     public String verifyCodeword(@PathVariable("id") final Long id,
-                                 @Valid final Codeword codeword,
+                                 @Valid final CodewordDTO codewordDto,
                                  @AuthenticationPrincipal final CustomUserDetails user,
                                  final BindingResult result,
                                  final Model model) {
@@ -149,21 +149,21 @@ public class ClientController {
             FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
             result.addError(error);
 
-            setDetailModelAttributes(model, user, cypher, status, codeword);
+            setDetailModelAttributes(model, user, cypher, status, codewordDto);
             return CLIENT_VIEW_CYPHER_DETAIL;
         }
 
         if (status != CypherStatus.PENDING) {
-            setDetailModelAttributes(model, user, cypher, status, codeword);
+            setDetailModelAttributes(model, user, cypher, status, codewordDto);
             return CLIENT_VIEW_CYPHER_DETAIL;
         }
 
-        if (cypherService.checkCodeword(cypher, codeword.getGuess())) {
+        if (cypherService.checkCodeword(cypher, codewordDto.getGuess())) {
             statusService.markCypher(cypher, user.getTeam(), CypherStatus.SOLVED);
             return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
         }
 
-        if (cypherService.checkTrapCodeword(cypher, codeword.getGuess())) {
+        if (cypherService.checkTrapCodeword(cypher, codewordDto.getGuess())) {
             return REDIRECT_TO_TRAP_SCREEN + cypher.getCypherId();
         }
 
@@ -172,7 +172,7 @@ public class ClientController {
                 GUESS_FIELD_NAME,
                 "Špatné řešení, zkuste se víc zamyslet :-)");
         result.addError(error);
-        setDetailModelAttributes(model, user, cypher, status, codeword);
+        setDetailModelAttributes(model, user, cypher, status, codewordDto);
 
         return CLIENT_VIEW_CYPHER_DETAIL;
     }
@@ -226,13 +226,13 @@ public class ClientController {
             final CustomUserDetails user,
             final Cypher cypher,
             final CypherStatus status,
-            final Codeword codeword) {
+            final CodewordDTO codewordDto) {
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
         model.addAttribute(TEMPLATE_ATTR_STATUS, status.name());
         model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_NEXT_CYPHER, cypherService.getNext(cypher.getStage()));
-        model.addAttribute(FORM_OBJECT_NAME, codeword);
+        model.addAttribute(FORM_OBJECT_NAME, codewordDto);
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
         model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED,
                 gameLogicService.allowPlayersToViewFinalPlace(user.getTeam()));

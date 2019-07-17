@@ -1,8 +1,8 @@
 package dk.cngroup.lentils.service.convertors;
 
+import dk.cngroup.lentils.dto.CypherFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.User;
-import dk.cngroup.lentils.entity.formentity.CypherFormObject;
 import dk.cngroup.lentils.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,23 +20,23 @@ public class CypherFormConverter {
         this.userService = userService;
     }
 
-    public CypherFormObject fromEntity(final Cypher cypher) {
-        final CypherFormObject formObject = new CypherFormObject();
+    public CypherFormDTO fromEntity(final Cypher cypher) {
+        final CypherFormDTO cypherFormDto = new CypherFormDTO();
 
-        formObject.setName(cypher.getName());
-        formObject.setStage(cypher.getStage());
-        formObject.setLocation(cypher.getLocation());
-        formObject.setMapAddress(cypher.getMapAddress());
-        formObject.setCodeword(cypher.getCodeword());
-        formObject.setTrapCodeword(cypher.getTrapCodeword());
-        formObject.setBonusContent(cypher.getBonusContent());
-        formObject.setPlaceDescription(cypher.getPlaceDescription());
-        formObject.setOrganizers(getOrganizerIds(cypher.getOrganizers()));
+        cypherFormDto.setName(cypher.getName());
+        cypherFormDto.setStage(cypher.getStage());
+        cypherFormDto.setLocation(cypher.getLocation());
+        cypherFormDto.setMapAddress(cypher.getMapAddress());
+        cypherFormDto.setCodeword(cypher.getCodeword());
+        cypherFormDto.setTrapCodeword(cypher.getTrapCodeword());
+        cypherFormDto.setBonusContent(cypher.getBonusContent());
+        cypherFormDto.setPlaceDescription(cypher.getPlaceDescription());
+        cypherFormDto.setOrganizers(getOrganizerIds(cypher.getOrganizers()));
 
-        return formObject;
+        return cypherFormDto;
     }
 
-    public void toEntity(final CypherFormObject command, final Cypher cypher) {
+    public void toEntity(final CypherFormDTO command, final Cypher cypher) {
         cypher.setName(command.getName());
         cypher.setName(command.getName());
         cypher.setStage(command.getStage());
