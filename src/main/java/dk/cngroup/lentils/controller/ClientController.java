@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -138,7 +139,7 @@ public class ClientController {
 
     @PostMapping(value = "cypher/verify/{id}")
     public String verifyCodeword(@PathVariable("id") final Long id,
-                                 @Valid final CodewordFormDTO codewordFormDto,
+                                 @Valid @ModelAttribute(FORM_OBJECT_NAME) final CodewordFormDTO codewordFormDto,
                                  @AuthenticationPrincipal final CustomUserDetails user,
                                  final BindingResult result,
                                  final Model model) {
