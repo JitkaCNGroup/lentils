@@ -6,12 +6,6 @@ public abstract class OutputPrinter implements Printer {
 
     private PrintStream output;
 
-    public OutputPrinter() {
-        initOutput();
-    }
-
-    public abstract void initOutput();
-
     @Override
     public <T> void println(final T message) {
         output.println(message);
