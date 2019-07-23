@@ -8,4 +8,5 @@ public interface ObjectMapper {
     <T> T map(Object source, Class<T> destinationClassName);
     Cypher map(CypherFormDTO source);
     CypherFormDTO map(Cypher source);
+    void map(CypherFormDTO source, Cypher destination);
 }

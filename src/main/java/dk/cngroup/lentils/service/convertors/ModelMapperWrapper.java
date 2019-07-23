@@ -34,12 +34,20 @@ public class ModelMapperWrapper implements ObjectMapper {
         return modelMapper.map(source, destinationClassName);
     }
 
+    @Override
     public Cypher map(final CypherFormDTO source) {
         Cypher cypher = map(source, Cypher.class);
         cypher.setOrganizers(userService.getOrganizersByIds(source.getOrganizers()));
         return cypher;
     }
 
+    @Override
+    public void map(final CypherFormDTO source,final Cypher destination) {
+        modelMapper.map(source, destination);
+        destination.setOrganizers(userService.getOrganizersByIds(source.getOrganizers()));
+    }
+
+    @Override
     public CypherFormDTO map(final Cypher source) {
         skipOrganizersMappingToDTO();
         CypherFormDTO cypherFormDto = modelMapper.map(source, CypherFormDTO.class);
