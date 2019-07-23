@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,17 +28,15 @@ import static org.junit.Assert.assertTrue;
 @Transactional
 public class ModelMapperWrapperTest {
 
+    @Autowired
+    private UserService userService;
     private ObjectGenerator generator;
     private ObjectMapper modelMapper;
-
-    @Autowired
-    public void setModelMapper(final ModelMapperWrapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     @Before
     public void setUp() {
         generator = new ObjectGenerator();
+        modelMapper = new ModelMapperWrapper();
     }
 
     @Test
@@ -72,7 +71,8 @@ public class ModelMapperWrapperTest {
         organizers.add(user);
         cypher.setOrganizers(organizers);
 
-        CypherFormDTO cypherFormDto = modelMapper.map(cypher);
+        CypherFormDTO cypherFormDto = modelMapper.map(cypher, CypherFormDTO.class);
+        mapOrganizersIdsToCypherFormDTO(cypher, cypherFormDto);
 
         assertTrue(cypher.getName().equals(cypherFormDto.getName()));
         assertEquals(cypher.getOrganizers().get(0).getUserId(), cypherFormDto.getOrganizers().get(0));
@@ -85,9 +85,22 @@ public class ModelMapperWrapperTest {
         organizerIds.add(2L);
         cypherFormDto.setName("fromDtoName");
         cypherFormDto.setOrganizers(organizerIds);
-        Cypher cypher = modelMapper.map(cypherFormDto);
+
+        Cypher cypher = modelMapper.map(cypherFormDto, Cypher.class);
+        mapOrganizersToCypher(cypherFormDto, cypher);
 
         assertTrue(cypher.getName().equals(cypherFormDto.getName()));
         assertEquals(cypher.getOrganizers().get(0).getUserId(), cypherFormDto.getOrganizers().get(0));
+    }
+
+
+    private void mapOrganizersToCypher(final CypherFormDTO command, final Cypher cypher) {
+        cypher.setOrganizers(userService.getOrganizersByIds(command.getOrganizers()));
+    }
+
+    private void mapOrganizersIdsToCypherFormDTO(Cypher cypher, CypherFormDTO cypherFormDto) {
+        cypherFormDto.setOrganizers(cypher.getOrganizers().stream()
+                .map(User::getUserId)
+                .collect(Collectors.toList()));
     }
 }
