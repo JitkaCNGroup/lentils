@@ -29,7 +29,7 @@ public class CypherModelMapperWrapper extends ModelMapperWrapper {
         if (destination.getClass() == Cypher.class) {
             mapOrganizersToCypher((CypherFormDTO) source, (Cypher) destination);
         } else if (destination.getClass() == CypherFormDTO.class) {
-            mapOrganizersIdsToCypherFormDTO((Cypher) source, (CypherFormDTO) destination);
+            mapOrganizerIdsToCypherFormDTO((Cypher) source, (CypherFormDTO) destination);
         } else {
             throw new IllegalArgumentException("Use only Cypher or CypherFormDTO!");
         }
@@ -38,14 +38,12 @@ public class CypherModelMapperWrapper extends ModelMapperWrapper {
     @Override
     public <T> T map(final Object source, final Class<T> destinationClass) {
         if (destinationClass == Cypher.class) {
-            Cypher cypher = new Cypher();
-            super.getModelMapper().map(source, cypher);
+            Cypher cypher = super.getModelMapper().map(source, Cypher.class);
             mapOrganizersToCypher((CypherFormDTO) source, cypher);
             return (T) cypher;
         } else if (destinationClass == CypherFormDTO.class) {
-            CypherFormDTO cypherFormDto = new CypherFormDTO();
-            super.getModelMapper().map(source, cypherFormDto);
-            mapOrganizersIdsToCypherFormDTO((Cypher) source, cypherFormDto);
+            CypherFormDTO cypherFormDto = super.getModelMapper().map(source, CypherFormDTO.class);
+            mapOrganizerIdsToCypherFormDTO((Cypher) source, cypherFormDto);
             return (T) cypherFormDto;
         } else {
             throw new IllegalArgumentException("Use only Cypher or CypherFormDTO!");
@@ -56,7 +54,7 @@ public class CypherModelMapperWrapper extends ModelMapperWrapper {
         cypher.setOrganizers(userService.getOrganizersByIds(cypherFormDto.getOrganizers()));
     }
 
-    private void mapOrganizersIdsToCypherFormDTO(final Cypher cypher, final CypherFormDTO cypherFormDto) {
+    private void mapOrganizerIdsToCypherFormDTO(final Cypher cypher, final CypherFormDTO cypherFormDto) {
         cypherFormDto.setOrganizers(cypher.getOrganizers().stream()
                 .map(User::getUserId)
                 .collect(Collectors.toList()));
