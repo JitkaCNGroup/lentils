@@ -25,10 +25,10 @@ public class CypherModelMapperWrapper extends ModelMapperWrapper {
 
     @Override
     public void map(final Object source, final Object destination) {
-        modelMapper.map(source, destination);
+        super.getModelMapper().map(source, destination);
         if (destination.getClass() == Cypher.class) {
             mapOrganizersToCypher((CypherFormDTO) source, (Cypher) destination);
-        } else if (destination.getClass() == CypherFormDTO.class){
+        } else if (destination.getClass() == CypherFormDTO.class) {
             mapOrganizersIdsToCypherFormDTO((Cypher) source, (CypherFormDTO) destination);
         } else {
             throw new IllegalArgumentException("Use only Cypher or CypherFormDTO!");
@@ -39,12 +39,12 @@ public class CypherModelMapperWrapper extends ModelMapperWrapper {
     public <T> T map(final Object source, final Class<T> destinationClass) {
         if (destinationClass == Cypher.class) {
             Cypher cypher = new Cypher();
-            modelMapper.map(source, cypher);
+            super.getModelMapper().map(source, cypher);
             mapOrganizersToCypher((CypherFormDTO) source, cypher);
             return (T) cypher;
         } else if (destinationClass == CypherFormDTO.class) {
             CypherFormDTO cypherFormDto = new CypherFormDTO();
-            modelMapper.map(source, cypherFormDto);
+            super.getModelMapper().map(source, cypherFormDto);
             mapOrganizersIdsToCypherFormDTO((Cypher) source, cypherFormDto);
             return (T) cypherFormDto;
         } else {
@@ -63,7 +63,7 @@ public class CypherModelMapperWrapper extends ModelMapperWrapper {
     }
 
     private void skipOrganizersMappingToDTO() {
-        modelMapper.addMappings(new PropertyMap<Cypher, CypherFormDTO>() {
+        super.getModelMapper().addMappings(new PropertyMap<Cypher, CypherFormDTO>() {
             protected void configure() {
                 skip().setOrganizers(null);
             }

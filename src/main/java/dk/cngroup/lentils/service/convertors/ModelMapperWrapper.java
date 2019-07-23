@@ -6,7 +6,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelMapperWrapper implements ObjectMapper {
 
-    protected final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    public ModelMapper getModelMapper() {
+        return modelMapper;
+    }
 
     @Override
     public void map(final Object source, final Object destination) {
