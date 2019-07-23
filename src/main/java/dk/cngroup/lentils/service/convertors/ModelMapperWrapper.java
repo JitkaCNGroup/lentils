@@ -42,7 +42,7 @@ public class ModelMapperWrapper implements ObjectMapper {
     }
 
     @Override
-    public void map(final CypherFormDTO source,final Cypher destination) {
+    public void map(final CypherFormDTO source, final Cypher destination) {
         modelMapper.map(source, destination);
         destination.setOrganizers(userService.getOrganizersByIds(source.getOrganizers()));
     }
