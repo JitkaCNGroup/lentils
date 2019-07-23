@@ -2,7 +2,6 @@ package dk.cngroup.lentils.controller;
 
 import dk.cngroup.lentils.dto.CypherFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.UserService;
 import dk.cngroup.lentils.service.convertors.ObjectMapper;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -72,7 +70,6 @@ public class CypherController {
         }
 
         final Cypher cypher = objectMapper.map(command, Cypher.class);
-        mapOrganizersToCypher(command, cypher);
         cypherService.save(cypher);
 
         return REDIRECT_CYPHER_LIST;
@@ -82,7 +79,6 @@ public class CypherController {
     public String updateCypherForm(@PathVariable("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         final CypherFormDTO cypherFormDto = objectMapper.map(cypher, CypherFormDTO.class);
-        mapOrganizersIdsToCypherFormDTO(cypher, cypherFormDto);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
         model.addAttribute(TEMPLATE_ATTR_COMMAND, cypherFormDto);
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
@@ -101,7 +97,6 @@ public class CypherController {
 
         final Cypher cypher = cypherService.getCypher(cypherId);
         objectMapper.map(command, cypher);
-        mapOrganizersToCypher(command, cypher);
         cypherService.save(cypher);
 
         return REDIRECT_CYPHER_LIST;
@@ -111,15 +106,5 @@ public class CypherController {
     public String deleteCypher(@PathVariable("cypherId") final Long cypherId) {
         cypherService.deleteById(cypherId);
         return REDIRECT_CYPHER_LIST;
-    }
-
-    private void mapOrganizersToCypher(final CypherFormDTO command, final Cypher cypher) {
-        cypher.setOrganizers(userService.getOrganizersByIds(command.getOrganizers()));
-    }
-
-    private void mapOrganizersIdsToCypherFormDTO(final Cypher cypher, final CypherFormDTO cypherFormDto) {
-        cypherFormDto.setOrganizers(cypher.getOrganizers().stream()
-                .map(User::getUserId)
-                .collect(Collectors.toList()));
     }
 }
