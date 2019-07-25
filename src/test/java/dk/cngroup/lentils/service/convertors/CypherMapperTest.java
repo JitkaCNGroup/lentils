@@ -26,7 +26,7 @@ public class CypherMapperTest {
 
     private ObjectGenerator generator;
     @Autowired
-    private ObjectMapper modelMapper;
+    private CypherMapper cypherMapper;
 
     @Before
     public void setUp() {
@@ -42,7 +42,7 @@ public class CypherMapperTest {
         organizers.add(user);
         cypher.setOrganizers(organizers);
 
-        CypherFormDTO cypherFormDto = modelMapper.map(cypher, CypherFormDTO.class);
+        CypherFormDTO cypherFormDto = cypherMapper.map(cypher, CypherFormDTO.class);
 
         assertTrue(cypher.getName().equals(cypherFormDto.getName()));
         assertEquals(cypher.getOrganizers().get(0).getUserId(), cypherFormDto.getOrganizers().get(0));
@@ -56,7 +56,7 @@ public class CypherMapperTest {
         cypherFormDto.setName("fromDtoName");
         cypherFormDto.setOrganizers(organizerIds);
 
-        Cypher cypher = modelMapper.map(cypherFormDto, Cypher.class);
+        Cypher cypher = cypherMapper.map(cypherFormDto, Cypher.class);
 
         assertTrue(cypher.getName().equals(cypherFormDto.getName()));
         assertEquals(cypher.getOrganizers().get(0).getUserId(), cypherFormDto.getOrganizers().get(0));

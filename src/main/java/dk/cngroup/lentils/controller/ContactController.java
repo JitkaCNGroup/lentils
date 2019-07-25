@@ -3,6 +3,7 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.dto.ContactFormDTO;
 import dk.cngroup.lentils.entity.Contact;
 import dk.cngroup.lentils.service.ContactService;
+import dk.cngroup.lentils.service.convertors.ModelMapperWrapper;
 import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,9 @@ public class ContactController {
 
     @Autowired
     public ContactController(final ContactService contactService,
-                             final ObjectMapper mapper) {
+                             final ModelMapperWrapper modelMapperWrapper) {
         this.contactService = contactService;
-        this.mapper = mapper;
+        this.mapper = modelMapperWrapper;
     }
 
     @GetMapping(value = "/")

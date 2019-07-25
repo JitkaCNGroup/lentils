@@ -4,6 +4,7 @@ import dk.cngroup.lentils.dto.CypherFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.UserService;
+import dk.cngroup.lentils.service.convertors.CypherMapper;
 import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,10 +40,10 @@ public class CypherController {
     @Autowired
     public CypherController(final CypherService cypherService,
                             final UserService userService,
-                            final ObjectMapper objectMapper) {
+                            final CypherMapper cypherMapper) {
         this.cypherService = cypherService;
         this.userService = userService;
-        this.objectMapper = objectMapper;
+        this.objectMapper = cypherMapper;
     }
 
     @GetMapping
