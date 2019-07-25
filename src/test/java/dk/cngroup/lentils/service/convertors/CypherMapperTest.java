@@ -22,9 +22,8 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LentilsApplication.class)
 @Transactional
-public class CypherModelMapperWrapperTest {
+public class CypherMapperTest {
 
-    @Autowired
     private ObjectGenerator generator;
     @Autowired
     private ObjectMapper modelMapper;
