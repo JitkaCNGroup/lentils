@@ -17,10 +17,6 @@
         <div class="col-sm-6">
             <form action="#" th:action="@{/admin/finalplace/update}" th:object="${finalPlace}" method="post">
                 <div class="form-group">
-                    <label for="finalPlaceId">Id</label>
-                    <input id="finalPlaceId" class="form-control" th:field="*{finalPlaceId}" readonly/>
-                </div>
-                <div class="form-group">
                     <label for="description" class="input-value-required">Jméno a popis</label>
                     <textarea id="description" class="form-control" th:field="*{description}" required></textarea>
                     <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error.</p>

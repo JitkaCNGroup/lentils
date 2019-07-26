@@ -1,7 +1,9 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.dto.FinalPlaceFormDTO;
 import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.service.FinalPlaceService;
+import dk.cngroup.lentils.service.convertors.ModelMapperWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,16 +23,22 @@ public class FinalPlaceController {
     private static final String VIEW_FINALPLACE_FORM = "finalplace/form";
     private static final String REDIRECT_FINALPLACE_FORM = "redirect:/admin/finalplace/";
 
+    private static final String TEMPLATE_ATTR_FINALPLACE = "finalPlace";
+
     private FinalPlaceService finalPlaceService;
+    private ModelMapperWrapper mapper;
 
     @Autowired
-    public FinalPlaceController(final FinalPlaceService finalPlaceService) {
+    public FinalPlaceController(final FinalPlaceService finalPlaceService,
+                                final ModelMapperWrapper modelMapperWrapper) {
         this.finalPlaceService = finalPlaceService;
+        this.mapper = modelMapperWrapper;
     }
 
     @GetMapping(value = "/")
     public String finalPlace(final Model model) {
-        model.addAttribute("finalPlace", finalPlaceService.getFinalPlace());
+        FinalPlaceFormDTO finalPlaceFormDto = mapper.map(finalPlaceService.getFinalPlace(), FinalPlaceFormDTO.class);
+        model.addAttribute(TEMPLATE_ATTR_FINALPLACE, finalPlaceFormDto);
         model.addAttribute(
                 "serverTime",
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
@@ -38,12 +46,13 @@ public class FinalPlaceController {
     }
 
     @PostMapping(value = "/update")
-    public String saveFinalPlace(@Valid @ModelAttribute final FinalPlace finalPlace,
+    public String saveFinalPlace(@Valid @ModelAttribute("finalPlace") final FinalPlaceFormDTO finalPlaceFormDto,
                                  final BindingResult bindingResult,
                                  final Model model) {
+        FinalPlace finalPlace = mapper.map(finalPlaceFormDto, FinalPlace.class);
         finalPlaceService.checkFinishTimeBeforeResultsTime(bindingResult, finalPlace);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("finalPlace", finalPlace);
+            model.addAttribute(TEMPLATE_ATTR_FINALPLACE, finalPlaceFormDto);
             return VIEW_FINALPLACE_FORM;
         }
         finalPlaceService.save(finalPlace);
