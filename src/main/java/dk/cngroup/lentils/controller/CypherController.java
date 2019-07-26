@@ -5,7 +5,6 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.UserService;
 import dk.cngroup.lentils.service.convertors.CypherMapper;
-import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +34,7 @@ public class CypherController {
 
     private final CypherService cypherService;
     private final UserService userService;
-    private final ObjectMapper objectMapper;
+    private final CypherMapper cypherMapper;
 
     @Autowired
     public CypherController(final CypherService cypherService,
@@ -43,7 +42,7 @@ public class CypherController {
                             final CypherMapper cypherMapper) {
         this.cypherService = cypherService;
         this.userService = userService;
-        this.objectMapper = cypherMapper;
+        this.cypherMapper = cypherMapper;
     }
 
     @GetMapping
@@ -70,7 +69,7 @@ public class CypherController {
             return VIEW_CYPHER_DETAIL;
         }
 
-        final Cypher cypher = objectMapper.map(command, Cypher.class);
+        final Cypher cypher = cypherMapper.map(command, Cypher.class);
         cypherService.save(cypher);
 
         return REDIRECT_CYPHER_LIST;
@@ -79,7 +78,7 @@ public class CypherController {
     @GetMapping(value = "/update/{cypherId}")
     public String updateCypherForm(@PathVariable("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
-        final CypherFormDTO cypherFormDto = objectMapper.map(cypher, CypherFormDTO.class);
+        final CypherFormDTO cypherFormDto = cypherMapper.map(cypher, CypherFormDTO.class);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
         model.addAttribute(TEMPLATE_ATTR_COMMAND, cypherFormDto);
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
@@ -97,7 +96,7 @@ public class CypherController {
         }
 
         final Cypher cypher = cypherService.getCypher(cypherId);
-        objectMapper.map(command, cypher);
+        cypherMapper.map(command, cypher);
         cypherService.save(cypher);
 
         return REDIRECT_CYPHER_LIST;
