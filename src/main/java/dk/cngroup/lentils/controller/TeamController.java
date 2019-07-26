@@ -3,6 +3,7 @@ package dk.cngroup.lentils.controller;
 import dk.cngroup.lentils.dto.TeamFormDTO;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.service.TeamService;
+import dk.cngroup.lentils.service.convertors.ModelMapperWrapper;
 import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,9 @@ public class TeamController {
 
     @Autowired
     public TeamController(final TeamService teamService,
-                          final ObjectMapper mapper) {
+                          final ModelMapperWrapper modelMapperWrapper) {
         this.teamService = teamService;
-        this.mapper = mapper;
+        this.mapper = modelMapperWrapper;
     }
 
     @GetMapping
