@@ -12,15 +12,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <form action="#" th:action="@{/admin/hint/save}" th:object="${hint}" method="post">
-                <div class="form-group">
-                    <label for="cypherId">Cypher ID</label>
-                    <input id="cypherId" type="number" class="form-control" th:field="*{cypher.cypherId}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label for="hintId">Hint ID</label>
-                    <input id="hintId" type="number" class="form-control" th:field="*{hintId}" readonly/>
-                </div>
+            <form action="#" th:object="${hint}" method="post">
                 <div class="form-group">
                     <label for="text">Text</label>
                     <textarea id="text" class="form-control" th:field="*{text}"/>
