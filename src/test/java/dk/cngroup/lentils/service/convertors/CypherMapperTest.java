@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LentilsApplication.class)
@@ -44,7 +43,7 @@ public class CypherMapperTest {
 
         CypherFormDTO cypherFormDto = cypherMapper.map(cypher, CypherFormDTO.class);
 
-        assertTrue(cypher.getName().equals(cypherFormDto.getName()));
+        assertEquals(cypher.getName(), cypherFormDto.getName());
         assertEquals(cypher.getOrganizers().get(0).getUserId(), cypherFormDto.getOrganizers().get(0));
     }
 
@@ -58,7 +57,7 @@ public class CypherMapperTest {
 
         Cypher cypher = cypherMapper.map(cypherFormDto, Cypher.class);
 
-        assertTrue(cypher.getName().equals(cypherFormDto.getName()));
+        assertEquals(cypher.getName(), cypherFormDto.getName());
         assertEquals(cypher.getOrganizers().get(0).getUserId(), cypherFormDto.getOrganizers().get(0));
     }
 }

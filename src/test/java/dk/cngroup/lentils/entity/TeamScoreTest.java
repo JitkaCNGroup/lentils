@@ -5,8 +5,7 @@ import dk.cngroup.lentils.service.ObjectGenerator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 public class TeamScoreTest {
 
@@ -19,7 +18,7 @@ public class TeamScoreTest {
         TeamScore y = new TeamScore(team2, 10);
 
         assertEquals(0, x.compareTo(y));
-        assertTrue(x.equals(y));
+        assertEquals(x, y);
     }
 
     @Test
@@ -31,6 +30,6 @@ public class TeamScoreTest {
         TeamScore y = new TeamScore(team2, 20);
 
         assertEquals(10, x.compareTo(y));
-        assertFalse(x.equals(y));
+        assertNotEquals(x, y);
     }
 }

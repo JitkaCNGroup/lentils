@@ -176,7 +176,7 @@ public class StatusServiceTest {
         when (statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any()))
                 .thenReturn(true);
 
-        assertEquals(true, service.restOfCyphersAreLocked (team, cypher));
+        assertTrue(service.restOfCyphersAreLocked (team, cypher));
     }
 
     @Test
@@ -190,7 +190,7 @@ public class StatusServiceTest {
         when (statusRepository.existsStatusByCypherAndTeamAndCypherStatus(any(), any(), any()))
                 .thenReturn(false);
 
-        assertEquals(false, service.restOfCyphersAreLocked (team, cypher));
+        assertFalse(service.restOfCyphersAreLocked (team, cypher));
     }
 
     private List<Status> fillTeamCypherAndStatusTables() {

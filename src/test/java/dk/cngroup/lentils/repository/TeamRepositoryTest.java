@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -52,7 +52,7 @@ public class TeamRepositoryTest {
         Team team = teamRepository.findByName(teamName);
         Optional<Team> teamById = teamRepository.findById(team.getTeamId());
 
-        assertNotNull(teamById.isPresent());
+        assertTrue(teamById.isPresent());
         assertEquals(team, teamById.get());
     }
 
