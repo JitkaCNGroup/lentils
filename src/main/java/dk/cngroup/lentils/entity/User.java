@@ -1,22 +1,15 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @SequenceGenerator(name = "seq", initialValue = 500)
 @Table(name = "user_account")
-public class User {
+public class User implements Serializable {
 
-    public User(final User user) {
-        this.password = user.getPassword();
-        this.username = user.getUsername();
-        this.roles = user.getRoles();
-        this.userId = user.getUserId();
-    }
-
-    public User() {
-    }
+    private static final long serialVersionUID = -3350439623038263787L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")

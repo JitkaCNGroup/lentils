@@ -9,11 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "contact")
-public class Contact {
+public class Contact implements Serializable {
+
+    private static final long serialVersionUID = -4869244705792976490L;
 
     @Id
     @GeneratedValue

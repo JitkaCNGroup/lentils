@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class HintTakenKey implements Serializable {
+    private static final long serialVersionUID = 3674555156504574622L;
+
     private Long team;
     private Long hint;
 

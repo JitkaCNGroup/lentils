@@ -15,6 +15,8 @@ import java.util.Objects;
 @Table(name = "cypher")
 public class Cypher implements Serializable {
 
+    private static final long serialVersionUID = 1565385429261533400L;
+
     @Id
     @GeneratedValue
     @Column(name = "cypher_id")
