@@ -3,7 +3,6 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.repository.UserRepository;
-import dk.cngroup.lentils.security.CustomUserDetails;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

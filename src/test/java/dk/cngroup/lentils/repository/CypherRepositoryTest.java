@@ -3,13 +3,11 @@ package dk.cngroup.lentils.repository;
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.entity.Cypher;
-import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
