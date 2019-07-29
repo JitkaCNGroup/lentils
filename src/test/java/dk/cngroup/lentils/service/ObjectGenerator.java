@@ -94,9 +94,9 @@ public class ObjectGenerator {
 
     public List<Team> generateTeamList() {
         List<Team> teams = new LinkedList<>();
-        IntStream.range(0, NUMBER_OF_TEAMS).forEach(i -> {
-            teams.add(generateTeamWithNameAndPin(TEAM_NAME + i, "123" + i));
-        });
+        IntStream.range(0, NUMBER_OF_TEAMS).forEach(i -> teams.add(
+                generateTeamWithNameAndPin(TEAM_NAME + i, "123" + i)
+        ));
         return teams;
     }
 
