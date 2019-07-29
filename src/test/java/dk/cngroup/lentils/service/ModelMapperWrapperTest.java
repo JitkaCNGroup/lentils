@@ -7,7 +7,7 @@ import dk.cngroup.lentils.service.convertors.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class ModelMapperWrapperTest {
 
@@ -26,8 +26,8 @@ public class ModelMapperWrapperTest {
 
         TeamFormDTO teamFormDto = modelMapper.map(team, TeamFormDTO.class);
 
-        assertTrue(teamFormDto.getName().equals(team.getName()));
-        assertTrue(teamFormDto.getNumOfMembers().equals(team.getNumOfMembers()));
+        assertEquals(teamFormDto.getName(), team.getName());
+        assertEquals(teamFormDto.getNumOfMembers(), team.getNumOfMembers());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ModelMapperWrapperTest {
 
         modelMapper.map(teamFormDto, team);
 
-        assertTrue(teamFormDto.getName().equals(team.getName()));
-        assertTrue(teamFormDto.getNumOfMembers().equals(team.getNumOfMembers()));
+        assertEquals(teamFormDto.getName(), team.getName());
+        assertEquals(teamFormDto.getNumOfMembers(), team.getNumOfMembers());
     }
 }

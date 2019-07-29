@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -46,6 +47,7 @@ public class FinalPlaceRepositoryTest {
         Optional<FinalPlace> finalPlace = repository.findById(finalPlaceOrig.getFinalPlaceId());
 
         assertNotNull(finalPlace);
+        assertTrue(finalPlace.isPresent());
         assertEquals(finalPlace.get(), finalPlaceOrig);
     }
 
