@@ -214,9 +214,8 @@ public class StatusServiceTest {
     private Status generateOneTeamCypherAndStatusRow(String valueOfStatus) {
         Team team = generator.generateValidTeam();
         Cypher cypher = generator.generateNewCypher();
-        Status status = new Status(team, cypher, CypherStatus.valueOf(valueOfStatus));
 
-        return status;
+        return new Status(team, cypher, CypherStatus.valueOf(valueOfStatus));
     }
 
     private Status getStatusFromList(String nameOfTestedTeam, int testedStage, List<Status> statusList) {

@@ -53,7 +53,6 @@ public class ContactServiceTest {
     }
 
     private Contact createNewContact() {
-        Contact contact = generator.generateContact();
-        return contact;
+        return generator.generateContact();
     }
 }
