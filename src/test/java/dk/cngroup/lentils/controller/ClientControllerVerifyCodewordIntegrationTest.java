@@ -74,7 +74,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
         assertEquals(CypherStatus.PENDING, status.getCypherStatus());
-        assertTrue(returnValue.contains("lets-play-a-game"));
+        assertTrue(returnValue.contains("trap"));
     }
 
     @Test

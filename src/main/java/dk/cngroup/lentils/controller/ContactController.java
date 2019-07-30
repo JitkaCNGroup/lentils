@@ -19,8 +19,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/admin/contact")
 public class ContactController {
-    private static final String VIEW_CONTACT_FORM = "contact/form";
-    private static final String REDIRECT_CONTACT_FORM = "redirect:/admin/contact/";
+    private static final String VIEW_ADMIN_CONTACT_FORM = "contact/form";
+    private static final String REDIRECT_ADMIN_CONTACT = "redirect:/admin/contact/";
 
     private static final String TEMPLATE_ATTR_CONTACT = "contact";
 
@@ -41,7 +41,7 @@ public class ContactController {
         mapper.map(contact, contactDto);
         model.addAttribute(TEMPLATE_ATTR_CONTACT, contactDto);
 
-        return VIEW_CONTACT_FORM;
+        return VIEW_ADMIN_CONTACT_FORM;
     }
 
     @PostMapping(value = "/update")
@@ -50,13 +50,13 @@ public class ContactController {
                               final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_CONTACT, contactDTO);
-            return VIEW_CONTACT_FORM;
+            return VIEW_ADMIN_CONTACT_FORM;
         }
 
         final Contact contact = contactService.getContact();
         mapper.map(contactDTO, contact);
         contactService.save(contact);
 
-        return REDIRECT_CONTACT_FORM;
+        return REDIRECT_ADMIN_CONTACT;
     }
 }

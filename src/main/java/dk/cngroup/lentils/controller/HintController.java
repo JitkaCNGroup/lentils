@@ -22,9 +22,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/admin/hint")
 public class HintController {
-    private static final String VIEW_HINT_LIST = "hint/list";
-    private static final String VIEW_HINT = "hint/detail";
-    private static final String REDIRECT_HINT_LIST = "redirect:/admin/hint";
+    private static final String VIEW_ADMIN_HINT_LIST = "hint/list";
+    private static final String VIEW_ADMIN_HINT_DETAIL = "hint/detail";
+    private static final String REDIRECT_ADMIN_HINT_LIST = "redirect:/admin/hint";
     private static final String CYPHERID_PARAMETER = "?cypherId=";
     private static final String HEADING_NEW_HINT = "Nový hint";
     private static final String HEADING_EDIT_HINT = "Upravit hint";
@@ -50,7 +50,7 @@ public class HintController {
     public String hints(@RequestParam("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
-        return VIEW_HINT_LIST;
+        return VIEW_ADMIN_HINT_LIST;
     }
 
     @GetMapping(value = "/delete/{hintId}")
@@ -58,7 +58,7 @@ public class HintController {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
-        return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + cypherId;
+        return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + cypherId;
     }
 
     @GetMapping(value = "/update/{hintId}")
@@ -66,7 +66,7 @@ public class HintController {
         HintFormDTO hintFormDto = mapper.map(hintService.getHint(hintId), HintFormDTO.class);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
         model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-        return VIEW_HINT;
+        return VIEW_ADMIN_HINT_DETAIL;
     }
 
     @PostMapping(value = "/update/{hintId}")
@@ -77,20 +77,20 @@ public class HintController {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
             model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-            return VIEW_HINT;
+            return VIEW_ADMIN_HINT_DETAIL;
         }
 
         Hint hint = hintService.getHint(hintId);
         mapper.map(hintFormDto, hint);
         hintService.save(hint);
-        return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
+        return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 
     @GetMapping(value = "/add")
     public String newHint(@RequestParam("cypherId") final Long cypherId, final Model model) {
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
         model.addAttribute(TEMPLATE_ATTR_HINT, new HintFormDTO());
-        return VIEW_HINT;
+        return VIEW_ADMIN_HINT_DETAIL;
     }
 
     @PostMapping(value = "/add")
@@ -101,12 +101,12 @@ public class HintController {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
             model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-            return VIEW_HINT;
+            return VIEW_ADMIN_HINT_DETAIL;
         }
 
         Hint hint = new Hint(cypherService.getCypher(cypherId));
         mapper.map(hintFormDto, hint);
         hintService.save(hint);
-        return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
+        return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 }

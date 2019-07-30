@@ -21,9 +21,9 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/admin/cypher")
 public class CypherController {
-    private static final String VIEW_CYPHER_LIST = "cypher/list";
-    private static final String VIEW_CYPHER_DETAIL = "cypher/form";
-    private static final String REDIRECT_CYPHER_LIST = "redirect:/admin/cypher/";
+    private static final String VIEW_ADMIN_CYPHER_LIST = "cypher/list";
+    private static final String VIEW_ADMIN_CYPHER_FORM = "cypher/form";
+    private static final String REDIRECT_ADMIN_CYPHER_LIST = "redirect:/admin/cypher/";
     private static final String HEADING_ADD_CYPHER = "Nová šifra";
     private static final String HEADING_EDIT_CYPHER = "Upravit šifru";
 
@@ -48,7 +48,7 @@ public class CypherController {
     @GetMapping
     public String cyphers(final Model model) {
         model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllCyphersOrderByStageAsc());
-        return VIEW_CYPHER_LIST;
+        return VIEW_ADMIN_CYPHER_LIST;
     }
 
     @GetMapping(value = "/add")
@@ -56,7 +56,7 @@ public class CypherController {
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
         model.addAttribute(TEMPLATE_ATTR_COMMAND, new CypherFormDTO());
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
-        return VIEW_CYPHER_DETAIL;
+        return VIEW_ADMIN_CYPHER_FORM;
     }
 
     @PostMapping(value = "/add")
@@ -66,13 +66,13 @@ public class CypherController {
                                 final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
-            return VIEW_CYPHER_DETAIL;
+            return VIEW_ADMIN_CYPHER_FORM;
         }
 
         final Cypher cypher = cypherMapper.map(command, Cypher.class);
         cypherService.save(cypher);
 
-        return REDIRECT_CYPHER_LIST;
+        return REDIRECT_ADMIN_CYPHER_LIST;
     }
 
     @GetMapping(value = "/update/{cypherId}")
@@ -82,7 +82,7 @@ public class CypherController {
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
         model.addAttribute(TEMPLATE_ATTR_COMMAND, cypherFormDto);
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
-        return VIEW_CYPHER_DETAIL;
+        return VIEW_ADMIN_CYPHER_FORM;
     }
 
     @PostMapping(value = "/update/{cypherId}")
@@ -92,19 +92,19 @@ public class CypherController {
                                final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
-            return VIEW_CYPHER_DETAIL;
+            return VIEW_ADMIN_CYPHER_FORM;
         }
 
         final Cypher cypher = cypherService.getCypher(cypherId);
         cypherMapper.map(command, cypher);
         cypherService.save(cypher);
 
-        return REDIRECT_CYPHER_LIST;
+        return REDIRECT_ADMIN_CYPHER_LIST;
     }
 
     @GetMapping(value = "/delete/{cypherId}")
     public String deleteCypher(@PathVariable("cypherId") final Long cypherId) {
         cypherService.deleteById(cypherId);
-        return REDIRECT_CYPHER_LIST;
+        return REDIRECT_ADMIN_CYPHER_LIST;
     }
 }

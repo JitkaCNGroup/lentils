@@ -34,12 +34,12 @@ import java.util.List;
 public class ClientController {
 
     public static final String GAME_ENDED_ERROR_MSG = "Hra již byla ukončena";
-    private static final String CLIENT_VIEW_CYPHER_LIST = "client/cypher/list";
-    private static final String CLIENT_VIEW_CYPHER_DETAIL = "client/cypher/detail";
-    private static final String CLIENT_VIEW_HINT_LIST = "client/hint/list";
-    private static final String CLIENT_TRAP_SCREEN = "client/cypher/trap";
-    private static final String REDIRECT_TO_CLIENT_CYPHER_DETAIL = "redirect:/cypher/";
-    private static final String REDIRECT_TO_TRAP_SCREEN = "redirect:/cypher/lets-play-a-game/";
+    private static final String VIEW_CLIENT_CYPHER_LIST = "client/cypher/list";
+    private static final String VIEW_CLIENT_CYPHER_DETAIL = "client/cypher/detail";
+    private static final String VIEW_CLIENT_HINT_LIST = "client/hint/list";
+    private static final String VIEW_CLIENT_CYPHER_TRAP = "client/cypher/trap";
+    private static final String REDIRECT_CLIENT_CYPHER = "redirect:/cypher/";
+    private static final String REDIRECT_CLIENT_CYPHER_TRAP = "redirect:/cypher/trap/";
     private static final String FORM_OBJECT_NAME = "codeword";
     private static final String GUESS_FIELD_NAME = "guess";
 
@@ -94,13 +94,13 @@ public class ClientController {
             model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED, false);
         }
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
-        return CLIENT_VIEW_CYPHER_LIST;
+        return VIEW_CLIENT_CYPHER_LIST;
     }
 
     @GetMapping(value = "cypher/startGame")
     public String initializeGame(@AuthenticationPrincipal final CustomUserDetails user) {
         gameLogicService.initializeGameForTeam(user.getTeam());
-        return REDIRECT_TO_CLIENT_CYPHER_DETAIL;
+        return REDIRECT_CLIENT_CYPHER;
     }
 
     @GetMapping(value = "cypher/{id}")
@@ -115,7 +115,7 @@ public class ClientController {
         CodewordFormDTO codewordFormDto = new CodewordFormDTO();
         setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
 
-        return CLIENT_VIEW_CYPHER_DETAIL;
+        return VIEW_CLIENT_CYPHER_DETAIL;
     }
 
     @GetMapping(value = "cypher/{id}/hint")
@@ -134,7 +134,7 @@ public class ClientController {
         model.addAttribute(TEMPLATE_ATTR_HINTS_NOT_TAKEN,
                 hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
-        return CLIENT_VIEW_HINT_LIST;
+        return VIEW_CLIENT_HINT_LIST;
     }
 
     @PostMapping(value = "cypher/verify/{id}")
@@ -151,21 +151,21 @@ public class ClientController {
             result.addError(error);
 
             setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
-            return CLIENT_VIEW_CYPHER_DETAIL;
+            return VIEW_CLIENT_CYPHER_DETAIL;
         }
 
         if (status != CypherStatus.PENDING) {
             setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
-            return CLIENT_VIEW_CYPHER_DETAIL;
+            return VIEW_CLIENT_CYPHER_DETAIL;
         }
 
         if (cypherService.checkCodeword(cypher, codewordFormDto.getGuess())) {
             statusService.markCypher(cypher, user.getTeam(), CypherStatus.SOLVED);
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
+            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId();
         }
 
         if (cypherService.checkTrapCodeword(cypher, codewordFormDto.getGuess())) {
-            return REDIRECT_TO_TRAP_SCREEN + cypher.getCypherId();
+            return REDIRECT_CLIENT_CYPHER_TRAP + cypher.getCypherId();
         }
 
         FieldError error = new FieldError(
@@ -175,17 +175,17 @@ public class ClientController {
         result.addError(error);
         setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
 
-        return CLIENT_VIEW_CYPHER_DETAIL;
+        return VIEW_CLIENT_CYPHER_DETAIL;
     }
 
-    @GetMapping("cypher/lets-play-a-game/{id}")
+    @GetMapping("cypher/trap/{id}")
     public String trapScreen(@PathVariable("id") final Long id,
                              @AuthenticationPrincipal final CustomUserDetails user,
                              final Model model) {
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypherService.getCypher(id));
-        return CLIENT_TRAP_SCREEN;
+        return VIEW_CLIENT_CYPHER_TRAP;
     }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")
@@ -193,33 +193,33 @@ public class ClientController {
                           @AuthenticationPrincipal final CustomUserDetails user,
                           final Cypher cypher) {
         if (!gameLogicService.isGameInProgress()) {
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "/hint?gameEnded=true";
+            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "/hint?gameEnded=true";
         }
 
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
         if (cypherStatus != (CypherStatus.PENDING)) {
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "/hint?wrongStatus=true";
+            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "/hint?wrongStatus=true";
         }
 
         Team team = user.getTeam();
         Hint hint = hintService.getHint(id);
         hintTakenService.takeHint(team, hint);
-        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "/hint";
+        return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "/hint";
     }
 
     @PostMapping(value = "cypher/giveUp")
     public String skipCypher(final Cypher cypher, @AuthenticationPrincipal final CustomUserDetails user) {
         if (!gameLogicService.isGameInProgress()) {
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "?gameEnded=true";
+            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "?gameEnded=true";
         }
 
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
         if (cypherStatus != (CypherStatus.PENDING)) {
-            return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId() + "?wrongStatus=true";
+            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "?wrongStatus=true";
         }
 
         statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
-        return REDIRECT_TO_CLIENT_CYPHER_DETAIL + cypher.getCypherId();
+        return REDIRECT_CLIENT_CYPHER + cypher.getCypherId();
     }
 
     private void setDetailModelAttributes(

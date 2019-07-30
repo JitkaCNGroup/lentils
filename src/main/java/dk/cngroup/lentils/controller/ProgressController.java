@@ -29,14 +29,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/game/progress")
 public class ProgressController {
-    private static final String PROGRESS_STAGE = "progress/stage";
-    private static final String PROGRESS_LIST = "progress/list";
-    private static final String TEAM_LIST = "progress/teamList";
-    private static final String REDIRECT_TEAM_LIST = "redirect:/game/progress/teamsList";
-    private static final String TEAM_DETAIL = "progress/teamDetail";
+    private static final String VIEW_ORGANIZER_PROGRESS_STAGE = "progress/stage";
+    private static final String VIEW_ORGANIZER_PROGRESS_LIST = "progress/list";
+    private static final String VIEW_ORGANIZER_PROGRESS_TEAMLIST = "progress/teamList";
+    private static final String VIEW_ORGANIZER_PROGRESS_TEAMDETAIL = "progress/teamDetail";
+    private static final String VIEW_ORGANIZER_PROGRESS_GETHINTLIST = "progress/getHintList";
+    private static final String REDIRECT_ORGANIZER_GAME_PROGRESS_TEAMSLIST = "redirect:/game/progress/teamsList";
+    private static final String REDIRECT_ORGANIZER_GAME_PROGRESS_VIEWHINTS = "redirect:/game/progress/viewHints/";
     private static final String ERROR = "error/error";
-    private static final String HINT_LIST = "progress/getHintList";
-    private static final String REDIRECT_HINT_LIST = "redirect:/game/progress/viewHints/";
 
     private static final String TEMPLATE_ATTR_CYPHER = "cypher";
     private static final String TEMPLATE_ATTR_CYPHERS = "cyphers";
@@ -83,7 +83,7 @@ public class ProgressController {
     @GetMapping
     public String listProgress(final Model model) {
         model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllCyphersOrderByStageAsc());
-        return PROGRESS_LIST;
+        return VIEW_ORGANIZER_PROGRESS_LIST;
     }
 
     @GetMapping(value = "/teamsList")
@@ -98,13 +98,13 @@ public class ProgressController {
         model.addAttribute(TEMPLATE_ATTR_TEAMS_FINISHED, progressService.getNumberOfFinishedTeams());
         List<TeamProgressWithTeam> teamsProgres = progressService.getSearchedTeamsWithTeamProgress(searchString);
         model.addAttribute(TEMPLATE_ATTR_TEAMS_PROGRESS, teamsProgres);
-        return TEAM_LIST;
+        return VIEW_ORGANIZER_PROGRESS_TEAMLIST;
     }
 
     @GetMapping(value = "/startGame")
     public String initializeGameForAllTeams() {
         gameLogicService.initializeGameForAllTeams();
-        return REDIRECT_TEAM_LIST;
+        return REDIRECT_ORGANIZER_GAME_PROGRESS_TEAMSLIST;
     }
 
     @GetMapping(value = "/teamDetail")
@@ -113,7 +113,7 @@ public class ProgressController {
         model.addAttribute(TEMPLATE_ATTR_TEAM, team);
         model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllCyphersOrderByStageAsc());
         model.addAttribute(TEMPLATE_ATTR_CYPHERS_STATUSES, progressService.getCyphersStatuses(team));
-        return TEAM_DETAIL;
+        return VIEW_ORGANIZER_PROGRESS_TEAMDETAIL;
     }
 
     @GetMapping(value = "/stage")
@@ -144,7 +144,7 @@ public class ProgressController {
                             false));
             model.addAttribute(TEMPLATE_ATTR_VIEW_OTHER_TEAMS, true);
         }
-        return PROGRESS_STAGE;
+        return VIEW_ORGANIZER_PROGRESS_STAGE;
     }
 
     @GetMapping(value = "/changeStatus/{cypherId}")
@@ -176,7 +176,7 @@ public class ProgressController {
         model.addAttribute(TEMPLATE_ATTR_TEAM, team);
         model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(team, cypher));
         model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_NOT_TAKEN, hintService.getAllNotTakenByTeamAndCypher(team, cypher));
-        return HINT_LIST;
+        return VIEW_ORGANIZER_PROGRESS_GETHINTLIST;
     }
 
     @PostMapping("/takeHintOfCypher")
@@ -207,7 +207,7 @@ public class ProgressController {
         Team team = teamService.getTeam(teamId);
         Hint hint = hintService.getHint(hintId);
         hintTakenService.revertHint(team, hint);
-        return REDIRECT_HINT_LIST
+        return REDIRECT_ORGANIZER_GAME_PROGRESS_VIEWHINTS
                 .concat(cypherId.toString())
                 .concat("?teamId=")
                 .concat(teamId.toString());
