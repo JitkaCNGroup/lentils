@@ -1,9 +1,11 @@
 package dk.cngroup.lentils.controller;
 
+import dk.cngroup.lentils.dto.HintFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
+import dk.cngroup.lentils.service.convertors.ModelMapperWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,18 +25,25 @@ public class HintController {
     private static final String VIEW_HINT_LIST = "hint/list";
     private static final String VIEW_HINT = "hint/detail";
     private static final String REDIRECT_HINT_LIST = "redirect:/admin/hint";
+    private static final String CYPHERID_PARAMETER = "?cypherId=";
+    private static final String HEADING_NEW_HINT = "Nový hint";
+    private static final String HEADING_EDIT_HINT = "Upravit hint";
 
     private static final String TEMPLATE_ATTR_CYPHER = "cypher";
     private static final String TEMPLATE_ATTR_HINT = "hint";
     private static final String TEMPLATE_ATTR_HEADING = "heading";
 
-    private CypherService cypherService;
-    private HintService hintService;
+    private final CypherService cypherService;
+    private final HintService hintService;
+    private final ModelMapperWrapper mapper;
 
     @Autowired
-    public HintController(final CypherService cypherService, final HintService hintService) {
+    public HintController(final CypherService cypherService,
+                          final HintService hintService,
+                          final ModelMapperWrapper modelMapperWrapper) {
         this.cypherService = cypherService;
         this.hintService = hintService;
+        this.mapper = modelMapperWrapper;
     }
 
     @GetMapping(value = "")
@@ -49,43 +58,53 @@ public class HintController {
         Hint hint = hintService.getHint(hintId);
         Long cypherId = hint.getCypherId();
         hintService.deleteById(hintId);
-        return REDIRECT_HINT_LIST + "?cypherId=" + cypherId;
+        return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + cypherId;
     }
 
     @GetMapping(value = "/update/{hintId}")
-    public String addForm(@PathVariable("hintId") final Long hintId, final Model model) {
-        Hint hint = hintService.getHint(hintId);
-        model.addAttribute(TEMPLATE_ATTR_HEADING, "Upravit hint");
-        model.addAttribute(TEMPLATE_ATTR_HINT, hint);
+    public String updateHintForm(@PathVariable("hintId") final Long hintId, final Model model) {
+        HintFormDTO hintFormDto = mapper.map(hintService.getHint(hintId), HintFormDTO.class);
+        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
+        model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
         return VIEW_HINT;
+    }
+
+    @PostMapping(value = "/update/{hintId}")
+    public String updateHint(@PathVariable("hintId") final Long hintId,
+                       @Valid @ModelAttribute(TEMPLATE_ATTR_HINT) final HintFormDTO hintFormDto,
+                       final BindingResult bindingResult,
+                       final Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
+            model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
+            return VIEW_HINT;
+        }
+
+        Hint hint = hintService.getHint(hintId);
+        mapper.map(hintFormDto, hintId);
+        hintService.save(hint);
+        return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 
     @GetMapping(value = "/add")
     public String newHint(@RequestParam("cypherId") final Long cypherId, final Model model) {
-        Hint hint = cypherService.addHint(cypherId);
-        model.addAttribute(TEMPLATE_ATTR_HEADING, "Nový hint");
-        model.addAttribute(TEMPLATE_ATTR_HINT, hint);
+        HintFormDTO hintFormDto = mapper.map(cypherService.addHint(cypherId), HintFormDTO.class);
+        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
+        model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
         return VIEW_HINT;
     }
 
-    @PostMapping(value = "/save")
-    public String save(@Valid @ModelAttribute final Hint hint,
+    @PostMapping(value = "/add")
+    public String saveNewHint(@Valid @ModelAttribute(TEMPLATE_ATTR_HINT) final HintFormDTO hintFormDto,
                        final BindingResult bindingResult,
                        final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(TEMPLATE_ATTR_HEADING, getHintHeading(hint));
-            model.addAttribute(TEMPLATE_ATTR_HINT, hint);
+            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
+            model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
             return VIEW_HINT;
         }
-            Hint hint1 = hintService.save(hint);
-        return REDIRECT_HINT_LIST + "?cypherId=" + hint1.getCypherId();
-    }
 
-    private String getHintHeading(final Hint hint) {
-        if (hint.getHintId() == null) {
-            return "Nový hint";
-        } else {
-            return "Upravit hint";
-        }
+        Hint hint = hintService.save(mapper.map(hintFormDto, Hint.class));
+        return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 }
