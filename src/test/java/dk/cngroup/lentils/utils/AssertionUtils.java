@@ -9,11 +9,11 @@ public final class AssertionUtils {
     private AssertionUtils() {
     }
 
-    public static final void assertValueIsNotRedirection(final String target) {
+    public static void assertValueIsNotRedirection(final String target) {
         assertFalse(target.startsWith(REDIRECTION_PREFIX));
     }
 
-    public static final void assertValueIsRedirection(final String target) {
+    public static void assertValueIsRedirection(final String target) {
         assertTrue(target.startsWith(REDIRECTION_PREFIX));
     }
 }
