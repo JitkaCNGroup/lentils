@@ -1,9 +1,7 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Contact;
-import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.exception.MoreContactsException;
-import dk.cngroup.lentils.exception.MoreFinalPlacesException;
 import dk.cngroup.lentils.repository.ContactRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
