@@ -1,6 +1,12 @@
 package dk.cngroup.lentils.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -31,6 +37,10 @@ public class Hint implements Serializable {
     private int value;
 
     public Hint() {
+    }
+
+    public Hint(final Cypher cypher) {
+        this.cypher = cypher;
     }
 
     public Hint(final String text, final int value, final Cypher cypher) {
