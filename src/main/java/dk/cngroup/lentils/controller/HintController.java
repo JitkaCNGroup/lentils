@@ -81,21 +81,21 @@ public class HintController {
         }
 
         Hint hint = hintService.getHint(hintId);
-        mapper.map(hintFormDto, hintId);
+        mapper.map(hintFormDto, hint);
         hintService.save(hint);
         return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 
     @GetMapping(value = "/add")
     public String newHint(@RequestParam("cypherId") final Long cypherId, final Model model) {
-        HintFormDTO hintFormDto = mapper.map(cypherService.addHint(cypherId), HintFormDTO.class);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
-        model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
+        model.addAttribute(TEMPLATE_ATTR_HINT, new HintFormDTO());
         return VIEW_HINT;
     }
 
     @PostMapping(value = "/add")
     public String saveNewHint(@Valid @ModelAttribute(TEMPLATE_ATTR_HINT) final HintFormDTO hintFormDto,
+                       @RequestParam("cypherId") final Long cypherId,
                        final BindingResult bindingResult,
                        final Model model) {
         if (bindingResult.hasErrors()) {
@@ -104,7 +104,9 @@ public class HintController {
             return VIEW_HINT;
         }
 
-        Hint hint = hintService.save(mapper.map(hintFormDto, Hint.class));
+        Hint hint = new Hint(cypherService.getCypher(cypherId));
+        mapper.map(hintFormDto, hint);
+        hintService.save(hint);
         return REDIRECT_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 }
