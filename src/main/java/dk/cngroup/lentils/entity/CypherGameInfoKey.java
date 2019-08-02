@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class CypherGameInfoKey implements Serializable {
+    private static final long serialVersionUID = -958015171952985338L;
+
     private Long cypherId;
     private Long teamId;
 

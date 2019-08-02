@@ -1,12 +1,15 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @IdClass(HintTakenKey.class)
 @Table(name = "hint_taken")
-public class HintTaken {
+public class HintTaken implements Serializable {
+
+    private static final long serialVersionUID = 3335818559381446168L;
 
     @Id
     @ManyToOne

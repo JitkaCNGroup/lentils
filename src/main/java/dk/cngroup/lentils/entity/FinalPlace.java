@@ -7,13 +7,16 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "final_place")
-public class FinalPlace {
+public class FinalPlace implements Serializable {
+
+    private static final long serialVersionUID = 3665569445521724138L;
 
     @Id
     @GeneratedValue

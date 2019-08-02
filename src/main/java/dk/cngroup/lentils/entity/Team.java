@@ -12,11 +12,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "team")
-public class Team {
+public class Team implements Serializable {
+
+    private static final long serialVersionUID = 2479871281907121713L;
 
     @Id
     @GeneratedValue

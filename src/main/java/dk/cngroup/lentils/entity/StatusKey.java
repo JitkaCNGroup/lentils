@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class StatusKey implements Serializable {
+    private static final long serialVersionUID = 7422010369350370434L;
+
     private Long cypher;
     private Long team;
 

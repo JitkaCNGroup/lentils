@@ -16,6 +16,8 @@ import java.util.Objects;
 @Table(name = "hint")
 public class Hint implements Serializable {
 
+    private static final long serialVersionUID = -4213650803695289629L;
+
     @Id
     @GeneratedValue
     @Column(name = "hint_id")
