@@ -13,8 +13,8 @@ public class HintFormDTO implements Serializable {
 
     @NotEmpty(message = "Text nesmí být prázdný.")
     private String text;
-	
-	private String imageUrl;
+
+    private String imageUrl;
 
     private MultipartFile image;
 

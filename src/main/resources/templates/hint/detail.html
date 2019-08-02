@@ -13,8 +13,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-<!--            <form action="#" th:object="${hint}" method="post">-->
-            <form action="#" th:object="${formObject}" enctype="multipart/form-data" method="post">
+            <form action="#" th:object="${hint}" enctype="multipart/form-data" method="post">
                 <div class="form-group">
                     <label for="cypherId">Cypher ID</label>
                     <input id="cypherId" type="number" class="form-control" th:field="*{cypher.cypherId}" readonly/>
@@ -31,11 +30,7 @@
                 </div>
                 <div class="form-group">
                     <div>Soubor s obrázkem</div>
-                    <div class="form-control" th:text="${formObject.image.getOriginalFilename()}">Image</div>
-                </div>
-                <div class="form-group">
-                    <div>Id obrázku</div>
-                    <div class="form-control" th:text="${fileId}">Image</div>
+                    <div th:if="${!#strings.isEmpty(filename)} "class="form-control" th:text="${filename}">Image</div>
                 </div>
                 <div class="form-group">
                     <input id="image" class="btn btn-primary" type="file" th:field="*{image}" accept="image/*"/>
@@ -50,12 +45,10 @@
             </form>
         </div>
         <div class="col-sm-6">
-            <img th:if="${!#strings.isEmpty(formObject.imageUrl)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${formObject.imageUrl}}" />
+            <img th:if="${!#strings.isEmpty(hint.getImageUrl())}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.getImageUrl()}}" />
         </div>
         <div class="col-sm-6">
-<!--            <img th:if="${!#strings.isEmpty(formObject.image)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${filename}}" />-->
-            <img th:if="${!#strings.isEmpty(filename)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{'/image/' + ${fileId}}" />
-<!--            <img src="C:/Users/sedlackova/Desktop/lentils/upload/images/billy.jpg"></img>-->
+            <img th:if="${!#strings.isEmpty(file)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="${file}" />
         </div>
     </div>
 </div>

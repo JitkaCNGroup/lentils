@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,14 +25,6 @@ import java.util.Optional;
 
 @Service
 public class ImageService {
-
-//    @Value("${imageDirectory}")
-//    private static String imageDirectory;
-//    private static final String SEPARATOR = File.separator;
-//    private static final String IMAGE_DIRECTORY = SEPARATOR + "upload" + SEPARATOR + "images" + SEPARATOR;
-
-//    @Value("${image-directory}")
-//    private String imageDirectory;
 
     private final ImageRepository imageRepository;
 
@@ -77,10 +68,6 @@ public class ImageService {
         return isFilePresentInHintEntity(hint) ? hint.getImage().getPath() : "";
     }
 
-    public Long getFileIdFromEntity(final Hint hint) {
-        return isFilePresentInHintEntity(hint) ? hint.getImage().getImageId() : null;
-    }
-
     public String getFileName(final Hint hint, final HintFormDTO formObject) {
         if (isFilePresentInHintForm(formObject)) {
             return formObject.getImage().getOriginalFilename();
@@ -117,7 +104,7 @@ public class ImageService {
             throw new ImageFileNotFoundException();
         }
         String fileName = file.getOriginalFilename();
-        return configProp.getConfigValue("imageDirectory") + fileName;
+        return getImageDirectory() + fileName;
     }
 
     public Path load(final String path) {
@@ -125,12 +112,9 @@ public class ImageService {
     }
 
     public Resource loadAsResource(final String filename) {
-        System.out.println("jsem v loadAsResource, filename: " + filename);
         try {
             Path file = load(filename);
-            System.out.println("Path file: " + file.toString());
             Resource resource = new UrlResource(file.toUri());
-            System.out.println("resource: " + resource.toString());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
@@ -170,7 +154,7 @@ public class ImageService {
     }
 
     public String getDirectory() {
-        String newDirectory = getUserDir() + configProp.getConfigValue("imageDirectory");
+        String newDirectory = getUserDir() + getImageDirectory();
         createDirectory(newDirectory);
         return newDirectory;
     }
@@ -190,21 +174,13 @@ public class ImageService {
         }
     }
 
-    @Transactional
-    public void deleteById(final Long id) {
-        imageRepository.deleteById(id);
-    }
-
     public Image getImage(final Long imageId) {
-        System.out.println("jsem v getImage - imageId = " + imageId);
         return imageRepository.findById(imageId).orElseThrow(() -> new ResourceNotFoundException(
                 Image.class.getSimpleName(), imageId));
     }
 
-    public void setImageToHint(final HintFormDTO formObject, final Hint hint) {
-        if (isFilePresentInHintForm(formObject)) {
-            Image newImage = new Image(getFilePath(formObject.getImage()));
-            hint.setImage(newImage);
-        }
+    public Image getImageFromMultipartFile(final MultipartFile file) {
+        return new Image(getFilePath(file));
     }
+
 }
