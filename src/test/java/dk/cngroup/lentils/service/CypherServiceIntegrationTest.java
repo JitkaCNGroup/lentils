@@ -101,18 +101,15 @@ public class CypherServiceIntegrationTest {
 
     @Test
     public void getAllNotAssignedToOrganizerTest() {
-        Cypher cypher1 = objectGenerator.generateNewCypher();
-        Cypher cypher2 = objectGenerator.generateNewCypher();
-        Cypher cypher3 = objectGenerator.generateNewCypher();
+        Cypher cypher1 = objectGenerator.generateValidCypher();
+        Cypher cypher2 = objectGenerator.generateValidCypher();
+        Cypher cypher3 = objectGenerator.generateValidCypher();
         User assertedOrganizer = createUser("org", "pwd", "ORGANIZER");
         User organizer = createUser("org2", "pwd2", "ORGANIZER");
         List<User> asserted = new ArrayList<>();
         asserted.add(assertedOrganizer);
-        List<User> organizers = new ArrayList<>();
         asserted.add(organizer);
         cypher1.setOrganizers(asserted);
-        cypher2.setOrganizers(organizers);
-        cypher3.setOrganizers(organizers);
         List<Cypher> expectedCyphers = new ArrayList<>();
         expectedCyphers.add(cypher2);
         expectedCyphers.add(cypher3);
