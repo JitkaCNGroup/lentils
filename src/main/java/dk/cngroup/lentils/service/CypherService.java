@@ -80,8 +80,7 @@ public class CypherService {
 
     public List<Cypher> getAllNotAssignedToOrganizer(final User organizer) {
         return cypherRepository.findAll().stream()
-                .filter(cypher -> cypher.getOrganizers().stream()
-                        .noneMatch(user -> user.getUserId().equals(organizer.getUserId())))
+                .filter(cypher -> !cypher.getOrganizers().contains(organizer))
                 .collect(Collectors.toList());
     }
 
@@ -118,8 +117,7 @@ public class CypherService {
 
     public void addOrganizerToCyphers(final User organizer, final List<Long> cypherIds) {
         cypherRepository.findAllById(cypherIds).stream()
-                .filter(cypher -> cypher.getOrganizers().stream()
-                        .noneMatch(user -> user.getUserId().equals(organizer.getUserId())))
+                .filter(cypher -> !cypher.getOrganizers().contains(organizer))
                 .forEach(cypher -> cypher.getOrganizers().add(organizer));
     }
 }

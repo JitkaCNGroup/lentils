@@ -63,10 +63,10 @@ public class OrganizerManagementController {
     }
 
     @PostMapping(value = "/add")
-    public String saveNewOrganizer(@Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND)
-                                       final OrganizerFormDTO organizerFormDto,
-                                   final BindingResult bindingResult,
-                                   final Model model) {
+    public String saveNewOrganizer(
+            @Valid @ModelAttribute(TEMPLATE_ATTR_COMMAND) final OrganizerFormDTO organizerFormDto,
+            final BindingResult bindingResult,
+            final Model model) {
         organizerService.checkUsernameIsUnique(organizerFormDto, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_ORGANIZER);

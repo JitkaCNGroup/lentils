@@ -13,9 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrganizerService {
@@ -54,10 +54,9 @@ public class OrganizerService {
     }
 
     public List<OrganizerFormDTO> getOrganizerDtos() {
-        List<OrganizerFormDTO> organizers = new ArrayList<>();
-        List<User> orgs = getOrganizers();
-        orgs.forEach(organizer -> organizers.add(organizerMapper.map(organizer)));
-        return organizers;
+        return getOrganizers().stream()
+                .map(organizer -> organizerMapper.map(organizer))
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -96,14 +95,14 @@ public class OrganizerService {
         }
     }
 
-    public boolean isUsernameUnique(final OrganizerFormDTO organizerFormDto) {
-        String checkedUsername = UsernameUtils.generateUsername(organizerFormDto.getUsername());
-        Optional<User> userInDb = userRepository.findByUsername(checkedUsername);
-        if (organizerFormDto.getUserId() == null) {
+    public boolean isUsernameUnique(final OrganizerFormDTO organizer) {
+        String generatedUsername = UsernameUtils.generateUsername(organizer.getUsername());
+        Optional<User> userInDb = userRepository.findByUsername(generatedUsername);
+        if (organizer.getUserId() == null) {
             return !userInDb.isPresent();
         } else {
             return !userInDb.isPresent()
-                    || userInDb.get().getUserId().equals(organizerFormDto.getUserId());
+                    || userInDb.get().getUserId().equals(organizer.getUserId());
         }
     }
 }
