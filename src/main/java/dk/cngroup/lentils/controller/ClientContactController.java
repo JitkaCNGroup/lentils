@@ -18,7 +18,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/contact")
 public class ClientContactController {
-    private static final String VIEW_CONTACT = "client/contact";
+    private static final String VIEW_CLIENT_CONTACT = "client/contact";
+
     private final ContactService contactService;
     private final ScoreService scoreService;
     private final CypherService cypherService;
@@ -46,6 +47,6 @@ public class ClientContactController {
         model.addAttribute("contact", contactService.getContact());
         model.addAttribute("team", user.getTeam());
 
-        return VIEW_CONTACT;
+        return VIEW_CLIENT_CONTACT;
     }
 }

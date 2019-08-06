@@ -21,8 +21,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/team")
 public class TeamController {
-    private static final String VIEW_PATH = "team/main";
-    private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/admin/team";
+    private static final String VIEW_ADMIN_TEAM_MAIN = "team/main";
+    private static final String REDIRECT_ADMIN_TEAM = "redirect:/admin/team";
     private static final String ACTION_TEAM_SAVE = "/admin/team/add";
     private static final String ACTION_TEAM_UPDATE = "/admin/team/update/";
 
@@ -39,7 +39,7 @@ public class TeamController {
     @GetMapping
     public String addTeam(final Model model) {
         fillModelAttributes(model, teamService.getAll(), new TeamFormDTO(), ACTION_TEAM_SAVE);
-        return VIEW_PATH;
+        return VIEW_ADMIN_TEAM_MAIN;
     }
 
     @PostMapping(value = "/add")
@@ -51,10 +51,10 @@ public class TeamController {
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), teamFormDto, ACTION_TEAM_SAVE);
-            return VIEW_PATH;
+            return VIEW_ADMIN_TEAM_MAIN;
         }
         teamService.save(team);
-        return REDIRECT_TO_MAIN_VIEW;
+        return REDIRECT_ADMIN_TEAM;
     }
 
     @GetMapping("/update/{id}")
@@ -63,7 +63,7 @@ public class TeamController {
                 teamService.getAll(),
                 mapper.map(teamService.getTeam(id), TeamFormDTO.class),
                 ACTION_TEAM_UPDATE + id);
-        return VIEW_PATH;
+        return VIEW_ADMIN_TEAM_MAIN;
     }
 
     @PostMapping("/update/{id}")
@@ -76,16 +76,16 @@ public class TeamController {
         teamService.checkUsernameIsUnique(team, bindingResult);
         if (bindingResult.hasErrors()) {
             fillModelAttributes(model, teamService.getAll(), teamFormDto, ACTION_TEAM_UPDATE + id);
-            return VIEW_PATH;
+            return VIEW_ADMIN_TEAM_MAIN;
         }
         teamService.update(team);
-        return REDIRECT_TO_MAIN_VIEW;
+        return REDIRECT_ADMIN_TEAM;
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") final Long id) {
         teamService.delete(id);
-        return REDIRECT_TO_MAIN_VIEW;
+        return REDIRECT_ADMIN_TEAM;
     }
 
     private void fillModelAttributes(

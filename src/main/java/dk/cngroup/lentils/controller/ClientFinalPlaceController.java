@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class ClientFinalPlaceController {
 
-    private static final String CLIENT_VIEW_FINAL_PLACE_DETAIL = "client/finalplace/detail";
+    private static final String VIEW_CLIENT_FINALPLACE_DETAIL = "client/finalplace/detail";
 
     private final FinalPlaceService finalPlaceService;
     private final GameLogicService gameLogicService;
@@ -39,6 +39,6 @@ public class ClientFinalPlaceController {
         model.addAttribute("finalplace", finalPlaceService.getFinalPlace());
         model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         model.addAttribute("team", user.getTeam());
-        return CLIENT_VIEW_FINAL_PLACE_DETAIL;
+        return VIEW_CLIENT_FINALPLACE_DETAIL;
     }
 }

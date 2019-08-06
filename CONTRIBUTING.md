@@ -44,3 +44,12 @@ is merged.
 ### Documentation
 - Use markdown
 - PNG images if neccessary
+
+##Code conventions
+
+### View/redirect constants
+- Constants should be private static final String
+- Constants for view/redirect should be in following format: 
+  VIEW_<USER_ROLE>\_<URL_OF_ENDPOINT>, REDIRECT_<USER_ROLE>_<URL_OF_ENDPOINT>
+- Example of view constant: private static final String VIEW_ADMIN_CYPHER_LIST = "cypher/list";
+- Example of redirect constant: private static final String REDIRECT_ADMIN_CONTACT = "redirect:/admin/contact/";

@@ -20,8 +20,8 @@ import java.time.format.DateTimeFormatter;
 @Controller
 @RequestMapping("/admin/finalplace")
 public class FinalPlaceController {
-    private static final String VIEW_FINALPLACE_FORM = "finalplace/form";
-    private static final String REDIRECT_FINALPLACE_FORM = "redirect:/admin/finalplace/";
+    private static final String VIEW_ADMIN_FINALPLACE_FORM = "finalplace/form";
+    private static final String REDIRECT_ADMIN_FINALPLACE = "redirect:/admin/finalplace/";
 
     private static final String TEMPLATE_ATTR_FINALPLACE = "finalPlace";
 
@@ -42,7 +42,7 @@ public class FinalPlaceController {
         model.addAttribute(
                 "serverTime",
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-        return VIEW_FINALPLACE_FORM;
+        return VIEW_ADMIN_FINALPLACE_FORM;
     }
 
     @PostMapping(value = "/update")
@@ -53,9 +53,9 @@ public class FinalPlaceController {
         finalPlaceService.checkFinishTimeBeforeResultsTime(bindingResult, finalPlace);
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_FINALPLACE, finalPlaceFormDto);
-            return VIEW_FINALPLACE_FORM;
+            return VIEW_ADMIN_FINALPLACE_FORM;
         }
         finalPlaceService.save(finalPlace);
-        return REDIRECT_FINALPLACE_FORM;
+        return REDIRECT_ADMIN_FINALPLACE;
     }
 }
