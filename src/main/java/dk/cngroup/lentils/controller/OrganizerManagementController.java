@@ -25,6 +25,7 @@ public class OrganizerManagementController {
     private static final String VIEW_ADMIN_ORGANIZERMANAGEMENT_FORM = "organizermanagement/form";
     private static final String REDIRECT_ADMIN_ORGANIZERMANAGEMENT = "redirect:/admin/organizermanagement";
     private static final String HEADING_NEW_ORGANIZER = "Nový organizátor";
+    private static final String HEADING_MODIFY_ORGANIZER = "Upravit organizátora";
     private static final String ACTION_ADD = "add";
     private static final String ACTION_UPDATE = "update";
 
@@ -71,6 +72,7 @@ public class OrganizerManagementController {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_ORGANIZER);
             model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_ADD);
+            model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAll());
             return VIEW_ADMIN_ORGANIZERMANAGEMENT_FORM;
         }
         organizerService.saveOrganizer(organizerMapper.map(organizerFormDto, User.class),
@@ -86,6 +88,7 @@ public class OrganizerManagementController {
         model.addAttribute(TEMPLATE_ATTR_COMMAND, organizerFormDto);
         model.addAttribute(TEMPLATE_ATTR_CYPHERS, cypherService.getAllNotAssignedToOrganizer(organizer));
         model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_UPDATE);
+        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_MODIFY_ORGANIZER);
         return VIEW_ADMIN_ORGANIZERMANAGEMENT_FORM;
     }
 
@@ -96,7 +99,7 @@ public class OrganizerManagementController {
                                   final Model model) {
         organizerService.checkUsernameIsUnique(organizerFormDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_ORGANIZER);
+            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_MODIFY_ORGANIZER);
             model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_UPDATE);
             return VIEW_ADMIN_ORGANIZERMANAGEMENT_FORM;
         }
