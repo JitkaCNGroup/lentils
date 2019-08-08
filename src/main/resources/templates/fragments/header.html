@@ -13,6 +13,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+                    <li class="nav-item" th:classappend="${activeTab == 'organizer'}? 'active' : null">
+                        <a class="nav-link" href="/admin/organizermanagement">Organizátoři</a>
+                    </li>
                     <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
                         <a class="nav-link" href="/admin/cypher">Šifry<span class="sr-only">(current)</span></a>
                     </li>

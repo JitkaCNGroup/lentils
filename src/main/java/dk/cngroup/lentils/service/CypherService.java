@@ -2,6 +2,7 @@ package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.User;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.CypherRepository;
 import dk.cngroup.lentils.util.CzechCharsetUtils;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CypherService {
@@ -72,6 +74,16 @@ public class CypherService {
         return cypherRepository.findAll();
     }
 
+    public List<Cypher> getAllWithOrganizer() {
+        return cypherRepository.findDistinctByOrganizersIsNotNull();
+    }
+
+    public List<Cypher> getAllNotAssignedToOrganizer(final User organizer) {
+        return cypherRepository.findAll().stream()
+                .filter(cypher -> !cypher.getOrganizers().contains(organizer))
+                .collect(Collectors.toList());
+    }
+
     public List<Cypher> getAllCyphersOrderByStageAsc() {
         return cypherRepository.findAllByOrderByStageAsc();
     }
@@ -101,5 +113,11 @@ public class CypherService {
         Hint hint = new Hint();
         hint.setCypher(cypher);
         return hint;
+    }
+
+    public void addOrganizerToCyphers(final User organizer, final List<Long> cypherIds) {
+        cypherRepository.findAllById(cypherIds).stream()
+                .filter(cypher -> !cypher.getOrganizers().contains(organizer))
+                .forEach(cypher -> cypher.getOrganizers().add(organizer));
     }
 }

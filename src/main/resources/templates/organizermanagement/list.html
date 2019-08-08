@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Organizátoři')">
+</head>
+<body>
+<div th:insert="fragments/header :: header(organizermanagement)"></div>
+<div class="container">
+    <h2>Organizátoři</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Jméno</th>
+                <th scope="col">Přiřazené šifry</th>
+                <th scope="col">Akce</th>
+            </tr>
+            <tr th:if="${organizers.empty}">
+                <td colspan="9"><p> V systému nejsou organizátoři</p></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="organizerFormDto : ${organizers}">
+                <td th:text="${organizerFormDto.userId}">organizerId</td>
+                <td th:text="${organizerFormDto.username}">Jméno</td>
+                <td>
+                    <th:block th:unless="${organizerFormDto.cyphers == null}"
+                              th:each="c, iterStat : ${organizerFormDto.cyphers}"
+                              th:text="!${iterStat.last} ? ${c.name} + ', ' : ${c.name}">Šifry
+                    </th:block>
+                </td>
+                <td>
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" th:href="@{/admin/organizermanagement/update/{userId}(userId=${organizerFormDto.userId})}" class="btn">Upravit</a></li>
+                        <li><a href="#" th:href="@{/admin/organizermanagement/delete/{userId}(userId=${organizerFormDto.userId})}" class="btn">Smazat</a></li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="9">
+                    <a href="#" class="btn btn-primary" th:href="@{/admin/organizermanagement/add}">Přidat</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:insert="fragments/externalScripts :: externalScripts"></div>
+</body>
+</html>

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -56,6 +57,27 @@ public class CypherRepositoryIntegrationTest {
         cypherRepository.save(cypher1);
 
         assertEquals(cypher1, cypherRepository.findFirstByOrderByStageAsc());
+    }
+
+    @Test
+    public void findDistinctByOrganizersIsNotNullTest() {
+        Cypher cypher1 = objectGenerator.generateNewCypher();
+        Cypher cypher2 = objectGenerator.generateNewCypher();
+        Cypher cypher3 = objectGenerator.generateNewCypher();
+        User organizer = createUser("name", "pwd", "ORGANIZER");
+        List<User> organizers = new ArrayList<>();
+        organizers.add(organizer);
+        cypher1.setOrganizers(organizers);
+        List<Cypher> expectedCyphers = new ArrayList<>();
+        expectedCyphers.add(cypher1);
+
+        userRepository.save(organizer);
+        cypherRepository.save(cypher1);
+        cypherRepository.save(cypher2);
+        cypherRepository.save(cypher3);
+
+        assertTrue(!cypherRepository.findDistinctByOrganizersIsNotNull().isEmpty());
+        assertEquals(expectedCyphers, cypherRepository.findDistinctByOrganizersIsNotNull());
     }
 
     @Test

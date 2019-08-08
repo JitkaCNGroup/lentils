@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    @NotEmpty(message = "Jméno nesmí být prázdné")
     @Column(name = "username", nullable = false)
     private String username;
 

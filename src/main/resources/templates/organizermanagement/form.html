@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Organizátor')">
+</head>
+
+<body>
+<div th:insert="fragments/header :: header(organizer)"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2><span th:text="${heading}">Nadpis</span></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <form action="#" th:object="${command}" method="post">
+                <input type="hidden" th:field="*{userId}"/>
+                <div class="form-group">
+                    <label for="username" class="input-value-required">Jméno</label>
+                    <input id="username" class="form-control" th:field="*{username}" required/>
+                    <p class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error.</p>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="input-value-required">Heslo</label>
+                    <input id="password" class="form-control" th:field="*{password}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="cyphers">Přiřazení šifry</label>
+                    <select id="cyphers" class="form-control" multiple="multiple" th:field="*{cyphers}">
+                        <option th:value="null"> Bez Šifry
+                        </option>
+                        <option th:each="c : ${cyphers}" th:value="${c.cypherId}" th:text="${c.name}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group" th:if="${action == 'update'}">
+                    <label> Přiřazené šifry:</label>
+                    <th:block th:if="${not #lists.isEmpty(command.cyphers)}"
+                              th:each="c, iterStat : ${command.cyphers}"
+                              th:text="!${iterStat.last} ? ${c.name} + ', ' : ${c.name}">
+                    </th:block>
+                    <th:block th:if="${#lists.isEmpty(command.cyphers)}" th:text="'Organizátor nemá přiřazeny žádné šifry.'">
+                    </th:block>
+                </div>
+                <button type="submit" class="btn btn-primary">Uložit</button>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div id='map' style='width: 100%; height: 400px;'></div>
+        </div>
+    </div>
+</div>
+<div th:insert="fragments/externalScripts :: externalScripts"></div>
+</body>
+</html>
+

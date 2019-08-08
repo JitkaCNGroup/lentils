@@ -10,6 +10,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -81,6 +82,7 @@ public class ObjectGenerator {
         cypher.setMapAddress(TEST_MAP_ADDRESS);
         cypher.setPlaceDescription(CYPHER_DEFAULT_PLACE_DESCRIPTION);
         cypher.setBonusContent(CYPHER_DEFAULT_BONUS_CONTENT);
+        cypher.setOrganizers(new ArrayList<>());
 
         return cypher;
     }
