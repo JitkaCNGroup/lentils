@@ -15,6 +15,7 @@ import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,8 @@ import java.util.List;
 @RequestMapping("/")
 public class ClientController {
 
-    public static final String GAME_ENDED_ERROR_MSG = "Hra již byla ukončena";
+    public static final String GAME_ENDED_ERROR_MSG_CS = "Hra již byla ukončena";
+    public static final String GAME_ENDED_ERROR_MSG_ENG = "The game has already ended";
     private static final String VIEW_CLIENT_CYPHER_LIST = "client/cypher/list";
     private static final String VIEW_CLIENT_CYPHER_DETAIL = "client/cypher/detail";
     private static final String VIEW_CLIENT_HINT_LIST = "client/hint/list";
@@ -147,9 +149,13 @@ public class ClientController {
         CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
-            FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
+            FieldError error;
+            if ("cs".equals(LocaleContextHolder.getLocale())) {
+                error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG_CS);
+            } else {
+                error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG_ENG);
+            }
             result.addError(error);
-
             setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
             return VIEW_CLIENT_CYPHER_DETAIL;
         }

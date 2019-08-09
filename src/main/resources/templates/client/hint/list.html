@@ -9,16 +9,16 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Nápověda</h1>
+                <h1 th:utext="#{label.client.hintlist.hint}">Nápověda</h1>
 
-                <span class="text-danger" th:if="${#request.getParameter('gameEnded') == 'true'}">
+                <span class="text-danger" th:if="${#request.getParameter('gameEnded') == 'true'}" th:utext="#{label.client.hintlist.gameended}">
                     Hra již byla ukončena.
                 </span>
-                <span class="text-danger" th:if="${#request.getParameter('wrongStatus') == 'true'}">
+                <span class="text-danger" th:if="${#request.getParameter('wrongStatus') == 'true'}" th:utext="#{label.client.hintlist.cyphernotactive}">
                     Šifra není aktivní.
                 </span>
 
-                <h2>Odemknuté nápovědy</h2>
+                <h2 th:utext="#{label.client.hintlist.unlockedhints}">Odemknuté nápovědy</h2>
 
                 <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
                     <div th:each="hintTaken : ${hintsTaken}">
@@ -27,39 +27,39 @@
                             <span th:text="${hintTaken.hint.text}"></span>
                         </p>
                         <p th:if="${!#strings.isEmpty(hintTaken.hint.imageUrl)}">
-                            <img class="hint-image img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.hint.imageUrl}}" />
+                            <img class="hint-image img-fluid" alt="#{label.client.hintlist.hintimage}" src="" th:src="@{${hintTaken.hint.imageUrl}}" />
                         </p>
                     </div>
                 </th:block>
-                <th:block th:if="${#lists.isEmpty(hintsTaken)}">
+                <th:block th:if="${#lists.isEmpty(hintsTaken)}" th:utext="#{label.client.hintlist.notakenhints}">
                     <p>Zatím jste neodemkli žádné nápovědy.</p>
                 </th:block>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h2>Zamknuté nápovědy</h2>
+                <h2 th:utext="#{label.client.hintlist.lockedhints}">Zamknuté nápovědy</h2>
 
                 <th:block th:if="${#lists.isEmpty(hintsNotTaken)}">
-                    <p>Žádné další nápovědy nejsou k dispozici.</p>
+                    <p th:utext="#{label.client.hintlist.nomorehints}">Žádné další nápovědy nejsou k dispozici.</p>
                 </th:block>
 
                 <div th:each="hint : ${hintsNotTaken}">
-                    <a onclick="return confirm('Opravdu si chcete vzít tuto nápovědu?')">
+                    <a onclick="return confirm(#{label.client.hintlist.takehintconfirmation})">
                         <form th:action="@{'/cypher/takeHint/' + ${hint.hintId}}" th:object="${cypher}" method="post">
                             <input type="hidden"  th:field="*{cypherId}" />
 
                             <th:block th:if="${hint.value == 1}">
                                 <button type="submit" class="btn btn-primary"
-                                        th:text="'Získat nápovědu (-' + ${hint.value} + ' bod)'"></button>
+                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' + #{label.client.hintlist.point} + ')'"></button>
                             </th:block>
                             <th:block th:if="${hint.value le 4 and hint.value gt 1}">
                                 <button type="submit" class="btn btn-primary"
-                                        th:text="'Získat nápovědu (-' + ${hint.value} + ' body)'"></button>
+                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' +  #{label.client.hintlist.pointmid} + ')'"></button>
                             </th:block>
                             <th:block th:if="${hint.value gt 4}">
                                 <button type="submit" class="btn btn-primary"
-                                        th:text="'Získat nápovědu (-' + ${hint.value} + ' bodů)'"></button>
+                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' +  #{label.client.hintlist.pointhigh} + ')'"></button>
                             </th:block>
                         </form>
                     </a>

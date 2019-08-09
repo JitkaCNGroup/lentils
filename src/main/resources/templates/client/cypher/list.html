@@ -9,7 +9,7 @@
 
         <div class="row cypher-list">
             <div class="col-sm-12" th:if="${gameStarted}">
-                <h1>Šifry</h1>
+                <h1 th:utext="#{label.client.cypherlist.cyphers}">Šifry</h1>
                 <div th:each="cypherGameInfo : ${cypherGameInfos}" class="cypher">
                     <a th:href="@{/cypher/{cypherId}(cypherId=${cypherGameInfo.cypherId})}">
                         <div class="row align-items-center" th:classappend="${cypherGameInfo.getStatus() == 2} ? 'pending' : null">
@@ -37,7 +37,7 @@
 
         <div class="row">
             <div class="col-sm-12" th:unless="${gameStarted}">
-                <a href="#" class="btn btn-primary" th:href="@{/cypher/startGame}">
+                <a href="#" class="btn btn-primary" th:utext="#{label.client.cypherlist.startgame}" th:href="@{/cypher/startGame}">
                     Zahájit hru!
                 </a>
             </div>
@@ -50,12 +50,8 @@
                     <div id="time" class="col">
                         <p th:text="${resultsTime}"></p>
                     </div>
-                    <div id="content" class="col">
-                        Vyhlášení výsledků
-                    </div>
-                    <div id="button" class="col">
-                        Zobrazit
-                    </div>
+                    <div id="content" class="col" th:utext="#{label.client.cypherlist.resultsannouncement}">Vyhlášení výsledků</div>
+                    <div id="button" class="col" th:utext="#{label.client.cypherlist.display}">Zobrazit</div>
                 </div>
             </div>
         </div>

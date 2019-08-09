@@ -8,15 +8,15 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h1>Vyhlášení výsledků</h1>
+            <h1 th:utext="#{label.client.finalplace.resultsannouncement}">Vyhlášení výsledků</h1>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
             <div class="alert alert-danger red" role="alert">
-                <th:block th:text="${'Vyhlášení proběhne dnes v ' + finalplace.getResultsTime().toLocalTime()}">
-                    
+                <th:block th:text="#{label.client.finalplace.announcementalert} + ' ' + ${finalplace.getResultsTime().toLocalTime()}">
+                    Vyhlášení proběhne dnes v hh:mm
                 </th:block>
             </div>
         </div>
@@ -24,12 +24,12 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h2>Adresa</h2>
+            <h2 th:utext="#{label.client.finalplace.address}">Adresa</h2>
             <p th:text="${'GPS: ' + finalplace.location.y + ' ' + finalplace.location.x}"></p>
             <p th:text="${finalplace.description}"></p>
             <div id="map" style='width: 100%; height: 150px;'></div>
             <a th:href="@{https://www.google.com/maps/search/?api=1&query={lat},{lng}(lat=${finalplace.location.y}, lng=${finalplace.location.x})}"
-               class="btn btn-secondary" role="button">Zobrazit na mapě</a>
+               class="btn btn-secondary" role="button" th:utext="#{label.client.finalplace.showonmap}">Zobrazit na mapě</a>
         </div>
     </div>
     <div th:insert="fragments/externalScripts :: externalScripts"></div>

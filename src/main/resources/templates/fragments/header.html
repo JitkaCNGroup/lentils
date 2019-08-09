@@ -14,22 +14,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" th:classappend="${activeTab == 'organizer'}? 'active' : null">
-                        <a class="nav-link" href="/admin/organizermanagement">Organizátoři</a>
+                        <a class="nav-link" href="/admin/organizermanagement" th:utext="#{label.header.organizers}">Organizátoři</a>
                     </li>
                     <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                        <a class="nav-link" href="/admin/cypher">Šifry<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/admin/cypher" th:utext="#{label.header.cyphers}">Šifry<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'team'}? 'active' : null">
-                        <a class="nav-link" href="/admin/team">Týmy</a>
+                        <a class="nav-link" href="/admin/team" th:utext="#{label.header.teams}">Týmy</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'finalplace'}? 'active' : null">
-                        <a class="nav-link" href="/admin/finalplace/">Místo vyhlášení</a>
+                        <a class="nav-link" href="/admin/finalplace/" th:utext="#{label.header.finalplace}">Místo vyhlášení</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'contact'}? 'active' : null">
-                        <a class="nav-link" href="/admin/contact/">Kontakt</a>
+                        <a class="nav-link" href="/admin/contact/" th:utext="#{label.header.contact}">Kontakt</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout" th:onclick="return confirm('Opravdu se chcete odhlásit?')">Odhlásit se</a>
+                        <a class="nav-link" href="/logout" th:onclick="return confirm(#{label.header.logout.confirm})" th:utext="#{label.header.logout}">Odhlásit se</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.client.header.langtitle}"></a>
+                        <div class="dropdown-menu" aria-labelledby="lang-dropdown">
+                            <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.header.cs}">Čeština</span></a>
+                            <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.header.en}">Angličtina</span></a>
+                        </div>
                     </li>
                 </ul>
             </div>
