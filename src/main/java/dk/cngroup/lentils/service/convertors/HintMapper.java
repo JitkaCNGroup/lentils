@@ -15,7 +15,8 @@ public class HintMapper extends ModelMapperWrapper {
     private ImageService imageService;
 
     private final Converter<MultipartFile, Image> multipartFileToImageConverter =
-            ctx -> ctx.getSource() == null ? null : imageService.getImageFromMultipartFile(ctx.getSource());
+            ctx -> ctx.getSource().isEmpty()
+                    ? null : imageService.getImageFromMultipartFile(ctx.getSource());
 
     private final Converter<Image, MultipartFile> imageToMultipartFileConverter =
             ctx -> ctx.getSource() == null ? null : imageService.getFile(ctx.getSource().getPath());

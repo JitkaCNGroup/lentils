@@ -65,7 +65,12 @@ public class ImageService {
     }
 
     public String getFileNameFromEntity(final Hint hint) {
-        return isFilePresentInHintEntity(hint) ? hint.getImage().getPath() : "";
+        return isFilePresentInHintEntity(hint) ? extractFileName(hint.getImage().getPath()) : "";
+    }
+
+    public String extractFileName(final String filenameWithPath) {
+        final File file = new File(filenameWithPath);
+        return file.getName();
     }
 
     public String getFileName(final Hint hint, final HintFormDTO formObject) {
@@ -143,7 +148,7 @@ public class ImageService {
         }
     }
 
-    private boolean isFilePresentInHintForm(final HintFormDTO formObject) {
+    public boolean isFilePresentInHintForm(final HintFormDTO formObject) {
         MultipartFile file = formObject.getImage();
         return !file.isEmpty();
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head('Detail nápovědy')">
-    <resources mapping="/resources/**" location="file:/upload/images" />
+<!--    <resources mapping="/resources/**" location="file:/upload/images" />-->
 </head>
 <body>
 <div th:insert="fragments/header :: header(cypher)"></div>
@@ -45,7 +45,7 @@
             </form>
         </div>
         <div class="col-sm-6">
-            <img th:if="${!#strings.isEmpty(hint.getImageUrl())}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.getImageUrl()}}" />
+            <img th:if="${!#strings.isEmpty(hint.imageUrl)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.imageUrl}}" />
         </div>
         <div class="col-sm-6">
             <img th:if="${!#strings.isEmpty(file)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="${file}" />
