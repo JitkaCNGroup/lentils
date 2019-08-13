@@ -23,12 +23,6 @@ abstract public class AbstractClientControllerTest {
     protected static final String FALSE_CODEWORD = "firefly";
 
     @Autowired
-    protected GameController gameController;
-    @Autowired
-    protected CypherController cypherController;
-    @Autowired
-    protected HintController hintController;
-    @Autowired
     protected CypherRepository cypherRepository;
     @Autowired
     protected TeamRepository teamRepository;
