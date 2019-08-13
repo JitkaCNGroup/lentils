@@ -12,15 +12,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG_CS;
-import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG_ENG;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -89,11 +86,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
 
         verify(result).addError(argument.capture());
         assertEquals("guess", argument.getValue().getField());
-        if ("cs".equals(LocaleContextHolder.getLocale())) {
-            assertEquals(GAME_ENDED_ERROR_MSG_CS, argument.getValue().getDefaultMessage());
-        } else {
-            assertEquals(GAME_ENDED_ERROR_MSG_ENG, argument.getValue().getDefaultMessage());
-        }
+        assertEquals("The game has already ended", argument.getValue().getDefaultMessage());
         AssertionUtils.assertValueIsNotRedirection(returnValue);
     }
 

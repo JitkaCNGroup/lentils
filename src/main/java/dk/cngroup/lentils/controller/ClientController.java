@@ -33,8 +33,6 @@ import java.util.List;
 @RequestMapping("/")
 public class ClientController {
 
-    public static final String GAME_ENDED_ERROR_MSG_CS = "Hra již byla ukončena";
-    public static final String GAME_ENDED_ERROR_MSG_ENG = "The game has already ended";
     private static final String VIEW_CLIENT_CYPHER_LIST = "client/cypher/list";
     private static final String VIEW_CLIENT_CYPHER_DETAIL = "client/cypher/detail";
     private static final String VIEW_CLIENT_HINT_LIST = "client/hint/list";
