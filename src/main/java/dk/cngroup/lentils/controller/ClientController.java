@@ -66,6 +66,7 @@ public class ClientController {
     private final MessageSource messageSource;
 
     @Autowired
+    @SuppressWarnings("checkstyle:parameternumber")
     public ClientController(final CypherService cypherService,
                             final StatusService statusService,
                             final HintService hintService,
