@@ -38,7 +38,7 @@
                     <p class="error" th:if="${#fields.hasErrors('resultsTime')}" th:errors="*{resultsTime}">Results time error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="resultsTime" class="input-value-required">Zpřístupnění místa vyhlášení před časem ukončení (minuty)</label>
+                    <label for="accessTime" class="input-value-required">Zpřístupnění místa vyhlášení před časem ukončení (minuty)</label>
                     <input id="accessTime" class="form-control" type="number" th:field="*{accessTime}" required/>
                     <p class="error" th:if="${#fields.hasErrors('accessTime')}" th:errors="*{accessTime}">access time error.</p>
                 </div>
