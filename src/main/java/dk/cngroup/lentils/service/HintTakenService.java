@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class HintTakenService {
 
-    private HintTakenRepository hintTakenRepository;
+    private final HintTakenRepository hintTakenRepository;
 
     @Autowired
     public HintTakenService(final HintTakenRepository hintTakenRepository) {

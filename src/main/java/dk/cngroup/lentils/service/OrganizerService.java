@@ -22,11 +22,11 @@ public class OrganizerService {
 
     private static final String ROLE_NAME_ORGANIZER = "ORGANIZER";
 
-    private UserRepository userRepository;
-    private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
-    private CypherService cypherService;
-    private OrganizerMapper organizerMapper;
+    private final UserRepository userRepository;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final CypherService cypherService;
+    private final OrganizerMapper organizerMapper;
 
     @Autowired
     public OrganizerService(final UserRepository userRepository,

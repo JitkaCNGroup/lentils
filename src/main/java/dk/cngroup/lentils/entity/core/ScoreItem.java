@@ -6,7 +6,7 @@ import dk.cngroup.lentils.entity.view.TeamScore;
 import java.util.Objects;
 
 public class ScoreItem implements Comparable {
-    private int score;
+    private final int score;
     private Rank rank;
 
     public ScoreItem(final int score) {

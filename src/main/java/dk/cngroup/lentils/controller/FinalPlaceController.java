@@ -25,8 +25,8 @@ public class FinalPlaceController {
 
     private static final String TEMPLATE_ATTR_FINALPLACE = "finalPlace";
 
-    private FinalPlaceService finalPlaceService;
-    private ModelMapperWrapper mapper;
+    private final FinalPlaceService finalPlaceService;
+    private final ModelMapperWrapper mapper;
 
     @Autowired
     public FinalPlaceController(final FinalPlaceService finalPlaceService,
