@@ -6,8 +6,6 @@ import dk.cngroup.lentils.entity.FinalPlace;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.entity.Team;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,27 +19,16 @@ public class GameLogicService {
     private final StatusService statusService;
     private final CypherService cypherService;
     private final TeamService teamService;
-    private final MessageSource messageSource;
 
     @Autowired
     public GameLogicService(final FinalPlaceService finalPlaceService,
                             final StatusService statusService,
                             final CypherService cypherService,
-                            final TeamService teamService,
-                            final MessageSource messageSource) {
+                            final TeamService teamService) {
         this.finalPlaceService = finalPlaceService;
         this.statusService = statusService;
         this.cypherService = cypherService;
         this.teamService = teamService;
-        this.messageSource = messageSource;
-    }
-
-    public String getErrorGameEndedMessage() {
-        return messageSource.getMessage("label.error.gameended", null, LocaleContextHolder.getLocale());
-    }
-
-    public String getErrorBadSolutionMessage() {
-        return messageSource.getMessage("label.error.badsolution", null, LocaleContextHolder.getLocale());
     }
 
     public boolean isGameInProgress() {

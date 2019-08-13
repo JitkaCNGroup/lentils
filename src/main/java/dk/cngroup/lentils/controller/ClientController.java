@@ -15,6 +15,8 @@ import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,6 +63,7 @@ public class ClientController {
     private final CypherGameInfoService cypherGameInfoService;
     private final ScoreService scoreService;
     private final GameLogicService gameLogicService;
+    private final MessageSource messageSource;
 
     @Autowired
     public ClientController(final CypherService cypherService,
@@ -69,7 +72,8 @@ public class ClientController {
                             final HintTakenService hintTakenService,
                             final CypherGameInfoService cypherGameInfoService,
                             final ScoreService scoreService,
-                            final GameLogicService gameLogicService) {
+                            final GameLogicService gameLogicService,
+                            final MessageSource messageSource) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
@@ -77,6 +81,7 @@ public class ClientController {
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
         this.gameLogicService = gameLogicService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping(value = "cypher")
@@ -147,8 +152,8 @@ public class ClientController {
 
         if (!gameLogicService.isGameInProgress()) {
             FieldError error = new FieldError(FORM_OBJECT_NAME,
-                        GUESS_FIELD_NAME,
-                        gameLogicService.getErrorGameEndedMessage());
+                    GUESS_FIELD_NAME,
+                    messageSource.getMessage("label.error.gameended", null, LocaleContextHolder.getLocale()));
             result.addError(error);
             setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
             return VIEW_CLIENT_CYPHER_DETAIL;
@@ -171,7 +176,7 @@ public class ClientController {
         FieldError error = new FieldError(
                 FORM_OBJECT_NAME,
                 GUESS_FIELD_NAME,
-                gameLogicService.getErrorBadSolutionMessage());
+                messageSource.getMessage("label.error.badsolution", null, LocaleContextHolder.getLocale()));
         result.addError(error);
         setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
 
