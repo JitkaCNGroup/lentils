@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.controller;
+package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
@@ -35,7 +35,7 @@ public class ClientControllerCypherDetailIntegrationTest extends AbstractClientC
     public void testCypherDetail_invalidCypherId() {
         setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
 
-        testedController.cypherDetail(
+        cypherController.cypherDetail(
                 getFixtureCypher().getCypherId() + 100,
                 getUserDetailsMock(),
                 model);
@@ -45,7 +45,7 @@ public class ClientControllerCypherDetailIntegrationTest extends AbstractClientC
     public void testCypherDetail_lockedCypher() {
         setCypherStatusForTeam(getFixtureCypher(), CypherStatus.LOCKED, getFixtureTeam());
 
-        testedController.cypherDetail(
+        cypherController.cypherDetail(
                 getFixtureCypher().getCypherId(),
                 getUserDetailsMock(),
                 model);
@@ -69,7 +69,7 @@ public class ClientControllerCypherDetailIntegrationTest extends AbstractClientC
     private void verifyCypherDetailWithAccessibleCypherStatus(final CypherStatus value) {
         setCypherStatusForTeam(getFixtureCypher(), value, getFixtureTeam());
 
-        final String returnValue = testedController.cypherDetail(
+        final String returnValue = cypherController.cypherDetail(
                 getFixtureCypher().getCypherId(),
                 getUserDetailsMock(),
                 model);

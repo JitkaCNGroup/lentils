@@ -68,7 +68,7 @@ public class Logger {
     /**
      * CLIENT METHODS.
      */
-    @Around("execution(* dk.cngroup.lentils.controller.ClientController.verifyCodeword(..))" +
+    @Around("execution(* dk.cngroup.lentils.controller.client.GameController.verifyCodeword(..))" +
             "&& args(cypherId,codewordFormDto,user,..)")
     public Object verifyCodeword(final ProceedingJoinPoint joinPoint,
                                  final Long cypherId,
@@ -85,7 +85,7 @@ public class Logger {
         return result;
     }
 
-    @After("execution(* dk.cngroup.lentils.controller.ClientController.getHint(..))" +
+    @After("execution(* dk.cngroup.lentils.controller.client.HintController.getHint(..))" +
             "&& args(hintId,user,..)")
     public void getHint(final Long hintId,
                         final CustomUserDetails user) {
@@ -98,7 +98,7 @@ public class Logger {
         printer.println(message);
     }
 
-    @After("execution(* dk.cngroup.lentils.controller.ClientController.skipCypher(..))" +
+    @After("execution(* dk.cngroup.lentils.controller.client.GameController.skipCypher(..))" +
             "&& args(cypher,user)")
     public void skipCypher(final Cypher cypher,
                            final CustomUserDetails user) {

@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.controller;
+package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
@@ -105,7 +105,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
     }
 
     private String executeTestedMethod(final CodewordFormDTO withCodewordFormDto) {
-        return testedController.verifyCodeword(
+        return gameController.verifyCodeword(
                 getFixtureCypher().getCypherId(),
                 withCodewordFormDto,
                 getUserDetailsMock(),

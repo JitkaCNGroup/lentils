@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.controller;
+package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.security.CustomUserDetails;
@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Controller
+@Controller("clientContactController")
 @RequestMapping("/contact")
-public class ClientContactController {
+public class ContactController {
+
     private static final String VIEW_CLIENT_CONTACT = "client/contact";
 
     private final ContactService contactService;
@@ -26,10 +27,10 @@ public class ClientContactController {
     private final StatusService statusService;
 
     @Autowired
-    public ClientContactController(final ContactService contactService,
-                                   final ScoreService scoreService,
-                                   final CypherService cypherService,
-                                   final StatusService statusService) {
+    public ContactController(final ContactService contactService,
+                             final ScoreService scoreService,
+                             final CypherService cypherService,
+                             final StatusService statusService) {
         this.contactService = contactService;
         this.scoreService = scoreService;
         this.cypherService = cypherService;
