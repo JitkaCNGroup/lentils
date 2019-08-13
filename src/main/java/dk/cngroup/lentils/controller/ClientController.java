@@ -15,7 +15,6 @@ import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -149,12 +148,9 @@ public class ClientController {
         CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
-            FieldError error;
-            if ("cs".equals(LocaleContextHolder.getLocale())) {
-                error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG_CS);
-            } else {
-                error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG_ENG);
-            }
+            FieldError error = new FieldError(FORM_OBJECT_NAME,
+                        GUESS_FIELD_NAME,
+                        gameLogicService.getErrorGameEndedMessage());
             result.addError(error);
             setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
             return VIEW_CLIENT_CYPHER_DETAIL;
@@ -177,7 +173,7 @@ public class ClientController {
         FieldError error = new FieldError(
                 FORM_OBJECT_NAME,
                 GUESS_FIELD_NAME,
-                "Špatné řešení, zkuste se víc zamyslet :-)");
+                gameLogicService.getErrorBadSolutionMessage());
         result.addError(error);
         setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
 
