@@ -11,7 +11,7 @@
 
         <div class="navbar-content">
             <p class="team-name" th:text="${team.name}"></p>
-            <p th:unless="${score} == null" th:text="|Aktuální skóre: ${score} b.|"></p>
+            <p th:unless="${score} == null" th:text="|#{label.client.header.actualscore} ${score} #{label.client.header.pointshortcut}|"></p>
         </div>
 
         <button class="btn toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
@@ -21,16 +21,23 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                    <a class="nav-link" href="/cypher">Šifry </a>
+                    <a class="nav-link" href="/cypher" th:utext="#{label.client.header.cyphers}">Šifry</a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'card'}? 'active' : null">
-                    <a class="nav-link" target="_blank" href="/img/hintcard.jpg">Kartička</a>
+                    <a class="nav-link" target="_blank" href="/img/hintcard.jpg" th:utext="#{label.client.header.tools}">Nástroje</a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'contact'}? 'active' : null">
-                    <a class="nav-link" href="/contact">Kontakty</a>
+                    <a class="nav-link" href="/contact" th:utext="#{label.client.header.contacts}">Kontakty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout" th:onclick="return confirm('Opravdu se chcete odhlásit?')">Odhlásit se</a>
+                    <a class="nav-link" href="/logout" th:onclick="return confirm(#{label.client.header.logout.confirm})" th:utext="#{label.client.header.logout}">Odhlásit se</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.client.header.langtitle}"></a>
+                    <div class="dropdown-menu" aria-labelledby="lang-dropdown">
+                        <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.header.cs}">Čeština</span></a>
+                        <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.header.en}">Angličtina</span></a>
+                    </div>
                 </li>
             </ul>
         </div>

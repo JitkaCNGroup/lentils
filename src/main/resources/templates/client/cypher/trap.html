@@ -8,9 +8,9 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-centered">
-                <p class="big-centered-text">Tak tohle není správná odpověď 3:]</p>
+                <p class="big-centered-text" th:utext="#{label.client.trap.wronganswer}">Tak tohle není správná odpověď 3:]</p>
                 <img src="/img/billy.jpg" alt="Billy Saw" class="img-billy"/>
-                <a class="btn btn-under-image" th:href="'/cypher/' + ${cypher.cypherId}" role="button">
+                <a class="btn btn-under-image" th:href="'/cypher/' + ${cypher.cypherId}" role="button" th:utext="#{label.client.trap.tryagain}">
                     Zkusit znovu
                 </a>
             </div>

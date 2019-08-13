@@ -15,6 +15,8 @@ import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +35,6 @@ import java.util.List;
 @RequestMapping("/")
 public class ClientController {
 
-    public static final String GAME_ENDED_ERROR_MSG = "Hra již byla ukončena";
     private static final String VIEW_CLIENT_CYPHER_LIST = "client/cypher/list";
     private static final String VIEW_CLIENT_CYPHER_DETAIL = "client/cypher/detail";
     private static final String VIEW_CLIENT_HINT_LIST = "client/hint/list";
@@ -62,15 +63,18 @@ public class ClientController {
     private final CypherGameInfoService cypherGameInfoService;
     private final ScoreService scoreService;
     private final GameLogicService gameLogicService;
+    private final MessageSource messageSource;
 
     @Autowired
+    @SuppressWarnings("checkstyle:parameternumber")
     public ClientController(final CypherService cypherService,
                             final StatusService statusService,
                             final HintService hintService,
                             final HintTakenService hintTakenService,
                             final CypherGameInfoService cypherGameInfoService,
                             final ScoreService scoreService,
-                            final GameLogicService gameLogicService) {
+                            final GameLogicService gameLogicService,
+                            final MessageSource messageSource) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
@@ -78,6 +82,7 @@ public class ClientController {
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
         this.gameLogicService = gameLogicService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping(value = "cypher")
@@ -147,9 +152,10 @@ public class ClientController {
         CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
-            FieldError error = new FieldError(FORM_OBJECT_NAME, GUESS_FIELD_NAME, GAME_ENDED_ERROR_MSG);
+            FieldError error = new FieldError(FORM_OBJECT_NAME,
+                    GUESS_FIELD_NAME,
+                    messageSource.getMessage("label.error.gameended", null, LocaleContextHolder.getLocale()));
             result.addError(error);
-
             setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
             return VIEW_CLIENT_CYPHER_DETAIL;
         }
@@ -171,7 +177,7 @@ public class ClientController {
         FieldError error = new FieldError(
                 FORM_OBJECT_NAME,
                 GUESS_FIELD_NAME,
-                "Špatné řešení, zkuste se víc zamyslet :-)");
+                messageSource.getMessage("label.error.badsolution", null, LocaleContextHolder.getLocale()));
         result.addError(error);
         setDetailModelAttributes(model, user, cypher, status, codewordFormDto);
 

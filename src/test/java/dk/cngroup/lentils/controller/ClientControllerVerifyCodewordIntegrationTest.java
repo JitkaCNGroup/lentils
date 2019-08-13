@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import static dk.cngroup.lentils.controller.ClientController.GAME_ENDED_ERROR_MSG;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -87,7 +86,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
 
         verify(result).addError(argument.capture());
         assertEquals("guess", argument.getValue().getField());
-        assertEquals(GAME_ENDED_ERROR_MSG, argument.getValue().getDefaultMessage());
+        assertEquals("The game has already ended", argument.getValue().getDefaultMessage());
         AssertionUtils.assertValueIsNotRedirection(returnValue);
     }
 
