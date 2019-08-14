@@ -30,7 +30,7 @@
                     <a class="nav-link" href="/contact" th:utext="#{label.client.header.contacts}">Kontakty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout" th:onclick="return confirm(#{label.client.header.logout.confirm})" th:utext="#{label.client.header.logout}">Odhlásit se</a>
+                    <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.client.header.logout.confirm} + '\');'" th:utext="#{label.client.header.logout}">Odhlásit se</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.client.header.langtitle}"></a>

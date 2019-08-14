@@ -6,7 +6,7 @@
 <div th:fragment="header(activeTab)">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Luštěniny | Organizátor</a>
+            <a class="navbar-brand" href="#" th:utext="#{label.organizer.header.puzzlehuntorganizer}">Luštěniny | Organizátor</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="dark-blue-text">
                 <i class="fa fa-bars"></i></span>
@@ -14,19 +14,26 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item" th:classappend="${activeTab == 'progress'}? 'active' : null">
-                        <a class="nav-link" href="/game/progress">Přehled šifer<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/game/progress" th:utext="#{label.organizer.header.cyphersoverview}">Přehled šifer<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'teamView'}? 'active' : null">
-                        <a class="nav-link" href="/game/progress/teamsList">Přehled týmů</a>
+                        <a class="nav-link" href="/game/progress/teamsList" th:utext="#{label.organizer.header.teamsoverview}">Přehled týmů</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'score'}? 'active' : null">
-                        <a class="nav-link" href="/game/score">Skóre</a>
+                        <a class="nav-link" href="/game/score" th:utext="#{label.organizer.header.score}">Skóre</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'statistics'}? 'active' : null">
-                        <a class="nav-link" href="/game/statistics/cyphersBySolvedCount">Statistiky</a>
+                        <a class="nav-link" href="/game/statistics/cyphersBySolvedCount" th:utext="#{label.organizer.header.statistics}">Statistiky</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout" th:onclick="return confirm('Opravdu se chcete odhlásit?')">Odhlásit se</a>
+                        <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.organizer.header.logoutconfirm} + '\');'" th:utext="#{label.organizer.header.logout}">Odhlásit se</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.organizer.header.langtitle}"></a>
+                        <div class="dropdown-menu" aria-labelledby="lang-dropdown">
+                            <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.organizer.header.cs}">Čeština</span></a>
+                            <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.organizer.header.en}">Angličtina</span></a>
+                        </div>
                     </li>
                 </ul>
             </div>
