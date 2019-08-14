@@ -43,10 +43,10 @@
 
             <h2>Aktivní týmy na této šifře</h2>
             <div th:if="${pendingTeams.empty and search == null}">
-                <p>Žádný tým není aktivní na této šifře<p/>
+                <p>Žádný tým není aktivní na této šifře</p>
             </div>
             <div th:if="${pendingTeams.empty and search != null}">
-                <p>Žádný aktivní tým na této šifře nenalezen<p/>
+                <p>Žádný aktivní tým na této šifře nenalezen</p>
             </div>
 
             <div th:each="team : ${pendingTeams}" class="team">
@@ -139,10 +139,10 @@
 
             <h2>Neaktivní týmy na této šifře</h2>
             <div th:if="${otherTeams.empty and search == null}">
-                <p>Žádný tým není neaktivní na této šifře<p/>
+                <p>Žádný tým není neaktivní na této šifře</p>
             </div>
             <div th:if="${otherTeams.empty and search != null}">
-                <p>Žádný neaktivní tým na této šifře nenalezen<p/>
+                <p>Žádný neaktivní tým na této šifře nenalezen</p>
             </div>
 
             <div th:each="team : ${otherTeams}" class="team">
