@@ -8,6 +8,7 @@ import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.convertors.HintMapper;
 import dk.cngroup.lentils.service.ImageService;
+import dk.cngroup.lentils.util.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -77,13 +78,8 @@ public class HintController {
         HintFormDTO hintFormDto = mapper.map(hint, HintFormDTO.class);
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
         model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-        model.addAttribute(TEMPLATE_ATTR_FILENAME, imageService.getFileNameFromEntity(hint));
-        if (hintFormDto.getImage() == null) {
-            model.addAttribute(TEMPLATE_ATTR_FILE, "");
-        } else {
-            model.addAttribute(TEMPLATE_ATTR_FILE, MvcUriComponentsBuilder.fromMethodName(HintController.class,
-                    "serveFile", hintFormDto.getImage().getOriginalFilename()).build().toString());
-        }
+        model.addAttribute(TEMPLATE_ATTR_FILENAME, FileUtils.getFileNameFromEntity(hint));
+        addImageUri(model, hintFormDto);
         return VIEW_ADMIN_HINT_DETAIL;
     }
 
@@ -100,17 +96,17 @@ public class HintController {
                        final BindingResult bindingResult,
                        final Model model) {
         Hint hint = hintService.getHint(hintId);
-        imageService.setImageToFormObject(hint, hintFormDto);
+        FileUtils.setImageToFormObject(hint, hintFormDto);
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
             model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-            model.addAttribute(TEMPLATE_ATTR_FILENAME, imageService.getFileName(hint, hintFormDto));
+            model.addAttribute(TEMPLATE_ATTR_FILENAME, FileUtils.getFileName(hint, hintFormDto));
             return VIEW_ADMIN_HINT_DETAIL;
         }
         imageService.saveImageFile(hintFormDto);
         Image image = hint.getImage();
         mapper.map(hintFormDto, hint);
-        if (!imageService.isFilePresentInHintForm(hintFormDto)) {
+        if (!FileUtils.isFilePresentInHintForm(hintFormDto)) {
             hint.setImage(image);
         }
         hintService.save(hint);
@@ -130,13 +126,13 @@ public class HintController {
 
     @PostMapping(value = "/add")
     public String saveNewHint(@Valid @ModelAttribute(TEMPLATE_ATTR_HINT) final HintFormDTO hintFormDto,
-                              @RequestParam("cypherId") final Long cypherId,
+                       @RequestParam("cypherId") final Long cypherId,
                        final BindingResult bindingResult,
                        final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
             model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-            model.addAttribute(TEMPLATE_ATTR_FILENAME, imageService.getFileNamefromFormObject(hintFormDto));
+            model.addAttribute(TEMPLATE_ATTR_FILENAME, FileUtils.getFileNamefromFormObject(hintFormDto));
             return VIEW_ADMIN_HINT_DETAIL;
         }
         Hint hint = new Hint(cypherService.getCypher(cypherId));
@@ -144,5 +140,14 @@ public class HintController {
         mapper.map(hintFormDto, hint);
         hintService.save(hint);
         return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
+    }
+
+    private void addImageUri(final Model model, final HintFormDTO hintFormDto) {
+        if (hintFormDto.getImage() == null) {
+            model.addAttribute(TEMPLATE_ATTR_FILE, "");
+        } else {
+            model.addAttribute(TEMPLATE_ATTR_FILE, MvcUriComponentsBuilder.fromMethodName(HintController.class,
+                    "serveFile", hintFormDto.getImage().getOriginalFilename()).build().toString());
+        }
     }
 }
