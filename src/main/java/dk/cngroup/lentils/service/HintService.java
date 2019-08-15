@@ -14,8 +14,8 @@ import java.util.List;
 
 @Service
 public class HintService {
-    private HintRepository hintRepository;
-    private HintTakenRepository hintTakenRepository;
+    private final HintRepository hintRepository;
+    private final HintTakenRepository hintTakenRepository;
 
     @Autowired
     public HintService(final HintRepository hintRepository,

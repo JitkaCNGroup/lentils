@@ -17,7 +17,7 @@ public class FinalPlaceService {
             "Čas vyhlášení výsledků musí být až po skončení luštění.";
     private static final String FINALPLACE_ENTITY = "finalPlace";
     private static final String RESULTSTIME_PROPERTY = "resultsTime";
-    private FinalPlaceRepository finalPlaceRepository;
+    private final FinalPlaceRepository finalPlaceRepository;
 
     @Autowired
     public FinalPlaceService(final FinalPlaceRepository finalPlaceRepository) {

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class CypherGameInfoService {
 
-    private CypherGameInfoRepository cypherGameInfoRepository;
+    private final CypherGameInfoRepository cypherGameInfoRepository;
 
     @Autowired
     public CypherGameInfoService(final CypherGameInfoRepository cypherGameInfoRepository) {

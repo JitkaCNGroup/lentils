@@ -26,7 +26,7 @@ public enum CypherStatus {
         }
     };
 
-    private int statusValue;
+    private final int statusValue;
 
     CypherStatus(final int statusValue) {
         this.statusValue = statusValue;

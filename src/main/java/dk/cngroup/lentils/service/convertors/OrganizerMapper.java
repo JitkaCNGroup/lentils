@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrganizerMapper extends ModelMapperWrapper {
 
-    private CypherService cypherService;
+    private final CypherService cypherService;
 
     @Autowired
     public OrganizerMapper(final CypherService cypherService) {
