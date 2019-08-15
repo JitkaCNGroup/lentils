@@ -17,7 +17,7 @@
                         <a class="nav-link" href="/admin/organizermanagement" th:utext="#{label.header.organizers}">Organizátoři</a>
                     </li>
                     <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                        <a class="nav-link" href="/admin/cypher" th:utext="#{label.header.cyphers}">Šifry<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/admin/cypher" th:utext="#{label.cyphers}">Šifry<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'team'}? 'active' : null">
                         <a class="nav-link" href="/admin/team" th:utext="#{label.header.teams}">Týmy</a>
@@ -26,7 +26,7 @@
                         <a class="nav-link" href="/admin/finalplace/" th:utext="#{label.header.finalplace}">Místo vyhlášení</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'contact'}? 'active' : null">
-                        <a class="nav-link" href="/admin/contact/" th:utext="#{label.header.contact}">Kontakt</a>
+                        <a class="nav-link" href="/admin/contact/" th:utext="#{label.contact}">Kontakt</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.logout.confirm} + '\');'" th:utext="#{label.logout.logout}">Odhlásit se</a>

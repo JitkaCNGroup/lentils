@@ -9,7 +9,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h1 th:utext="#{label.client.hintlist.hint}">Nápověda</h1>
+                <h1 th:utext="#{label.hint}">Nápověda</h1>
 
                 <span class="text-danger" th:if="${#request.getParameter('gameEnded') == 'true'}" th:utext="#{label.client.hintlist.gameended}">
                     Hra již byla ukončena.

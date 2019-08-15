@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                    <a class="nav-link" href="/cypher" th:utext="#{label.client.header.cyphers}">Šifry</a>
+                    <a class="nav-link" href="/cypher" th:utext="#{label.cyphers}">Šifry</a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'card'}? 'active' : null">
                     <a class="nav-link" target="_blank" href="/img/hintcard.jpg" th:utext="#{label.client.header.tools}">Nástroje</a>
@@ -30,7 +30,7 @@
                     <a class="nav-link" href="/contact" th:utext="#{label.client.header.contacts}">Kontakty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.client.header.logout.confirm} + '\');'" th:utext="#{label.client.header.logout}">Odhlásit se</a>
+                    <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.logout.confirm} + '\');'" th:utext="#{label.logout.logout}">Odhlásit se</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.lang.langtitle}"></a>

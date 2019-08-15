@@ -93,7 +93,7 @@
         <th:block th:if="${status == 'PENDING'}">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2 th:utext="#{label.client.cypherdetail.hint}">Nápověda</h2>
+                    <h2 th:utext="#{label.hint}">Nápověda</h2>
                     <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
                         <div th:each="hintTaken : ${hintsTaken}">
                             <p class="hint-text" >
