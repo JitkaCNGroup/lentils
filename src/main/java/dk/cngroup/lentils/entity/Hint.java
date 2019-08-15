@@ -1,11 +1,13 @@
 package dk.cngroup.lentils.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -33,6 +35,10 @@ public class Hint implements Serializable {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "image_id")
+    private Image image;
 
     @Column(name = "value")
     @Min(value = 1, message = "Hodnota musí být vetší než 0.")
@@ -85,6 +91,14 @@ public class Hint implements Serializable {
 
     public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(final Image image) {
+        this.image = image;
     }
 
     public int getValue() {
