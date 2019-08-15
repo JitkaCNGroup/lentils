@@ -26,13 +26,13 @@
                         <a class="nav-link" href="/game/statistics/cyphersBySolvedCount" th:utext="#{label.organizer.header.statistics}">Statistiky</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.organizer.header.logoutconfirm} + '\');'" th:utext="#{label.organizer.header.logout}">Odhlásit se</a>
+                        <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.logout.confirm} + '\');'" th:utext="#{label.logout.logout}">Odhlásit se</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.organizer.header.langtitle}"></a>
+                        <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.lang.langtitle}"></a>
                         <div class="dropdown-menu" aria-labelledby="lang-dropdown">
-                            <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.organizer.header.cs}">Čeština</span></a>
-                            <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.organizer.header.en}">Angličtina</span></a>
+                            <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.lang.cs}">Čeština</span></a>
+                            <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.lang.en}">Angličtina</span></a>
                         </div>
                     </li>
                 </ul>
