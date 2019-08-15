@@ -5,19 +5,19 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(score)"></div>
 <div class="container">
-    <h1>Tým <span th:text="${team.name}"></span></h1>
-    <h2>Přehled</h2>
+    <h1 th:utext="#{label.team}">Tým <span th:text="${team.name}"></span></h1>
+    <h2 th:utext="#{label.overview}">Přehled</h2>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Název šifry</th>
-                    <th>Body za šifru</th>
-                    <th>Celkem použitých nápověd</th>
-                    <th>Id použitých nápověd</th>
-                    <th>Záporné body za nápovědy</th>
-                    <th>Celkové skóre</th>
+                    <th th:utext="#{label.cyphername}">Název šifry</th>
+                    <th th:utext="#{label.pointsforcypher}">Body za šifru</th>
+                    <th th:utext="#{label.hintstaken}">Celkem použitých nápověd</th>
+                    <th th:utext="#{label.idofhintstaken}">Id použitých nápověd</th>
+                    <th th:utext="#{label.hintstakenpoints}">Záporné body za nápovědy</th>
+                    <th th:utext="#{label.totalscore}">Celkové skóre</th>
                 </tr>
             </thead>
             <th:block th:each="team : ${teamWithDetailScores}">
@@ -34,7 +34,7 @@
         </table>
     </div>
     <br>
-    <a href="#" th:href="@{/game/score}"><b>Zpět na seznam týmů</b></a>
+    <a href="#" th:href="@{/game/score}"><b th:utext="#{label.backtotheteamlist}">Zpět na seznam týmů</b></a>
 </div>
 
 <div th:insert="fragments/externalScripts :: externalScripts"></div>
