@@ -1,4 +1,4 @@
-package dk.cngroup.lentils.controller;
+package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.exception.FinalPlaceNotYetAccessibleException;
 import dk.cngroup.lentils.security.CustomUserDetails;
@@ -12,9 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-@RequestMapping("/")
-public class ClientFinalPlaceController {
+@Controller("clientFinalPlaceController")
+@RequestMapping("/finalplace")
+public class FinalPlaceController {
 
     private static final String VIEW_CLIENT_FINALPLACE_DETAIL = "client/finalplace/detail";
 
@@ -23,15 +23,15 @@ public class ClientFinalPlaceController {
     private final ScoreService scoreService;
 
     @Autowired
-    public ClientFinalPlaceController(final FinalPlaceService finalPlaceService,
-                                      final GameLogicService gameLogicService,
-                                      final ScoreService scoreService) {
+    public FinalPlaceController(final FinalPlaceService finalPlaceService,
+                                final GameLogicService gameLogicService,
+                                final ScoreService scoreService) {
         this.finalPlaceService = finalPlaceService;
         this.gameLogicService = gameLogicService;
         this.scoreService = scoreService;
     }
 
-    @GetMapping(value = "finalplace")
+    @GetMapping
     public String finalPlaceDetail(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
         if (!gameLogicService.allowPlayersToViewFinalPlace(user.getTeam())) {
             throw new FinalPlaceNotYetAccessibleException();

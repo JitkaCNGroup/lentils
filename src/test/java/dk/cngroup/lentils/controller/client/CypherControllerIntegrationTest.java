@@ -1,16 +1,19 @@
-package dk.cngroup.lentils.controller;
+package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
 import dk.cngroup.lentils.dto.CodewordFormDTO;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
+import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,30 +24,107 @@ import org.springframework.validation.FieldError;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {LentilsApplication.class, DataConfig.class, ObjectGenerator.class})
 @Transactional
-public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClientControllerTest {
+public class CypherControllerIntegrationTest extends AbstractClientControllerTest {
+
+    @Autowired
+    protected CypherController cypherController;
 
     private BindingResult result;
+
+    @Mock
+    private Model model;
 
     @Before
     public void setup() {
         setupSharedFixture();
-
         setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
         result = mock(BindingResult.class);
     }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void testCypherDetail_invalidCypherId() {
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
+
+        cypherController.cypherDetail(
+                getFixtureCypher().getCypherId() + 100,
+                getUserDetailsMock(),
+                model);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void testCypherDetail_lockedCypher() {
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.LOCKED, getFixtureTeam());
+
+        cypherController.cypherDetail(
+                getFixtureCypher().getCypherId(),
+                getUserDetailsMock(),
+                model);
+    }
+
+    @Test
+    public void testCypherDetail_pendingCypher() {
+        verifyCypherDetailWithAccessibleCypherStatus(CypherStatus.PENDING);
+    }
+
+    @Test
+    public void testCypherDetail_solvedCypher() {
+        verifyCypherDetailWithAccessibleCypherStatus(CypherStatus.SOLVED);
+    }
+
+    @Test
+    public void testCypherDetail_skippedCypher() {
+        verifyCypherDetailWithAccessibleCypherStatus(CypherStatus.SKIPPED);
+    }
+
+    @Test
+    public void testSkipCypherCorrectly() {
+        setThatGameHasNotEnded();
+
+        final String returnValue = executeSkipCypher();
+
+        AssertionUtils.assertValueIsRedirection(returnValue);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
+        assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
+    }
+
+    @Test
+    public void testSkipCypherForNonPendingStatus() {
+        setThatGameHasNotEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.SOLVED, getFixtureTeam());
+
+        final String returnValue = executeSkipCypher();
+
+        AssertionUtils.assertValueIsRedirection(returnValue);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
+        assertNotEquals(CypherStatus.SKIPPED, status.getCypherStatus());
+        assertEquals(CypherStatus.SOLVED, status.getCypherStatus());
+    }
+
+    @Test
+    public void testSkipCypherAfterGameHasEnded() {
+        setThatGameHasAlreadyEnded();
+
+        String returnValue = executeSkipCypher();
+
+        AssertionUtils.assertValueIsRedirection(returnValue);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
+        assertNotEquals(CypherStatus.SKIPPED, status.getCypherStatus());
+    }
+
 
     @Test
     public void testCheckCorrectCodeword() {
         setThatGameHasNotEnded();
         final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codewordFormDto);
+        final String returnValue = executeVerifyCodeword(codewordFormDto);
 
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -56,7 +136,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         setThatGameHasNotEnded();
         final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD + "_wrong");
 
-        final String returnValue = executeTestedMethod(codewordFormDto);
+        final String returnValue = executeVerifyCodeword(codewordFormDto);
 
         AssertionUtils.assertValueIsNotRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -68,7 +148,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         setThatGameHasNotEnded();
         final CodewordFormDTO codewordFormDto = createCodewordFormObject(FALSE_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codewordFormDto);
+        final String returnValue = executeVerifyCodeword(codewordFormDto);
 
         AssertionUtils.assertValueIsRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -82,7 +162,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         setThatGameHasAlreadyEnded();
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
-        String returnValue = executeTestedMethod(codewordFormDto);
+        String returnValue = executeVerifyCodeword(codewordFormDto);
 
         verify(result).addError(argument.capture());
         assertEquals("guess", argument.getValue().getField());
@@ -96,7 +176,7 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         setCypherStatusForTeam(getFixtureCypher(), CypherStatus.SKIPPED, getFixtureTeam());
         final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
 
-        final String returnValue = executeTestedMethod(codewordFormDto);
+        final String returnValue = executeVerifyCodeword(codewordFormDto);
 
         AssertionUtils.assertValueIsNotRedirection(returnValue);
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
@@ -104,8 +184,8 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
     }
 
-    private String executeTestedMethod(final CodewordFormDTO withCodewordFormDto) {
-        return testedController.verifyCodeword(
+    private String executeVerifyCodeword(final CodewordFormDTO withCodewordFormDto) {
+        return cypherController.verifyCodeword(
                 getFixtureCypher().getCypherId(),
                 withCodewordFormDto,
                 getUserDetailsMock(),
@@ -118,5 +198,21 @@ public class ClientControllerVerifyCodewordIntegrationTest extends AbstractClien
         codewordFormDto.setGuess(guess);
 
         return codewordFormDto;
+    }
+
+    private String executeSkipCypher() {
+        return cypherController.skipCypher(getFixtureCypher(), getUserDetailsMock());
+    }
+
+    private void verifyCypherDetailWithAccessibleCypherStatus(final CypherStatus value) {
+        setCypherStatusForTeam(getFixtureCypher(), value, getFixtureTeam());
+
+        final String returnValue = cypherController.cypherDetail(
+                getFixtureCypher().getCypherId(),
+                getUserDetailsMock(),
+                model);
+
+        AssertionUtils.assertValueIsNotRedirection(returnValue);
+        verify(model).addAttribute(eq("cypher"), eq(getFixtureCypher()));
     }
 }
