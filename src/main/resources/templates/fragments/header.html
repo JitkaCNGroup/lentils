@@ -17,7 +17,7 @@
                         <a class="nav-link" href="/admin/organizermanagement" th:utext="#{label.header.organizers}">Organizátoři</a>
                     </li>
                     <li class="nav-item" th:classappend="${activeTab == 'cypher'}? 'active' : null">
-                        <a class="nav-link" href="/admin/cypher" th:utext="#{label.header.cyphers}">Šifry<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/admin/cypher" th:utext="#{label.cyphers}">Šifry<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'team'}? 'active' : null">
                         <a class="nav-link" href="/admin/team" th:utext="#{label.header.teams}">Týmy</a>
@@ -26,16 +26,16 @@
                         <a class="nav-link" href="/admin/finalplace/" th:utext="#{label.header.finalplace}">Místo vyhlášení</a>
                     </li>
                     <li class="nav-item" th:class="${activeTab == 'contact'}? 'active' : null">
-                        <a class="nav-link" href="/admin/contact/" th:utext="#{label.header.contact}">Kontakt</a>
+                        <a class="nav-link" href="/admin/contact/" th:utext="#{label.contact}">Kontakt</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout" th:onclick="return confirm(#{label.header.logout.confirm})" th:utext="#{label.header.logout}">Odhlásit se</a>
+                        <a class="nav-link" href="/logout" th:attr="onclick='return confirm(\'' + #{label.logout.confirm} + '\');'" th:utext="#{label.logout.logout}">Odhlásit se</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.client.header.langtitle}"></a>
+                        <a class="nav-link dropdown-toggle" id="lang-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="#{label.lang.langtitle}"></a>
                         <div class="dropdown-menu" aria-labelledby="lang-dropdown">
-                            <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.header.cs}">Čeština</span></a>
-                            <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.header.en}">Angličtina</span></a>
+                            <a class="dropdown-item" th:href="@{?lang=cs}"><span class="flag-icon flag-icon-cz"> </span><span th:utext="#{label.lang.cs}">Čeština</span></a>
+                            <a class="dropdown-item" th:href="@{?lang=en}"><span class="flag-icon flag-icon-gb"> </span><span th:utext="#{label.lang.en}">Angličtina</span></a>
                         </div>
                     </li>
                 </ul>
