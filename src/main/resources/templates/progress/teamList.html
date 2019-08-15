@@ -48,10 +48,10 @@
         <div class="col-sm-12">
             <h1>Týmy</h1>
             <div th:if="${teamsProgress.empty and search == null}">
-                <p>V systému nejsou týmy<p/>
+                <p>V systému nejsou týmy</p>
             </div>
             <div th:if="${teamsProgress.empty and search != null}">
-                <p>Žádný tým nenalezen<p/>
+                <p>Žádný tým nenalezen</p>
             </div>
 
             <div th:each="teamProgress : ${teamsProgress}" class="cypher organizer">
