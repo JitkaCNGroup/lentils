@@ -13,7 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-public class FileUtils {
+public final class FileUtils {
+
+    private FileUtils() {
+        throw new IllegalStateException("Utility class cannot be instantiated");
+    }
 
     public static MultipartFile getFile(final String stringPath) {
         final File file = new File(stringPath);
