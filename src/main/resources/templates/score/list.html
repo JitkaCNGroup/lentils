@@ -7,27 +7,27 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <a href="#" class="btn btn-primary" th:href="@{/game/score/export}" target="_blank">
+            <a href="#" class="btn btn-primary" th:href="@{/game/score/export}" target="_blank" th:utext="#{label.pdfexport}">
                 Export do PDF
             </a>
         </div>
         <div class="col-sm-12">
-            <h1>Pořadí týmů podle skóre</h1>
+            <h1 th:utext="#{label.organizer.teamrankingbyscore}">Pořadí týmů podle skóre</h1>
 
             <div class="row score-header">
                 <div class="col order">
-                    <p>Pořadí</p>
+                    <p th:utext="#{label.rank}">Pořadí</p>
                 </div>
                 <div class="col">
-                    <p>Název</p>
+                    <p th:utext="#{label.name}">Název</p>
                 </div>
                 <div class="col points">
-                    <p>Body</p>
+                    <p th:utext="#{label.points}">Body</p>
                 </div>
             </div>
 
             <div th:if="${teamsWithScores.empty}">
-                <p>V systému nejsou týmy</p>
+                <p th:utext="#{label.noteamsinsystem}">V systému nejsou týmy</p>
             </div>
             <div th:each="teamWithScore : ${teamsWithScores}" class="score">
                 <a th:href="@{/game/score/team(teamId=${teamWithScore.team.teamId})}">

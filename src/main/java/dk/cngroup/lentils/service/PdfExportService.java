@@ -14,6 +14,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import dk.cngroup.lentils.entity.view.TeamScore;
 import dk.cngroup.lentils.exception.ExportToPdfFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -28,10 +30,13 @@ public class PdfExportService {
     private static final int SPACING_AFTER_PARAGRAPH = 20;
 
     private final ScoreService scoreService;
+    private final MessageSource messageSource;
 
     @Autowired
-    public PdfExportService(final ScoreService scoreService) {
+    public PdfExportService(final ScoreService scoreService,
+                            final MessageSource messageSource) {
         this.scoreService = scoreService;
+        this.messageSource = messageSource;
     }
 
     public ByteArrayInputStream getScoresStream() {
@@ -59,7 +64,10 @@ public class PdfExportService {
 
     private Paragraph getHeaderParagraph() {
         Font font = FontFactory.getFont(FontFactory.COURIER, PARAGRAPH_FONT_SIZE, BaseColor.BLACK);
-        Paragraph p = new Paragraph("Výsledné skóre", font);
+        Paragraph p = new Paragraph(messageSource.getMessage("label.pdfexport.finalscore",
+                null,
+                LocaleContextHolder.getLocale()),
+                font);
         p.setAlignment(Element.ALIGN_CENTER);
         p.setSpacingAfter(SPACING_AFTER_PARAGRAPH);
         return p;
@@ -73,7 +81,9 @@ public class PdfExportService {
     }
 
     private void addTableHeader(final PdfPTable table) {
-        Stream.of("Poradí", "Název týmu", "Body")
+        Stream.of(messageSource.getMessage("label.pdfexport.rank", null, LocaleContextHolder.getLocale()),
+                messageSource.getMessage("label.teamname", null, LocaleContextHolder.getLocale()),
+                messageSource.getMessage("label.points", null, LocaleContextHolder.getLocale()))
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
