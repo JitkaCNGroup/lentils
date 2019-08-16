@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -76,7 +76,7 @@ public class CypherRepositoryIntegrationTest {
         cypherRepository.save(cypher2);
         cypherRepository.save(cypher3);
 
-        assertTrue(!cypherRepository.findDistinctByOrganizersIsNotNull().isEmpty());
+        assertFalse(cypherRepository.findDistinctByOrganizersIsNotNull().isEmpty());
         assertEquals(expectedCyphers, cypherRepository.findDistinctByOrganizersIsNotNull());
     }
 
