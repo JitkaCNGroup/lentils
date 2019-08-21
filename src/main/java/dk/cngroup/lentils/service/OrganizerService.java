@@ -55,7 +55,7 @@ public class OrganizerService {
 
     public List<OrganizerFormDTO> getOrganizerDtos() {
         return getOrganizers().stream()
-                .map(organizer -> organizerMapper.map(organizer))
+                .map(organizerMapper::map)
                 .collect(Collectors.toList());
     }
 
