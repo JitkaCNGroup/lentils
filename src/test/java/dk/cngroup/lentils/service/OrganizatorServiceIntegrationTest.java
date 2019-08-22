@@ -63,6 +63,7 @@ public class OrganizatorServiceIntegrationTest {
 
     @Test
     public void getOrganizersTest() {
+        int organizerCount = organizerService.getOrganizers().size();
         User organizer = createUser("org", "pwd", "ORGANIZER");
         User admin = createUser("adm", "pwd", "ADMIN");
         User player = createUser("ply", "pwd", "PLAYER");
@@ -71,7 +72,25 @@ public class OrganizatorServiceIntegrationTest {
         userRepository.save(admin);
         userRepository.save(player);
 
-        Assert.assertEquals(2, organizerService.getOrganizers().size());
+        Assert.assertEquals(organizerCount + 1, organizerService.getOrganizers().size());
+        Assert.assertTrue(organizerService.getOrganizers().contains(organizer));
+    }
+
+    @Test
+    public void getOrganizersDtosTest() {
+        int organizerDtosCount = organizerService.getOrganizerDtos().size();
+        User organizer = createUser("org", "pwd", "ORGANIZER");
+        User admin = createUser("adm", "pwd", "ADMIN");
+        User player = createUser("ply", "pwd", "PLAYER");
+
+        userRepository.save(organizer);
+        userRepository.save(admin);
+        userRepository.save(player);
+
+        Assert.assertEquals(organizerDtosCount + 1, organizerService.getOrganizerDtos().size());
+        Assert.assertTrue(organizerService.getOrganizerDtos()
+                .stream()
+                .anyMatch(o -> o.getUsername().equals(organizer.getUsername())));
     }
 
     @Test
