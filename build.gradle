@@ -37,6 +37,7 @@ dependencies {
     compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.1'
     compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
