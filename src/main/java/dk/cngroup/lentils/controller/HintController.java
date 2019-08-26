@@ -115,7 +115,7 @@ public class HintController {
 
     @GetMapping(value = "/add")
     public String newHint(@RequestParam("cypherId") final Long cypherId, final Model model) {
-        Hint hint = cypherService.addHint(cypherId);
+        cypherService.addHint(cypherId);
         HintFormDTO hintFormDto = new HintFormDTO();
         hintFormDto.setCypher(cypherService.getCypher(cypherId));
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_NEW_HINT);
