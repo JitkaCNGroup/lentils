@@ -79,7 +79,7 @@ public class HintController {
         model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
         model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
         model.addAttribute(TEMPLATE_ATTR_FILENAME, FileUtils.getFileNameFromEntity(hint));
-        addImageUri(model, hintFormDto);
+        addImageUri(model, hintFormDto, hintId);
         return VIEW_ADMIN_HINT_DETAIL;
     }
 
@@ -103,13 +103,13 @@ public class HintController {
             model.addAttribute(TEMPLATE_ATTR_FILENAME, FileUtils.getFileName(hint, hintFormDto));
             return VIEW_ADMIN_HINT_DETAIL;
         }
-        imageService.saveImageFile(hintFormDto);
         Image image = hint.getImage();
         mapper.map(hintFormDto, hint);
         if (!FileUtils.isFilePresentInHintForm(hintFormDto)) {
             hint.setImage(image);
         }
         hintService.save(hint);
+        imageService.saveImageFile(hintFormDto, hint.getImage().getPath());
         return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 
@@ -136,18 +136,29 @@ public class HintController {
             return VIEW_ADMIN_HINT_DETAIL;
         }
         Hint hint = new Hint(cypherService.getCypher(cypherId));
-        imageService.saveImageFile(hintFormDto);
         mapper.map(hintFormDto, hint);
         hintService.save(hint);
+        if (FileUtils.isFilePresentInHintForm(hintFormDto)) {
+            imageService.saveImageFile(hintFormDto, hint.getImage().getPath());
+        }
         return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 
-    private void addImageUri(final Model model, final HintFormDTO hintFormDto) {
+    private void addImageUri(final Model model, final HintFormDTO hintFormDto, final Long hintId) {
         if (hintFormDto.getImage() == null) {
             model.addAttribute(TEMPLATE_ATTR_FILE, "");
         } else {
-            model.addAttribute(TEMPLATE_ATTR_FILE, MvcUriComponentsBuilder.fromMethodName(HintController.class,
-                    "serveFile", hintFormDto.getImage().getOriginalFilename()).build().toString());
+            String imagePath = hintService.getHint(hintId).getImage().getPath();
+            String filename = imageService.getPureFileName(imagePath);
+            String uri = MvcUriComponentsBuilder
+                    .fromMethodName(
+                            HintController.class,
+                            "serveFile",
+                            filename)
+                    .build()
+                    .normalize()
+                    .toString();
+            model.addAttribute(TEMPLATE_ATTR_FILE, uri);
         }
     }
 }

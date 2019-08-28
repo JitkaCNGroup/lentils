@@ -8,9 +8,11 @@ import dk.cngroup.lentils.exception.FileNotSavedException;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.ImageRepository;
 import dk.cngroup.lentils.util.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -18,12 +20,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 @Service
 public class ImageService {
 
-    private final ImageRepository imageRepository;
+    private static final int HASH_LENGTH = 4;
 
+    private final ImageRepository imageRepository;
     private final ConfigProperties configProp;
 
     public ImageService(final ImageRepository imageRepository, final ConfigProperties configProp) {
@@ -45,13 +49,12 @@ public class ImageService {
         return newDirectory;
     }
 
-    public void saveImageFile(final HintFormDTO formObject) {
+    public void saveImageFile(final HintFormDTO formObject, final String path) {
         if (!FileUtils.isFilePresentInHintForm(formObject)) {
             return;
         }
         MultipartFile file = formObject.getImage();
-        String pathToSave = getFilePathToSave(file);
-        File dest = new File(pathToSave);
+        File dest = new File(FileUtils.getUserDir() + path);
         try {
             file.transferTo(dest);
         } catch (IOException e) {
@@ -64,10 +67,7 @@ public class ImageService {
     }
 
     public String getFilePath(final MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new FileNotFoundException();
-        }
-        String fileName = file.getOriginalFilename();
+        String fileName = getFileName(file);
         return getImageDirectory() + fileName;
     }
 
@@ -89,13 +89,32 @@ public class ImageService {
         }
     }
 
-    public String getFilePathToSave(final MultipartFile file) {
+    private String getFileName(final MultipartFile file) {
         if (file.isEmpty()) {
             throw new FileNotFoundException();
         }
-        String fileName = file.getOriginalFilename();
-        FileUtils.createDirectory(getDirectory());
-        return getDirectory() + fileName;
+        return addUniqueSuffixToFilename(file.getOriginalFilename());
+    }
+
+    public String addUniqueSuffixToFilename(final String filename) {
+        String uniqueSuffix = generateUniqueString();
+        int i = filename.lastIndexOf('.');
+        if (i < 0) {
+           return StringUtils.cleanPath(filename + uniqueSuffix);
+        } else {
+            return StringUtils.cleanPath(filename.substring(0, i)
+                    + uniqueSuffix
+                    + filename.substring(i));
+        }
+    }
+
+    private String generateUniqueString() {
+        return String.format("-%tF-%s", new Date(), RandomStringUtils.randomAlphanumeric(HASH_LENGTH));
+    }
+
+    public String getPureFileName(final String filename) {
+        int i = filename.lastIndexOf('/');
+        return StringUtils.cleanPath((filename.substring(i + 1)));
     }
 
     public Image getImage(final Long imageId) {
@@ -106,5 +125,4 @@ public class ImageService {
     public Image getImageFromMultipartFile(final MultipartFile file) {
         return new Image(getFilePath(file));
     }
-
 }
