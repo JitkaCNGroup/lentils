@@ -34,7 +34,7 @@
                         </form>
                         <div th:if="${finalViewAllowed}">
                             <a class="btn btn-primary" th:href="@{/finalplace}"
-                               role="button" th:utext="#{label.client.cypherdetail.finalplacedetail}">Detail vyhlášení výsledků</button></a>
+                               role="button" th:utext="#{label.client.cypherdetail.finalplacedetail}">Detail vyhlášení výsledků</a>
                         </div>
                     </th:block>
 
@@ -46,12 +46,12 @@
                         <div th:if="${nextCypher}">
                             <h2 th:utext="#{label.client.cypherdetail.wherenow}">Kam dál?</h2>
                             <a class="btn btn-primary" th:href="@{'/cypher/' + ${nextCypher.cypherId}}"
-                               role="button" th:utext="#{label.client.cypherdetail.nextcypher}">Zobrazit další šifru</button></a>
+                               role="button" th:utext="#{label.client.cypherdetail.nextcypher}">Zobrazit další šifru</a>
                         </div>
 
                         <div th:if="${finalViewAllowed}">
                             <a class="btn btn-primary" th:href="@{/finalplace}" th:utext="#{label.client.cypherdetail.finalplacedetail}"
-                               role="button">Detail vyhlášení výsledků</button></a>
+                               role="button">Detail vyhlášení výsledků</a>
                         </div>
                     </th:block>
 
@@ -67,7 +67,7 @@
                         </div>
                         <div th:if="${finalViewAllowed}">
                             <a class="btn btn-primary" th:href="@{/finalplace}"
-                               role="button" th:utext="#{label.client.cypherdetail.finalplacedetail}">Detail vyhlášení výsledků</button></a>
+                               role="button" th:utext="#{label.client.cypherdetail.finalplacedetail}">Detail vyhlášení výsledků</a>
                         </div>
 
                         <div th:if="${cypher.bonusContent != null and cypher.bonusContent != ''}" id="bonus-info">
