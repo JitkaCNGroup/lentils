@@ -3,15 +3,18 @@ package dk.cngroup.lentils.service;
 import dk.cngroup.lentils.config.ConfigProperties;
 import dk.cngroup.lentils.entity.Image;
 import dk.cngroup.lentils.dto.HintFormDTO;
+import dk.cngroup.lentils.exception.FileNotDeletedException;
 import dk.cngroup.lentils.exception.FileNotFoundException;
 import dk.cngroup.lentils.exception.FileNotSavedException;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.ImageRepository;
-import dk.cngroup.lentils.util.FileUtils;
+import dk.cngroup.lentils.util.FileTreatingUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,17 +47,17 @@ public class ImageService {
     }
 
     public String getDirectory() {
-        String newDirectory = FileUtils.getUserDir() + getImageDirectory();
-        FileUtils.createDirectory(newDirectory);
+        String newDirectory = FileTreatingUtils.getUserDir() + getImageDirectory();
+        FileTreatingUtils.createDirectory(newDirectory);
         return newDirectory;
     }
 
     public void saveImageFile(final HintFormDTO formObject, final String path) {
-        if (!FileUtils.isFilePresentInHintForm(formObject)) {
+        if (!FileTreatingUtils.isFilePresentInHintForm(formObject)) {
             return;
         }
         MultipartFile file = formObject.getImage();
-        File dest = new File(FileUtils.getUserDir() + path);
+        File dest = new File(FileTreatingUtils.getUserDir() + path);
         try {
             file.transferTo(dest);
         } catch (IOException e) {
@@ -124,5 +127,15 @@ public class ImageService {
 
     public Image getImageFromMultipartFile(final MultipartFile file) {
         return new Image(getFilePath(file));
+    }
+
+    @Transactional
+    public void deleteImage(final Image image) {
+        try {
+            FileUtils.forceDelete(FileUtils.getFile(FileTreatingUtils.getUserDir() + image.getPath()));
+        } catch (IOException e) {
+            throw new FileNotDeletedException();
+        }
+        imageRepository.delete(image);
     }
 }

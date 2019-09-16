@@ -1,11 +1,14 @@
 package dk.cngroup.lentils.service;
 
+import dk.cngroup.lentils.dto.HintFormDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
+import dk.cngroup.lentils.entity.Image;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.HintRepository;
 import dk.cngroup.lentils.repository.HintTakenRepository;
+import dk.cngroup.lentils.util.FileTreatingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +19,15 @@ import java.util.List;
 public class HintService {
     private final HintRepository hintRepository;
     private final HintTakenRepository hintTakenRepository;
+    private final ImageService imageService;
 
     @Autowired
     public HintService(final HintRepository hintRepository,
-                       final HintTakenRepository hintTakenRepository) {
+                       final HintTakenRepository hintTakenRepository,
+                       final ImageService imageService) {
         this.hintRepository = hintRepository;
         this.hintTakenRepository = hintTakenRepository;
+        this.imageService = imageService;
     }
 
     public Hint save(final Hint hint) {
@@ -41,6 +47,19 @@ public class HintService {
 
     public List<Hint> saveAll(final List<Hint> hints) {
         return hintRepository.saveAll(hints);
+    }
+
+    public void addImageToHintAndSave(final HintFormDTO hintFormDto,
+                                      final Hint hint,
+                                      final Image oldImage) {
+        if (!FileTreatingUtils.isFilePresentInHintForm(hintFormDto)) {
+            hint.setImage(oldImage);
+            save(hint);
+        } else {
+            save(hint);
+            imageService.saveImageFile(hintFormDto, hint.getImage().getPath());
+            imageService.deleteImage(oldImage);
+        }
     }
 
     @Transactional
