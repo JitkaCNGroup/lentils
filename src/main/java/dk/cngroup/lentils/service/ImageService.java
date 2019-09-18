@@ -14,7 +14,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +23,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ImageService {
@@ -129,8 +129,10 @@ public class ImageService {
         return new Image(getFilePath(file));
     }
 
-    @Transactional
     public void deleteImage(final Image image) {
+        if (!Optional.ofNullable(image).isPresent()) {
+            return;
+        }
         try {
             FileUtils.forceDelete(FileUtils.getFile(FileTreatingUtils.getUserDir() + image.getPath()));
         } catch (IOException e) {

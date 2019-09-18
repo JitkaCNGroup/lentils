@@ -51,15 +51,14 @@ public class HintService {
 
     public void addImageToHintAndSave(final HintFormDTO hintFormDto,
                                       final Hint hint,
-                                      final Image oldImage) {
+                                      final Image actualImage) {
         if (!FileTreatingUtils.isFilePresentInHintForm(hintFormDto)) {
-            hint.setImage(oldImage);
-            save(hint);
+            hint.setImage(actualImage);
         } else {
-            save(hint);
             imageService.saveImageFile(hintFormDto, hint.getImage().getPath());
-            imageService.deleteImage(oldImage);
+            imageService.deleteImage(actualImage);
         }
+        save(hint);
     }
 
     @Transactional

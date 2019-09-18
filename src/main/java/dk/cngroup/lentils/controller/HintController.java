@@ -103,9 +103,9 @@ public class HintController {
             model.addAttribute(TEMPLATE_ATTR_FILENAME, FileTreatingUtils.getFileName(hint, hintFormDto));
             return VIEW_ADMIN_HINT_DETAIL;
         }
-        Image oldImage = hint.getImage();
+        Image actualImage = hint.getImage();
         mapper.map(hintFormDto, hint);
-        hintService.addImageToHintAndSave(hintFormDto, hint, oldImage);
+        hintService.addImageToHintAndSave(hintFormDto, hint, actualImage);
         return REDIRECT_ADMIN_HINT_LIST + CYPHERID_PARAMETER + hint.getCypherId();
     }
 
