@@ -17,7 +17,6 @@ import dk.cngroup.lentils.repository.TeamRepository;
 import dk.cngroup.lentils.repository.UserRepository;
 import dk.cngroup.lentils.util.UsernameUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +51,11 @@ public class TeamServiceIntegrationTest {
     private int numOfUsersBeforeTest;
     private int numOfTeamsBeforeTest;
 
-    @Before
-    public void setup() {
-        createVariousTeams();
-        numOfUsersBeforeTest = userRepository.findAll().size();
-        numOfTeamsBeforeTest = teamRepository.findAll().size();
-    }
-
     @Test
     public void addingOneTeamCorrectlyCreatesUser() {
+        numOfUsersBeforeTest = userRepository.findAll().size();
+        numOfTeamsBeforeTest = teamRepository.findAll().size();
+
         createAndSaveTeam("pump", "8888");
 
         Assert.assertEquals(numOfTeamsBeforeTest + 1, teamRepository.count());
@@ -70,6 +65,8 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void addingFourTeamsCorrectlyCreatesUsers() {
+        numOfUsersBeforeTest = userRepository.findAll().size();
+        numOfTeamsBeforeTest = teamRepository.findAll().size();
         createAndSaveTeam("a", "1111");
         createAndSaveTeam("b","2222");
         createAndSaveTeam("c","3333");
@@ -85,6 +82,9 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void searchTeamOneResultTest(){
+        createVariousTeams();
+        numOfUsersBeforeTest = userRepository.findAll().size();
+        numOfTeamsBeforeTest = teamRepository.findAll().size();
         List<Team> teams = teamService.searchTeams("Sparta");
 
         Assert.assertEquals(1, teams.size());
@@ -92,6 +92,9 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void searchTeamMultipleResultsTest() {
+        createVariousTeams();
+        numOfUsersBeforeTest = userRepository.findAll().size();
+        numOfTeamsBeforeTest = teamRepository.findAll().size();
         List<Team> teams = teamService.searchTeams("Sevci");
 
         Assert.assertEquals(2, teams.size());
@@ -99,6 +102,7 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void searchTeamNoResultTest() {
+        createVariousTeams();
         List<Team> teams = teamService.searchTeams("Pribram");
 
         Assert.assertEquals(0, teams.size());
@@ -106,12 +110,14 @@ public class TeamServiceIntegrationTest {
 
     @Test
     public void teamNameIsNotUniqueTest() {
+        createVariousTeams();
         Team team = generator.generateTeamWithNameAndPin("Sparta", "1111");
         Assert.assertFalse(teamService.isUsernameUnique(team));
     }
 
     @Test
     public void teamNameIsUniqueTest() {
+        createVariousTeams();
         Team team = generator.generateTeamWithNameAndPin("Dragons", "2222");
         Assert.assertTrue(teamService.isUsernameUnique(team));
     }

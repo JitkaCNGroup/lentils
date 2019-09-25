@@ -1,0 +1,235 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="crlik (generated)" id="1569477202448-1">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-2">
+        <createSequence sequenceName="seq"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-3">
+        <createTable tableName="contact">
+            <column name="contact_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="contact_pkey"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="fcb_event" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="web_pages" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-4">
+        <createTable tableName="cypher">
+            <column name="cypher_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="cypher_pkey"/>
+            </column>
+            <column name="bonus_content" type="VARCHAR(4000)"/>
+            <column name="codeword" type="VARCHAR(255)"/>
+            <column name="location" type="BYTEA">
+                <constraints nullable="false"/>
+            </column>
+            <column name="map_address" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="place_description" type="VARCHAR(2000)"/>
+            <column name="stage" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trap_codeword" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-5">
+        <createTable tableName="cypher_organizers">
+            <column name="cypher_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-6">
+        <createTable tableName="final_place">
+            <column name="final_place_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="final_place_pkey"/>
+            </column>
+            <column name="access_time" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1000)"/>
+            <column name="finish_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="location" type="BYTEA">
+                <constraints nullable="false"/>
+            </column>
+            <column name="results_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-7">
+        <createTable tableName="hint">
+            <column name="hint_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="hint_pkey"/>
+            </column>
+            <column name="image_url" type="VARCHAR(255)"/>
+            <column name="text" type="VARCHAR(255)"/>
+            <column name="value" type="INTEGER"/>
+            <column name="cypher_id" type="BIGINT"/>
+            <column name="image_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-8">
+        <createTable tableName="hint_taken">
+            <column name="hint_hint_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="hint_taken_pkey"/>
+            </column>
+            <column name="team_team_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="hint_taken_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-9">
+        <createTable tableName="image">
+            <column name="image_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="image_pkey"/>
+            </column>
+            <column name="path" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-10">
+        <createTable tableName="role">
+            <column name="role_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="role_pkey"/>
+            </column>
+            <column name="role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-11">
+        <createTable tableName="status">
+            <column name="cypher_status" type="INTEGER"/>
+            <column name="cypher_cypher_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="status_pkey"/>
+            </column>
+            <column name="team_team_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="status_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-12">
+        <createTable tableName="team">
+            <column name="team_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="team_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="num_of_members" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pin" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-13">
+        <createTable tableName="user_account">
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_account_pkey"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="team_team_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-14">
+        <createTable tableName="user_role">
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_role_pkey"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_role_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-15">
+        <addUniqueConstraint columnNames="name" constraintName="uk_g2l9qqsoeuynt4r5ofdt1x2td" tableName="team"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-16">
+        <addUniqueConstraint columnNames="pin" constraintName="uk_gv6q618c0n8tivxfuf73ycpw" tableName="team"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-17">
+        <addForeignKeyConstraint baseColumnNames="team_team_id" baseTableName="status" constraintName="fk2ijfne9k7n7qg7v7rph4pji97" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="team_id" referencedTableName="team"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-18">
+        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="team" constraintName="fk2toffvxrlo2wifp24slxbb3w9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="user_account"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-19">
+        <addForeignKeyConstraint baseColumnNames="cypher_cypher_id" baseTableName="status" constraintName="fk79xk0g493sp7m80dcn940xjem" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="cypher_id" referencedTableName="cypher"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-20">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role" constraintName="fk7ojmv1m1vrxfl3kvt5bi5ur73" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="user_account"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-21">
+        <addForeignKeyConstraint baseColumnNames="team_team_id" baseTableName="hint_taken" constraintName="fk9ac64sqskbvywsyfep4yas7no" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="team_id" referencedTableName="team"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-22">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role" constraintName="fka68196081fvovjhkek5m97n3y" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="role_id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-23">
+        <addForeignKeyConstraint baseColumnNames="hint_hint_id" baseTableName="hint_taken" constraintName="fkbw7r3u1y0n7jew1htee6kr3f7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="hint_id" referencedTableName="hint"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-24">
+        <addForeignKeyConstraint baseColumnNames="cypher_id" baseTableName="hint" constraintName="fkmd4dp4yfrc7cskoklomxnayer" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="cypher_id" referencedTableName="cypher"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-25">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="cypher_organizers" constraintName="fkn1t125i1i7wberi51mwpqchn7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="user_account"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-26">
+        <addForeignKeyConstraint baseColumnNames="team_team_id" baseTableName="user_account" constraintName="fknlwmuagdv7smrp7lre4ui0vde" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="team_id" referencedTableName="team"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-27">
+        <addForeignKeyConstraint baseColumnNames="image_id" baseTableName="hint" constraintName="fksbq7y9ud45kj06dk1i0wsmtkw" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="image_id" referencedTableName="image"/>
+    </changeSet>
+    <changeSet author="crlik (generated)" id="1569477202448-28">
+        <addForeignKeyConstraint baseColumnNames="cypher_id" baseTableName="cypher_organizers" constraintName="fktonm0x2ewaetqyqcxw3winprr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="cypher_id" referencedTableName="cypher"/>
+    </changeSet>
+    <changeSet id="create roles" author="kostka">
+        <insert tableName="role">
+            <column name="role_id" value="1"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_id" value="2"/>
+            <column name="role" value="ORGANIZER"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_id" value="3"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+    <changeSet id="create user accounts" author="kostka">
+        <insert tableName="user_account">
+            <column name="user_id" value="1"/>
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$10$qs.xj/pIYebwtf2FrchEteOvdQ38qLTuFeOZXm8twXL0uOJFY1kMG"/>
+        </insert>
+        <insert tableName="user_account">
+            <column name="user_id" value="2"/>
+            <column name="username" value="organizer"/>
+            <column name="password" value="$2a$10$7s.PnBW19pd8y7dgYrxDCeSflx4P/QI4Mk3TOuoBHLIEt2qQna9wG"/>
+        </insert>
+    </changeSet>
+    <changeSet id="create user-role mapping" author="kostka">
+        <insert tableName="user_role">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
