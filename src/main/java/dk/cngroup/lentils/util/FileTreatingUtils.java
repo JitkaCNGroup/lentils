@@ -13,9 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-public final class FileUtils {
+public final class FileTreatingUtils {
 
-    private FileUtils() {
+    private FileTreatingUtils() {
         throw new IllegalStateException("Utility class cannot be instantiated");
     }
 
@@ -50,7 +50,7 @@ public final class FileUtils {
     }
 
     public static String getFileNameFromEntity(final Hint hint) {
-        return isFilePresentInHintEntity(hint) ? FileUtils.extractFileName(hint.getImage().getPath()) : "";
+        return isFilePresentInHintEntity(hint) ? FileTreatingUtils.extractFileName(hint.getImage().getPath()) : "";
     }
 
     public static boolean isFilePresentInHintForm(final HintFormDTO formObject) {

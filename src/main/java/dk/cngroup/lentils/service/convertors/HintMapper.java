@@ -4,7 +4,7 @@ import dk.cngroup.lentils.dto.HintFormDTO;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Image;
 import dk.cngroup.lentils.service.ImageService;
-import dk.cngroup.lentils.util.FileUtils;
+import dk.cngroup.lentils.util.FileTreatingUtils;
 import org.modelmapper.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class HintMapper extends ModelMapperWrapper {
                     ? null : imageService.getImageFromMultipartFile(ctx.getSource());
 
     private final Converter<Image, MultipartFile> imageToMultipartFileConverter =
-            ctx -> ctx.getSource() == null ? null : FileUtils.getFile(ctx.getSource().getPath());
+            ctx -> ctx.getSource() == null ? null : FileTreatingUtils.getFile(ctx.getSource().getPath());
 
     @Autowired
     public HintMapper(final ImageService imageService) {
