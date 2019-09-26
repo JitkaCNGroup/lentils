@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create roles" author="kostka">
+        <insert tableName="role">
+            <column name="role_id" value="1"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_id" value="2"/>
+            <column name="role" value="ORGANIZER"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_id" value="3"/>
+            <column name="role" value="USER"/>
+        </insert>
+    </changeSet>
+    <changeSet id="create user accounts" author="kostka">
+    <insert tableName="user_account">
+        <column name="user_id" value="1"/>
+        <column name="username" value="admin"/>
+        <!-- the password value is BCrypted string of the "admin" -->
+        <column name="password" value="$2a$10$qs.xj/pIYebwtf2FrchEteOvdQ38qLTuFeOZXm8twXL0uOJFY1kMG"/>
+    </insert>
+    <insert tableName="user_account">
+        <column name="user_id" value="2"/>
+        <column name="username" value="organizer"/>
+        <!-- the password value is BCrypted string of the "organizer" -->
+        <column name="password" value="$2a$10$7s.PnBW19pd8y7dgYrxDCeSflx4P/QI4Mk3TOuoBHLIEt2qQna9wG"/>
+    </insert>
+    </changeSet>
+    <changeSet id="create user-role mapping" author="kostka">
+    <insert tableName="user_role">
+        <column name="user_id" value="1"/>
+        <column name="role_id" value="1"/>
+    </insert>
+    <insert tableName="user_role">
+        <column name="user_id" value="2"/>
+        <column name="role_id" value="2"/>
+    </insert>
+    </changeSet>
+</databaseChangeLog>
