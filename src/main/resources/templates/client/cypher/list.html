@@ -9,7 +9,7 @@
 
         <div class="row cypher-list">
             <div class="col-sm-12" th:if="${gameStarted}">
-                <h1 th:utext="#{label.client.cypherlist.cyphers}">Šifry</h1>
+                <h1 th:utext="#{label.cyphers}">Šifry</h1>
                 <div th:each="cypherGameInfo : ${cypherGameInfos}" class="cypher">
                     <a th:href="@{/cypher/{cypherId}(cypherId=${cypherGameInfo.cypherId})}">
                         <div class="row align-items-center" th:classappend="${cypherGameInfo.getStatus() == 2} ? 'pending' : null">
