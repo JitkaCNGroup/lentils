@@ -23,7 +23,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class ImageService {
@@ -130,7 +129,7 @@ public class ImageService {
     }
 
     public void deleteImage(final Image image) {
-        if (!Optional.ofNullable(image).isPresent()) {
+        if (image == null) {
             return;
         }
         try {

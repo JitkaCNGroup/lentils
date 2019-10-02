@@ -71,7 +71,9 @@
                 <td th:text="${hint.text}">text</td>
                 <td th:text="${hint.value}">value</td>
                 <td>
-                    <div th:unless="${hint.imageUrl} == ''">&#10004;</div>
+                    <div th:if="${hint.imageUrl} != '' and ${hint.image} != null">&#10004;&#10004;</div>
+                    <div th:if="${hint.imageUrl} == '' and ${hint.image} != null">&nbsp;&nbsp;&nbsp;&nbsp;&#10004;</div>
+                    <div th:if="${hint.imageUrl} != '' and ${hint.image} == null">&#10004;</div>
                 </td>
                 <td>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
