@@ -61,7 +61,8 @@
                 <th scope="col">Id</th>
                 <th scope="col">Text</th>
                 <th scope="col">Hodnota</th>
-                <th scope="col">Obrázek</th>
+                <th scope="col">Obrázek url</th>
+                <th scope="col">Obrázek soubor</th>
                 <th scope="col">Akce</th>
             </tr>
             </thead>
@@ -72,6 +73,9 @@
                 <td th:text="${hint.value}">value</td>
                 <td>
                     <div th:unless="${hint.imageUrl} == ''">&#10004;</div>
+                </td>
+                <td>
+                    <div th:unless="${hint.image} == ''">&#10004;</div>
                 </td>
                 <td>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
