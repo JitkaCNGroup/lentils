@@ -4,7 +4,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="db/changesets/createDatabase-changeset-2019.xml"/>
-    <include file="db/changesets/createAdminOrganizerUsers-changeset-2019.xml"/>
-<!--    <include file="db/changesets/deleteImageURLColumn-changeset-10-10-2019.xml"/>-->
+    <changeSet author="kostka" id="delete image url 10-10-2019">
+        <dropColumn
+                tableName="hint"
+                columnName="image_url"
+        />
+    </changeSet>
 </databaseChangeLog>
