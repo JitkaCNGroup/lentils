@@ -1,6 +1,5 @@
 package dk.cngroup.lentils.logger;
 
-import dk.cngroup.lentils.dto.CodewordFormDTO;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.logger.change.StatusChange;
 import dk.cngroup.lentils.security.CustomUserDetails;
@@ -19,11 +18,11 @@ public final class MessageFactory {
         throw new IllegalStateException("Static factory cannot be instantiated");
     }
 
-    public static Message<CodewordFormDTO> createVerifyCodeword(final CustomUserDetails user,
-                                                         final CodewordFormDTO codewordFormDto,
-                                                         final int points,
-                                                         final int score) {
-        return createTeamMessage(VERIFY_CODEWORD, user.getTeam(), codewordFormDto, points, score);
+    public static Message<String> createVerifyCodeword(final CustomUserDetails user,
+                                                       final String verifyCodewordDetail,
+                                                       final int points,
+                                                       final int score) {
+        return createTeamMessage(VERIFY_CODEWORD, user.getTeam(), verifyCodewordDetail, points, score);
     }
 
     public static Message<Long> createTakeHint(final CustomUserDetails user,
@@ -48,16 +47,16 @@ public final class MessageFactory {
     }
 
     public static <T> Message<T> createTakeHint(final Team team,
-                                                         final T hintChange,
-                                                         final int points,
-                                                         final int score) {
+                                                final T hintChange,
+                                                final int points,
+                                                final int score) {
         return createOrganizerMessage(TAKE_HINT, team, hintChange, points, score);
     }
 
     public static <T> Message<T> createRevertHint(final Team team,
-                                                final T hintChange,
-                                                final int points,
-                                                final int score) {
+                                                  final T hintChange,
+                                                  final int points,
+                                                  final int score) {
         return createOrganizerMessage(REVERT_HINT, team, hintChange, points, score);
     }
 

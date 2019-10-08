@@ -122,7 +122,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testCheckCorrectCodeword() {
         setThatGameHasNotEnded();
-        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD);
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
 
@@ -134,7 +134,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testIncorrectCodeword() {
         setThatGameHasNotEnded();
-        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD + "_wrong");
+        final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD + "_wrong");
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
 
@@ -146,7 +146,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testFalseCodeword() {
         setThatGameHasNotEnded();
-        final CodewordFormDTO codewordFormDto = createCodewordFormObject(FALSE_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormDTO(FALSE_CODEWORD);
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
 
@@ -158,7 +158,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
 
     @Test
     public void testCheckCodewordAfterGameHasEnded() {
-        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD);
         setThatGameHasAlreadyEnded();
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
@@ -174,7 +174,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     public void testCheckCodewordForNonPendingStatus() {
         setThatGameHasNotEnded();
         setCypherStatusForTeam(getFixtureCypher(), CypherStatus.SKIPPED, getFixtureTeam());
-        final CodewordFormDTO codewordFormDto = createCodewordFormObject(CORRECT_CODEWORD);
+        final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD);
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
 
@@ -193,7 +193,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
                 mock(Model.class));
     }
 
-    private CodewordFormDTO createCodewordFormObject(final String guess) {
+    private CodewordFormDTO createCodewordFormDTO(final String guess) {
         final CodewordFormDTO codewordFormDto = new CodewordFormDTO();
         codewordFormDto.setGuess(guess);
 
@@ -201,7 +201,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     }
 
     private String executeSkipCypher() {
-        return cypherController.skipCypher(getFixtureCypher(), getUserDetailsMock());
+        return cypherController.skipCypher(getFixtureCypher().getCypherId(), getUserDetailsMock());
     }
 
     private void verifyCypherDetailWithAccessibleCypherStatus(final CypherStatus value) {
