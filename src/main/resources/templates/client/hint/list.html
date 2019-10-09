@@ -55,11 +55,11 @@
                             </th:block>
                             <th:block th:if="${hint.value le 4 and hint.value gt 1}">
                                 <button type="submit" class="btn btn-primary"
-                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' +  #{label.client.hintlist.pointmid} + ')'"></button>
+                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' +  #{label.client.hintlist.pointsmid} + ')'"></button>
                             </th:block>
                             <th:block th:if="${hint.value gt 4}">
                                 <button type="submit" class="btn btn-primary"
-                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' +  #{label.client.hintlist.pointhigh} + ')'"></button>
+                                        th:text="#{label.client.hintlist.takehint} + ' (-' + ${hint.value} + ' ' +  #{label.client.hintlist.pointshigh} + ')'"></button>
                             </th:block>
                         </form>
                     </a>
