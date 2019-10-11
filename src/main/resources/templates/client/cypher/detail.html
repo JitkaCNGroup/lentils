@@ -22,7 +22,7 @@
 
                     <th:block th:case="'PENDING'">
                         <h2 th:utext="#{label.client.cypherdetail.solution}">Řešení</h2>
-                        <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codeword}" method="post">
+                        <form th:action="|/cypher/verify/${cypher.cypherId}|" th:object="${codewordDTO}" method="post">
                             <div class="form-group">
                                 <!--<label for="guess">Řešení</label>-->
                                 <input id="guess" type="text" th:field="*{guess}" class="form-control" required />
@@ -114,9 +114,7 @@
         <th:block th:if="${status == 'PENDING'}">
             <div class="row last">
                 <div class="col-sm-12">
-                    <form onsubmit="return confirm(#{label.client.cypherdetail.giveupconfirm})" action="/cypher/giveUp" th:object="${cypher}" method="post">
-                        <input type="hidden"  th:field="*{cypherId}" />
-                        <input type="hidden"  th:field="*{stage}" />
+                    <form onsubmit="return confirm(#{label.client.cypherdetail.giveupconfirm})" th:action="|/cypher/giveUp/${cypher.cypherId}|" method="post">
                         <button class="btn btn-secondary btn-skip" type="submit" onclick="" th:utext="#{label.client.cypherdetail.giveup}">Vzdát šifru</button>
                     </form>
                 </div>

@@ -36,7 +36,7 @@ public class CypherController {
     private static final String VIEW_CLIENT_CYPHER_DETAIL = "client/cypher/detail";
     private static final String REDIRECT_CLIENT_CYPHER = "redirect:/cypher/";
     private static final String REDIRECT_CLIENT_CYPHER_TRAP = "redirect:/cypher/trap/";
-    private static final String FORM_OBJECT_NAME = "codeword";
+    private static final String CODEWORD_DTO_NAME = "codewordDTO";
     private static final String GUESS_FIELD_NAME = "guess";
 
     private static final String TEMPLATE_ATTR_CYPHER = "cypher";
@@ -115,15 +115,16 @@ public class CypherController {
 
     @PostMapping(value = "cypher/verify/{id}")
     public String verifyCodeword(@PathVariable("id") final Long id,
-                                 @Valid @ModelAttribute(FORM_OBJECT_NAME) final CodewordFormDTO codewordFormDto,
+                                 @Valid @ModelAttribute(CODEWORD_DTO_NAME) final CodewordFormDTO codewordFormDto,
                                  @AuthenticationPrincipal final CustomUserDetails user,
                                  final BindingResult result,
                                  final Model model) {
         Cypher cypher = cypherService.getCypher(id);
+
         CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
 
         if (!gameLogicService.isGameInProgress()) {
-            FieldError error = new FieldError(FORM_OBJECT_NAME,
+            FieldError error = new FieldError(CODEWORD_DTO_NAME,
                     GUESS_FIELD_NAME,
                     messageSource.getMessage("label.error.gameended", null, LocaleContextHolder.getLocale()));
             result.addError(error);
@@ -146,7 +147,7 @@ public class CypherController {
         }
 
         FieldError error = new FieldError(
-                FORM_OBJECT_NAME,
+                CODEWORD_DTO_NAME,
                 GUESS_FIELD_NAME,
                 messageSource.getMessage("label.error.badsolution", null, LocaleContextHolder.getLocale()));
         result.addError(error);
@@ -155,8 +156,11 @@ public class CypherController {
         return VIEW_CLIENT_CYPHER_DETAIL;
     }
 
-    @PostMapping(value = "cypher/giveUp")
-    public String skipCypher(final Cypher cypher, @AuthenticationPrincipal final CustomUserDetails user) {
+    @PostMapping(value = "cypher/giveUp/{id}")
+    public String skipCypher(@PathVariable("id") final Long id, @AuthenticationPrincipal final CustomUserDetails user) {
+
+        Cypher cypher = cypherService.getCypher(id);
+
         if (!gameLogicService.isGameInProgress()) {
             return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "?gameEnded=true";
         }
@@ -169,18 +173,20 @@ public class CypherController {
         statusService.markCypher(cypher, user.getTeam(), CypherStatus.SKIPPED);
         return REDIRECT_CLIENT_CYPHER + cypher.getCypherId();
     }
+
     private void setDetailModelAttributes(
             final Model model,
             final CustomUserDetails user,
             final Cypher cypher,
             final CypherStatus status,
             final CodewordFormDTO codewordFormDto) {
+
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
         model.addAttribute(TEMPLATE_ATTR_STATUS, status.name());
         model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_NEXT_CYPHER, cypherService.getNext(cypher.getStage()));
-        model.addAttribute(FORM_OBJECT_NAME, codewordFormDto);
+        model.addAttribute(CODEWORD_DTO_NAME, codewordFormDto);
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
         model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED,
                 gameLogicService.allowPlayersToViewFinalPlace(user.getTeam()));

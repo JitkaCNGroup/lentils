@@ -79,7 +79,9 @@ public class Logger {
         int points = getVerifyCodewordPoints(result);
         int score = scoreService.getScoreByTeam(user.getTeam());
 
-        Message<CodewordFormDTO> message = MessageFactory.createVerifyCodeword(user, codewordFormDto, points, score);
+        String verifyCodewordDetail = "cypherId: " + cypherId.toString() + ", " + codewordFormDto.toString();
+
+        Message<String> message = MessageFactory.createVerifyCodeword(user, verifyCodewordDetail, points, score);
         printer.println(message);
 
         return result;
@@ -87,8 +89,7 @@ public class Logger {
 
     @After("execution(* dk.cngroup.lentils.controller.client.HintController.getHint(..))" +
             "&& args(hintId,user,..)")
-    public void getHint(final Long hintId,
-                        final CustomUserDetails user) {
+    public void getHint(final Long hintId, final CustomUserDetails user) {
 
         Hint hint = hintService.getHint(hintId);
         int points = -hint.getValue();
@@ -99,13 +100,11 @@ public class Logger {
     }
 
     @After("execution(* dk.cngroup.lentils.controller.client.CypherController.skipCypher(..))" +
-            "&& args(cypher,user)")
-    public void skipCypher(final Cypher cypher,
-                           final CustomUserDetails user) {
+            "&& args(cypherId,user)")
+    public void skipCypher(final Long cypherId, final CustomUserDetails user) {
         int score = scoreService.getScoreByTeam(user.getTeam());
 
-        Message<Long> message = MessageFactory.createSkipCypher(user, cypher.getCypherId(), SKIPPED.getStatusValue(),
-                score);
+        Message<Long> message = MessageFactory.createSkipCypher(user, cypherId, SKIPPED.getStatusValue(), score);
         printer.println(message);
     }
 
