@@ -1,5 +1,6 @@
 package dk.cngroup.lentils.controller.client;
 
+import dk.cngroup.lentils.dto.TakeHintDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller("clientHintController")
 @RequestMapping("/")
@@ -33,6 +35,7 @@ public class HintController {
     private static final String TEMPLATE_ATTR_HINTS_TAKEN = "hintsTaken";
     private static final String TEMPLATE_ATTR_SCORE = "score";
     private static final String TEMPLATE_ATTR_TEAM = "team";
+    private static final String TEMPLATE_TAKE_HINT_DTO = "takeHintDTO";
 
     private final CypherService cypherService;
     private final HintService hintService;
@@ -62,35 +65,46 @@ public class HintController {
                              final Model model) {
         Cypher cypher = cypherService.getCypher(id);
         CypherStatus status = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+
         if (status.equals(CypherStatus.LOCKED)) {
             throw new ResourceNotFoundException("locked cypher", id);
         }
 
-        model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
-        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
-        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute(TEMPLATE_ATTR_HINTS_NOT_TAKEN,
-                hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
-        model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
+        setModelAttributes(user, model, cypher);
         return VIEW_CLIENT_HINT_LIST;
     }
 
     @PostMapping(value = "cypher/takeHint/{hintId}")
     public String getHint(@PathVariable("hintId") final Long id,
                           @AuthenticationPrincipal final CustomUserDetails user,
-                          final Cypher cypher) {
+                          @ModelAttribute(TEMPLATE_TAKE_HINT_DTO) final TakeHintDTO takeHintDTO) {
+
         if (!gameLogicService.isGameInProgress()) {
-            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "/hint?gameEnded=true";
+            return REDIRECT_CLIENT_CYPHER + takeHintDTO.getCypherId() + "/hint?gameEnded=true";
         }
 
+        Cypher cypher = cypherService.getCypher(takeHintDTO.getCypherId());
         CypherStatus cypherStatus = statusService.getCypherStatusByTeamAndCypher(user.getTeam(), cypher);
+
         if (cypherStatus != (CypherStatus.PENDING)) {
-            return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "/hint?wrongStatus=true";
+            return REDIRECT_CLIENT_CYPHER + takeHintDTO.getCypherId() + "/hint?wrongStatus=true";
         }
 
         Team team = user.getTeam();
         Hint hint = hintService.getHint(id);
         hintTakenService.takeHint(team, hint);
-        return REDIRECT_CLIENT_CYPHER + cypher.getCypherId() + "/hint";
+        return REDIRECT_CLIENT_CYPHER + takeHintDTO.getCypherId() + "/hint";
+    }
+
+    private void setModelAttributes(final CustomUserDetails user, final Model model, final Cypher cypher) {
+        TakeHintDTO takeHintDTO = new TakeHintDTO();
+        takeHintDTO.setCypherId(cypher.getCypherId());
+        model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
+        model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
+        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_HINTS_NOT_TAKEN,
+                hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
+        model.addAttribute(TEMPLATE_TAKE_HINT_DTO, takeHintDTO);
     }
 }
