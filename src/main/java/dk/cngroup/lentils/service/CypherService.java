@@ -94,8 +94,7 @@ public class CypherService {
 
     @Transactional
     public void deleteById(final Long id) {
-        getCypher(id).getHints().stream()
-                .forEach(hint -> hintService.deleteById(hint.getHintId()));
+        getCypher(id).getHints().forEach(hint -> hintService.deleteById(hint.getHintId()));
         statusService.deleteAllByCypherId(id);
         cypherRepository.deleteById(id);
     }
