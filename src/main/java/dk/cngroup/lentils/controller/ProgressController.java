@@ -122,7 +122,7 @@ public class ProgressController {
                                 final @RequestParam(
                                         value = "viewOtherTeams",
                                         required = false,
-                                        defaultValue = "false") Boolean viewOtherTeams,
+                                        defaultValue = "false") boolean viewOtherTeams,
                                 final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
 
