@@ -46,7 +46,7 @@
 
                 <div th:each="hint : ${hintsNotTaken}">
                     <a onclick="return confirm(#{label.client.hintlist.takehintconfirmation})">
-                        <form th:action="@{'/cypher/takeHint/' + ${hint.hintId}}" th:object="${cypher}" method="post">
+                        <form th:action="@{'/cypher/takeHint/' + ${hint.hintId}}" th:object="${takeHintDTO}" method="post">
                             <input type="hidden"  th:field="*{cypherId}" />
 
                             <th:block th:if="${hint.value == 1}">

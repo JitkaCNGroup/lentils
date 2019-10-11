@@ -2,6 +2,7 @@ package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.LentilsApplication;
 import dk.cngroup.lentils.config.DataConfig;
+import dk.cngroup.lentils.dto.TakeHintDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
@@ -78,7 +79,9 @@ public class HintControllerIntegrationTest extends AbstractClientControllerTest 
     }
 
     private String executeGetHint() {
-        return hintController.getHint(hint.getHintId(), getUserDetailsMock(), getFixtureCypher());
+        TakeHintDTO takeHintDTO = new TakeHintDTO();
+        takeHintDTO.setCypherId(getFixtureCypher().getCypherId());
+        return hintController.getHint(hint.getHintId(), getUserDetailsMock(), takeHintDTO);
     }
 
     private Hint createTestHintForCypher(final Cypher cypher) {

@@ -25,11 +25,13 @@ public final class MessageFactory {
         return createTeamMessage(VERIFY_CODEWORD, user.getTeam(), verifyCodewordDetail, points, score);
     }
 
-    public static Message<Long> createTakeHint(final CustomUserDetails user,
+    public static Message<String> createTakeHint(final CustomUserDetails user,
                                                final Long hintId,
+                                               final Long cypherId,
                                                final int points,
                                                final int score) {
-        return createTeamMessage(TAKE_HINT, user.getTeam(), hintId, points, score);
+        String takeHintDetail = "cypherId: " + cypherId.toString() + ", hintId: " + hintId.toString();
+        return createTeamMessage(TAKE_HINT, user.getTeam(), takeHintDetail, points, score);
     }
 
     public static Message<Long> createSkipCypher(final CustomUserDetails user,

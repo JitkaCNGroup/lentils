@@ -1,6 +1,7 @@
 package dk.cngroup.lentils.logger;
 
 import dk.cngroup.lentils.dto.CodewordFormDTO;
+import dk.cngroup.lentils.dto.TakeHintDTO;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Hint;
@@ -88,14 +89,14 @@ public class Logger {
     }
 
     @After("execution(* dk.cngroup.lentils.controller.client.HintController.getHint(..))" +
-            "&& args(hintId,user,..)")
-    public void getHint(final Long hintId, final CustomUserDetails user) {
+            "&& args(hintId,user,takeHintDTO,..)")
+    public void getHint(final Long hintId, final CustomUserDetails user, final TakeHintDTO takeHintDTO) {
 
         Hint hint = hintService.getHint(hintId);
         int points = -hint.getValue();
         int score = scoreService.getScoreByTeam(user.getTeam());
 
-        Message<Long> message = MessageFactory.createTakeHint(user, hintId, points, score);
+        Message<String> message = MessageFactory.createTakeHint(user, hintId, takeHintDTO.getCypherId(), points, score);
         printer.println(message);
     }
 
