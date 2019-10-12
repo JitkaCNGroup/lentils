@@ -28,8 +28,7 @@ public final class FileTreatingUtils {
         } catch (IOException e) {
             throw new FileNotFoundException();
         }
-        MultipartFile result = new CommonsMultipartFile(fileItem);
-        return result;
+        return new CommonsMultipartFile(fileItem);
     }
 
     public static DiskFileItem getFileItem(final String stringPath) {

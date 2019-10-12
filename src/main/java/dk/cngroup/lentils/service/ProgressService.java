@@ -120,7 +120,7 @@ public class ProgressService {
             final String searchName,
             final Cypher cypher,
             final CypherStatus cypherStatus,
-            final Boolean withCypherStatus) {
+            final boolean withCypherStatus) {
 
         List<Status> statuses = statusService
                 .getStatusesOfSearchedTeamsAtCypherWithStatus(searchName, cypher, cypherStatus, withCypherStatus);

@@ -79,7 +79,7 @@ public class StatusService {
         statusRepository.save(status);
     }
 
-    public Boolean isStatusInDbByCypherAndTeam(final Cypher cypher, final Team team) {
+    public boolean isStatusInDbByCypherAndTeam(final Cypher cypher, final Team team) {
         return statusRepository.existsStatusByCypherAndTeam(cypher, team);
     }
 
@@ -123,7 +123,7 @@ public class StatusService {
     public List<Status> getStatusesOfSearchedTeamsAtCypherWithStatus(final String searchName,
                                                                      final Cypher cypher,
                                                                      final CypherStatus cypherStatus,
-                                                                     final Boolean withCypherStatus) {
+                                                                     final boolean withCypherStatus) {
 
         Specification<Status> hasTeamNameSpec = StatusRepositorySpec.hasTeamName(searchName);
         Specification<Status> hasCypherSpec = StatusRepositorySpec.hasCypher(cypher);
