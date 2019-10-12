@@ -134,6 +134,6 @@ public class ObjectGenerator {
     }
 
     public Contact generateContact() {
-        return new Contact("Veru", "123 456 789", "www.cngroup.dk", "http://xxx", "mail@mail.com");
+        return new Contact("Veru", "123 456 789", "mail@mail.com");
     }
 }

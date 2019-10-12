@@ -21,8 +21,7 @@
                 </li>
             </ul>
             <h2 th:utext="#{label.contact.links}">Odkazy</h2>
-            <a th:href="${contact.webAddress}" role="button" class="btn btn-flat btn-cn" >CN Group</a>
-            <a th:href="${contact.facebookEvent}" role="button" class="btn btn-flat btn-cn">Facebook</a>
+            <a th:each="link: ${links}" th:href="${link.url}" role="button" class="btn btn-flat btn-cn" th:text="${link.title}">CN Group</a>
         </div>
     </div>
 </div>

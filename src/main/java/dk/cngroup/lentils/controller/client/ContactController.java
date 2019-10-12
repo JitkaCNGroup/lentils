@@ -2,6 +2,7 @@ package dk.cngroup.lentils.controller.client;
 
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.security.CustomUserDetails;
+import dk.cngroup.lentils.service.ContactLinkService;
 import dk.cngroup.lentils.service.ContactService;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.ScoreService;
@@ -25,16 +26,19 @@ public class ContactController {
     private final ScoreService scoreService;
     private final CypherService cypherService;
     private final StatusService statusService;
+    private final ContactLinkService contactLinkService;
 
     @Autowired
     public ContactController(final ContactService contactService,
                              final ScoreService scoreService,
                              final CypherService cypherService,
-                             final StatusService statusService) {
+                             final StatusService statusService,
+                             final ContactLinkService contactLinkService) {
         this.contactService = contactService;
         this.scoreService = scoreService;
         this.cypherService = cypherService;
         this.statusService = statusService;
+        this.contactLinkService = contactLinkService;
     }
 
     @GetMapping
@@ -46,6 +50,7 @@ public class ContactController {
             model.addAttribute("score", scoreService.getScoreByTeam(user.getTeam()));
         }
         model.addAttribute("contact", contactService.getContact());
+        model.addAttribute("links", contactLinkService.getLinks());
         model.addAttribute("team", user.getTeam());
 
         return VIEW_CLIENT_CONTACT;

@@ -30,8 +30,6 @@ public class ContactFormDTOTest {
         assertEquals(entity.getName(), dto.getName());
         assertEquals(entity.getEmail(), dto.getEmail());
         assertEquals(entity.getPhoneNumber(), dto.getPhoneNumber());
-        assertEquals(entity.getWebAddress(), dto.getWebAddress());
-        assertEquals(entity.getFacebookEvent(), dto.getFacebookEvent());
     }
 
     @Test
@@ -41,15 +39,11 @@ public class ContactFormDTOTest {
         dto.setName("Random test name");
         dto.setEmail("Random test email");
         dto.setPhoneNumber("Random test phone");
-        dto.setWebAddress("Random test web");
-        dto.setFacebookEvent("Random test facebook event");
 
         mapper.map(dto, entity);
 
         assertEquals(dto.getName(), entity.getName());
         assertEquals(dto.getEmail(), entity.getEmail());
         assertEquals(dto.getPhoneNumber(), entity.getPhoneNumber());
-        assertEquals(dto.getWebAddress(), entity.getWebAddress());
-        assertEquals(dto.getFacebookEvent(), entity.getFacebookEvent());
     }
 }

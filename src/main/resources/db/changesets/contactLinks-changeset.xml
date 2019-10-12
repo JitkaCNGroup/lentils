@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="crlik" id="3698764683548-1">
+        <createTable tableName="contact_link">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="contact_link_pkey"/>
+            </column>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="url" type="VARCHAR(2048)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="crlik" id="9876111354132-0">
+        <insert tableName="contact_link">
+            <column name="id" value="1"/>
+            <column name="title" value="CN Group"/>
+            <column name="url" value="https://cngroup.dk"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="crlik" id="20191013-dropcontactlinkscolumns">
+        <dropColumn tableName="contact" columnName="fcb_event" />
+        <dropColumn tableName="contact" columnName="web_pages" />
+    </changeSet>
+</databaseChangeLog>
