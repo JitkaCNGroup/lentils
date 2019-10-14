@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head('Organizátoři')">
+<head th:replace="fragments/head :: head(#{admin.organizers.page-title})">
 </head>
 <body>
 <div th:insert="fragments/header :: header(organizermanagement)"></div>
 <div class="container">
-    <h2>Organizátoři</h2>
+    <h2 th:utext="#{admin.organizers.list.header}">Organizátoři</h2>
     <div class="table-responsive">
         <table class="table">
             <thead class="thead-light">
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Jméno</th>
-                <th scope="col">Přiřazené šifry</th>
-                <th scope="col">Akce</th>
+                <th scope="col" th:utext="#{label.id}">Id</th>
+                <th scope="col" th:utext="#{admin.organizers.common.name}">Jméno</th>
+                <th scope="col" th:utext="#{admin.organizers.common.assigned-cyphers}">Přiřazené šifry</th>
+                <th scope="col" th:utext="#{label.actions}">Akce</th>
             </tr>
             <tr th:if="${organizers.empty}">
-                <td colspan="9"><p> V systému nejsou organizátoři</p></td>
+                <td colspan="9"><p th:utext="#{admin.organizers.list.msg-empty}">V systému nejsou organizátoři</p></td>
             </tr>
             </thead>
             <tbody>
@@ -30,19 +30,20 @@
                     </th:block>
                 </td>
                 <td>
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span th:utext="#{label.actions}">Akce</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" th:href="@{/admin/organizermanagement/update/{userId}(userId=${organizerFormDto.userId})}" class="btn">Upravit</a></li>
-                        <li><a href="#" th:href="@{/admin/organizermanagement/delete/{userId}(userId=${organizerFormDto.userId})}" class="btn">Smazat</a></li>
+                        <li><a href="#" th:href="@{/admin/organizermanagement/update/{userId}(userId=${organizerFormDto.userId})}" class="btn" th:utext="#{label.edit}">Upravit</a></li>
+                        <li><a href="#" th:href="@{/admin/organizermanagement/delete/{userId}(userId=${organizerFormDto.userId})}" class="btn" th:utext="#{label.delete}">Smazat</a></li>
                     </ul>
                 </td>
             </tr>
 
             <tr>
                 <td colspan="9">
-                    <a href="#" class="btn btn-primary" th:href="@{/admin/organizermanagement/add}">Přidat</a>
+                    <a href="#" class="btn btn-primary" th:href="@{/admin/organizermanagement/add}" th:utext="#{label.new}">Přidat</a>
                 </td>
             </tr>
             </tbody>
