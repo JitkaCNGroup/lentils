@@ -41,6 +41,18 @@ public class GameLogicService {
         return (passedTimeToViewFinalPlace() || passedAllCyphers(team));
     }
 
+    public boolean isGameAlreadyActivatedForTeam(final Team team) {
+        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
+        return !cyphers.isEmpty() &&
+                statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), team) &&
+                isFinalPlaceFinishTimePresent();
+    }
+
+    public boolean isAllowedToStartGame() {
+        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
+        return !cyphers.isEmpty() && isFinalPlaceFinishTimePresent();
+    }
+
     public boolean passedAllCyphers(final Team team) {
         List<Status> statusesOfTeam = statusService.getAllByTeam(team);
         return (!existsStatusForTeam(team, CypherStatus.PENDING) &&
@@ -74,6 +86,10 @@ public class GameLogicService {
 
     public void initializeGameForAllTeams() {
         teamService.getAll().forEach(this::initializeGameForTeam);
+    }
+
+    public boolean isFinalPlaceFinishTimePresent() {
+        return finalPlaceService.getFinalPlace().getFinishTime() != null;
     }
 
     private boolean existsStatusForTeam(final Team team, final CypherStatus cypherStatus) {
