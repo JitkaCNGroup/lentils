@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head('Nápověda')">
+    <title></title>
 </head>
 <body>
     <div th:insert="client/fragments/header :: header(cypher, '/cypher/' + ${cypher.cypherId})"></div>
@@ -45,7 +46,7 @@
                 </th:block>
 
                 <div th:each="hint : ${hintsNotTaken}">
-                    <a onclick="return confirm(#{label.client.hintlist.takehintconfirmation})">
+                    <a th:attr="onclick='return confirm(\'' + #{label.client.hintlist.takehintconfirmation} + '\');'">
                         <form th:action="@{'/cypher/takeHint/' + ${hint.hintId}}" th:object="${takeHintDTO}" method="post">
                             <input type="hidden"  th:field="*{cypherId}" />
 
