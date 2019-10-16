@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head('Místo vyhlášení')">
+<head th:replace="fragments/head :: head(#{admin.finalplace.page-title})">
 </head>
 <body>
 <div th:insert="fragments/header :: header(finalplace)"></div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h2>Místo vyhlášení</h2>
+            <h2 th:utext="#{admin.finalplace.page-title}">Místo vyhlášení</h2>
             <p>
-                Čas na serveru: <span th:text="${serverTime}">N/A</span>
+                <span th:utext="#{admin.finalplace.form.server-time}">Čas na serveru</span>: <span th:text="${serverTime}">N/A</span>
             </p>
         </div>
     </div>
@@ -17,32 +17,32 @@
         <div class="col-sm-6">
             <form action="#" th:action="@{/admin/finalplace/update}" th:object="${finalPlace}" method="post">
                 <div class="form-group">
-                    <label for="description" class="input-value-required">Jméno a popis</label>
+                    <label for="description" class="input-value-required" th:utext="#{admin.finalplace.form.description}">Jméno a popis</label>
                     <textarea id="description" class="form-control" th:field="*{description}" required></textarea>
                     <p class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="location" class="input-value-required">Souřadnice</label>
+                    <label for="location" class="input-value-required" th:utext="#{admin.finalplace.form.coordinates}">Souřadnice</label>
                     <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
-                    <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
+                    <small id="locationHelp" class="form-text text-muted" th:utext="#{admin.finalplace.form.coordinates-hint}">Kliknutím do mapy nastavíte souřadnice.</small>
                     <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="finishTime" class="input-value-required">Čas ukončení</label>
+                    <label for="finishTime" class="input-value-required" th:utext="#{admin.finalplace.form.finish-time}">Čas ukončení</label>
                     <input id="finishTime" class="form-control" type="datetime-local" placeholder="yyyy-MM-ddTHH:mm" th:field="*{finishTime}" required/>
                     <p class="error" th:if="${#fields.hasErrors('finishTime')}" th:errors="*{finishTime}">Finish time error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="resultsTime" class="input-value-required">Čas vyhlášení</label>
+                    <label for="resultsTime" class="input-value-required" th:utext="#{admin.finalplace.form.announcement-time}">Čas vyhlášení</label>
                     <input id="resultsTime" class="form-control" type="datetime-local" placeholder="yyyy-MM-ddTHH:mm" th:field="*{resultsTime}" required/>
                     <p class="error" th:if="${#fields.hasErrors('resultsTime')}" th:errors="*{resultsTime}">Results time error.</p>
                 </div>
                 <div class="form-group">
-                    <label for="accessTime" class="input-value-required">Zpřístupnění místa vyhlášení před časem ukončení (minuty)</label>
+                    <label for="accessTime" class="input-value-required" th:utext="#{admin.finalplace.form.access-time}">Zpřístupnění místa vyhlášení před časem ukončení (minuty)</label>
                     <input id="accessTime" class="form-control" type="number" th:field="*{accessTime}" required/>
                     <p class="error" th:if="${#fields.hasErrors('accessTime')}" th:errors="*{accessTime}">access time error.</p>
                 </div>
-                <button type="submit" class="btn btn-primary">Uložit</button>
+                <button type="submit" class="btn btn-primary" th:utext="#{label.save}">Uložit</button>
             </form>
         </div>
         <div class="col-sm-6">
