@@ -6,6 +6,7 @@ import dk.cngroup.lentils.dto.CodewordFormDTO;
 import dk.cngroup.lentils.entity.CypherStatus;
 import dk.cngroup.lentils.entity.Status;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
+import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.ObjectGenerator;
 import dk.cngroup.lentils.utils.AssertionUtils;
 import org.junit.Before;
@@ -24,6 +25,7 @@ import org.springframework.validation.FieldError;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -44,7 +46,6 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Before
     public void setup() {
         setupSharedFixture();
-        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
         result = mock(BindingResult.class);
     }
 
@@ -86,6 +87,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testSkipCypherCorrectly() {
         setThatGameHasNotEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
 
         final String returnValue = executeSkipCypher();
 
@@ -110,6 +112,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testSkipCypherAfterGameHasEnded() {
         setThatGameHasAlreadyEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
 
         String returnValue = executeSkipCypher();
 
@@ -122,6 +125,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testCheckCorrectCodeword() {
         setThatGameHasNotEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
         final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD);
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
@@ -134,6 +138,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testIncorrectCodeword() {
         setThatGameHasNotEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
         final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD + "_wrong");
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
@@ -146,6 +151,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     @Test
     public void testFalseCodeword() {
         setThatGameHasNotEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
         final CodewordFormDTO codewordFormDto = createCodewordFormDTO(FALSE_CODEWORD);
 
         final String returnValue = executeVerifyCodeword(codewordFormDto);
@@ -160,6 +166,7 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
     public void testCheckCodewordAfterGameHasEnded() {
         final CodewordFormDTO codewordFormDto = createCodewordFormDTO(CORRECT_CODEWORD);
         setThatGameHasAlreadyEnded();
+        setCypherStatusForTeam(getFixtureCypher(), CypherStatus.PENDING, getFixtureTeam());
         ArgumentCaptor<FieldError> argument = ArgumentCaptor.forClass(FieldError.class);
 
         String returnValue = executeVerifyCodeword(codewordFormDto);
@@ -182,6 +189,32 @@ public class CypherControllerIntegrationTest extends AbstractClientControllerTes
         final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
         assertNotEquals(CypherStatus.SOLVED, status.getCypherStatus());
         assertEquals(CypherStatus.SKIPPED, status.getCypherStatus());
+    }
+
+    @Test
+    public void testTeamStartsGameSuccessfully() {
+        setThatGameHasNotEnded();
+        CustomUserDetails userDetails = getUserDetailsMock();
+
+        final String returnValue = executeInitializeGame(userDetails);
+        final Status status = statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher());
+
+        AssertionUtils.assertValueIsRedirection(returnValue);
+        assertEquals(CypherStatus.PENDING, status.getCypherStatus());
+    }
+
+    @Test
+    public void testTeamCannotStartGameNoFinalPlace() {
+        CustomUserDetails userDetails = getUserDetailsMock();
+
+        final String returnValue = executeInitializeGame(userDetails);
+
+        AssertionUtils.assertValueIsRedirection(returnValue);
+        assertNull(statusRepository.findByTeamAndCypher(getFixtureTeam(), getFixtureCypher()));
+    }
+
+    private String executeInitializeGame(final CustomUserDetails userDetails) {
+        return cypherController.initializeGame(userDetails);
     }
 
     private String executeVerifyCodeword(final CodewordFormDTO withCodewordFormDto) {

@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller("clientCypherController")
 @RequestMapping("/")
@@ -49,6 +48,8 @@ public class CypherController {
     private static final String TEMPLATE_ATTR_SCORE = "score";
     private static final String TEMPLATE_ATTR_STATUS = "status";
     private static final String TEMPLATE_ATTR_TEAM = "team";
+    private static final String TEMPLATE_ATTR_FINAL_PLACE_PRESENT = "finalPlacePresent";
+    private static final String TEMPLATE_ATTR_CYPHERS_PRESENT = "cyphersPresent";
 
     private final CypherService cypherService;
     private final HintTakenService hintTakenService;
@@ -77,14 +78,16 @@ public class CypherController {
 
     @GetMapping(value = "cypher/startGame")
     public String initializeGame(@AuthenticationPrincipal final CustomUserDetails user) {
-        gameLogicService.initializeGameForTeam(user.getTeam());
+        if (gameLogicService.isAllowedToStartGame()) {
+            gameLogicService.initializeGameForTeam(user.getTeam());
+        }
         return REDIRECT_CLIENT_CYPHER;
     }
 
     @GetMapping(value = "cypher")
     public String clientWelcomePage(@AuthenticationPrincipal final CustomUserDetails user, final Model model) {
-        List<Cypher> cyphers = cypherService.getAllCyphersOrderByStageAsc();
-        if (!cyphers.isEmpty() && statusService.isStatusInDbByCypherAndTeam(cyphers.get(0), user.getTeam())) {
+
+        if (gameLogicService.isGameAlreadyActivatedForTeam(user.getTeam())) {
             model.addAttribute(TEMPLATE_ATTR_GAME_STARTED, true);
             model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));
             model.addAttribute(TEMPLATE_ATTR_CYPHER_GAME_INFOS,
@@ -94,7 +97,10 @@ public class CypherController {
             model.addAttribute(TEMPLATE_ATTR_GAME_STARTED, false);
             model.addAttribute(TEMPLATE_ATTR_FINAL_VIEW_ALLOWED, false);
         }
+
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
+        model.addAttribute(TEMPLATE_ATTR_FINAL_PLACE_PRESENT, gameLogicService.isFinalPlaceFinishTimePresent());
+        model.addAttribute(TEMPLATE_ATTR_CYPHERS_PRESENT, !cypherService.getAllCyphersOrderByStageAsc().isEmpty());
         return VIEW_CLIENT_CYPHER_LIST;
     }
 

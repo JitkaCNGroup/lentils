@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 @Transactional
 public class GameLogicServiceIntegrationTest {
     private static final Integer TEST_FINALPLACE_ACCESS_TIME = 60;
+    private static final Long TEST_FINALPLACE_FINISH_TIME_20 = 20L;
+    private static final Long TEST_FINALPLACE_FINISH_TIME_61 = 61L;
 
     @Autowired
     private TeamService teamService;
@@ -56,7 +58,7 @@ public class GameLogicServiceIntegrationTest {
 
     @Test
     public void passedTimeToViewFinalPlaceIsTrueWithSetFinalPlaceTest() {
-        setFinalPlaceTime(20L);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
         assertTrue(gameLogicService.passedTimeToViewFinalPlace());
     }
 
@@ -67,36 +69,115 @@ public class GameLogicServiceIntegrationTest {
 
     @Test
     public void gameIsInProgressTestWithSetFinalPlaceTest() {
-        setFinalPlaceTime(20L);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
         assertTrue(gameLogicService.isGameInProgress());
     }
 
     @Test
     public void playerIsAllowedToViewFinalPlaceWithNotAllCyphersPassedButPassedFinalPlaceTimeTest() {
         Team team = setCyphersToSpecificStatusesForTeam(CypherStatus.SOLVED, CypherStatus.PENDING);
-        setFinalPlaceTime(20L);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
         assertTrue(gameLogicService.allowPlayersToViewFinalPlace(team));
     }
 
     @Test
     public void playerIsAllowedToViewFinalPlaceWithNotPassedFinalPlaceTimeButAllCyphersPassedTest() {
         Team team = setCyphersToSpecificStatusesForTeam(CypherStatus.SOLVED, CypherStatus.SOLVED);
-        setFinalPlaceTime(61L);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_61);
         assertTrue(gameLogicService.allowPlayersToViewFinalPlace(team));
     }
 
     @Test
     public void playerIsAllowedToViewFinalPlaceWithPassedFinalPlaceTimeAndAllCyphersPassedTest() {
         Team team = setCyphersToSpecificStatusesForTeam(CypherStatus.SOLVED, CypherStatus.SOLVED);
-        setFinalPlaceTime(20L);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
         assertTrue(gameLogicService.allowPlayersToViewFinalPlace(team));
     }
 
     @Test
     public void playerIsNotAllowedToViewFinalPlaceWithNotPassedFinalPlaceTimeAndAllCyphersNotPassedTest() {
         Team team = setCyphersToSpecificStatusesForTeam(CypherStatus.SOLVED, CypherStatus.PENDING);
-        setFinalPlaceTime(61L);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_61);
         assertFalse(gameLogicService.allowPlayersToViewFinalPlace(team));
+    }
+
+    @Test
+    public void isFinalPlacePresentTest() {
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
+        assertTrue(gameLogicService.isFinalPlaceFinishTimePresent());
+    }
+
+    @Test
+    public void isNotFinalPlacePresentTest() {
+        assertFalse(gameLogicService.isFinalPlaceFinishTimePresent());
+    }
+
+    @Test
+    public void isAllowedToStartGameTest() {
+        cypherService.save(generator.generateValidCypher());
+        teamService.save(generator.generateValidTeam());
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
+
+        assertTrue(gameLogicService.isAllowedToStartGame());
+    }
+
+    @Test
+    public void isNotAllowedToStartGameNoFinalPlaceTest() {
+        cypherService.save(generator.generateValidCypher());
+        teamService.save(generator.generateValidTeam());;
+
+        assertFalse(gameLogicService.isAllowedToStartGame());
+    }
+
+    @Test
+    public void isNotAllowedToStartGameNoCyphersTest() {
+        teamService.save(generator.generateValidTeam());
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
+
+        assertFalse(gameLogicService.isAllowedToStartGame());
+    }
+
+    @Test
+    public void isGameAlreadyActivatedForTeamTest() {
+        Team team = teamService.save(generator.generateValidTeam());
+        Cypher cypher = cypherService.save(generator.generateValidCypher());
+        statusService.initializeStatusForTeamAndCypher(cypher, team);
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
+
+        assertTrue(gameLogicService.isGameAlreadyActivatedForTeam(team));
+    }
+
+    @Test
+    public void gameIsNotActivatedForOnlyTeamTest() {
+        Team team = teamService.save(generator.generateValidTeam());
+
+        assertFalse(gameLogicService.isGameAlreadyActivatedForTeam(team));
+    }
+
+    @Test
+    public void gameIsNotActivatedForTeamNoStatusTest() {
+        Team team = teamService.save(generator.generateValidTeam());
+        cypherService.save(generator.generateValidCypher());
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
+
+        assertFalse(gameLogicService.isGameAlreadyActivatedForTeam(team));
+    }
+
+    @Test
+    public void gameIsNotActivatedForTeamNoFinalPlaceTest() {
+        Team team = teamService.save(generator.generateValidTeam());
+        Cypher cypher = cypherService.save(generator.generateValidCypher());
+        statusService.initializeStatusForTeamAndCypher(cypher, team);
+
+        assertFalse(gameLogicService.isGameAlreadyActivatedForTeam(team));
+    }
+
+    @Test
+    public void gameIsNotActivatedForTeamNoCyphersTest() {
+        Team team = teamService.save(generator.generateValidTeam());
+        setFinalPlaceTime(TEST_FINALPLACE_FINISH_TIME_20);
+
+        assertFalse(gameLogicService.isGameAlreadyActivatedForTeam(team));
     }
 
     private Team setCyphersToSpecificStatusesForTeam(final CypherStatus cypherStatus1,

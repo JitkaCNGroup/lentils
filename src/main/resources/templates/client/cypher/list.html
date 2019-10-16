@@ -36,10 +36,13 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12" th:unless="${gameStarted}">
+            <div class="col-sm-12" th:if="${gameStarted==false and finalPlacePresent and cyphersPresent}">
                 <a href="#" class="btn btn-primary" th:utext="#{label.client.cypherlist.startgame}" th:href="@{/cypher/startGame}">
                     Zahájit hru!
                 </a>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${finalPlacePresent == false or cyphersPresent == false}" th:utext="#{label.client.cypherdetail.gamenotready}">
+                   Hra není připravena.
             </div>
         </div>
     </div>
