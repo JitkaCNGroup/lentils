@@ -52,6 +52,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .hasRole("USER").and()
                 .authorizeRequests().antMatchers("/contact**")
                     .hasRole("USER").and()
+                .authorizeRequests().antMatchers("/image/**")
+                .permitAll().and()
                 .formLogin()
                     .loginPage("/login")
                     .defaultSuccessUrl("/successfulLogin", true)

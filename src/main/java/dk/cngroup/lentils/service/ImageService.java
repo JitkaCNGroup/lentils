@@ -1,8 +1,10 @@
 package dk.cngroup.lentils.service;
 
 import dk.cngroup.lentils.config.ConfigProperties;
+import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Image;
 import dk.cngroup.lentils.dto.HintFormDTO;
+import dk.cngroup.lentils.entity.ImageSource;
 import dk.cngroup.lentils.exception.FileNotDeletedException;
 import dk.cngroup.lentils.exception.FileNotFoundException;
 import dk.cngroup.lentils.exception.FileNotSavedException;
@@ -23,6 +25,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ImageService {
@@ -55,7 +58,11 @@ public class ImageService {
         if (!FileTreatingUtils.isFilePresentInHintForm(formObject)) {
             return;
         }
-        MultipartFile file = formObject.getImage();
+        MultipartFile file = formObject.getImageFile();
+        saveFile(path, file);
+    }
+
+    private void saveFile(final String path, final MultipartFile file) {
         File dest = new File(FileTreatingUtils.getUserDir() + path);
         try {
             file.transferTo(dest);
@@ -83,9 +90,8 @@ public class ImageService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            } else {
-                throw new FileNotFoundException();
             }
+            throw new FileNotFoundException();
         } catch (MalformedURLException e) {
             throw new FileNotFoundException();
         }
@@ -103,11 +109,10 @@ public class ImageService {
         int i = filename.lastIndexOf('.');
         if (i < 0) {
            return StringUtils.cleanPath(filename + uniqueSuffix);
-        } else {
-            return StringUtils.cleanPath(filename.substring(0, i)
-                    + uniqueSuffix
-                    + filename.substring(i));
         }
+        return StringUtils.cleanPath(filename.substring(0, i)
+                + uniqueSuffix
+                + filename.substring(i));
     }
 
     private String generateUniqueString() {
@@ -124,7 +129,12 @@ public class ImageService {
                 Image.class.getSimpleName(), imageId));
     }
 
-    public Image getImageFromMultipartFile(final MultipartFile file) {
+    public void setImageFromMultipartFile(final MultipartFile file, final Image image) {
+        image.setImageUrl(getFilePath(file));
+        image.setFromFile(true);
+    }
+
+    public Image createImageFromMultipartFile(final MultipartFile file) {
         return new Image(getFilePath(file));
     }
 
@@ -132,11 +142,63 @@ public class ImageService {
         if (image == null) {
             return;
         }
-        try {
-            FileUtils.forceDelete(FileUtils.getFile(FileTreatingUtils.getUserDir() + image.getPath()));
-        } catch (IOException e) {
-            throw new FileNotDeletedException();
+        imageRepository.deleteById(image.getImageId());
+        deleteImageFile(image);
+    }
+
+    public void deleteImageFile(final Image image) {
+        if (image != null && image.isFromFile() && image.getImageUrl() != "") {
+            try {
+                FileUtils.forceDelete(FileUtils.getFile(FileTreatingUtils.getUserDir() + image.getImageUrl()));
+            } catch (IOException e) {
+                throw new FileNotDeletedException();
+            }
         }
-        imageRepository.delete(image);
+    }
+
+    public String getImageUrlForHintDto(final Hint hint) {
+        return hint.getImage() == null || hint.getImage().isFromFile() ? "" : hint.getImage().getImageUrl();
+    }
+
+    public ImageSource getImageSource(final Hint hint) {
+       if (!Optional.ofNullable(hint.getImage()).isPresent()) {
+           return ImageSource.NONE;
+       }
+       if (hint.getImage().isFromFile()) {
+           return ImageSource.FILE;
+       }
+       return ImageSource.WEB;
+    }
+
+    public Image generateImageFromDto(final String imageUrl,
+                                      final ImageSource imageSource,
+                                      final MultipartFile file,
+                                      final Image actualImage) {
+        Image image = null;
+        switch (imageSource) {
+            case WEB:
+                if (actualImage == null) {
+                    return new Image(imageUrl, false);
+                }
+                deleteImageFile(actualImage);
+                actualImage.setImageUrl(imageUrl);
+                actualImage.setFromFile(false);
+                return actualImage;
+            case FILE:
+                if (file.isEmpty()) {
+                    return actualImage;
+                }
+                if (actualImage == null) {
+                    image = createImageFromMultipartFile(file);
+                    saveFile(image.getImageUrl(), file);
+                    return image;
+                }
+                deleteImageFile(actualImage);
+                setImageFromMultipartFile(file, actualImage);
+                saveFile(actualImage.getImageUrl(), file);
+                return actualImage;
+            default:
+                return image;
+        }
     }
 }

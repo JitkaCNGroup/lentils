@@ -11,6 +11,7 @@ import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.GameLogicService;
 import dk.cngroup.lentils.service.HintService;
 import dk.cngroup.lentils.service.HintTakenService;
+import dk.cngroup.lentils.service.HintsTakenWithImageUrlService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,21 +41,24 @@ public class HintController {
     private final CypherService cypherService;
     private final HintService hintService;
     private final HintTakenService hintTakenService;
+    private final HintsTakenWithImageUrlService hintsTakenWithImageUrlService;
     private final StatusService statusService;
     private final ScoreService scoreService;
     private final GameLogicService gameLogicService;
 
     @Autowired
     public HintController(final CypherService cypherService,
-                            final StatusService statusService,
-                            final HintService hintService,
-                            final HintTakenService hintTakenService,
-                            final ScoreService scoreService,
-                            final GameLogicService gameLogicService) {
+                          final StatusService statusService,
+                          final HintService hintService,
+                          final HintTakenService hintTakenService,
+                          final HintsTakenWithImageUrlService hintsTakenWithImageUrlService,
+                          final ScoreService scoreService,
+                          final GameLogicService gameLogicService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
         this.statusService = statusService;
+        this.hintsTakenWithImageUrlService = hintsTakenWithImageUrlService;
         this.scoreService = scoreService;
         this.gameLogicService = gameLogicService;
     }
@@ -101,7 +105,8 @@ public class HintController {
         takeHintDTO.setCypherId(cypher.getCypherId());
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
-        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN,
+                hintsTakenWithImageUrlService.addImageUrlsToHints(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_HINTS_NOT_TAKEN,
                 hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));

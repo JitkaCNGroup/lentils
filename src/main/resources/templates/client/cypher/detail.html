@@ -97,11 +97,11 @@
                     <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
                         <div th:each="hintTaken : ${hintsTaken}">
                             <p class="hint-text" >
-                                <span th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
-                                <span th:text="${hintTaken.hint.text}"></span>
+                                <span th:text="|Nápověda (-${hintTaken.hintTaken.hint.value}b.):|"></span>
+                                <span th:text="${hintTaken.hintTaken.hint.text}"></span>
                             </p>
-                            <p th:if="${!#strings.isEmpty(hintTaken.hint.imageUrl)}">
-                                <img class="hint-image img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.hint.imageUrl}}" />
+                            <p th:if="${hintTaken.hintTaken.hint.image != null}">
+                                <img class="hint-image img-fluid" alt="#{label.client.hintlist.hintimage}" src="" th:src="@{${hintTaken.imageUrl}}" />
                             </p>
                         </div>
                     </th:block>

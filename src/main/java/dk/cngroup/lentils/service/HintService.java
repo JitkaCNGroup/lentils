@@ -1,17 +1,16 @@
 package dk.cngroup.lentils.service;
 
-import dk.cngroup.lentils.dto.HintFormDTO;
+import dk.cngroup.lentils.controller.ImageFileController;
 import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
-import dk.cngroup.lentils.entity.Image;
 import dk.cngroup.lentils.entity.Team;
 import dk.cngroup.lentils.exception.ResourceNotFoundException;
 import dk.cngroup.lentils.repository.HintRepository;
 import dk.cngroup.lentils.repository.HintTakenRepository;
-import dk.cngroup.lentils.util.FileTreatingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.util.List;
 
@@ -49,21 +48,34 @@ public class HintService {
         return hintRepository.saveAll(hints);
     }
 
-    public void addImageToHintAndSave(final HintFormDTO hintFormDto,
-                                      final Hint hint,
-                                      final Image actualImage) {
-        if (!FileTreatingUtils.isFilePresentInHintForm(hintFormDto)) {
-            hint.setImage(actualImage);
-        } else {
-            imageService.saveImageFile(hintFormDto, hint.getImage().getPath());
-            imageService.deleteImage(actualImage);
-        }
-        save(hint);
-    }
-
     @Transactional
     public void deleteById(final Long id) {
         hintTakenRepository.deleteAllByHintHintId(id);
         hintRepository.deleteById(id);
+    }
+
+    public String getImageUri(final Long hintId) {
+        String imagePath = getHint(hintId).getImage().getImageUrl();
+        String filename = imageService.getPureFileName(imagePath);
+        return MvcUriComponentsBuilder
+                .fromMethodName(
+                        ImageFileController.class,
+                        "serveFile",
+                        filename)
+                .build()
+                .normalize()
+                .toString();
+    }
+
+    public String getFileUrlForHint(final Long hintId) {
+        if (getHint(hintId).getImage() == null) {
+            return "";
+        } else {
+            if (!getHint(hintId).getImage().isFromFile()) {
+                return getHint(hintId).getImage().getImageUrl();
+            } else {
+                return getImageUri(hintId);
+            }
+        }
     }
 }

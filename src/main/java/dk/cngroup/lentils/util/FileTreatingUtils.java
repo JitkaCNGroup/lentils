@@ -49,26 +49,31 @@ public final class FileTreatingUtils {
     }
 
     public static String getFileNameFromEntity(final Hint hint) {
-        return isFilePresentInHintEntity(hint) ? FileTreatingUtils.extractFileName(hint.getImage().getPath()) : "";
+        return isFilePresentInHintEntity(hint) ? FileTreatingUtils.extractFileName(hint.getImage().getImageUrl()) : "";
     }
 
     public static boolean isFilePresentInHintForm(final HintFormDTO formObject) {
-        MultipartFile file = formObject.getImage();
+        MultipartFile file = formObject.getImageFile();
         return !file.isEmpty();
     }
 
     private static boolean isFilePresentInHintEntity(final Hint hint) {
-        Optional<Image> file = Optional.ofNullable(hint.getImage());
-        return file.isPresent();
+        Optional<Image> image = Optional.ofNullable(hint.getImage());
+        if (image.isPresent()) {
+            if (image.get().isFromFile()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String getFileNamefromFormObject(final HintFormDTO formObject) {
-        return isFilePresentInHintForm(formObject) ? formObject.getImage().getOriginalFilename() : "";
+        return isFilePresentInHintForm(formObject) ? formObject.getImageFile().getOriginalFilename() : "";
     }
 
     public static String getFileName(final Hint hint, final HintFormDTO formObject) {
         if (isFilePresentInHintForm(formObject)) {
-            return formObject.getImage().getOriginalFilename();
+            return formObject.getImageFile().getOriginalFilename();
         }
         return getFileNameFromEntity(hint);
     }
@@ -76,7 +81,7 @@ public final class FileTreatingUtils {
     public static void setImageToFormObject(final Hint hint, final HintFormDTO formObject) {
         if (isFilePresentInHintEntity(hint)
                 && (!isFilePresentInHintForm(formObject))) {
-            formObject.setImage(getFile(hint.getImage().getPath()));
+            formObject.setImageFile(getFile(hint.getImage().getImageUrl()));
         }
     }
 

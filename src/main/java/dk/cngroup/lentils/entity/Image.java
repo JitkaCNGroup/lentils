@@ -16,15 +16,24 @@ public class Image {
     @Column(name = "image_id")
     private Long imageId;
 
-    @Column(name = "path")
-    @NotEmpty(message = "Musí být zadaná cesta k souboru")
-    private String path;
+    @Column(name = "imageUrl")
+    @NotEmpty(message = "Musí být zadaná cesta k obrázku")
+    private String imageUrl;
+
+    @Column(name = "isFromFile")
+    private boolean isFromFile;
 
     public Image() {
     }
 
-    public Image(final String path) {
-        this.path = path;
+    public Image(final String imageUrl, final boolean isFromFile) {
+        this.imageUrl = imageUrl;
+        this.isFromFile = isFromFile;
+    }
+
+    public Image(final String imageUrl) {
+        this.imageUrl = imageUrl;
+        this.isFromFile = true;
     }
 
     public Long getImageId() {
@@ -35,18 +44,26 @@ public class Image {
         this.imageId = imageId;
     }
 
-    public String getPath() {
-        return path;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setPath(final String path) {
-        this.path = path;
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isFromFile() {
+        return isFromFile;
+    }
+
+    public void setFromFile(final boolean fromFile) {
+        isFromFile = fromFile;
     }
 
     @Override
     public String toString() {
         return "Image{" +
-                "path='" + path + '\'' +
+                "path='" + imageUrl + '\'' +
                 '}';
     }
 }

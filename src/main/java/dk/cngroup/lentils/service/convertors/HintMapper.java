@@ -5,33 +5,55 @@ import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.Image;
 import dk.cngroup.lentils.service.ImageService;
 import dk.cngroup.lentils.util.FileTreatingUtils;
-import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class HintMapper extends ModelMapperWrapper {
 
     private ImageService imageService;
 
-    private final Converter<MultipartFile, Image> multipartFileToImageConverter =
-            ctx -> ctx.getSource().isEmpty()
-                    ? null : imageService.getImageFromMultipartFile(ctx.getSource());
-
-    private final Converter<Image, MultipartFile> imageToMultipartFileConverter =
-            ctx -> ctx.getSource() == null ? null : FileTreatingUtils.getFile(ctx.getSource().getPath());
+    private final PropertyMap<HintFormDTO, Hint> skipImageFieldMap = new PropertyMap<HintFormDTO, Hint>() {
+        protected void configure() {
+            skip(destination.getImage());
+        }
+    };
 
     @Autowired
     public HintMapper(final ImageService imageService) {
         this.imageService = imageService;
+    }
 
-        super.getModelMapper().typeMap(HintFormDTO.class, Hint.class)
-                .addMappings(mapper -> mapper.using(multipartFileToImageConverter)
-                        .map(HintFormDTO::getImage, Hint::setImage));
+    public Hint map(final HintFormDTO hintFormDTO, final Hint hint) {
+        Image actualImage = hint.getImage();
+        ModelMapper mapper = super.getModelMapper();
+        TypeMap<HintFormDTO, Hint> typeMap = mapper.getTypeMap(HintFormDTO.class, Hint.class);
+        if (typeMap == null) {
+            mapper.addMappings(skipImageFieldMap);
+        }
+        mapper.map(hintFormDTO, hint);
+        Image image = imageService.generateImageFromDto(
+                hintFormDTO.getImageUrl(),
+                hintFormDTO.getImageSource(),
+                hintFormDTO.getImageFile(),
+                actualImage);
+        hint.setImage(image);
+        if (image == null) {
+            imageService.deleteImage(actualImage);
+        }
+        return hint;
+    }
 
-        super.getModelMapper().typeMap(Hint.class, HintFormDTO.class)
-                .addMappings(mapper -> mapper.using(imageToMultipartFileConverter)
-                        .map(Hint::getImage, HintFormDTO::setImage));
+    public HintFormDTO map(final Hint hint) {
+        HintFormDTO hintFormDTO = super.getModelMapper().map(hint, HintFormDTO.class);
+        hintFormDTO.setFilename(FileTreatingUtils.getFileNameFromEntity(hint));
+        hintFormDTO.setImageFile(null);
+        hintFormDTO.setImageUrl(imageService.getImageUrlForHintDto(hint));
+        hintFormDTO.setImageSource(imageService.getImageSource(hint));
+
+        return hintFormDTO;
     }
 }

@@ -23,17 +23,25 @@
                     <p class="error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text error.</p>
                 </div>
                 <div class="form-group">
+                    <p class="input-value-required">Vyber zdroj obrázku</p>
+                    <input type="radio" id="file" th:field="*{imageSource}" value="FILE">File
+                    <input type="radio" id="web" th:field="*{imageSource}" value="WEB">Web
+                    <input type="radio" id="none" th:field="*{imageSource}" value="NONE">Bez obrázku<br>
+                    <p class="error" th:if="${#fields.hasErrors('imageSource')}" th:errors="*{imageSource}">Image source error.</p>
+                </div>
+
+                <div class="form-group">
                     <label for="imageUrl">URL obrázku</label>
                     <input id="imageUrl" class="form-control" th:field="*{imageUrl}"/>
                     <p class="error" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Image URL error.</p>
                 </div>
                 <div class="form-group">
                     <div>Soubor s obrázkem</div>
-                    <div th:if="${!#strings.isEmpty(filename)} "class="form-control" th:text="${filename}">Image</div>
+                    <input id="filename" class="form-control" th:field="${hint.filename}" readonly>
                 </div>
                 <div class="form-group">
-                    <input id="image" class="btn btn-primary" type="file" th:field="*{image}" accept="image/*"/>
-                    <p class="error" th:if="${#fields.hasErrors('image')}" th:errors="*{image}">Image error.</p>
+                    <input id="imageFile" class="btn btn-primary" type="file" th:field="*{imageFile}" accept="image/*"/>
+                    <p class="error" th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}">Image error.</p>
                 </div>
                 <div class="form-group">
                     <label for="value" class="input-value-required">Hodnota</label>
@@ -44,13 +52,27 @@
             </form>
         </div>
         <div class="col-sm-6">
-            <img th:if="${!#strings.isEmpty(hint.imageUrl)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="@{${hint.imageUrl}}" />
-        </div>
-        <div class="col-sm-6">
             <img th:if="${!#strings.isEmpty(file)}" class="img-fluid" alt="Obrázek nápovědy" src="" th:src="${file}" />
         </div>
     </div>
 </div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    $("#web").click(function() {
+        $("#imageFile").prop("required", false);
+        $("#imageUrl").prop("required", true);
+        $("#imageUrl").focus();
+    });
+    $("#file").click(function() {
+        $("#imageUrl").prop("required", false);
+        var input = document.getElementById("filename").value;
+        if (input.trim() == '') {
+            $("#imageFile").prop("required", true);
+            $("#imageFile").focus();
+        }
+    });
+</script>
 
 <div th:insert="fragments/externalScripts :: externalScripts"></div>
 </body>
