@@ -5,21 +5,28 @@
 <body>
 <div th:insert="fragments/organizerHeader :: header(statistics)"></div>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-5">
-            <a href="#" th:href="@{/game/statistics/cyphersBySolvedCount}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.cyphers.sortbysolved}">Dle vyluštění</b></a>
-            <a href="#" th:href="@{/game/statistics/cyphersBySkippedCount}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.cyphers.sortbyskipped}">Dle přeskočení</b></a>
-            <a href="#" th:href="@{/game/statistics/cyphersByCountOfHintsTaken}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.cyphers.sortbyhintstaken}">Dle použitých nápověd</b></a>
-            <a href="#" th:href="@{/game/statistics/cyphersByPointsOfHintsTaken}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.cyphers.sortbyhintstakenvalue}">Dle hodnoty použitých nápověd</b></a>
-        </div>
-        <div class="col-sm-5">
-            <a href="#" th:href="@{/game/statistics/teamsBySolvedCyphers}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.teams.sortbysolved}">Dle vyluštěných šifer</b></a>
-            <a href="#" th:href="@{/game/statistics/teamsBySkippedCyphers}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.teams.sortbyskipped}">Dle přeskočených šifer</b></a>
-            <a href="#" th:href="@{/game/statistics/teamsByCountOfHintsTaken}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.teams.sortbyhintstaken}">Dle použitých nápověd</b></a>
-            <a href="#" th:href="@{/game/statistics/teamsByPointsOfHintsTaken}" class="btn btn-primary"><b th:utext="#{label.organizer.statistics.teams.sortbyhintstakenvalue}">Dle hodnoty použitých nápověd</b></a>
-        </div>
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" th:utext="#{label.organizer.statistics.cyphers.header}">Statistiky šifer</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/cyphersBySolvedCount}" th:utext="#{label.organizer.statistics.cyphers.sortbysolved}">Dle vyluštění</a>
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/cyphersBySkippedCount}" th:utext="#{label.organizer.statistics.cyphers.sortbyskipped}">Dle přeskočení</a>
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/cyphersByCountOfHintsTaken}" th:utext="#{label.organizer.statistics.cyphers.sortbyhintstaken}">Dle použitých nápověd</a>
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/cyphersByPointsOfHintsTaken}" th:utext="#{label.organizer.statistics.cyphers.sortbyhintstakenvalue}">Dle hodnoty použitých nápověd</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" th:utext="#{label.organizer.statistics.teams.header}">Statistiky týmů</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/teamsBySolvedCyphers}" th:utext="#{label.organizer.statistics.teams.sortbysolved}">Dle vyluštěných šifer</a>
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/teamsBySkippedCyphers}" th:utext="#{label.organizer.statistics.teams.sortbyskipped}">Dle přeskočených šifer</a>
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/teamsByCountOfHintsTaken}" th:utext="#{label.organizer.statistics.teams.sortbyhintstaken}">Dle použitých nápověd</a>
+                    <a class="dropdown-item" href="#" th:href="@{/game/statistics/teamsByPointsOfHintsTaken}" th:utext="#{label.organizer.statistics.teams.sortbyhintstakenvalue}">Dle hodnoty použitých nápověd</a>
+                </div>
+            </li>
+        </ul>
     </div>
-
     <div th:if="${header} != null" class="row">
         <div class="col-sm-12">
             <h2 th:if="${header == 'team'}" th:utext="#{label.organizer.statistics.teamstatsheader}">Statistiky týmů</h2>
