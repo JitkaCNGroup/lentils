@@ -96,8 +96,7 @@ public class PdfExportService {
 
     private void addRows(final PdfPTable table) {
         List<TeamScore> teamsWithScores = scoreService.getAllTeamsWithScores();
-        teamsWithScores.stream()
-                .forEach(teamScore -> {
+        teamsWithScores.forEach(teamScore -> {
                     table.addCell(teamScore.getRank().toString());
                     table.addCell(teamScore.getTeam().getName());
                     table.addCell(String.valueOf(teamScore.getScore()));
