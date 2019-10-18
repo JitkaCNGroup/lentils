@@ -1,7 +1,5 @@
 package dk.cngroup.lentils.entity;
 
-import org.hibernate.validator.constraints.URL;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,13 +29,6 @@ public class Contact implements Serializable {
     @NotEmpty(message = "Telefonní číslo nesmí být prázdné.")
     private String phoneNumber;
 
-    @Column(name = "web_pages")
-    private String webAddress;
-
-    @URL
-    @Column(name = "fcb_event")
-    private String facebookEvent;
-
     @Email
     @Column(name = "email")
     private String email;
@@ -47,13 +38,9 @@ public class Contact implements Serializable {
 
     public Contact(final String name,
                    final String phoneNumber,
-                   final String webAddress,
-                   final String facebookEvent,
                    final String email) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.webAddress = webAddress;
-        this.facebookEvent = facebookEvent;
         this.email = email;
     }
 
@@ -81,22 +68,6 @@ public class Contact implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWebAddress() {
-        return webAddress;
-    }
-
-    public void setWebAddress(final String webAddress) {
-        this.webAddress = webAddress;
-    }
-
-    public String getFacebookEvent() {
-        return facebookEvent;
-    }
-
-    public void setFacebookEvent(final String facebookEvent) {
-        this.facebookEvent = facebookEvent;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -111,8 +82,6 @@ public class Contact implements Serializable {
                 "contactId=" + contactId +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", webAddress='" + webAddress + '\'' +
-                ", facebookEvent='" + facebookEvent + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
@@ -129,13 +98,11 @@ public class Contact implements Serializable {
         return Objects.equals(contactId, contact.contactId) &&
                 Objects.equals(name, contact.name) &&
                 Objects.equals(phoneNumber, contact.phoneNumber) &&
-                Objects.equals(webAddress, contact.webAddress) &&
-                Objects.equals(facebookEvent, contact.facebookEvent) &&
                 Objects.equals(email, contact.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contactId, name, phoneNumber, webAddress, facebookEvent, email);
+        return Objects.hash(contactId, name, phoneNumber, email);
     }
 }

@@ -28,22 +28,86 @@
                     <input id="email" class="form-control" th:field="*{email}"/>
                     <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error.</p>
                 </div>
-                <div class="form-group">
-                    <label for="web">Web</label>
-                    <input id="web" class="form-control" th:field="*{webAddress}"/>
-                    <p class="error" th:if="${#fields.hasErrors('webAddress')}" th:errors="*{webAddress}">webAddress error.</p>
+
+                <h5>Odkazy</h5>
+                <hr />
+                <div id="links-list-wrapper">
+                    <div th:each="link, iterStat : *{links}" th:id="|link-wrapper-${iterStat.index}|">
+                        <input type="hidden" th:id="|link-id-${iterStat.index}|" th:field="*{links[__${iterStat.index}__].id}" />
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label th:for="|link-title-${iterStat.index}|">Titulek</label>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <label th:for="|link-url-${iterStat.index}|">URL</label>
+                            </div>
+                            <div class="form-group col-md-1"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <input type="text" class="form-control" th:id="|link-title-${iterStat.index}|" placeholder="" th:field="*{links[__${iterStat.index}__].title}">
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input th:id="|link-url-${iterStat.index}|" class="form-control" th:field="*{links[__${iterStat.index}__].url}"/>
+                            </div>
+                            <div class="form-group col-md-1">
+                                <button type="button" class="form-control btn btn-danger" th:onclick="|removeLink(${iterStat.index});|"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="facebook">Facebook událost</label>
-                    <input id="facebook" class="form-control" th:field="*{facebookEvent}"/>
-                    <p class="error" th:if="${#fields.hasErrors('facebookEvent')}" th:errors="*{facebookEvent}">facebookEvent error.</p>
+
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                        <button type="button" class="btn btn-success" onclick="addLink();"><i class="fas fa-plus"></i></button>
+                    </div>
                 </div>
+
                 <button type="submit" class="btn btn-primary">Uložit</button>
             </form>
         </div>
     </div>
 </div>
 <div th:insert="fragments/externalScripts :: externalScripts"></div>
+<script id="linkRowTemplate" type="text/template">
+    <div id="link-wrapper-${index}">
+        <input type="hidden" id="link-id-${index}" name="links[${index}].id" value="-1" />
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="link-title-${index}">Titulek</label>
+            </div>
+            <div class="form-group col-md-8">
+                <label for="link-url-${index}">URL</label>
+            </div>
+            <div class="form-group col-md-1"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <input type="text" class="form-control" id="link-title-${index}" placeholder="" name="links[${index}].title" />
+            </div>
+            <div class="form-group col-md-8">
+                <input id="link-url-${index}" class="form-control" name="links[${index}].url" />
+            </div>
+            <div class="form-group col-md-1">
+                <button type="button" class="form-control btn btn-danger" th:onclick="removeLink(${index});"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    function removeLink(i) {
+        $('#link-wrapper-' + i).remove();
+    }
+
+    function addLink() {
+        var listElement = $('#links-list-wrapper');
+        var newIndex = listElement.children().length;
+        var template = $('#linkRowTemplate').prop('innerHTML');
+
+        template = template.replace(/\$\{index\}/g, newIndex);
+
+        listElement.append(template);
+    }
+</script>
 </body>
 </html>
-

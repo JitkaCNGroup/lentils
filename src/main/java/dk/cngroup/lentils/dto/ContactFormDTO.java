@@ -1,9 +1,9 @@
 package dk.cngroup.lentils.dto;
 
-import org.hibernate.validator.constraints.URL;
-
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 public class ContactFormDTO {
     @NotEmpty(message = "Jméno nesmí být prázdné.")
@@ -12,14 +12,11 @@ public class ContactFormDTO {
     @NotEmpty(message = "Telefonní číslo nesmí být prázdné.")
     private String phoneNumber;
 
-    @URL(message = "Neplatná URL adresa")
-    private String webAddress;
-
-    @URL(message = "Neplatná URL adresa")
-    private String facebookEvent;
-
     @Email(message = "Neplatná emailová adresa")
     private String email;
+
+    @Valid
+    private List<ContactLinkDTO> links;
 
     public String getName() {
         return name;
@@ -37,27 +34,19 @@ public class ContactFormDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWebAddress() {
-        return webAddress;
-    }
-
-    public void setWebAddress(final String webAddress) {
-        this.webAddress = webAddress;
-    }
-
-    public String getFacebookEvent() {
-        return facebookEvent;
-    }
-
-    public void setFacebookEvent(final String facebookEvent) {
-        this.facebookEvent = facebookEvent;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public List<ContactLinkDTO> getLinks() {
+        return links;
+    }
+
+    public void setLinks(final List<ContactLinkDTO> links) {
+        this.links = links;
     }
 }
