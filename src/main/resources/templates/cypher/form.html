@@ -1,67 +1,69 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head('Detail šifry')">
+<head th:replace="fragments/head :: head(#{admin.cyphers.page-title})">
 </head>
 <body>
     <div th:insert="fragments/header :: header(cypher)"></div>
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h2><span th:text="${heading}">Nadpis</span></h2>
+                <h2>
+                    <span th:if="${action == 'update'}" th:utext="#{admin.cyphers.form.edit-cypherv}">Upravit šifru</span>
+                    <span th:if="${action == 'add'}" th:utext="#{admin.cyphers.form.add-cypher}">Nová šifra</span>
+                </h2>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <form action="#" th:object="${command}" method="post">
                     <div class="form-group">
-                        <label for="name" class="input-value-required">Jméno</label>
+                        <label for="name" class="input-value-required" th:utext="#{admin.cyphers.common.name}">Jméno</label>
                         <input id="name" class="form-control" th:field="*{name}"/>
                         <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="stage" class="input-value-required">Pořadí</label>
+                        <label for="stage" class="input-value-required" th:utext="#{admin.cyphers.common.order}">Pořadí</label>
                         <input id="stage" class="form-control" type="number" th:field="*{stage}" required/>
                         <p class="error" th:if="${#fields.hasErrors('stage')}" th:errors="*{stage}">Stage error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="location" class="input-value-required">Souřadnice</label>
+                        <label for="location" class="input-value-required" th:utext="#{admin.cyphers.common.coordinates}">Souřadnice</label>
                         <input id="location" class="form-control" type="text" th:field="*{location}" readonly/>
-                        <small id="locationHelp" class="form-text text-muted">Kliknutím do mapy nastavíte souřadnice.</small>
+                        <small id="locationHelp" class="form-text text-muted" th:utext="#{admin.cyphers.form.map-subinfo}">Kliknutím do mapy nastavíte souřadnice.</small>
                         <p class="error" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">Location error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="mapAddress" class="input-value-required">Adresa mapy</label>
+                        <label for="mapAddress" class="input-value-required" th:utext="#{admin.cyphers.form.map-address}">Adresa mapy</label>
                         <input type="url" id="mapAddress" class="form-control" th:field="*{mapAddress}" required/>
                         <p class="error" th:if="${#fields.hasErrors('mapAddress')}" th:errors="*{mapAddress}">Map address error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="codeword">Odpověď</label>
+                        <label for="codeword" th:utext="#{admin.cyphers.common.answer}">Odpověď</label>
                         <input id="codeword" class="form-control" type="text" th:field="*{codeword}"/>
                     </div>
                     <div class="form-group">
-                        <label for="trapCodeword">Falešná odpověď</label>
+                        <label for="trapCodeword" th:utext="#{admin.cyphers.common.easter-egg-answer}">Falešná odpověď</label>
                         <input id="trapCodeword" class="form-control" type="text" th:field="*{trapCodeword}"/>
                     </div>
                     <div class="form-group">
-                        <label for="bonusContent">Bonusové informance</label>
+                        <label for="bonusContent" th:utext="#{admin.cyphers.common.bonus-info}">Bonusové informace</label>
                         <textarea id="bonusContent" class="form-control" th:field="*{bonusContent}"/>
                         <p class="error" th:if="${#fields.hasErrors('bonusContent')}" th:errors="*{bonusContent}">Bonus Content error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="placeDescription">Popis místa</label>
+                        <label for="placeDescription" th:utext="#{admin.cyphers.common.description}">Popis místa</label>
                         <textarea id="placeDescription" class="form-control" th:field="*{placeDescription}"/>
                         <p class="error" th:if="${#fields.hasErrors('placeDescription')}" th:errors="*{placeDescription}">Place Description error.</p>
                     </div>
                     <div class="form-group">
-                        <label for="organizer">Přiřazený organizátor</label>
+                        <label for="organizer" th:utext="#{admin.cyphers.form.assigned-organizer}">Přiřazený organizátor</label>
                         <select id="organizer" class="form-control" th:field="*{organizers}">
-                            <option th:value="null"> Bez organizátora
-                            </option>
+                            <option th:value="null" th:utext="#{admin.cyphers.form.no-organizers}">Bez organizátora</option>
                             <option th:each="o : ${allOrganizers}" th:value="${o.userId}" th:text="${o.username}">
                             </option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Uložit</button>
+                    <button type="submit" class="btn btn-primary" th:utext="#{label.save}">Uložit</button>
                 </form>
             </div>
 

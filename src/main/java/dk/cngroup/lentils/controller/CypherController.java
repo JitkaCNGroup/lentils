@@ -24,13 +24,13 @@ public class CypherController {
     private static final String VIEW_ADMIN_CYPHER_LIST = "cypher/list";
     private static final String VIEW_ADMIN_CYPHER_FORM = "cypher/form";
     private static final String REDIRECT_ADMIN_CYPHER_LIST = "redirect:/admin/cypher/";
-    private static final String HEADING_ADD_CYPHER = "Nová šifra";
-    private static final String HEADING_EDIT_CYPHER = "Upravit šifru";
+    private static final String ACTION_ADD = "add";
+    private static final String ACTION_UPDATE = "update";
 
-    private static final String TEMPLATE_ATTR_HEADING = "heading";
     private static final String TEMPLATE_ATTR_CYPHERS = "cyphers";
     private static final String TEMPLATE_ATTR_COMMAND = "command";
     private static final String TEMPLATE_ATTR_ALL_ORGANIZERS = "allOrganizers";
+    private static final String TEMPLATE_ATTR_ACTION = "action";
 
     private final CypherService cypherService;
     private final UserService userService;
@@ -53,9 +53,9 @@ public class CypherController {
 
     @GetMapping(value = "/add")
     public String newCypher(final Model model) {
-        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
         model.addAttribute(TEMPLATE_ATTR_COMMAND, new CypherFormDTO());
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
+        model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_ADD);
         return VIEW_ADMIN_CYPHER_FORM;
     }
 
@@ -65,7 +65,7 @@ public class CypherController {
                                 final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_ADD_CYPHER);
+            model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_ADD);
             return VIEW_ADMIN_CYPHER_FORM;
         }
 
@@ -79,9 +79,9 @@ public class CypherController {
     public String updateCypherForm(@PathVariable("cypherId") final Long cypherId, final Model model) {
         Cypher cypher = cypherService.getCypher(cypherId);
         final CypherFormDTO cypherFormDto = cypherMapper.map(cypher, CypherFormDTO.class);
-        model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
         model.addAttribute(TEMPLATE_ATTR_COMMAND, cypherFormDto);
         model.addAttribute(TEMPLATE_ATTR_ALL_ORGANIZERS, userService.getOrganizers());
+        model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_UPDATE);
         return VIEW_ADMIN_CYPHER_FORM;
     }
 
@@ -91,7 +91,7 @@ public class CypherController {
                                final BindingResult bindingResult,
                                final Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_CYPHER);
+            model.addAttribute(TEMPLATE_ATTR_ACTION, ACTION_UPDATE);
             return VIEW_ADMIN_CYPHER_FORM;
         }
 
