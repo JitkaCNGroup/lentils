@@ -174,7 +174,8 @@ public class ProgressController {
         Team team = teamService.getTeam(teamId);
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
         model.addAttribute(TEMPLATE_ATTR_TEAM, team);
-        model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(team, cypher));
+        model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_TAKEN,
+                hintTakenService.addImageUrlsToHints(team, cypher));
         model.addAttribute(TEMPLATE_ATTR_VIEW_HINTS_NOT_TAKEN, hintService.getAllNotTakenByTeamAndCypher(team, cypher));
         return VIEW_ORGANIZER_PROGRESS_GETHINTLIST;
     }

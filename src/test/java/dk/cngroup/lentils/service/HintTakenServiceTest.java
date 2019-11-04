@@ -30,7 +30,7 @@ public class HintTakenServiceTest {
 
     @Before
     public void before() {
-        hintTakenService = new HintTakenService(hintTakenRepository);
+        hintTakenService = new HintTakenService(hintTakenRepository, hintService);
         team = new Team();
         cypher = new Cypher();
     }

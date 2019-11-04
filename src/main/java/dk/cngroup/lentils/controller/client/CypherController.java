@@ -8,7 +8,7 @@ import dk.cngroup.lentils.security.CustomUserDetails;
 import dk.cngroup.lentils.service.CypherGameInfoService;
 import dk.cngroup.lentils.service.CypherService;
 import dk.cngroup.lentils.service.GameLogicService;
-import dk.cngroup.lentils.service.HintsTakenWithImageUrlService;
+import dk.cngroup.lentils.service.HintTakenService;
 import dk.cngroup.lentils.service.ScoreService;
 import dk.cngroup.lentils.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class CypherController {
     private static final String TEMPLATE_ATTR_CYPHERS_PRESENT = "cyphersPresent";
 
     private final CypherService cypherService;
-    private final HintsTakenWithImageUrlService hintsTakenWithImageUrlService;
+    private final HintTakenService hintTakenService;
     private final StatusService statusService;
     private final CypherGameInfoService cypherGameInfoService;
     private final ScoreService scoreService;
@@ -61,14 +61,14 @@ public class CypherController {
 
     @Autowired
     public CypherController(final CypherService cypherService,
-                            final HintsTakenWithImageUrlService hintsTakenWithImageUrlService,
+                            final HintTakenService hintTakenService,
                             final StatusService statusService,
                             final CypherGameInfoService cypherGameInfoService,
                             final ScoreService scoreService,
                             final GameLogicService gameLogicService,
                             final MessageSource messageSource) {
         this.cypherService = cypherService;
-        this.hintsTakenWithImageUrlService = hintsTakenWithImageUrlService;
+        this.hintTakenService = hintTakenService;
         this.statusService = statusService;
         this.cypherGameInfoService = cypherGameInfoService;
         this.scoreService = scoreService;
@@ -191,7 +191,7 @@ public class CypherController {
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
         model.addAttribute(TEMPLATE_ATTR_STATUS, status.name());
         model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN,
-                hintsTakenWithImageUrlService.addImageUrlsToHints(user.getTeam(), cypher));
+                hintTakenService.addImageUrlsToHints(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_NEXT_CYPHER, cypherService.getNext(cypher.getStage()));
         model.addAttribute(CODEWORD_DTO_NAME, codewordFormDto);
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));

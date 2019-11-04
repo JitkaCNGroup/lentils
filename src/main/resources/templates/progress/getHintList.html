@@ -16,15 +16,15 @@
             <th:block th:if="${not #lists.isEmpty(hintsTaken)}">
                 <div th:each="hintTaken : ${hintsTaken}">
                     <p class="hint-text">
-                        <span th:text="|Nápověda (-${hintTaken.hint.value}b.):|"></span>
-                        <span th:text="${hintTaken.hint.text}"></span>
+                        <span th:text="|Nápověda (-${hintTaken.hintTaken.hint.value}b.):|"></span>
+                        <span th:text="${hintTaken.hintTaken.hint.text}"></span>
                     </p>
-                    <p th:if="${hintTaken.hint.image != null}">
-                        <img class="img-fluid hint-image" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.hint.image.imageUrl}}" />
+                    <p th:if="${hintTaken.hintTaken.hint.image != null}">
+                        <img class="img-fluid hint-image" alt="Obrázek nápovědy" src="" th:src="@{${hintTaken.imageUrl}}" />
                     </p>
                     <a href="#" class="btn btn-sm btn-flat btn-remove"
                        th:onclick="return confirm('Opravdu odebrat nápovědu?')"
-                       th:href="@{/game/progress/revertHint(teamId=${team.teamId}, hintId=${hintTaken.hint.hintId}, cypherId=${cypher.cypherId})}">
+                       th:href="@{/game/progress/revertHint(teamId=${team.teamId}, hintId=${hintTaken.hintTaken.hint.hintId}, cypherId=${cypher.cypherId})}">
                         Odebrat nápovědu
                     </a>
                 </div>
