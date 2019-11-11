@@ -8,8 +8,10 @@ import dk.cngroup.lentils.repository.HintTakenRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +25,8 @@ import static org.mockito.Mockito.when;
 public class HintTakenServiceTest {
     @Mock
     private HintTakenRepository hintTakenRepository;
+    @Mock
+    private HintService hintService;
 
     private HintTakenService hintTakenService;
     private Team team;

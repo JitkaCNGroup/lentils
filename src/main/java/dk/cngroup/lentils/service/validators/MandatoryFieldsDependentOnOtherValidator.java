@@ -35,9 +35,9 @@ public class MandatoryFieldsDependentOnOtherValidator implements
             Object matchFieldValue2 = getFieldValue(object, matchField2);
             Object matchFieldValue3 = getFieldValue(object, matchField3);
             MultipartFile file = (MultipartFile) matchFieldValue1;
-            return baseFieldValue == ImageSource.FILE && !file.isEmpty()
-                    || baseFieldValue == ImageSource.FILE && !matchFieldValue3.equals("")
-                    || baseFieldValue == ImageSource.WEB && !matchFieldValue2.equals("")
+            return baseFieldValue == ImageSource.LOCAL && !file.isEmpty()
+                    || baseFieldValue == ImageSource.LOCAL && !matchFieldValue3.equals("")
+                    || baseFieldValue == ImageSource.REMOTE && !matchFieldValue2.equals("")
                     || baseFieldValue == ImageSource.NONE;
         } catch (Exception e) {
             logger.info("Image validation problem");

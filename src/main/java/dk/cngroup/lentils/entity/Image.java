@@ -16,24 +16,24 @@ public class Image {
     @Column(name = "image_id")
     private Long imageId;
 
-    @Column(name = "imageUrl")
+    @Column(name = "image_url")
     @NotEmpty(message = "Musí být zadaná cesta k obrázku")
     private String imageUrl;
 
-    @Column(name = "isFromFile")
-    private boolean isFromFile;
+    @Column(name = "local")
+    private boolean local;
 
     public Image() {
     }
 
-    public Image(final String imageUrl, final boolean isFromFile) {
+    public Image(final String imageUrl, final boolean local) {
         this.imageUrl = imageUrl;
-        this.isFromFile = isFromFile;
+        this.local = local;
     }
 
     public Image(final String imageUrl) {
         this.imageUrl = imageUrl;
-        this.isFromFile = true;
+        this.local = true;
     }
 
     public Long getImageId() {
@@ -52,12 +52,12 @@ public class Image {
         this.imageUrl = imageUrl;
     }
 
-    public boolean isFromFile() {
-        return isFromFile;
+    public boolean isLocal() {
+        return local;
     }
 
-    public void setFromFile(final boolean fromFile) {
-        isFromFile = fromFile;
+    public void setLocal(final boolean local) {
+        this.local = local;
     }
 
     @Override

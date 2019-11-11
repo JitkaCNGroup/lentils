@@ -85,7 +85,7 @@ public class HintController {
         if (bindingResult.hasErrors()) {
             model.addAttribute(TEMPLATE_ATTR_HEADING, HEADING_EDIT_HINT);
             model.addAttribute(TEMPLATE_ATTR_HINT, hintFormDto);
-             return VIEW_ADMIN_HINT_DETAIL;
+            return VIEW_ADMIN_HINT_DETAIL;
         }
         mapper.map(hintFormDto, hint);
         hintService.save(hint);

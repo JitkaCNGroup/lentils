@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = {MandatoryFieldsDependentOnOtherValidator.class})
 public @interface MandatoryFieldsDependentOnOther {
 
-    String message() default "Vybraný obrázek musí být zadaný";
+    String message() default "Je nutno vybrat obrázek";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

@@ -1,7 +1,7 @@
 package dk.cngroup.lentils.entity;
 
 public enum ImageSource {
-    FILE,
-    WEB,
+    LOCAL,
+    REMOTE,
     NONE
 }

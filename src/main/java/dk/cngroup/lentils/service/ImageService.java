@@ -13,6 +13,7 @@ import dk.cngroup.lentils.repository.ImageRepository;
 import dk.cngroup.lentils.util.FileTreatingUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -131,7 +132,7 @@ public class ImageService {
 
     public void setImageFromMultipartFile(final MultipartFile file, final Image image) {
         image.setImageUrl(getFilePath(file));
-        image.setFromFile(true);
+        image.setLocal(true);
     }
 
     public Image createImageFromMultipartFile(final MultipartFile file) {
@@ -147,7 +148,7 @@ public class ImageService {
     }
 
     public void deleteImageFile(final Image image) {
-        if (image != null && image.isFromFile() && image.getImageUrl() != "") {
+        if (image != null && image.isLocal() && image.getImageUrl() != "") {
             try {
                 FileUtils.forceDelete(FileUtils.getFile(FileTreatingUtils.getUserDir() + image.getImageUrl()));
             } catch (IOException e) {
@@ -157,48 +158,73 @@ public class ImageService {
     }
 
     public String getImageUrlForHintDto(final Hint hint) {
-        return hint.getImage() == null || hint.getImage().isFromFile() ? "" : hint.getImage().getImageUrl();
+        return hint.getImage() == null || hint.getImage().isLocal() ? "" : hint.getImage().getImageUrl();
     }
 
     public ImageSource getImageSource(final Hint hint) {
        if (!Optional.ofNullable(hint.getImage()).isPresent()) {
            return ImageSource.NONE;
        }
-       if (hint.getImage().isFromFile()) {
-           return ImageSource.FILE;
+       if (hint.getImage().isLocal()) {
+           return ImageSource.LOCAL;
        }
-       return ImageSource.WEB;
+       return ImageSource.REMOTE;
     }
 
     public Image generateImageFromDto(final String imageUrl,
                                       final ImageSource imageSource,
                                       final MultipartFile file,
                                       final Image actualImage) {
-        Image image = null;
         switch (imageSource) {
-            case WEB:
-                if (actualImage == null) {
-                    return new Image(imageUrl, false);
-                }
-                deleteImageFile(actualImage);
-                actualImage.setImageUrl(imageUrl);
-                actualImage.setFromFile(false);
-                return actualImage;
-            case FILE:
-                if (file.isEmpty()) {
-                    return actualImage;
-                }
-                if (actualImage == null) {
-                    image = createImageFromMultipartFile(file);
-                    saveFile(image.getImageUrl(), file);
-                    return image;
-                }
-                deleteImageFile(actualImage);
-                setImageFromMultipartFile(file, actualImage);
-                saveFile(actualImage.getImageUrl(), file);
-                return actualImage;
+            case REMOTE:
+                return getImageForRemoteSource(imageUrl, actualImage);
+            case LOCAL:
+                return getImageFromLocalSource(file, actualImage);
             default:
-                return image;
+                return null;
         }
+    }
+
+    @NotNull
+    private Image getImageFromLocalSource(final MultipartFile file, final Image actualImage) {
+        if (file.isEmpty()) {
+            return actualImage;
+        }
+        if (actualImage == null) {
+            return createNewLocalImage(file);
+        }
+        return setNewFileToLocalImage(file, actualImage);
+    }
+
+    @NotNull
+    private Image setNewFileToLocalImage(final MultipartFile file, final Image actualImage) {
+        deleteImageFile(actualImage);
+        setImageFromMultipartFile(file, actualImage);
+        saveFile(actualImage.getImageUrl(), file);
+        return actualImage;
+    }
+
+    @NotNull
+    private Image createNewLocalImage(final MultipartFile file) {
+        Image image;
+        image = createImageFromMultipartFile(file);
+        saveFile(image.getImageUrl(), file);
+        return image;
+    }
+
+    @NotNull
+    private Image getImageForRemoteSource(final String imageUrl, final Image actualImage) {
+        if (actualImage == null) {
+            return new Image(imageUrl, false);
+        }
+        return setNewRemoteImage(imageUrl, actualImage);
+    }
+
+    @NotNull
+    private Image setNewRemoteImage(final String imageUrl, final Image actualImage) {
+        deleteImageFile(actualImage);
+        actualImage.setImageUrl(imageUrl);
+        actualImage.setLocal(false);
+        return actualImage;
     }
 }

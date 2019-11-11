@@ -74,13 +74,13 @@
                 <td th:switch="${hint.image}">
                     <span th:case="null"></span>
                     <div th:case="*">
-                        <div th:unless="${hint.image.isFromFile()}">&#10004;</div>
+                        <div th:unless="${hint.image.isLocal()}">&#10004;</div>
                     </div>
                 </td>
                 <td th:switch="${hint.image}">
                     <span th:case="null"></span>
                     <div th:case="*">
-                        <div th:unless="${hint.image.isFromFile()} == false">&#10004;</div>
+                        <div th:unless="${hint.image.isLocal()} == false">&#10004;</div>
                     </div>
                 </td>
                 <td>

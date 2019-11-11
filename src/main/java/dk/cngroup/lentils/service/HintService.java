@@ -70,12 +70,10 @@ public class HintService {
     public String getFileUrlForHint(final Long hintId) {
         if (getHint(hintId).getImage() == null) {
             return "";
-        } else {
-            if (!getHint(hintId).getImage().isFromFile()) {
-                return getHint(hintId).getImage().getImageUrl();
-            } else {
-                return getImageUri(hintId);
-            }
         }
+        if (!getHint(hintId).getImage().isLocal()) {
+            return getHint(hintId).getImage().getImageUrl();
+        }
+        return getImageUri(hintId);
     }
 }

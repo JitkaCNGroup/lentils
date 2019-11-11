@@ -24,8 +24,8 @@
                 </div>
                 <div class="form-group">
                     <p class="input-value-required">Vyber zdroj obrázku</p>
-                    <input type="radio" id="file" th:field="*{imageSource}" value="FILE">File
-                    <input type="radio" id="web" th:field="*{imageSource}" value="WEB">Web
+                    <input type="radio" id="local" th:field="*{imageSource}" value="LOCAL">File
+                    <input type="radio" id="remote" th:field="*{imageSource}" value="REMOTE">Web
                     <input type="radio" id="none" th:field="*{imageSource}" value="NONE">Bez obrázku<br>
                     <p class="error" th:if="${#fields.hasErrors('imageSource')}" th:errors="*{imageSource}">Image source error.</p>
                 </div>
@@ -57,14 +57,15 @@
     </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<div th:insert="fragments/externalScripts :: externalScripts"></div>
+
 <script>
-    $("#web").click(function() {
+    $("#remote").click(function() {
         $("#imageFile").prop("required", false);
         $("#imageUrl").prop("required", true);
         $("#imageUrl").focus();
     });
-    $("#file").click(function() {
+    $("#local").click(function() {
         $("#imageUrl").prop("required", false);
         var input = document.getElementById("filename").value;
         if (input.trim() == '') {
@@ -74,6 +75,5 @@
     });
 </script>
 
-<div th:insert="fragments/externalScripts :: externalScripts"></div>
 </body>
 </html>

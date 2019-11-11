@@ -59,12 +59,10 @@ public final class FileTreatingUtils {
 
     private static boolean isFilePresentInHintEntity(final Hint hint) {
         Optional<Image> image = Optional.ofNullable(hint.getImage());
-        if (image.isPresent()) {
-            if (image.get().isFromFile()) {
-                return true;
-            }
+        if (!image.isPresent()) {
+            return false;
         }
-        return false;
+        return  (image.get().isLocal());
     }
 
     public static String getFileNamefromFormObject(final HintFormDTO formObject) {
