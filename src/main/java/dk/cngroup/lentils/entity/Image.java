@@ -16,15 +16,24 @@ public class Image {
     @Column(name = "image_id")
     private Long imageId;
 
-    @Column(name = "path")
-    @NotEmpty(message = "Musí být zadaná cesta k souboru")
-    private String path;
+    @Column(name = "image_url")
+    @NotEmpty(message = "Musí být zadaná cesta k obrázku")
+    private String imageUrl;
+
+    @Column(name = "local")
+    private boolean local;
 
     public Image() {
     }
 
-    public Image(final String path) {
-        this.path = path;
+    public Image(final String imageUrl, final boolean local) {
+        this.imageUrl = imageUrl;
+        this.local = local;
+    }
+
+    public Image(final String imageUrl) {
+        this.imageUrl = imageUrl;
+        this.local = true;
     }
 
     public Long getImageId() {
@@ -35,18 +44,26 @@ public class Image {
         this.imageId = imageId;
     }
 
-    public String getPath() {
-        return path;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setPath(final String path) {
-        this.path = path;
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isLocal() {
+        return local;
+    }
+
+    public void setLocal(final boolean local) {
+        this.local = local;
     }
 
     @Override
     public String toString() {
         return "Image{" +
-                "path='" + path + '\'' +
+                "path='" + imageUrl + '\'' +
                 '}';
     }
 }

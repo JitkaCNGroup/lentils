@@ -71,11 +71,17 @@
                 <td th:text="${hint.hintId}">hintId</td>
                 <td th:text="${hint.text}">text</td>
                 <td th:text="${hint.value}">value</td>
-                <td>
-                    <div th:unless="${hint.imageUrl} == ''">&#10004;</div>
+                <td th:switch="${hint.image}">
+                    <span th:case="null"></span>
+                    <div th:case="*">
+                        <div th:unless="${hint.image.isLocal()}">&#10004;</div>
+                    </div>
                 </td>
-                <td>
-                    <div th:unless="${hint.image} == ''">&#10004;</div>
+                <td th:switch="${hint.image}">
+                    <span th:case="null"></span>
+                    <div th:case="*">
+                        <div th:unless="${hint.image.isLocal()} == false">&#10004;</div>
+                    </div>
                 </td>
                 <td>
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Akce

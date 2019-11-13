@@ -46,11 +46,11 @@ public class HintController {
 
     @Autowired
     public HintController(final CypherService cypherService,
-                            final StatusService statusService,
-                            final HintService hintService,
-                            final HintTakenService hintTakenService,
-                            final ScoreService scoreService,
-                            final GameLogicService gameLogicService) {
+                          final StatusService statusService,
+                          final HintService hintService,
+                          final HintTakenService hintTakenService,
+                          final ScoreService scoreService,
+                          final GameLogicService gameLogicService) {
         this.cypherService = cypherService;
         this.hintService = hintService;
         this.hintTakenService = hintTakenService;
@@ -101,7 +101,8 @@ public class HintController {
         takeHintDTO.setCypherId(cypher.getCypherId());
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
-        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN,
+                hintTakenService.addImageUrlsToHints(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_HINTS_NOT_TAKEN,
                 hintService.getAllNotTakenByTeamAndCypher(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));

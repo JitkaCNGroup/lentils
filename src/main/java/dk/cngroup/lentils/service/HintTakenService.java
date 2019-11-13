@@ -4,20 +4,24 @@ import dk.cngroup.lentils.entity.Cypher;
 import dk.cngroup.lentils.entity.Hint;
 import dk.cngroup.lentils.entity.HintTaken;
 import dk.cngroup.lentils.entity.Team;
+import dk.cngroup.lentils.entity.view.HintsTakenWithImageUrl;
 import dk.cngroup.lentils.repository.HintTakenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HintTakenService {
 
     private final HintTakenRepository hintTakenRepository;
+    private final HintService hintService;
 
     @Autowired
-    public HintTakenService(final HintTakenRepository hintTakenRepository) {
+    public HintTakenService(final HintTakenRepository hintTakenRepository, final HintService hintService) {
         this.hintTakenRepository = hintTakenRepository;
+        this.hintService = hintService;
     }
 
     public void takeHint(final Team team, final Hint hint) {
@@ -57,5 +61,13 @@ public class HintTakenService {
 
     public List<HintTaken> getAll() {
         return hintTakenRepository.findAll();
+    }
+
+    public List<HintsTakenWithImageUrl> addImageUrlsToHints(final Team team, final Cypher cypher) {
+        List<HintTaken> hintsTaken = getAllByTeamAndCypher(team, cypher);
+        return hintsTaken.stream()
+                .map(hintTaken -> new HintsTakenWithImageUrl(
+                        hintTaken, hintService.getFileUrlForHint(hintTaken.getHint().getHintId())))
+                .collect(Collectors.toList());
     }
 }

@@ -61,8 +61,8 @@ public class CypherController {
 
     @Autowired
     public CypherController(final CypherService cypherService,
-                            final StatusService statusService,
                             final HintTakenService hintTakenService,
+                            final StatusService statusService,
                             final CypherGameInfoService cypherGameInfoService,
                             final ScoreService scoreService,
                             final GameLogicService gameLogicService,
@@ -190,7 +190,8 @@ public class CypherController {
         model.addAttribute(TEMPLATE_ATTR_TEAM, user.getTeam());
         model.addAttribute(TEMPLATE_ATTR_CYPHER, cypher);
         model.addAttribute(TEMPLATE_ATTR_STATUS, status.name());
-        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN, hintTakenService.getAllByTeamAndCypher(user.getTeam(), cypher));
+        model.addAttribute(TEMPLATE_ATTR_HINTS_TAKEN,
+                hintTakenService.addImageUrlsToHints(user.getTeam(), cypher));
         model.addAttribute(TEMPLATE_ATTR_NEXT_CYPHER, cypherService.getNext(cypher.getStage()));
         model.addAttribute(CODEWORD_DTO_NAME, codewordFormDto);
         model.addAttribute(TEMPLATE_ATTR_SCORE, scoreService.getScoreByTeam(user.getTeam()));

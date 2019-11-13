@@ -4,9 +4,18 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="db/changesets/createDatabase-changeset-2019.xml"/>
-    <include file="db/changesets/createAdminOrganizerUsers-changeset-2019.xml"/>
-    <include file="db/changesets/deleteImageURLColumn-changeset-10-10-2019.xml"/>
-    <include file="db/changesets/changeImageTable-changeset-16-10-2019.xml"/>
-    <include file="db/changesets/renameImageIsFromFileColumn-changeset-11-11-2019.xml"/>
+    <changeSet author="sedlackova" id="change Image table 16-10-2019">
+        <dropColumn
+                tableName="image"
+                columnName="path"
+        />
+        <addColumn tableName="image">
+            <column name="image_url" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_from_file" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

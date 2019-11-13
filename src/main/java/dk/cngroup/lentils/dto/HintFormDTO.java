@@ -1,12 +1,16 @@
 package dk.cngroup.lentils.dto;
 
 import dk.cngroup.lentils.entity.Cypher;
+import dk.cngroup.lentils.entity.ImageSource;
+import dk.cngroup.lentils.service.validators.MandatoryFieldsDependentOnOther;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@MandatoryFieldsDependentOnOther(imgSource = "imageSource", imgFile = "imageFile",
+        imgUrl = "imageUrl", filename = "filename")
 public class HintFormDTO implements Serializable {
 
     private Cypher cypher;
@@ -16,7 +20,11 @@ public class HintFormDTO implements Serializable {
 
     private String imageUrl;
 
-    private MultipartFile image;
+    private String filename;
+
+    private MultipartFile imageFile;
+
+    private ImageSource imageSource;
 
     @Min(value = 1, message = "Hodnota musí být vetší než 0.")
     private int value;
@@ -41,16 +49,32 @@ public class HintFormDTO implements Serializable {
         return imageUrl;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(final String filename) {
+        this.filename = filename;
+    }
+
     public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    public MultipartFile getImage() {
-        return image;
+    public MultipartFile getImageFile() {
+        return imageFile;
     }
 
-    public void setImage(final MultipartFile image) {
-        this.image = image;
+    public void setImageFile(final MultipartFile imageFile) {
+        this.imageFile = imageFile;
+    }
+
+    public ImageSource getImageSource() {
+        return imageSource;
+    }
+
+    public void setImageSource(final ImageSource imageSource) {
+        this.imageSource = imageSource;
     }
 
     public int getValue() {
