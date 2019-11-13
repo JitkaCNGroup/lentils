@@ -1,6 +1,6 @@
 package dk.cngroup.lentils.controller;
 
-import dk.cngroup.lentils.service.ImageService;
+import dk.cngroup.lentils.service.ImageManipulationLocalImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/image")
 public class ImageFileController {
 
-    private ImageService imageService;
+    private ImageManipulationLocalImpl imageManipulation;
 
     @Autowired
-    public ImageFileController(final ImageService imageService) {
-        this.imageService = imageService;
+    public ImageFileController(final ImageManipulationLocalImpl imageManipulation) {
+        this.imageManipulation = imageManipulation;
     }
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> serveFile(final @PathVariable String filename) {
-        Resource file = imageService.loadAsResource(imageService.getFilePathToShow(filename));
+        Resource file = imageManipulation.loadAsResource(imageManipulation.getFilePathToShow(filename));
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }

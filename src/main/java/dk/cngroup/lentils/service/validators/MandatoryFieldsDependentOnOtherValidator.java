@@ -14,31 +14,31 @@ public class MandatoryFieldsDependentOnOtherValidator implements
 
     private static Logger logger = LoggerFactory.getLogger(MandatoryFieldsDependentOnOtherValidator.class);
 
-    private String baseField;
-    private String matchField1;
-    private String matchField2;
-    private String matchField3;
+    private String imgSource;
+    private String imgFile;
+    private String imgUrl;
+    private String filename;
 
     @Override
     public void initialize(final MandatoryFieldsDependentOnOther constraint) {
-        baseField = constraint.baseField();
-        matchField1 = constraint.matchField1();
-        matchField2 = constraint.matchField2();
-        matchField3 = constraint.matchField3();
+        imgSource = constraint.imgSource();
+        imgFile = constraint.imgFile();
+        imgUrl = constraint.imgUrl();
+        filename = constraint.filename();
     }
 
     @Override
     public boolean isValid(final Object object, final ConstraintValidatorContext context) {
         try {
-            Object baseFieldValue = getFieldValue(object, baseField);
-            Object matchFieldValue1 = getFieldValue(object, matchField1);
-            Object matchFieldValue2 = getFieldValue(object, matchField2);
-            Object matchFieldValue3 = getFieldValue(object, matchField3);
-            MultipartFile file = (MultipartFile) matchFieldValue1;
-            return baseFieldValue == ImageSource.LOCAL && !file.isEmpty()
-                    || baseFieldValue == ImageSource.LOCAL && !matchFieldValue3.equals("")
-                    || baseFieldValue == ImageSource.REMOTE && !matchFieldValue2.equals("")
-                    || baseFieldValue == ImageSource.NONE;
+            Object imgSourceValue = getFieldValue(object, imgSource);
+            Object imgFileValue = getFieldValue(object, imgFile);
+            Object imgUrlValue = getFieldValue(object, imgUrl);
+            Object filenameValue = getFieldValue(object, filename);
+            MultipartFile file = (MultipartFile) imgFileValue;
+            return imgSourceValue.equals(ImageSource.LOCAL) && !file.isEmpty()
+                    || imgSourceValue.equals(ImageSource.LOCAL) && !filenameValue.equals("")
+                    || imgSourceValue.equals(ImageSource.REMOTE) && !imgUrlValue.equals("")
+                    || imgSourceValue.equals(ImageSource.NONE);
         } catch (Exception e) {
             logger.info("Image validation problem");
             return false;

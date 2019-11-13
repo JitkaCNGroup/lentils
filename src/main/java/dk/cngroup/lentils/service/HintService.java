@@ -18,15 +18,15 @@ import java.util.List;
 public class HintService {
     private final HintRepository hintRepository;
     private final HintTakenRepository hintTakenRepository;
-    private final ImageService imageService;
+    private final ImageManipulationLocalImpl imageManipulation;
 
     @Autowired
     public HintService(final HintRepository hintRepository,
                        final HintTakenRepository hintTakenRepository,
-                       final ImageService imageService) {
+                       final ImageManipulationLocalImpl imageManipulation) {
         this.hintRepository = hintRepository;
         this.hintTakenRepository = hintTakenRepository;
-        this.imageService = imageService;
+        this.imageManipulation = imageManipulation;
     }
 
     public Hint save(final Hint hint) {
@@ -56,7 +56,7 @@ public class HintService {
 
     public String getImageUri(final Long hintId) {
         String imagePath = getHint(hintId).getImage().getImageUrl();
-        String filename = imageService.getPureFileName(imagePath);
+        String filename = imageManipulation.getPureFileName(imagePath);
         return MvcUriComponentsBuilder
                 .fromMethodName(
                         ImageFileController.class,

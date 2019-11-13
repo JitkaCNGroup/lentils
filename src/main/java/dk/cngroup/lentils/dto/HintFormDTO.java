@@ -9,8 +9,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
-@MandatoryFieldsDependentOnOther(baseField = "imageSource", matchField1 = "imageFile",
-        matchField2 = "imageUrl", matchField3 = "filename")
+@MandatoryFieldsDependentOnOther(imgSource = "imageSource", imgFile = "imageFile",
+        imgUrl = "imageUrl", filename = "filename")
 public class HintFormDTO implements Serializable {
 
     private Cypher cypher;

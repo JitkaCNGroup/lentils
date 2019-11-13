@@ -35,11 +35,7 @@ public class HintMapper extends ModelMapperWrapper {
             mapper.addMappings(skipImageFieldMap);
         }
         mapper.map(hintFormDTO, hint);
-        Image image = imageService.generateImageFromDto(
-                hintFormDTO.getImageUrl(),
-                hintFormDTO.getImageSource(),
-                hintFormDTO.getImageFile(),
-                actualImage);
+        Image image = imageService.generateImageFromDto(hintFormDTO, actualImage);
         hint.setImage(image);
         if (image == null) {
             imageService.deleteImage(actualImage);

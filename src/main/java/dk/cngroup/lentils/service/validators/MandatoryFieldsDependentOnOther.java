@@ -16,9 +16,9 @@ public @interface MandatoryFieldsDependentOnOther {
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
-    String baseField();
-    String matchField1();
-    String matchField2();
-    String matchField3();
+    String imgSource();
+    String imgFile();
+    String imgUrl();
+    String filename();
 }
 

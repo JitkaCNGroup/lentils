@@ -73,6 +73,10 @@
             $("#imageFile").focus();
         }
     });
+    $("#none").click(function() {
+        $("#imageFile").prop("required", false);
+        $("#imageUrl").prop("required", false);
+    });
 </script>
 
 </body>
